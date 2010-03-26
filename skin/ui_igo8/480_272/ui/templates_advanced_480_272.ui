@@ -20,9 +20,50 @@
 ;***********************  SPRITE  ******************************
 <TEMPLATE spr_st1a                    x=4 bmp="lb_.bmp#2">
 
-;***********************  BUTTONS  ******************************
-<TEMPLATE btn_lb4e51                bmp="btn_lb_4e.bmp#3"  padding=4 align="center" valign="center" iconalign="CENTER" iconvalign="CENTER" fonttype=bw twolinesmall=1 clicked_coloring=1>
-<TEMPLATE btn_lb5e51                bmp="btn_lb_5e.bmp#3"  padding=4 align="center" valign="center" iconalign="CENTER" iconvalign="CENTER" fonttype=bw twolinesmall=1 clicked_coloring=1>
 ;***********************  SLIDERS  ******************************
 <TEMPLATE sld_lb5e       bmp="btn_lb_5e.bmp#3"           align="center" valign="center" fonttype=bw fontsize=14>
 <TEMPLATE sld_lb5f        bmp="btn_lb_5f.bmp#2"           align="center" valign="center" fonttype=bw fontsize=14>
+
+;***********************  BUTTONS  ******************************
+;!Raffke_jr - renamed to add x values, added z & iconspr, inherited template=btn_lb5e
+<TEMPLATE btn_lb5e5   template=btn_lb5e   z=20 iconspr="$speed_cams_transp.spr" iconalign="CENTER" iconvalign="CENTER">
+<TEMPLATE btn_lb5e51  template=btn_lb5e5  x=33 >
+<TEMPLATE btn_lb5e52  template=btn_lb5e5  x=122>
+<TEMPLATE btn_lb5e53  template=btn_lb5e5  x=211>
+<TEMPLATE btn_lb5e54  template=btn_lb5e5  x=301>
+<TEMPLATE btn_lb5e55  template=btn_lb5e5  x=390>
+
+;*************************************************************
+
+;!Sib new templates for positions
+<TEMPLATE y_1 y=20> 
+<TEMPLATE y_2 y=63> 
+<TEMPLATE y_3 y=106> 
+<TEMPLATE y_4 y=149> 
+<TEMPLATE y_5 y=192> 
+
+;!Raffke_jr - new templates for scrollbar with 2 text legends (org: txt_csu_legend x=44 w=130 - txt_csu_valunit x=182 w=48 - csuszka x=235)
+<TEMPLATE txt_csu2_legend  template=txt_csu_legend          w=104 z=1>
+<TEMPLATE csuszka_2txt     template=csuszka          x=179        z=1>
+;!Raffke_jr - TODO: correct both x values
+<TEMPLATE txt_csu2_left    template=txt_csu_legend   x=119  w=55  z=1 align="RIGHT">
+<TEMPLATE txt_csu2_right   template=txt_csu_legend   x=383  w=55  z=1 align="LEFT">
+
+;!Raffke_jr - new template for scrollbar without value (right border from txt_csu_valunit)
+<TEMPLATE txt_csu_label    template=txt_csu_legend          w=186>
+
+;!Raffke_jr - new templates for scrollbar with checkbox (copied from ui_SettingSound)
+<TEMPLATE chk_5a_csu       template=chk_5a                  w=156 >
+<TEMPLATE csuszka_chk      template=csuszka          x=207 >
+
+;!Raffke_jr - new templates for 2 columns, 4 rows (copied from ui_SettingRouteParam)
+<TEMPLATE x_4c_1 x=34>
+<TEMPLATE x_4c_2 x=241>
+<TEMPLATE y_4c_1 y=20>
+<TEMPLATE y_4c_2 y=73>
+<TEMPLATE y_4c_3 y=126>
+<TEMPLATE y_4c_4 y=179>
+
+;!Raffke_jr - new templates for route edit
+<TEMPLATE btn_REWP_txt template=btn_4b x=6>
+<TEMPLATE btn_REWP_del template=btn_4d x=362 iconspr="x.bmp#3" text="">

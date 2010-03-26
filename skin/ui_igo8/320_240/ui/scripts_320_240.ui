@@ -65,7 +65,7 @@
 	map.ZOOMCONTROL_X 110
 	map.ZOOMCONTROL_Y 194
 
-	map.ZOOMCONTROL_ZOOMSIZE 100
+	map.ZOOMCONTROL_ZOOMSIZE 110
 	map.ZOOMCONTROL_TEXTOFFSET -4
 	map.ZOOMCONTROL_BARHEIGHT 6
 	map.ZOOMCONTROL_TICKHEIGHT 2
@@ -76,7 +76,7 @@
 	map.ZOOMCONTROL_X 70
 	map.ZOOMCONTROL_Y 23
 
-	map.ZOOMCONTROL_ZOOMSIZE 100
+	map.ZOOMCONTROL_ZOOMSIZE 110
 	map.ZOOMCONTROL_TEXTOFFSET 12
 	map.ZOOMCONTROL_BARHEIGHT 6
 	map.ZOOMCONTROL_TICKHEIGHT -2
@@ -91,7 +91,7 @@
 ;!TB - moved down by 36 points
 	map.ZOOMCONTROL_Y 212
 
-	map.ZOOMCONTROL_ZOOMSIZE 100
+	map.ZOOMCONTROL_ZOOMSIZE 110
 	map.ZOOMCONTROL_TEXTOFFSET -4
 	map.ZOOMCONTROL_BARHEIGHT 6
 	map.ZOOMCONTROL_TICKHEIGHT 2
@@ -102,10 +102,8 @@
 	btnPM_POS_EditCam.x 163
 	btnPMO_AddCam.x 161
 	btnPMO_EditCam.x 161
-	btnPMO_Favorite.y 155
 ;	chk_SpeedCamWarning.show
 ;	btn_SpeedCamWarning.show
-	chk_WarnInPredest.y 129
 </script>
 
 
@@ -114,10 +112,8 @@
 	btnPM_POS_EditCam.x 1000
 	btnPMO_AddCam.x 1000
 	btnPMO_EditCam.x 1000
-	btnPMO_Favorite.y 110
 ;	chk_SpeedCamWarning.hide
 ;	btn_SpeedCamWarning.hide
-	chk_WarnInPredest.y 57
 </script>
 
 <script sc_3DFlyOverModeOn>
@@ -247,7 +243,7 @@
 	btnNMC_Find_normal1.x 8
 	btnNMC_Recalc.x 6
 	sprNMB_GPSWarn.x -3
-	sprNMINextStreetBG.x 80
+	sprNMINextStreetBG.x 75
 	sprNMINextStreetName.x 88
 	sprNMINextStreetName.w 230
 
@@ -264,13 +260,13 @@
 	sprNMRDiriconDist.x 3
 	sprNMRDiriconUnit.x 57
 	sprNMIActualStreetBG.x 70
-;8.0:	sprNMIActualStreetName.x 103
-	sprNMIActualStreetName.x 75
-;8.0:	sprNMIActualStreetName.w 187
-	sprNMIActualStreetName.w 205
-;8.0:	sprNMIActualHouseNum2.x 73
-	sprNMIActualHouseNum1.x 127
-	sprNMIActualHouseNumBG1.x 125
+	sprNMIActualStreetName.x 103
+;8.3:	sprNMIActualStreetName.x 75
+	sprNMIActualStreetName.w 187
+;8.3:	sprNMIActualStreetName.w 240
+	sprNMIActualHouseNum1.x 73
+;8.3:	sprNMIActualHouseNum1.x 127
+;8.3:	sprNMIActualHouseNumBG1.x 125
 	txtNMCPIStreetName.x 74
 	txtNMCPIStreetName.w 244
 	ui_NavigateMapPresetControls2D.y 0
@@ -288,7 +284,7 @@
 	spr_TMC_Status_Basic.x 53
 ;	txt_TMC_StationName.x 76
 	spr_TMC_Status2.x 53
-	spr_TMC_Signal.x 60
+	spr_TMC_Signal.x 51
 	sprNM_VolStatus.x 54
 	sprNM_BTStatus.x 56
 	sprNM_RecordStatus.x 61
@@ -310,13 +306,13 @@
 	ui_SpeedCamWarningLayer2.x -77
 	ui_SpeedCamWarningLayer.y 3
 	sprNMIActualStreetBG.x 0
-;8.0:	sprNMIActualStreetName.x 99
-	sprNMIActualStreetName.x 71
-;8.0:	sprNMIActualStreetName.w 191
-	sprNMIActualStreetName.w 209
-;8.0:	sprNMIActualHouseNum2.x 69
-	sprNMIActualHouseNum1.x 123
-	sprNMIActualHouseNumBG1.x 121
+	sprNMIActualStreetName.x 99
+;8.3:	sprNMIActualStreetName.x 71
+	sprNMIActualStreetName.w 191
+;8.3:	sprNMIActualStreetName.w 244
+	sprNMIActualHouseNum1.x 69
+;8.3:	sprNMIActualHouseNum1.x 123
+;8.3:	sprNMIActualHouseNumBG1.x 121
 	txtNMCPIStreetName.x 70
 	txtNMCPIStreetName.w 248
 
@@ -409,13 +405,13 @@
 	vehicle_icon.y 300
 	runif vFullScreenActualStreet 0 'ui_NavigateMapSpeedLimit.y 20, ui_SpeedCamWarningLayer2.y 20'
 
-;8.0:	sprNMIActualStreetName.x 30
-	sprNMIActualStreetName.x 2
-;8.0:	sprNMIActualStreetName.w 260
-	sprNMIActualStreetName.w 316
-;8.0:	sprNMIActualHouseNum2.x 0
-	sprNMIActualHouseNum1.x 54
-	sprNMIActualHouseNumBG1.x 52
+	sprNMIActualStreetName.x 30
+;8.3:	sprNMIActualStreetName.x 2
+	sprNMIActualStreetName.w 260
+;8.3:	sprNMIActualStreetName.w 316
+	sprNMIActualHouseNum1.x 0
+;8.3:	sprNMIActualHouseNum1.x 54
+;8.3:	sprNMIActualHouseNumBG1.x 52
 	txtNMCPIStreetName.x 0
 	txtNMCPIStreetName.w 320
 </script>

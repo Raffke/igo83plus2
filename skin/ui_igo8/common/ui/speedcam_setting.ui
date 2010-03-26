@@ -14,107 +14,110 @@
         sldSWC_LangType.Value vTmp
 
         vSpeedcamWarningType.Onchange "sc_SpeedcamWarningLangType_onchange"
-	tmpSpeedWarnSound.Onchange "sc_sldSpeedcamSoundType_onchange"
+;!Raffke_jr - changed to vSpeedcamSoundType
+	vSpeedcamSoundType.Onchange "sc_sldSpeedcamSoundType_onchange"
         1 run sc_sldSpeedcamSoundType_Onchange
 </script>
 
 ;Done Speedcam Voice Settings
 <script sc_DoneSpeedcamSettings>
-  tmpSpeedWarnSound.Onchange ""
-  vSpeedcamWarningType.Onchange ""
-  sldSWC_LangType.Valuemodel ""
+;!Raffke_jr - changed to vSpeedcamSoundType
+	vSpeedcamSoundType.Onchange ""
+	vSpeedcamWarningType.Onchange ""
+	sldSWC_LangType.Valuemodel ""
 </script>
 
 <script sc_sldSpeedcamSoundType_Onchange>
-  runif tmpSpeedWarnSound 3 'ui_SettingWarningsSpeedCamAdvanced.SHOW'
-  else_run  'ui_SettingWarningsSpeedCamAdvanced.HIDE'
+;!Raffke_jr - changed to vSpeedcamSoundType
+	runif vSpeedcamSoundType 3 'ui_SettingWarningsSpeedCamAdvanced.SHOW'
+	else_run  'ui_SettingWarningsSpeedCamAdvanced.HIDE'
 </script>
 
 <script sc_SpeedcamWarningLangType_onchange>
-  TERM sc_SpeedcamWarningLangType_Test
-  1 run sc_SpeedcamWarningLangType_Test
+	TERM sc_SpeedcamWarningLangType_Test
+	1 run sc_SpeedcamWarningLangType_Test
 </script>
 
 <script sc_SpeedcamWarningLangType_Test>
-  60 run sc_SpeedcamWarningTestSound
+	60 run sc_SpeedcamWarningTestSound
 </script>
 
 <script sc_SettingSpeedCamCategory>
-  vSettingSpeedCamCategory.Set $1
-  NEXTSTATE st_SettingSpeedCamCategory
+	vSettingSpeedCamCategory.Set $1
+	NEXTSTATE st_SettingSpeedCamCategory
 </script>
 
 <state st_SettingSpeedCamCategory>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
-    <uselayer ui_Title/>
-    <uselayer ui_Footer2/>
-    <uselayer ui_SettingSpeedCamCategory/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_SettingSpeedCamCategory/>
 
-    <script init>
-        Title.SET "Speed camera settings"
+	<script init>
+		Title.SET "Speed camera settings"
 
-        run sc_SpeedcamSettingsLoad vSettingSpeedCamCategory
+		run sc_SpeedcamSettingsLoad vSettingSpeedCamCategory
 
-	tmpSpeedcamAlertSound.Onchange "sc_sldSpeedcamAlertSound_onchange"
+		tmpSpeedcamAlertSound.Onchange "sc_sldSpeedcamAlertSound_onchange"
 
-        run sc_SpeedcamAlertDistance_OnChange
-        run sc_SpeedcamBeepsInterval_OnChange
-        run sc_SpeedcamOverspeedTolerance_OnChange
-        run sc_SpeedcamMinSpeed_OnChange
+		run sc_SpeedcamAlertDistance_OnChange
+		run sc_SpeedcamBeepsInterval_OnChange
+		run sc_SpeedcamOverspeedTolerance_OnChange
+		run sc_SpeedcamMinSpeed_OnChange
 
-        SETFORMATTED_UNIT_TEXT txtSWC_OverspeedToleranceM "km/h"
-        SETFORMATTED_UNIT_TEXT txtSWC_MinSpeedM "km/h"
+		SETFORMATTED_UNIT_TEXT txtSWC_OverspeedToleranceM "km/h"
+		SETFORMATTED_UNIT_TEXT txtSWC_MinSpeedM "km/h"
 
-	txtSWC_AlertDistance.HIDE
-	txtSWC_AlertDistanceV.HIDE
-	hscSWC_AlertDistance.HIDE
+		txtSWC_AlertDistance.HIDE
+		txtSWC_AlertDistanceV.HIDE
+		hscSWC_AlertDistance.HIDE
 
-	txtSWC_BeepsInterval.HIDE
-	txtSWC_BeepsIntervalV.HIDE
-	hscSWC_BeepsInterval.HIDE
+		txtSWC_BeepsInterval.HIDE
+		txtSWC_BeepsIntervalV.HIDE
+		hscSWC_BeepsInterval.HIDE
 
-        runif vSettingSpeedCamCategory 3 'txtSWC_BeepsInterval.SHOW, txtSWC_BeepsIntervalV.SHOW, hscSWC_BeepsInterval.SHOW'
-        else_run 'txtSWC_AlertDistance.SHOW, txtSWC_AlertDistanceV.SHOW, hscSWC_AlertDistance.SHOW'
-    </script>
+		runif vSettingSpeedCamCategory 3 'txtSWC_BeepsInterval.SHOW, txtSWC_BeepsIntervalV.SHOW, hscSWC_BeepsInterval.SHOW'
+		else_run 'txtSWC_AlertDistance.SHOW, txtSWC_AlertDistanceV.SHOW, hscSWC_AlertDistance.SHOW'
+	</script>
 
-    <script done>
-        run sc_SpeedcamSettingsSave vSettingSpeedCamCategory
-        SYSCONFIG_SAVE
-        tmpSpeedcamAlertSound.Onchange ""
-    </script>
+	<script done>
+		run sc_SpeedcamSettingsSave vSettingSpeedCamCategory
+		SYSCONFIG_SAVE
+		tmpSpeedcamAlertSound.Onchange ""
+	</script>
 </state>
 
 <script sc_sldSpeedcamAlertSound_onchange>
-  TERM sc_sldSpeedcamAlertSound_Test
-  1 run sc_sldSpeedcamAlertSound_Test
+	TERM sc_sldSpeedcamAlertSound_Test
+	1 run sc_sldSpeedcamAlertSound_Test
 </script>
 
 <script sc_sldSpeedcamAlertSound_Test>
-  60 run sc_SpeedcamAlertTestSound
+	60 run sc_SpeedcamAlertTestSound
 </script>
 
 <script sc_SpeedcamAlertDistance_OnChange>
-  DISTUNIT_TO_FORMATTEDSTR tmpSpeedcamAlertDistance txtSWC_AlertDistanceV
+	DISTUNIT_TO_FORMATTEDSTR tmpSpeedcamAlertDistance txtSWC_AlertDistanceV
 </script>
 
 <script sc_SpeedcamBeepsInterval_OnChange>
-  hscSWC_BeepsInterval.Get "vTmp"
-  txtSWC_BeepsIntervalV.Set vTmp
+	hscSWC_BeepsInterval.Get "vTmp"
+	txtSWC_BeepsIntervalV.Set vTmp
 </script>
 
 <script sc_SpeedcamOverspeedTolerance_OnChange>
-  hscSWC_OverspeedTolerance.Get "vTmp"
-  txtSWC_OverspeedToleranceV.Set vTmp
+	hscSWC_OverspeedTolerance.Get "vTmp"
+	txtSWC_OverspeedToleranceV.Set vTmp
 </script>
 
 <script sc_SpeedcamMinSpeed_OnChange>
-;  runif tmpSpeedcamMinSpeed 0 'txtSWC_MinSpeedL.SHOW, txtSWC_MinSpeedP.HIDE, txtSWC_MinSpeedV.HIDE, txtSWC_MinSpeedM.HIDE'
-;  else_runif tmpSpeedcamMinSpeed > 0 'txtSWC_MinSpeedL.HIDE, txtSWC_MinSpeedP.HIDE, txtSWC_MinSpeedV.SHOW, txtSWC_MinSpeedM.SHOW'
-;  else_run 'txtSWC_MinSpeedL.HIDE, txtSWC_MinSpeedP.SHOW, txtSWC_MinSpeedV.SHOW, txtSWC_MinSpeedM.SHOW'
+;	runif tmpSpeedcamMinSpeed 0 'txtSWC_MinSpeedL.SHOW, txtSWC_MinSpeedP.HIDE, txtSWC_MinSpeedV.HIDE, txtSWC_MinSpeedM.HIDE'
+;	else_runif tmpSpeedcamMinSpeed > 0 'txtSWC_MinSpeedL.HIDE, txtSWC_MinSpeedP.HIDE, txtSWC_MinSpeedV.SHOW, txtSWC_MinSpeedM.SHOW'
+;	else_run 'txtSWC_MinSpeedL.HIDE, txtSWC_MinSpeedP.SHOW, txtSWC_MinSpeedV.SHOW, txtSWC_MinSpeedM.SHOW'
 
-  hscSWC_MinSpeed.Get "vTmp"
-  txtSWC_MinSpeedV.Set vTmp
+	hscSWC_MinSpeed.Get "vTmp"
+	txtSWC_MinSpeedV.Set vTmp
 </script>
 
 
@@ -123,113 +126,113 @@
 ;******************************************************
 
 <script sc_SpeedcamSettingsLoad>
-  runif $1 0 'run sc_SpeedcamSettingsLoad0'
-  else_runif $1 1 'run sc_SpeedcamSettingsLoad1'
-  else_runif $1 2 'run sc_SpeedcamSettingsLoad2'
-  else_runif $1 3 'run sc_SpeedcamSettingsLoad3'
-  else_runif $1 4 'run sc_SpeedcamSettingsLoad4'
+	runif $1 0 'run sc_SpeedcamSettingsLoad0'
+	else_runif $1 1 'run sc_SpeedcamSettingsLoad1'
+	else_runif $1 2 'run sc_SpeedcamSettingsLoad2'
+	else_runif $1 3 'run sc_SpeedcamSettingsLoad3'
+	else_runif $1 4 'run sc_SpeedcamSettingsLoad4'
 </script>
 
 <script sc_SpeedcamSettingsSave>
-  runif $1 0 'run sc_SpeedcamSettingsSave0'
-  else_runif $1 1 'run sc_SpeedcamSettingsSave1'
-  else_runif $1 2 'run sc_SpeedcamSettingsSave2'
-  else_runif $1 3 'run sc_SpeedcamSettingsSave3'
-  else_runif $1 4 'run sc_SpeedcamSettingsSave4'
+	runif $1 0 'run sc_SpeedcamSettingsSave0'
+	else_runif $1 1 'run sc_SpeedcamSettingsSave1'
+	else_runif $1 2 'run sc_SpeedcamSettingsSave2'
+	else_runif $1 3 'run sc_SpeedcamSettingsSave3'
+	else_runif $1 4 'run sc_SpeedcamSettingsSave4'
 </script>
 
 <script sc_SpeedcamSettingsLoad0>
-  tmpSpeedcamAlertSound.Set vSpeedcam0AlertSound
-  tmpSpeedcamAlertInterval.Set vSpeedcam0AlertInterval
-  tmpSpeedcamBeep.Set bSpeedcam0Beep
-  tmpSpeedcamAlertDistance.Set vSpeedcam0AlertDistance
-  tmpSpeedcamBeepsInterval.Set -1
-  tmpSpeedcamOverspeedTolerance.Set vSpeedcam0OverspeedTolerance
-  tmpSpeedcamMinSpeed.Set vSpeedcam0MinSpeed
+	tmpSpeedcamAlertSound.Set vSpeedcam0AlertSound
+	tmpSpeedcamAlertInterval.Set vSpeedcam0AlertInterval
+	tmpSpeedcamBeep.Set bSpeedcam0Beep
+	tmpSpeedcamAlertDistance.Set vSpeedcam0AlertDistance
+	tmpSpeedcamBeepsInterval.Set -1
+	tmpSpeedcamOverspeedTolerance.Set vSpeedcam0OverspeedTolerance
+	tmpSpeedcamMinSpeed.Set vSpeedcam0MinSpeed
 </script>
 
 <script sc_SpeedcamSettingsLoad1>
-  tmpSpeedcamAlertSound.Set vSpeedcam1AlertSound
-  tmpSpeedcamAlertInterval.Set vSpeedcam1AlertInterval
-  tmpSpeedcamBeep.Set bSpeedcam1Beep
-  tmpSpeedcamAlertDistance.Set vSpeedcam1AlertDistance
-  tmpSpeedcamBeepsInterval.Set -1
-  tmpSpeedcamOverspeedTolerance.Set vSpeedcam1OverspeedTolerance
-  tmpSpeedcamMinSpeed.Set vSpeedcam1MinSpeed
+	tmpSpeedcamAlertSound.Set vSpeedcam1AlertSound
+	tmpSpeedcamAlertInterval.Set vSpeedcam1AlertInterval
+	tmpSpeedcamBeep.Set bSpeedcam1Beep
+	tmpSpeedcamAlertDistance.Set vSpeedcam1AlertDistance
+	tmpSpeedcamBeepsInterval.Set -1
+	tmpSpeedcamOverspeedTolerance.Set vSpeedcam1OverspeedTolerance
+	tmpSpeedcamMinSpeed.Set vSpeedcam1MinSpeed
 </script>
 
 <script sc_SpeedcamSettingsLoad2>
-  tmpSpeedcamAlertSound.Set vSpeedcam2AlertSound
-  tmpSpeedcamAlertInterval.Set vSpeedcam2AlertInterval
-  tmpSpeedcamBeep.Set bSpeedcam2Beep
-  tmpSpeedcamAlertDistance.Set vSpeedcam2AlertDistance
-  tmpSpeedcamBeepsInterval.Set -1
-  tmpSpeedcamOverspeedTolerance.Set vSpeedcam2OverspeedTolerance
-  tmpSpeedcamMinSpeed.Set vSpeedcam2MinSpeed
+	tmpSpeedcamAlertSound.Set vSpeedcam2AlertSound
+	tmpSpeedcamAlertInterval.Set vSpeedcam2AlertInterval
+	tmpSpeedcamBeep.Set bSpeedcam2Beep
+	tmpSpeedcamAlertDistance.Set vSpeedcam2AlertDistance
+	tmpSpeedcamBeepsInterval.Set -1
+	tmpSpeedcamOverspeedTolerance.Set vSpeedcam2OverspeedTolerance
+	tmpSpeedcamMinSpeed.Set vSpeedcam2MinSpeed
 </script>
 
 <script sc_SpeedcamSettingsLoad3>
-  tmpSpeedcamAlertSound.Set vSpeedcam3AlertSound
-  tmpSpeedcamAlertInterval.Set vSpeedcam3AlertInterval
-  tmpSpeedcamBeep.Set bSpeedcam3Beep
-  tmpSpeedcamAlertDistance.Set 0
-  tmpSpeedcamBeepsInterval.Set vSpeedcam3BeepsInterval
-  tmpSpeedcamOverspeedTolerance.Set vSpeedcam3OverspeedTolerance
-  tmpSpeedcamMinSpeed.Set vSpeedcam3MinSpeed
+	tmpSpeedcamAlertSound.Set vSpeedcam3AlertSound
+	tmpSpeedcamAlertInterval.Set vSpeedcam3AlertInterval
+	tmpSpeedcamBeep.Set bSpeedcam3Beep
+	tmpSpeedcamAlertDistance.Set 0
+	tmpSpeedcamBeepsInterval.Set vSpeedcam3BeepsInterval
+	tmpSpeedcamOverspeedTolerance.Set vSpeedcam3OverspeedTolerance
+	tmpSpeedcamMinSpeed.Set vSpeedcam3MinSpeed
 </script>
 
 <script sc_SpeedcamSettingsLoad4>
-  tmpSpeedcamAlertSound.Set vSpeedcam4AlertSound
-  tmpSpeedcamAlertInterval.Set vSpeedcam4AlertInterval
-  tmpSpeedcamBeep.Set bSpeedcam4Beep
-  tmpSpeedcamAlertDistance.Set vSpeedcam4AlertDistance
-  tmpSpeedcamBeepsInterval.Set -1
-  tmpSpeedcamOverspeedTolerance.Set vSpeedcam4OverspeedTolerance
-  tmpSpeedcamMinSpeed.Set vSpeedcam4MinSpeed
+	tmpSpeedcamAlertSound.Set vSpeedcam4AlertSound
+	tmpSpeedcamAlertInterval.Set vSpeedcam4AlertInterval
+	tmpSpeedcamBeep.Set bSpeedcam4Beep
+	tmpSpeedcamAlertDistance.Set vSpeedcam4AlertDistance
+	tmpSpeedcamBeepsInterval.Set -1
+	tmpSpeedcamOverspeedTolerance.Set vSpeedcam4OverspeedTolerance
+	tmpSpeedcamMinSpeed.Set vSpeedcam4MinSpeed
 </script>
 
 <script sc_SpeedcamSettingsSave0>
-  vSpeedcam0AlertSound.Set tmpSpeedcamAlertSound
-  vSpeedcam0AlertInterval.Set tmpSpeedcamAlertInterval
-  bSpeedcam0Beep.Set tmpSpeedcamBeep
-  vSpeedcam0AlertDistance.Set tmpSpeedcamAlertDistance
-  vSpeedcam0OverspeedTolerance.Set tmpSpeedcamOverspeedTolerance
-  vSpeedcam0MinSpeed.Set tmpSpeedcamMinSpeed
+	vSpeedcam0AlertSound.Set tmpSpeedcamAlertSound
+	vSpeedcam0AlertInterval.Set tmpSpeedcamAlertInterval
+	bSpeedcam0Beep.Set tmpSpeedcamBeep
+	vSpeedcam0AlertDistance.Set tmpSpeedcamAlertDistance
+	vSpeedcam0OverspeedTolerance.Set tmpSpeedcamOverspeedTolerance
+	vSpeedcam0MinSpeed.Set tmpSpeedcamMinSpeed
 </script>
 
 <script sc_SpeedcamSettingsSave1>
-  vSpeedcam1AlertSound.Set tmpSpeedcamAlertSound
-  vSpeedcam1AlertInterval.Set tmpSpeedcamAlertInterval
-  bSpeedcam1Beep.Set tmpSpeedcamBeep
-  vSpeedcam1AlertDistance.Set tmpSpeedcamAlertDistance
-  vSpeedcam1OverspeedTolerance.Set tmpSpeedcamOverspeedTolerance
-  vSpeedcam1MinSpeed.Set tmpSpeedcamMinSpeed
+	vSpeedcam1AlertSound.Set tmpSpeedcamAlertSound
+	vSpeedcam1AlertInterval.Set tmpSpeedcamAlertInterval
+	bSpeedcam1Beep.Set tmpSpeedcamBeep
+	vSpeedcam1AlertDistance.Set tmpSpeedcamAlertDistance
+	vSpeedcam1OverspeedTolerance.Set tmpSpeedcamOverspeedTolerance
+	vSpeedcam1MinSpeed.Set tmpSpeedcamMinSpeed
 </script>
 
 <script sc_SpeedcamSettingsSave2>
-  vSpeedcam2AlertSound.Set tmpSpeedcamAlertSound
-  vSpeedcam2AlertInterval.Set tmpSpeedcamAlertInterval
-  bSpeedcam2Beep.Set tmpSpeedcamBeep
-  vSpeedcam2AlertDistance.Set tmpSpeedcamAlertDistance
-  vSpeedcam2OverspeedTolerance.Set tmpSpeedcamOverspeedTolerance
-  vSpeedcam2MinSpeed.Set tmpSpeedcamMinSpeed
+	vSpeedcam2AlertSound.Set tmpSpeedcamAlertSound
+	vSpeedcam2AlertInterval.Set tmpSpeedcamAlertInterval
+	bSpeedcam2Beep.Set tmpSpeedcamBeep
+	vSpeedcam2AlertDistance.Set tmpSpeedcamAlertDistance
+	vSpeedcam2OverspeedTolerance.Set tmpSpeedcamOverspeedTolerance
+	vSpeedcam2MinSpeed.Set tmpSpeedcamMinSpeed
 </script>
 
 <script sc_SpeedcamSettingsSave3>
-  vSpeedcam3AlertSound.Set tmpSpeedcamAlertSound
-  vSpeedcam3AlertInterval.Set tmpSpeedcamAlertInterval
-  bSpeedcam3Beep.Set tmpSpeedcamBeep
-  vSpeedcam3BeepsInterval.Set tmpSpeedcamBeepsInterval
-  vSpeedcam3OverspeedTolerance.Set tmpSpeedcamOverspeedTolerance
-  vSpeedcam3MinSpeed.Set tmpSpeedcamMinSpeed
+	vSpeedcam3AlertSound.Set tmpSpeedcamAlertSound
+	vSpeedcam3AlertInterval.Set tmpSpeedcamAlertInterval
+	bSpeedcam3Beep.Set tmpSpeedcamBeep
+	vSpeedcam3BeepsInterval.Set tmpSpeedcamBeepsInterval
+	vSpeedcam3OverspeedTolerance.Set tmpSpeedcamOverspeedTolerance
+	vSpeedcam3MinSpeed.Set tmpSpeedcamMinSpeed
 </script>
 
 <script sc_SpeedcamSettingsSave4>
-  vSpeedcam4AlertSound.Set tmpSpeedcamAlertSound
-  vSpeedcam4AlertInterval.Set tmpSpeedcamAlertInterval
-  bSpeedcam4Beep.Set tmpSpeedcamBeep
-  vSpeedcam4AlertDistance.Set tmpSpeedcamAlertDistance
-  vSpeedcam4OverspeedTolerance.Set tmpSpeedcamOverspeedTolerance
-  vSpeedcam4MinSpeed.Set tmpSpeedcamMinSpeed
+	vSpeedcam4AlertSound.Set tmpSpeedcamAlertSound
+	vSpeedcam4AlertInterval.Set tmpSpeedcamAlertInterval
+	bSpeedcam4Beep.Set tmpSpeedcamBeep
+	vSpeedcam4AlertDistance.Set tmpSpeedcamAlertDistance
+	vSpeedcam4OverspeedTolerance.Set tmpSpeedcamOverspeedTolerance
+	vSpeedcam4MinSpeed.Set tmpSpeedcamMinSpeed
 </script>
 

@@ -22,6 +22,7 @@
 	<uselayer map/>
 	
 	<script init>
+		vcf_bAutoFollowModeOn.SET 0
 		run sc_PlaceStateInit
 		btnPA_Map.SHOW
 		btnPB_Map.SHOW
@@ -64,6 +65,7 @@
 	run sc_RD_SetMapSize
 	map.mapmode 1
 	vLastMapMode.SET vMapSettings2d3d
+	map.setmapstate 4
 	vMapSettings2d3d.set "2D"
 	map.VIEW2D3D vMapSettings2d3d
 	map.EnableMoveCursorByClick 1
@@ -210,9 +212,13 @@
 	else_run sc_SetStartPoint
 </script>
 
-<script sc_TurnOnPlanMode>
+<script sc_TurnOffAutoReplan>
 	vAutoReplan.SET 0
 	vRecalcOffByStartPoint.set 1
+</script>
+
+<script sc_TurnOnPlanMode>
+	run sc_TurnOffAutoReplan
 	run sc_SetStartPoint
 </script>
 
@@ -260,8 +266,8 @@
 	runif vAutoReplan 1 'vStateMode.SET ""'
 	run sc_ClosePlaceMenu
 	runif vAutoReplan 1 'run sc_FollowOn'
-	runif %gps.valid 1 'btnNMB_Cursor.HIDE, btnNMB_Pos.SHOW'
-	else_run 'btnNMB_Cursor.show, btnNMB_Pos.hide'
+	;runif %gps.valid 1 'btnNMB_Cursor.HIDE, btnNMB_Pos.SHOW'
+	;else_run 'btnNMB_Cursor.show, btnNMB_Pos.hide'
 </script>
 
 <script btnPMP_MultiplanDest_OnRelease>
@@ -321,7 +327,6 @@
 
 <script sc_StartRouteEditState>
 	runif vPlanModeOn 0 'run sc_RouteEditBack_OnRelease'
-	vRouteEditForceRecalc.set 1
 	NEXTSTATE st_RouteEdit
 </script>
 
@@ -387,6 +392,7 @@
 	ADDSELECTEDITEMTOHISTORY
 	run sc_FollowOff
 	run sc_P_return_to_map 0
+	run sc_NaviMenuAlphaDown   
 </script>
 
 <script sc_btnPA_Info_OnRelease>
@@ -439,29 +445,31 @@
 	</script>
 	
 	<script enter>
+		runif vmapstate 5 'map.get_mapstate_before_overview vmapstate'
+		else_run 'map.getmapstate vmapstate'
 		.map.store_cursor_pos
 		runif vUIres "800_480" 'map.select_cursor "cursor_places_big"'
 		else_runif vUIres "480_800" 'map.select_cursor "cursor_places_big"'
 		else_run 'map.select_cursor "cursor_places"'		
 	</script>		 
 	
-<script sc_lock_plan_mode>
-	.map.restore_cursor_pos
-	run sc_RD_CenterCursor
-	runif vUIres "800_480" 'map.select_cursor "cursor_places_big"'
-	else_runif vUIres "480_800" 'map.select_cursor "cursor_places_big"'
-	else_run 'map.select_cursor "cursor_places"'
-	run sc_StartPlaceMenuPlan
-	map.ONMAPCLICK sc_placemenu_mapclick 2
-</script>
-  
-<script sc_placemenu_mapclick>
+	<script sc_lock_plan_mode>
+		.map.restore_cursor_pos
+		run sc_RD_CenterCursor
+		runif vUIres "800_480" 'map.select_cursor "cursor_places_big"'
+		else_runif vUIres "480_800" 'map.select_cursor "cursor_places_big"'
+		else_run 'map.select_cursor "cursor_places"'
+		run sc_StartPlaceMenuPlan
+		map.ONMAPCLICK sc_placemenu_mapclick 2
+	</script>
+	  
+	<script sc_placemenu_mapclick>
 		runif vUIRes "800_480" 'map.select_cursor "cursor_big"'
 		else_runif vUIRes "480_800" 'map.select_cursor "cursor_big"'	  
 		else_run 'map.select_cursor "cursor"'
-	map.ONMAPCLICK sc_StartPlaceMenuPlan 2
-	run sc_StartPlaceMenuPlan	 
-</script>
+		map.ONMAPCLICK sc_StartPlaceMenuPlan 2
+		run sc_StartPlaceMenuPlan	 
+	</script>
  
   
 	<script done>
@@ -469,13 +477,15 @@
 		run sc_PlaceStateDone
 		map.EnableMoveCursorByClick 1
 		runif nPlaceForPos 1 sc_FollowOn
+		vPresetOn.SET 0
+		ui_NavigateToggleZoomControls.hide
 	</script>
 	
 	<script exit>
 		nPlaceForPos.set 0
-			runif vUIRes "800_480" 'map.select_cursor "cursor_big"'
-			else_runif vUIRes "480_800" 'map.select_cursor "cursor_big"'
-			else_run 'map.select_cursor "cursor"'	   
+		runif vUIRes "800_480" 'map.select_cursor "cursor_big"'
+		else_runif vUIRes "480_800" 'map.select_cursor "cursor_big"'
+		else_run 'map.select_cursor "cursor"'	   
 	</script>
 </state>
 

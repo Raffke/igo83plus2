@@ -1,3 +1,7 @@
+;!TB_MR - Import new templates
+import "ui_igo8/480_234/ui/templates_advanced_480_234.ui"
+
+
 <TEMPLATE btnmapmenu template=a_yzoomin    bmp="btn_lb_4d_map.bmp#2"  fonttype=bw font="tahomabd" padding=6 valign="center" align="LEFT+30" fontsize=12 clicked_coloring=1>
 
 <TEMPLATE btnlauncher template=a_yzoomin    bmp="4_2_all.bmp#12"  fonttype=bw font="tahoma" padding=6 valign="center" fontsize=14 clicked_coloring=1>
@@ -10,8 +14,9 @@
 <TEMPLATE xtxthud  font="tahomabd"                                 color=#cacaca glowsize=0 color2=#000000 color3=#000000 fontsize=10>
 <TEMPLATE xtxthud1 font="tahomabd" align="left" valign="BOTTOM-10" color=#FFFFFF color2=#000000 color3=#000000 fontsize=18>
 
-
 ;***********************  Selection-os listak (LISTTABLE) ***********************  
+
+
 <TEMPLATE xlist      x=34 y=18 bg="btn_4a_.spr" w=392 selection="btn_4a_sel.bmp" row=4 padding=10 fonttype=bw font="tahoma" fontsize=16 SIMPLECLICKSELECT twolinesmall=1 twolinemodel=1 sound="!success" showselection=0 clicked_coloring=1>; a regi listtable kontrol
 <TEMPLATE xlist_icon x=34 y=18 bg="btn_4a_.spr" w=352 selection="btn_4a_sel.bmp" row=4 iconpadding=10 fonttype=bw font="tahoma" fontsize=16 SIMPLECLICKSELECT twolinesmall=1 iconw=40 twolinemodel=1 sound="!success" showselection=0 clicked_coloring=1>; az ikonosokhoz
 
@@ -143,7 +148,8 @@
 
 	;-------------- vekony gombok --------------y=21,57,93,129,165 Szovegek ua.
 <TEMPLATE txt_5 z=1 align="LEFT" valign="CENTER" fonttype=bw  fontsize=14 font="tahoma" >
-	<TEMPLATE txt_csu_legend  template=txt_5 x=34  padding=10 w=170 h=35>;a csuszka neve
+;!Raffke_jr - removed padding=10, increased x by 10, decreased w by 20
+	<TEMPLATE txt_csu_legend  template=txt_5 x=44  w=150 h=35>;a csuszka neve
 	<TEMPLATE txt_csu_value   template=txt_5 x=180 w=24  h=35 align="RIGHT"  font="tahomabd" fixedwidthnumbers=1>;a csuszka erteke
 	<TEMPLATE txt_csu_unit    template=txt_5 x=205 w=34  h=35 align="CENTER"  fontsize=12  >;a csuszka mertekegysege
 	<TEMPLATE txt_csu_valunit template=txt_5 x=177 w=58  h=35 align="RIGHT"   font="tahomabd">;a csuszka erteke es mertekegysege ahol egyben van
@@ -223,8 +229,8 @@
 <TEMPLATE spr_empty    x=33  y=86  bmp="empty_textbox.bmp" >; amikor egy lista ures ez jelenik meg helyette
 
 <TEMPLATE txt_map      x=88  y=214 w=379 z=10 h=20   align="CENTER" valign="CENTER" fontsize=14 font="tahomabd" color=#FFFFFF color2=#000000 color3=#000000 glowsize=1>; actualstreet, housenumber, nextstreet (mas y-nal), stb
-;!Raffke_jr - removed x=4, w=44, align="CENTER" to work with ALIGNER
-<TEMPLATE txt_sec            y=108       z=1  h=20                  valign="BOTTOM" fontsize=12 font="tahomabd" color=#FFFFFF >;secondary diriconon pl. a manover, speedcam tavolsag, ...
+;!Raffke_jr - added color2, color3, glowsize
+<TEMPLATE txt_sec      x=4   y=108 w=44  z=1  h=20   align="CENTER" valign="BOTTOM" fontsize=12 font="tahomabd" color=#FFFFFF color2=#000000 color3=#000000 glowsize=1>;secondary diriconon pl. a manover, speedcam tavolsag, ...
 
 <TEMPLATE help_text x=12 z=36 w=458 h=20000 fontsize=18 font="tahomabd" fonttype=xhtml_ft align="CENTER" orientation="L2R"  view_top=27 view_bottom=193>; az xhtml alapu szovegek, help, about, legal, stb
 

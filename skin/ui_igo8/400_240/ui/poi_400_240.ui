@@ -39,12 +39,19 @@
 
 <element_template et_POIItemStructuredList>
 	<SPRITE xxx template=poi_listicon iconmodel="*.icon" iconindex=1>
-	<BUTTON btnPOIItemStructuredList%ID% template=btn_4a_poi textmodel_wstr="*.name+*.address.long_format"  clickmodel="poi.struct_search.poi_list.setcurrent $i" onrelease='run sc_SelectPOIItem "poi.struct_search"'>
+
+;!TB - Added direction icon and total distance
+	<VSPRITE xxx x=363 y=6  z=3 vec="$mininyil.vpr" rotatemodel="*.direction" updatemodel="*.calc_dir" visiblemodel="*.direction.valid&*.detour_length.valid|*.distance_on_route.valid&*.direction.valid">
+	<SPRITE  xxx x=363 y=6  z=2 bmp="$mininyil_bg.bmp" visiblemodel="*.detour_length.valid|*.distance_on_route.valid">
+	<TEXT    xxx x=344 y=30 z=2 w=46 template=xtxt3 fontsize=11 font="tahomabd" align="CENTER" fonttype=bw textmodel_wstr="*.distance.full_text" visiblemodel="!*.detour_length.valid&*.distance_on_route.valid">
+	<TEXT    xxx x=344 y=30 z=2 w=46 template=xtxt3 fontsize=11 font="tahomabd" align="CENTER" fonttype=bw combined_textmodel="+$*.detour_length.full_text$" visiblemodel="*.detour_length.valid">
+
+;!TB - Decreased text width (added w=280)
+	<BUTTON btnPOIItemStructuredList%ID% template=btn_4a_poi w=280 textmodel_wstr="*.name+*.address.long_format"  clickmodel="poi.struct_search.poi_list.setcurrent $i" onrelease='run sc_SelectPOIItem "poi.struct_search"'>
 	<TEXT   xxx template=txt_poidist textmodel_wstr="*.distance.full_text" visiblemodel="!*.detour_length.valid&!*.distance_on_route.valid" watchstate=btnPOIItemStructuredList%ID%>
 	<TEXT   xxx template=txt_poidist combined_textmodel="+$*.detour_length.full_text$" visiblemodel="*.detour_length.valid&!*.distance_on_route.valid" watchstate=btnPOIItemStructuredList%ID%>
 	<TEXT   xxx template=txt_poidist textmodel_wstr="*.distance_on_route.full_text" visiblemodel="*.distance_on_route.valid" watchstate=btnPOIItemStructuredList%ID%>
 	<SPRITE xxx x=24 z=1 iconmodel="*.detour_icon" iconindex=0>
-
 </element_template>
 
 <element_template et_POIListAll>
@@ -58,10 +65,10 @@
 	
 	<BUTTON xxx template=prevpage clickmodel="ui.lstFPS.prevpage" enabledmodel="ui.lstFPS.prevpage.valid" template=slow_repeat>
 	<BUTTON xxx template=nextpage clickmodel="ui.lstFPS.nextpage" enabledmodel="ui.lstFPS.nextpage.valid" template=slow_repeat>
-	<BUTTON xxx template=footer4_1a text="Search" onrelease='NEXTSTATE st_POISearchMain'>	
-	<BUTTON btnFPS_Sort template=footer4_2a text="" onrelease='run sc_POIStructuredSort' enabledmodel="!poi.struct_search.poi_list.isempty">
-    <TEXT TitleTop x=10 y=2  w=345 z=160 align="CENTER" text="Select POI Group"  fonttype=headerfont fontsize=10 visiblemodel="!ui.vPoiGroupSSID">
-    <TEXT TitleModel x=10 y=2  w=345 z=160 align="CENTER" TEXTMODEL_WSTR="poi.struct_search.path_text"  fonttype=headerfont fontsize=10 visiblemodel="ui.vPoiGroupSSID">
+	<BUTTON xxx template=footer3_1a text="Search" onrelease='NEXTSTATE st_POISearchMain'>	
+	<BUTTON btnFPS_Sort template=footer3_2a text="" onrelease='run sc_POIStructuredSort' enabledmodel="!poi.struct_search.poi_list.isempty">
+	<TEXT TitleTop x=10 y=2  w=345 z=160 align="CENTER" text="Select POI Group"  fonttype=headerfont fontsize=10 visiblemodel="!ui.vPoiGroupSSID">
+	<TEXT TitleModel x=10 y=2  w=345 z=160 align="CENTER" TEXTMODEL_WSTR="poi.struct_search.path_text"  fonttype=headerfont fontsize=10 visiblemodel="ui.vPoiGroupSSID">
 </layer>
 
 <layer ui_FindPOIStructuredListButtons z=1050>
@@ -78,12 +85,19 @@
 
 <element_template et_POIItemStructuredListQS>
 	<SPRITE xxx template=poi_listicon iconmodel="*.icon" iconindex=1>
-	<BUTTON btnPOIItemStructuredListQS%ID% template=btn_4a_poi textmodel_wstr="*.name+*.address.long_format"  clickmodel="poi.structure.poi_list.setcurrent $i" onrelease='run sc_SelectPOIItemQS "poi.structure"'>
+
+;!TB - Added direction icon and total distance
+	<VSPRITE xxx x=363 y=6  z=3 vec="$mininyil.vpr" rotatemodel="*.direction" updatemodel="*.calc_dir" visiblemodel="*.direction.valid&*.detour_length.valid|*.distance_on_route.valid&*.direction.valid">
+	<SPRITE  xxx x=363 y=6  z=2 bmp="$mininyil_bg.bmp" visiblemodel="*.detour_length.valid|*.distance_on_route.valid">
+	<TEXT    xxx x=344 y=30 z=2 w=46 template=xtxt3 fontsize=11 font="tahomabd" align="CENTER" fonttype=bw textmodel_wstr="*.distance.full_text" visiblemodel="!*.detour_length.valid&*.distance_on_route.valid">
+	<TEXT    xxx x=344 y=30 z=2 w=46 template=xtxt3 fontsize=11 font="tahomabd" align="CENTER" fonttype=bw combined_textmodel="+$*.detour_length.full_text$" visiblemodel="*.detour_length.valid">
+
+;!TB - Decreased text width (added w=280)
+	<BUTTON btnPOIItemStructuredListQS%ID% template=btn_4a_poi w=280 textmodel_wstr="*.name+*.address.long_format"  clickmodel="poi.structure.poi_list.setcurrent $i" onrelease='run sc_SelectPOIItemQS "poi.structure"'>
 	<TEXT   xxx template=txt_poidist textmodel_wstr="*.distance.full_text" visiblemodel="!*.detour_length.valid&!*.distance_on_route.valid" watchstate=btnPOIItemStructuredListQS%ID%>
 	<TEXT   xxx template=txt_poidist combined_textmodel="+$*.detour_length.full_text$" visiblemodel="*.detour_length.valid&!*.distance_on_route.valid" watchstate=btnPOIItemStructuredListQS%ID%>
 	<TEXT   xxx template=txt_poidist textmodel_wstr="*.distance_on_route.full_text" visiblemodel="*.distance_on_route.valid" watchstate=btnPOIItemStructuredListQS%ID%>
 	<SPRITE xxx x=24 z=1 iconmodel="*.detour_icon" iconindex=0>
-
 </element_template>
 
 <layer ui_FindPOIStructuredListQS z=30>
@@ -107,7 +121,15 @@
 
 <element_template et_POIItemFlatListQS>
 	<SPRITE xxx template=poi_listicon iconmodel="*.icon" iconindex=1>
-	<BUTTON btnFindPOIFlatListQS%ID% template=btn_4a_poi textmodel_wstr="*.name+*.address.long_format" clickmodel="poi.flat_search.list.setcurrent $i" onrelease='run sc_SelectPOIItemQS "poi.flat_search"'>
+
+;!TB - Added direction icon and total distance
+	<VSPRITE xxx x=363 y=6  z=3 vec="$mininyil.vpr" rotatemodel="*.direction" updatemodel="*.calc_dir" visiblemodel="*.direction.valid&*.detour_length.valid|*.distance_on_route.valid&*.direction.valid">
+	<SPRITE  xxx x=363 y=6  z=2 bmp="$mininyil_bg.bmp" visiblemodel="*.detour_length.valid|*.distance_on_route.valid">
+	<TEXT    xxx x=344 y=30 z=2 w=46 template=xtxt3 fontsize=11 font="tahomabd" align="CENTER" fonttype=bw textmodel_wstr="*.distance.full_text" visiblemodel="!*.detour_length.valid&*.distance_on_route.valid">
+	<TEXT    xxx x=344 y=30 z=2 w=46 template=xtxt3 fontsize=11 font="tahomabd" align="CENTER" fonttype=bw combined_textmodel="+$*.detour_length.full_text$" visiblemodel="*.detour_length.valid">
+
+;!TB - Decreased text width (added w=280)
+	<BUTTON btnFindPOIFlatListQS%ID% template=btn_4a_poi w=280 textmodel_wstr="*.name+*.address.long_format" clickmodel="poi.flat_search.list.setcurrent $i" onrelease='run sc_SelectPOIItemQS "poi.flat_search"'>
 	<TEXT   xxx template=txt_poidist textmodel_wstr="*.distance.full_text" visiblemodel="!*.detour_length.valid&!*.distance_on_route.valid" watchstate=btnFindPOIFlatListQS%ID%>
 	<TEXT   xxx template=txt_poidist combined_textmodel="+$*.detour_length.full_text$" visiblemodel="*.detour_length.valid&!*.distance_on_route.valid" watchstate=btnFindPOIFlatListQS%ID%>
 	<TEXT   xxx template=txt_poidist textmodel_wstr="*.distance_on_route.full_text" visiblemodel="*.distance_on_route.valid" watchstate=btnFindPOIFlatListQS%ID%>
@@ -131,12 +153,19 @@
 
 <element_template et_POIItemFlatList>
 	<SPRITE xxx template=poi_listicon iconmodel="*.icon" iconindex=1>
-	<BUTTON btnFindPOIFlatList%ID% template=btn_4a_poi textmodel_wstr="*.name+*.address.long_format" clickmodel="poi.flat_search.list.setcurrent $i" onrelease='run sc_SelectPOIItem "poi.flat_search"'>
+
+;!TB - Added direction icon and total distance
+	<VSPRITE xxx x=363 y=6  z=3 vec="$mininyil.vpr" rotatemodel="*.direction" updatemodel="*.calc_dir" visiblemodel="*.direction.valid&*.detour_length.valid|*.distance_on_route.valid&*.direction.valid">
+	<SPRITE  xxx x=363 y=6  z=2 bmp="$mininyil_bg.bmp" visiblemodel="*.detour_length.valid|*.distance_on_route.valid">
+	<TEXT    xxx x=344 y=30 z=2 w=46 template=xtxt3 fontsize=11 font="tahomabd" align="CENTER" fonttype=bw textmodel_wstr="*.distance.full_text" visiblemodel="!*.detour_length.valid&*.distance_on_route.valid">
+	<TEXT    xxx x=344 y=30 z=2 w=46 template=xtxt3 fontsize=11 font="tahomabd" align="CENTER" fonttype=bw combined_textmodel="+$*.detour_length.full_text$" visiblemodel="*.detour_length.valid">
+
+;!TB - Decreased text width (added w=280)
+	<BUTTON btnFindPOIFlatList%ID% template=btn_4a_poi w=280 textmodel_wstr="*.name+*.address.long_format" clickmodel="poi.flat_search.list.setcurrent $i" onrelease='run sc_SelectPOIItem "poi.flat_search"'>
 	<TEXT   xxx template=txt_poidist textmodel_wstr="*.distance.full_text" visiblemodel="!*.detour_length.valid&!*.distance_on_route.valid" watchstate=btnFindPOIFlatList%ID%>
 	<TEXT   xxx template=txt_poidist combined_textmodel="+$*.detour_length.full_text$" visiblemodel="*.detour_length.valid&!*.distance_on_route.valid" watchstate=btnFindPOIFlatList%ID%>
 	<TEXT   xxx template=txt_poidist textmodel_wstr="*.distance_on_route.full_text" visiblemodel="*.distance_on_route.valid" watchstate=btnFindPOIFlatList%ID%>
 	<SPRITE xxx x=24 z=1 iconmodel="*.detour_icon" iconindex=0>
-
 </element_template>
 
 <layer ui_FindPOIFlatList z=30>
@@ -145,8 +174,8 @@
 	
 	<BUTTON xxx template=prevpage clickmodel="ui.lstFPF.prevpage" enabledmodel="ui.lstFPF.prevpage.valid" template=slow_repeat>
 	<BUTTON xxx template=nextpage clickmodel="ui.lstFPF.nextpage" enabledmodel="ui.lstFPF.nextpage.valid" template=slow_repeat>
-	<BUTTON xxx template=footer4_1a text="Search" onrelease='NEXTSTATE st_POISearchMain'>
-	<BUTTON btnFPF_Sort template=footer4_2a onrelease='run sc_POIFlatSort'>
+	<BUTTON xxx template=footer3_1a text="Search" onrelease='NEXTSTATE st_POISearchMain'>
+	<BUTTON btnFPF_Sort template=footer3_2a onrelease='run sc_POIFlatSort'>
 
 	<TEXT   xxx template=txt_empty  text="<No items>" visiblemodel="poi.flat_search.list.isempty">
 	<SPRITE xxx template=spr_empty visiblemodel="poi.flat_search.list.isempty">
@@ -154,7 +183,7 @@
 
 <layer ui_FindPOIFlatListAfterSearch z=1001>
 	<BUTTON xxx template=backa                    onrelease='run sc_POIFlatBackAfterSearch'>
-	<BUTTON xxx template=footer4_1a text="Search" onrelease='run sc_POIFlatBackAfterSearch'>
+	<BUTTON xxx template=footer3_1a text="Search" onrelease='run sc_POIFlatBackAfterSearch'>
 </layer>
 
 ;****************************************************************************************************************
@@ -206,8 +235,8 @@
 	<BUTTON xxx template=prevpage clickmodel="ui.lstMPSMP.prevpage" enabledmodel="ui.lstMPSMP.prevpage.valid" template=slow_repeat>
 	<BUTTON xxx template=nextpage clickmodel="ui.lstMPSMP.nextpage" enabledmodel="ui.lstMPSMP.nextpage.valid" template=slow_repeat>
 	
-	<BUTTON xxx template=footer4_1a text="New\nGroup" onrelease='run sc_CreateNewGroupMain "mypoi"'>
-	<BUTTON xxx template=footer4_2a text="All" onrelease='run sc_SetAllPoiView'>
+	<BUTTON xxx template=footer3_1a text="New\nGroup" onrelease='run sc_CreateNewGroupMain "mypoi"'>
+	<BUTTON xxx template=footer3_2a text="All" onrelease='run sc_SetAllPoiView'>
 	
 	<TEXT   xxx template=txt_empty text="<No items>" visiblemodel="poi.struct_search.cont_list.isempty&poi.struct_search.poi_list.isempty">
 	<SPRITE xxx template=spr_empty visiblemodel="poi.struct_search.cont_list.isempty&poi.struct_search.poi_list.isempty">
@@ -304,7 +333,7 @@
 	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstPQS.page_counter">
 	
 	<BUTTON xxx template=prevpage clickmodel="ui.lstPQS.prevpage" enabledmodel="ui.lstPQS.prevpage.valid" template=slow_repeat>
-	<BUTTON xxx template=nextpage clickmodel="ui.lstPQS.nextpage" enabledmodel="ui.lstPQS.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstPQS.nextpage" enabledmodel="ui.lstPQS.nextpage.valid" template=slow_repeat>
 </layer>
 
 ;****************************************************************************************************************
@@ -314,8 +343,6 @@
 	<BUTTON xxx template=btn_4b_icon  combined_textmodel="$*.name:<Add new search>$" clickmodel="poi.search_manager.list.setcurrent $i" onrelease='run sc_ManagePOISItemRename_OnRelease'>
 	<SPRITE xxx x=299 y=6 z=2 bmp="$ico_detourqs.bmp" visiblemodel="$i<8">
 	<SPRITE xxx x=34 y=10 z=2 bmp="$aroundicons.spr" phasemodel="*.center_mode" visiblemodel="!*.isempty">
-
-
 </element_template>
 
 <layer ui_ManagePOIQuickSearch z=30>
@@ -324,7 +351,7 @@
 	
 	<BUTTON xxx template=prevpage clickmodel="ui.lstMPQS.prevpage" enabledmodel="ui.lstMPQS.prevpage.valid"  template=slow_repeat>
 	<BUTTON xxx template=nextpage clickmodel="ui.lstMPQS.nextpage" enabledmodel="ui.lstMPQS.nextpage.valid" template=slow_repeat>
-	<BUTTON xxx  template=footer2_1a text="Clear All" onrelease='run sc_et_ManageQSearchClearAll_OnRelease' enabledmodel="!poi.search_manager.isempty"> 
+	<BUTTON xxx  template=footer2_1a text="Clear All" enabledmodel="!poi.search_manager.isempty" onrelease='run sc_et_ManageQSearchClearAll_OnRelease'> 
 </layer>
 
 ;****************************************************************************************************************
@@ -337,16 +364,18 @@
 	<SPRITE xxx x=50 y=156 z=2 bmp="ico_m_info.bmp">
 
 	<sprite xxx x=47 y=24 iconmodel="poi.current.icon" iconindex=1>
+
 	<TEXT   xxx template=btntext x=81 y=29  w=269 font="tahomabd" align="LEFT" textmodel_wstr="poi.current.name">
 	;<TEXT   xxx template=btntext x=81 y=61  w=269 align="LEFT" textmodel_wstr="poi.current.address.city">
 	<TEXT   xxx template=btntext x=81 y=70  w=269 align="LEFT" textmodel_wstr="poi.current.address.long_format">
 	<TEXT   txtPoiExtraInfo template=btntext x=81 y=158 w=265 align="LEFT" combined_textmodel="$poi.current.address.ext:<No extra information>$">
 	<TEXT   xxx template=btntext x=81 y=110 w=269 align="LEFT" combined_textmodel="$poi.current.phone:<No phone number>$">
 	
-	<BUTTON xxx template=footer3_2a z=10 text="Call" onrelease='run sc_poicall' visiblemodel="other.phone.available&poi.current.hasphonenumber"> 
+;!TB - Changed visiblemodel
+	<BUTTON xxx template=footer3_2a z=10 text="Call" onrelease='run sc_poicall' visiblemodel="other.phone.available&poi.current.hasphonenumber|ui.vBTCustom&poi.current.hasphonenumber"> 
+
 	<BUTTON xxx template=footer3_3a z=10 text="Select" onrelease='run sc_SelectPOIItem_map'> 
 	<BUTTON xxx template=footer3_1a z=10 text="Edit" visiblemodel="poi.current.writable&!ui.nUserMode" onrelease='run sc_EditPOIItem_WithMode 2'> 
-
 </layer>
 
 ;****************************************************************************************************************

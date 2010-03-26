@@ -3,7 +3,7 @@
 ;****************************************************************************************************************
 
 <script sc_set_UIresolution override>
-    vUIRes.set "480_234"
+	vUIRes.set "480_234"
 </script>  
   
 <script sc_FindAddress_positions_nostate override>
@@ -20,10 +20,10 @@
 	btnFA_Street.y 126
 	btnFA_House.y 162
 	btnFA_history.y 90
-</script>  
-
+</script>
 
 <script sc_ScreenCalibrate override>
-  runif %power.backlight_supported 1 'btn_screen_calibtare.y 129'
-  else_run 'btn_screen_calibtare.y 57'
+;!Raffke_jr - removed reposition
+;	runif %power.backlight_supported 1 'btn_screen_calibtare.y 126'
+;	else_run 'btn_screen_calibtare.y 54'
 </script>

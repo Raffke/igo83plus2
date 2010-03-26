@@ -57,7 +57,7 @@
 	<SPRITE xxx x=35 y=5 z=20 iconmodel="*.icon_small_id" visiblemodel="!*.icon_visible">
 
 ;!Raffke_jr - disabled during flyover
-	<BUTTON btnETItinerEntry%ID% template=btn_4a clickmodel="route.itiner.list.setcurrent $i" onrelease='NEXTSTATE st_RouteItineraryMap' enabledmodel="!ui.vOnFlyover">
+	<BUTTON btnETItinerEntry%ID% template=btn_4a clickmodel="route.itiner.list.setcurrent $i" onrelease='NEXTSTATE st_RouteItineraryMap, run sc_RItMNew_go_to_current_loc' enabledmodel="!ui.vOnFlyover">
 
 	<TEXT txtETItinerEntryCrossing%ID% template=xtxt3 watchstate=btnETItinerEntry%ID% z=20 align="LEFT" valign="TOP" y=5 fontsize=16 textmodel_wstr="*.cross_count" visiblemodel="*.distance_visible">
 	<TEXT txtETItinerEntryLength%ID% template=xtxt3 watchstate=btnETItinerEntry%ID% z=20 align="LEFT" valign="TOP" y=5 fontsize=16 textmodel_wstr="*.length.full_text" visiblemodel="*.distance_visible">
@@ -78,20 +78,21 @@
 
 
 <element_template et_RE_WayPoint>
-;!Raffke_jr - moved right by 28 to add Remove button, changed textmodel from "*.name"
-	<BUTTON xxx template=btn_4b x=6 textmodel_wstr="*.longname" clickmodel="navigation.waypoints.list.setcurrent $i" selectable>
+;!Raffke_jr - applied new template
+	<BUTTON xxx template=btn_REWP_txt textmodel_wstr="*.longname" clickmodel="navigation.waypoints.list.setcurrent $i" selectable>
 
 ;!TB - Added "Remove" button
-	<BUTTON xxx template=btn_4d x=362 iconspr="x.bmp#3" text="" clickmodel="navigation.waypoints.list.setcurrent $i" onrelease='run sc_btnRE_Remove_OnRelease' enabledmodel="!*.isempty" usefocus=0>
+;!Raffke_jr - visiblemodel from enabledmodel at new Remove button
+	<BUTTON xxx template=btn_REWP_del clickmodel="navigation.waypoints.list.setcurrent $i" onrelease='run sc_btnRE_Remove_OnRelease' enabledmodel="!*.isempty" enabledmodel="$i!=0|navigation.waypoints.start_is_user_selected&navigation.waypoints.is_route_valid" usefocus=0>
 </element_template>
 
 <LAYER ui_RouteEdit z=30>
 
 	<LIST lstRE_WayPoints template=tlist element_template="et_RE_WayPoint" showselection=1 listmodel="navigation.waypoints.list">
 
-	<BUTTON xxx bmp="moveup.bmp#3"        x=427 y=20   clickmodel="navigation.waypoints.moveup_current"     enabledmodel="navigation.waypoints.moveup_current.valid"   onrelease='vEditRouteDirty.SET 1'>
-	<BUTTON xxx bmp="route_reverse.bmp#3" x=427 y=103  clickmodel="navigation.waypoints.reverse"            enabledmodel="navigation.waypoints.is_route_valid"         onrelease='vEditRouteDirty.SET 1'>
-	<BUTTON xxx bmp="movedown.bmp#3"      x=427 y=150  clickmodel="navigation.waypoints.movedown_current"   enabledmodel="navigation.waypoints.movedown_current.valid" onrelease='vEditRouteDirty.SET 1'>
+	<BUTTON xxx bmp="moveup.bmp#3"        x=427 y=20   clickmodel="navigation.waypoints.moveup_current"     enabledmodel="navigation.waypoints.moveup_current.valid">
+	<BUTTON xxx bmp="route_reverse.bmp#3" x=427 y=103  clickmodel="navigation.waypoints.reverse"            enabledmodel="navigation.waypoints.is_route_valid&navigation.waypoints.start_is_user_selected" onrelease='run sc_RouteEdit_ReverseRoute'>
+	<BUTTON xxx bmp="movedown.bmp#3"      x=427 y=150  clickmodel="navigation.waypoints.movedown_current"   enabledmodel="navigation.waypoints.movedown_current.valid">
 
 	<BUTTON xxx          template=prevpage clickmodel="ui.lstRE_WayPoints.prevpage"  enabledmodel="ui.lstRE_WayPoints.prevpage.valid" template="slow_repeat">
 	<BUTTON xxx          template=nextpage clickmodel="ui.lstRE_WayPoints.nextpage"  enabledmodel="ui.lstRE_WayPoints.nextpage.valid" template="slow_repeat">

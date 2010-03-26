@@ -61,32 +61,40 @@
 </script>
 
 <script sc_init_zoomcontrol>
-   map.ZOOMCONTROL_SHOW 1
-   map.ZOOMCONTROL_X 137
-   map.ZOOMCONTROL_Y 194
+	map.ZOOMCONTROL_SHOW 1
+	map.ZOOMCONTROL_X 137
+	map.ZOOMCONTROL_Y 194
 
-   map.ZOOMCONTROL_TEXTOFFSET -4
-   map.ZOOMCONTROL_BARHEIGHT 6
-   map.ZOOMCONTROL_TICKHEIGHT 2
+	map.ZOOMCONTROL_ZOOMSIZE 110
+	map.ZOOMCONTROL_TEXTOFFSET -4
+	map.ZOOMCONTROL_BARHEIGHT 6
+	map.ZOOMCONTROL_TICKHEIGHT 2
 </script>
 
 <script sc_init_zoomcontrol_browsemap>
-   map.ZOOMCONTROL_SHOW 1
-   map.ZOOMCONTROL_X 100
-   map.ZOOMCONTROL_Y 23
-   map.ZOOMCONTROL_TEXTOFFSET 12
-   map.ZOOMCONTROL_BARHEIGHT 6
-   map.ZOOMCONTROL_TICKHEIGHT -2
+	map.ZOOMCONTROL_SHOW 1
+	map.ZOOMCONTROL_X 100
+	map.ZOOMCONTROL_Y 23
+
+	map.ZOOMCONTROL_ZOOMSIZE 110
+	map.ZOOMCONTROL_TEXTOFFSET 12
+	map.ZOOMCONTROL_BARHEIGHT 6
+	map.ZOOMCONTROL_TICKHEIGHT -2
+;!TB - fullscreen cockpit
+	termif vFullScreenCockpit 0 sc_init_zoomcontrol_browsemap
+	runif vFullScreenNextStreet 0 'map.ZOOMCONTROL_Y 3'
 </script>
 
 <script sc_init_zoomcontrol_planmode>
-   map.ZOOMCONTROL_SHOW 1
-   map.ZOOMCONTROL_X 137
-   map.ZOOMCONTROL_Y 176
-   
-   map.ZOOMCONTROL_TEXTOFFSET -4
-   map.ZOOMCONTROL_BARHEIGHT 6
-   map.ZOOMCONTROL_TICKHEIGHT 2
+	map.ZOOMCONTROL_SHOW 1
+	map.ZOOMCONTROL_X 137
+;!TB - moved down by 36 points
+	map.ZOOMCONTROL_Y 212
+
+	map.ZOOMCONTROL_ZOOMSIZE 110
+	map.ZOOMCONTROL_TEXTOFFSET -4
+	map.ZOOMCONTROL_BARHEIGHT 6
+	map.ZOOMCONTROL_TICKHEIGHT 2
 </script>
 
 <script sc_enable_speedcam_functions>
@@ -94,7 +102,6 @@
 	btnPM_POS_EditCam.x 220
 	btnPMO_AddCam.x 201
 	btnPMO_EditCam.x 201
-	;btnPMO_Favorite.y 108
 ;	chk_SpeedCamWarning.show
 ;	btn_SpeedCamWarning.show
 </script>
@@ -115,30 +122,48 @@
 	vMapSettings2d3d.SET "3D"
 	map.VIEW2D3D vMapSettings2d3d
 
-	btnNMB_RouteInfo.x -80
+;!TB - allow during flyover
+;	btnNMB_RouteInfo.x -80
 	btnNMB_Menu.HIDE
 	btnNMB_Detour.HIDE
-    btnNMB_Cursor.y 330
-    ;btnNMB_Pos.y 330
+	btnNMB_Cursor.y 330
+	;btnNMB_Pos.y 330
 
-	btnNMR_CockpitInfo.DISABLE
-		
-    btn_CSGPS.HIDE
-    btn_CSTMC.HIDE
+;!TB - allow during flyover
+;	btnNMR_CockpitInfo.DISABLE
+
+	btn_CSGPS.HIDE
+	btn_CSTMC.HIDE
 	
 	btn_NMPC3D_VZoom3D1.onlongclick ''
 	btn_NMPC3D_VZoom3D2.onlongclick ''
 	btn_NMPC2D_VZoom2D1.onlongclick ''
 	btn_NMPC2D_VZoom2D2.onlongclick ''
+
+;di/\/\ka
+	ui_NavigateMapCompass.y 49
+;!TB - Flyover controls
+	btnNMB_Nav2D.y 70
+;!Raffke_jr - added btnNMB_Nav2DN
+	btnNMB_Nav2DN.y 70
+	btnNMB_Nav3D.y 70
+	btnNMB_ExOv2D.y 70
+	btnNMB_ExOv3D.y 70
+	btnNMB_FlyOver.SHOW
 </script>
 
 <script sc_3DFlyOverModeOff>
-	btnNMB_RouteInfo.x 0
+;!Raffke_jr - no more reposition the RouteInfo
+;	btnNMB_RouteInfo.x 0
+
+;!TB - fullscreen cockpit
+	runif vFullScreenCockpit 1 'runif vFullScreenDiricon 0 sc_HideFullscreenDiricon'
+
 	btnNMB_Menu.SHOW
 	btnNMB_Detour.SHOW
 
-    btnNMB_Cursor.y 119
-    ;btnNMB_Pos.y 168
+	btnNMB_Cursor.y 119
+	;btnNMB_Pos.y 168
 
 	btnNMR_CockpitInfo.ENABLE
 
@@ -150,19 +175,231 @@
 	btn_NMPC2D_VZoom2D1.onlongclick 'NEXTSTATE st_SettingVisualZoom2D'
 	btn_NMPC2D_VZoom2D2.onlongclick 'NEXTSTATE st_SettingVisualZoom2D'
 
+;di/\/\ka
+	ui_NavigateMapCompass.y 0
+;!TB - Flyover controls
+	btnNMB_Nav2D.y 21
+;!Raffke_jr - added btnNMB_Nav2DN
+	btnNMB_Nav2DN.y 21
+	btnNMB_Nav3D.y 21
+	btnNMB_ExOv2D.y 21
+	btnNMB_ExOv3D.y 21
+	btnNMB_FlyOver.HIDE
+	ui_NavigateMapFlyOver_Box.HIDE
+
 	run sc_RestoreSavedMapMode
 </script>
 
 <script sc_laneinfo_pos_3D>
-   runif vLaneInfo 0 'sprLaneInfo.y -100,sprLaneInfoSignpost.y -1000'
-   runif vLaneInfo 1 'sprLaneInfo.y 21  ,sprLaneInfoSignpost.y 0'
-   runif vLaneInfo 2 'sprLaneInfo.y 199 ,sprLaneInfoSignpost.y 0'
+;!TB - Added 2 LaneInfo sprites
+	runif vLaneInfo 0 'sprLaneInfo100.y -100, sprLaneInfo150.y -100, sprLaneInfo200.y -100, sprLaneInfoSignpost.y -1000'
+	runif vLaneInfo 1 'sprLaneInfo100.y 21,   sprLaneInfo150.y 21,   sprLaneInfo200.y 21,   sprLaneInfoSignpost.y 0'
+	runif vLaneInfo 2 'sprLaneInfo100.y 199,  sprLaneInfo150.y 189,  sprLaneInfo200.y 179,  sprLaneInfoSignpost.y 0'
+
+;!Raffke_jr - hide (since 8.3.1) un-detachable Sprites
+	run sc_laneinfo_HideInvalidSizes
+
+;!TB - Fullscreen Cockpit
+	run sc_LaneInfoPosFullScreenMode
 </script>
 
 <script sc_laneinfo_pos_2D>
-   runif vLaneInfo 0 'sprLaneInfo.y -100 ,sprLaneInfoSignpost.y -1000'
-   runif vLaneInfo 1 'sprLaneInfo.y 40   ,sprLaneInfoSignpost.y 0'
-   runif vLaneInfo 2 'sprLaneInfo.y 199  ,sprLaneInfoSignpost.y 0'
+;!TB - Added 2 LaneInfo sprites
+	runif vLaneInfo 0 'sprLaneInfo100.y -100, sprLaneInfo150.y -100, sprLaneInfo200.y -100, sprLaneInfoSignpost.y -1000'
+	runif vLaneInfo 1 'sprLaneInfo100.y 40,   sprLaneInfo150.y 40,   sprLaneInfo200.y 40,   sprLaneInfoSignpost.y 0'
+	runif vLaneInfo 2 'sprLaneInfo100.y 199,  sprLaneInfo150.y 189,  sprLaneInfo200.y 179,  sprLaneInfoSignpost.y 0'
+
+;!Raffke_jr - hide (since 8.3.1) un-detachable Sprites
+	run sc_laneinfo_HideInvalidSizes
+
+;!TB - Fullscreen Cockpit
+	run sc_LaneInfoPosFullScreenMode
 </script>
 
 
+;****************************************************************************************************************
+
+;!TB - New script for Speed on map display
+<script sc_speedonmap_pos>
+	runif vFullScreenCockpit 1 'ui_NavigateMapCurrentSpeed.x 1, ui_NavigateMapCurrentSpeedV.x 1, ui_NavigateMapCurrentSpeedH.x 1'
+	else_run 'ui_NavigateMapCurrentSpeed.x 78, ui_NavigateMapCurrentSpeedV.x 78, ui_NavigateMapCurrentSpeedH.x 78'
+	vTmp.set 0	
+	runif vFullScreenCockpit 0 'vTmp.set 1'
+	runif vFullScreenActualStreet 1 'vTmp.set 1'
+	runif vFullScreenStatus 1 'vTmp.set 1'
+	runif vTmp 1 'ui_NavigateMapCurrentSpeed.y 140, ui_NavigateMapCurrentSpeedV.y 140, ui_NavigateMapCurrentSpeedH.y 140'
+	else_run 'ui_NavigateMapCurrentSpeed.y 160, ui_NavigateMapCurrentSpeedV.y 160, ui_NavigateMapCurrentSpeedH.y 160'
+</script>
+
+;!Raffke_jr - Restore Normal Cockpit, corrected values for 8.3.1
+<script sc_RD_ChangeNormalScreenMode>
+	sprNMRCockpit.x 0
+	sprNMCCockpit.x 0
+
+	sprNMRExitNum.x 22
+	btnNMC_Find.x 11
+	btnNMC_Find1.x 11
+	btnNMC_Find_normal.x 8
+	btnNMC_Find_normal1.x 8
+	btnNMC_Recalc.x 6
+	sprNMB_GPSWarn.x -3
+	sprNMINextStreetBG.x 75
+	sprNMINextStreetName.x 88
+	sprNMINextStreetName.w 299
+
+	ui_Lock_Onmap.y 0
+	btn_NMPC_OpenClose.y 0
+
+	btnNMC_Recalc.x 6
+	spr_RecalcAnim.x 6
+	txt_route_planning_progress.x 5
+	txt_route_planning_progress.y 90
+
+;!TB - restore after Fullscreen Cockpit
+	sprNMRDiricon.x 4
+	sprNMRDiriconDist.x 3
+	sprNMRDiriconUnit.x 57
+	sprNMIActualStreetBG.x 70
+	sprNMIActualStreetName.x 123
+	sprNMIActualStreetName.w 229
+	sprNMIActualHouseNum1.x 73
+	txtNMCPIStreetName.x 88
+	txtNMCPIStreetName.w 310
+	ui_NavigateMapPresetControls2D.y 0
+	ui_NavigateMapPresetControls3D.y 0
+	ui_NavigateToggleZoomControls.y  0
+	ui_NavigateMapZoomControls2D.y 0
+	ui_NavigateMapSpeedLimit.x 0
+	ui_NavigateMapSpeedLimit.y 0
+	ui_SpeedCamWarningLayer2.x 0
+	ui_SpeedCamWarningLayer2.y 0
+	ui_SpeedCamWarningLayer.y 0
+	ui_NavigateMapRouteLaneInfo.x 0
+	ui_NavigateMapRouteLaneInfo.y 0
+	spr_TMC_Status.x 53  
+	spr_TMC_Status_Basic.x 53
+;	txt_TMC_StationName.x 76
+	spr_TMC_Status2.x 53
+	spr_TMC_Signal.x 51
+	sprNM_VolStatus.x 54
+	sprNM_BTStatus.x 56
+	sprNM_RecordStatus.x 61
+
+;!Raffke_jr - use MiniStatus in Empty mode
+	runif vCockpitAlpha 2 'sprNM_BatteryStatus.y 222
+	                       sprNM_GPSStatus.y 231
+	                       vehicle_icon.y 223'
+	else_run              'sprNM_BatteryStatus.y 215
+	                       sprNM_GPSStatus.y 228
+	                       vehicle_icon.y 218'
+</script>
+
+;!TB - Fullscreen Cockpit
+;!Raffke_jr - corrected values for 8.3.1
+<script sc_RD_ChangeFullScreenMode>
+	ui_NavigateMapSpeedLimit.x -77
+	ui_NavigateMapSpeedLimit.y 0
+	ui_SpeedCamWarningLayer2.x -77
+	ui_SpeedCamWarningLayer.y 3
+	sprNMIActualStreetBG.x 0
+	sprNMIActualStreetName.x 119
+	sprNMIActualStreetName.w 233
+	sprNMIActualHouseNum1.x 69
+	txtNMCPIStreetName.x 84
+	txtNMCPIStreetName.w 314
+
+	ui_NavigateMapZoomControls2D.y 12
+	spr_TMC_Status.x -100
+	spr_TMC_Status_Basic.x -100
+;	txt_TMC_StationName.x -200
+	spr_TMC_Status2.x -100
+	spr_TMC_Signal.x -100
+	sprNM_VolStatus.x -100
+	sprNM_BTStatus.x -100
+	sprNM_RecordStatus.x -100
+	sprNM_BatteryStatus.y 222
+	sprNM_GPSStatus.y 231
+	vehicle_icon.y 223
+	run sc_LaneInfoPosFullScreenMode
+</script>
+
+;!TB - Fullscreen Cockpit
+<script sc_LaneInfoPosFullScreenMode>
+	runif vFullScreenCockpit 0 'ui_NavigateMapRouteLaneInfo.x 0, ui_NavigateMapRouteLaneInfo.y 0'
+	termif vFullScreenCockpit 0 sc_LaneInfoPosFullScreenMode
+	runif vLaneInfo 1 sc_LaneInfoPosFullScreenModeTop
+	runif vLaneInfo 2 sc_LaneInfoPosFullScreenModeBottom
+</script>
+<script sc_LaneInfoPosFullScreenModeTop>
+	runif vFullScreenNextStreet 1 'ui_NavigateMapRouteLaneInfo.y 0'
+	else_run 'ui_NavigateMapRouteLaneInfo.y -20'
+	runif vFullScreenDiricon 0 'ui_NavigateMapRouteLaneInfo.x -43'
+	else_run 'ui_NavigateMapRouteLaneInfo.x 0'
+</script>
+<script sc_LaneInfoPosFullScreenModeBottom>
+	runif vFullScreenActualStreet 1 'ui_NavigateMapRouteLaneInfo.y 0'
+	else_run 'ui_NavigateMapRouteLaneInfo.y 20'
+	ui_NavigateMapRouteLaneInfo.x 0
+</script>
+
+;!TB - Fullscreen Cockpit
+<script sc_HideFullscreenDiricon>
+	sprNMRCockpit.x -200
+	sprNMCCockpit.x -200
+;!Raffke_jr - removed
+;	sprNMCCockpit_Find.x -200
+;!TB - retain RouteInfo button
+;	btnNMB_RouteInfo.x -200
+	sprNMRDiricon.x -200
+	sprNMRExitNum.x -200
+	sprNMRDiriconDist.x -200
+	sprNMRDiriconUnit.x -200
+	btnNMC_Find.x -200
+	btnNMC_Find1.x -200
+	btnNMC_Find_normal.x -200
+	btnNMC_Find_normal1.x -200
+	btnNMC_Recalc.x -200
+	spr_RecalcAnim.x -200
+	sprNMINextStreetBG.x 0
+	sprNMINextStreetName.x 0
+	sprNMINextStreetName.w 400
+</script>
+
+;!TB - Fullscreen Cockpit
+<script sc_HideNextStreet>
+	sprNMINextStreetBG.HIDE
+	sprNMINextStreetName.HIDE
+	ui_NavigateToggleZoomControls.y -20
+</script>
+
+;!TB - Fullscreen Cockpit
+<script sc_HideActualStreet>
+	sprNMIActualStreetBG.HIDE
+	txtNMCPIStreetName.visiblemodel ""
+	txtNMCPIStreetName.HIDE
+	sprNMIActualStreetName.visiblemodel ""
+	sprNMIActualStreetName.HIDE
+	sprNMIActualHouseNum1.visiblemodel ""
+	sprNMIActualHouseNum2.visiblemodel ""
+	sprNMIActualHouseNum1.HIDE
+	sprNMIActualHouseNum2.HIDE
+	ui_NavigateMapPresetControls2D.y 20
+	ui_NavigateMapPresetControls3D.y 20
+	ui_Lock_Onmap.y 20
+	runif vFullScreenStatus 0 'ui_NavigateMapSpeedLimit.y 20, ui_SpeedCamWarningLayer2.y 20'
+</script>
+
+;!TB - Fullscreen Cockpit
+;!Raffke_jr - corrected values for 8.3.1
+<script sc_HideStatusButton>
+	sprNM_BatteryStatus.y 300
+	sprNM_GPSStatus.y 300
+	vehicle_icon.y 300
+	runif vFullScreenActualStreet 0 'ui_NavigateMapSpeedLimit.y 20, ui_SpeedCamWarningLayer2.y 20'
+
+	sprNMIActualStreetName.x 50
+	sprNMIActualStreetName.w 302
+	sprNMIActualHouseNum1.x 0
+	txtNMCPIStreetName.x 0
+	txtNMCPIStreetName.w 400
+</script>

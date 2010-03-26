@@ -4,25 +4,50 @@
 ;* Look for last version at http://4pda.ru/forum/index.php?showtopic=79587&view=findpost&p=1703505
 ;*************************************************************
 
-;***********************  SCROLBAR TXT  **********************************
-<TEMPLATE txt_st1a1  template=btntext x=15  align="LEFT">
-<TEMPLATE txt_st1a21 template=btntext x=15  w=130 align="LEFT">
-<TEMPLATE txt_st1a22 template=btntext x=150 w=34 align="RIGHT">
-<TEMPLATE txt_st1a31 template=btntext x=15  w=110 align="LEFT">
-<TEMPLATE txt_st1a32 template=btntext x=130 w=34 align="RIGHT">
-<TEMPLATE txt_st1a33 template=btntext x=170 w=24 align="LEFT">
-<TEMPLATE txt_st1b1  template=btntext x=10  w=130 align="LEFT">
-
-;***********************  SCROLLBAR POSITION  ******************************
-;<TEMPLATE scr_st1a                   x=20 bmp="$fable_scrollbg.spr" sprind="$fable_scrollbtn.spr">
-;<TEMPLATE scr_st1b                   x=120 bmp="$fable_scrollbg_small.spr" sprind="$fable_scrollbtn.spr">
-
-;***********************  SPRITE  ******************************
+;***********************  SLIDERS  ******************************
 ;!Raffke_jr - TODO: Fit to new templates
-;<TEMPLATE spr_st1a                    x=4 bmp="lb_.bmp#2">
+<TEMPLATE sld_lb5e       bmp="btn_lb_5e.bmp#3"           align="center" valign="center" fonttype=bw fontsize=14>
 
 ;***********************  BUTTONS  ******************************
-<TEMPLATE btn_lb4e51                bmp="btn_lb_4e.bmp#3"  padding=4 align="center" valign="center" iconalign="CENTER" iconvalign="CENTER" fonttype=bw twolinesmall=1 clicked_coloring=1>
+;!Raffke_jr - renamed to add x values, added z & iconspr, inherited template=btn_lb5e
+;<TEMPLATE btn_lb4e51                bmp="btn_lb_4e.bmp#3"  padding=4 align="center" valign="center" fonttype=bw twolinesmall=1 clicked_coloring=1>
+<TEMPLATE btn_lb5e5   template=btn_lb5e   z=20 iconspr="$speed_cams_transp.spr" iconalign="CENTER" iconvalign="CENTER">
+<TEMPLATE btn_lb5e51  template=btn_lb5e5  x=6  >
+<TEMPLATE btn_lb5e52  template=btn_lb5e5  x=69 >
+<TEMPLATE btn_lb5e53  template=btn_lb5e5  x=132>
+<TEMPLATE btn_lb5e54  template=btn_lb5e5  x=195>
+<TEMPLATE btn_lb5e55  template=btn_lb5e5  x=258>
 
-;***********************  SLIDERS  ******************************
-<TEMPLATE sld_lb5e       bmp="btn_lb_5e.bmp#3"           align="center" valign="center" fonttype=bw fontsize=14>
+;*************************************************************
+
+;!Sib new templates for positions
+<TEMPLATE y_1 y=21> 
+<TEMPLATE y_2 y=57> 
+<TEMPLATE y_3 y=93> 
+<TEMPLATE y_4 y=129> 
+<TEMPLATE y_5 y=165> 
+
+;!Raffke_jr - new templates for scrollbar with 2 text legends (org: txt_csu_legend x=14 w=118 - txt_csu_valunit x=134 w=54 - csuszka_small x=190)
+<TEMPLATE txt_csu2_legend  template=txt_csu_legend          w=60  z=1>
+<TEMPLATE csuszka_2txt     template=csuszka_small    x=133        z=1>
+<TEMPLATE txt_csu2_left    template=txt_csu_legend   x=80   w=50  z=1 align="RIGHT">
+<TEMPLATE txt_csu2_right   template=txt_csu_legend   x=259  w=50  z=1 align="LEFT">
+
+;!Raffke_jr - new template for scrollbar without value (right border from txt_csu_valunit)
+<TEMPLATE txt_csu_label    template=txt_csu_legend          w=174>
+
+;!Raffke_jr - new templates for scrollbar with checkbox (copied from ui_SettingSound)
+<TEMPLATE chk_5a_csu       template=chk_5a                  w=150 >
+<TEMPLATE csuszka_chk      template=csuszka_small    x=160 >
+
+;!Raffke_jr - new templates for 2 columns, 4 rows (copied from ui_SettingRouteParam)
+<TEMPLATE x_4c_1 x=4>
+<TEMPLATE x_4c_2 x=161>
+<TEMPLATE y_4c_1 y=21>
+<TEMPLATE y_4c_2 y=66>
+<TEMPLATE y_4c_3 y=111>
+<TEMPLATE y_4c_4 y=156>
+
+;!Raffke_jr - new templates for route edit
+<TEMPLATE btn_REWP_txt template=tlist_c x=6>
+<TEMPLATE btn_REWP_del template=tlist_d x=202 iconspr="x.bmp#3" text="">

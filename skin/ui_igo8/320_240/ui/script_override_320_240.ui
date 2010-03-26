@@ -3,7 +3,7 @@
 ;****************************************************************************************************************
 
 <script sc_set_UIresolution override>
-    vUIRes.set "320_240"
+	vUIRes.set "320_240"
 </script>  
   
 <script sc_FindAddress_positions_nostate override>
@@ -23,6 +23,7 @@
 </script>
   
 <script sc_ScreenCalibrate override>
-  runif %power.backlight_supported 1 'btn_screen_calibtare.y 129'
-  else_run 'btn_screen_calibtare.y 57'
+;!Raffke_jr - removed reposition
+;	runif %power.backlight_supported 1 'btn_screen_calibtare.y 129'
+;	else_run 'btn_screen_calibtare.y 57'
 </script>

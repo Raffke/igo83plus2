@@ -8,15 +8,15 @@
 
 <layer ui_PlanMode z=50>
 ;!TB - Removed Back, "Start Nav" and "Fit to Screen" buttons
-;	<BUTTON xxx template=backa  onrelease='vPlanModeOn.set 0, PREVSTATE'>
+;	<BUTTON xxx template=backa  onrelease='PREVSTATE'>
 ;
 ;	<BUTTON btnPM_StartNav  template=footer2_2a  text="Start Nav" onrelease='run sc_btnPM_StartNavigation' enabledmodel="navigation.has_route">
 ;	<BUTTON xxx  template=footer2_1a  text="Fit to screen"       onrelease='run sc_FitToScreen_PlanMode'>
 
-;!TB - moved Info Text down by 35 points
+;!TB - 2x moved Info Text down by 34 points
 	<SPRITE xxx  bmp="blackstripe.bmp" x=0 y=248 z=0>
-;!Raffke_jr - Route infos: changed align
-	<TEXT xxx template=txt_map x=0 y=250 w=480 fontsize=14 textmodel_wstr="map.cursorpos.posinfotext" align="CENTER+37">
+;!Raffke_jr - moved right by 74 points to display Route Info
+	<TEXT xxx template=txt_map x=74 y=250 w=406 fontsize=14 textmodel_wstr="map.cursorpos.posinfotext">
 </layer>
 
 <layer ui_PlanModeOpenCloseButtons z=50>
@@ -37,7 +37,7 @@
 	<BUTTON xxx  x=0 y=113 z=0 bmp="$map_zoomout_edge.bmp#2" text=""  align="center-3" valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1  onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0' > 
 
 ;!TB - Added Back button
-	<BUTTON xxx  x=0 y=181 z=0 bmp="$map_prevstate.bmp#2" text="" align="center-3" valign="Bottom-38" fontsize=9 font="tahoma" fonttype=bw clicked_coloring=1 sound="!back" onrelease='vPlanModeOn.set 0, PREVSTATE' onlongclick='vPlanModeOn.set 0, run sc_GoTo_MainMenu' rawkey=27>
+	<BUTTON xxx  x=0 y=181 z=0 bmp="$map_prevstate.bmp#2" text="" align="center-3" valign="Bottom-38" fontsize=9 font="tahoma" fonttype=bw clicked_coloring=1 sound="!back" onrelease='PREVSTATE' onlongclick='vPlanModeOn.set 0, run sc_GoTo_MainMenu' rawkey=27>
 
 ;!TB - Added Cursor, Center Cursor, Fit-to-Screen and Map buttons
 	<BUTTON btnPM_FitScreen x=434 y=35  w=40 z=0  bmp="$map_route_to_screen.bmp#3" text=""           font="tahoma" fontsize=10 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5" onrelease='run sc_FitToScreen_PlanMode' enabledmodel="navigation.has_route">

@@ -2,10 +2,10 @@
 	<BUTTON	btnSC_Type  template=xtxt4 fontsize=14 x=120  y=40  z=0  bmp="$speedcam_bg.bmp#2" text="Camera Type" align="CENTER" valign="BOTTOM-10" onrelease='run sc_SelectCameraType' clicked_coloring=1>
 	<SPRITE sprSC_Type   x=120  y=40  z=1  bmp="$kamerak.spr">
 	
-	<TEXT   txtSC_Speed       template=txt_csu_legend   y=165  text="Camera Speed:">
+	<TEXT   txtSC_Speed       template=txt_csu_legend   y=165 w=118 text="Camera Speed:">
 	<TEXT   txtSC_SpeedValue  template=txt_csu_value    y=165  >
 	<TEXT   txtSC_SpeedUnit   template=txt_csu_unit     y=165  >
-	<TEXT   txtSC_SpeedNo     template=txt_csu_valunit  y=165  text="No Limit" >
+	<TEXT   txtSC_SpeedNo     template=txt_csu_valunit  x=164 y=165 w=67  text="No Limit" >
 ;!Raffke_jr - removed 'blockincrement=_0.0'
 	<HSCROLLBAR hscSC_Speed   template=csuszka          y=165  endsize=0 possiblevalues="0, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130" onchange='run sc_hscSC_Speed_OnChange' endsize=15>
 
@@ -44,16 +44,34 @@
 ;	<TEXT   xxx x=94  y=207 w=28 h=40 z=51 textmodel_wstr="navigation.curr_speedcam.speed_limit.number_text" visiblemodel="navigation.curr_speedcam.speed_limit.valid"  align="CENTER" fontsize=18 font="tahomabd" color=#000000>
 ;	<TEXT   xxx x=94  y=207 w=28 h=40 z=51 text="!"                                                          visiblemodel="!navigation.curr_speedcam.speed_limit.valid" align="CENTER" fontsize=18 font="tahomabd" color=#000000>
 
-	<TEXT    txtSCW_AvgSpeed     template=txt_sec textmodel_wstr="navigation.curr_speedcam.avg_speed.number_text" visiblemodel="navigation.curr_speedcam.avg_speed.valid" align="LEFT" >
-	<TEXT    txtSCW_AvgSpeedUnit template=txt_sec textmodel_wstr="navigation.curr_speedcam.avg_speed.unit_text"   visiblemodel="navigation.curr_speedcam.avg_speed.valid" align="RIGHT">
-	<ALIGNER xxx                 x=1  w=59 align="CENTER" control=txtSCW_AvgSpeed padding=4 control=txtSCW_AvgSpeedUnit>
+	<TEXT    txtSCW_AvgSpeed     template=txt_sec w=39 textmodel_wstr="navigation.curr_speedcam.avg_speed.number_text" visiblemodel="navigation.curr_speedcam.avg_speed.valid">
+	<TEXT    txtSCW_AvgSpeedUnit template=txt_sec w=25 align="LEFT" fontsize=10 color=#bbbbbb textmodel_wstr="navigation.curr_speedcam.avg_speed.unit_text"   visiblemodel="navigation.curr_speedcam.avg_speed.valid">
+	<DIRDISTALIGNER xxx                 x=0  w=64 align="CENTER" control=txtSCW_AvgSpeed padding=4 control=txtSCW_AvgSpeedUnit>
 
-	<TEXT    txtSCW_Distance     template=txt_sec textmodel_wstr="navigation.curr_speedcam.distance.full_text"  visiblemodel="navigation.curr_speedcam.distance.valid" align="CENTER" >
-	;<TEXT    txtSCW_Distance     template=txt_sec textmodel_wstr="navigation.curr_speedcam.distance.number_text"  visiblemodel="navigation.curr_speedcam.distance.valid" align="LEFT" >
-	;<TEXT    txtSCW_DistanceUnit template=txt_sec textmodel_wstr="navigation.curr_speedcam.distance.unit_text"    visiblemodel="navigation.curr_speedcam.distance.valid" align="RIGHT">
-	;<ALIGNER xxx                 x=1  w=59 align="CENTER" control=txtSCW_Distance padding=4 control=txtSCW_DistanceUnit>
+	<TEXT    txtSCW_Distance     template=txt_sec w=44 textmodel_wstr="navigation.curr_speedcam.distance.number_text"  visiblemodel="navigation.curr_speedcam.distance.valid">
+	<TEXT    txtSCW_DistanceUnit template=txt_sec w=15 align="LEFT" fontsize=10 color=#bbbbbb textmodel_wstr="navigation.curr_speedcam.distance.unit_text"    visiblemodel="navigation.curr_speedcam.distance.valid">
+	<DIRDISTALIGNER xxx                 x=0  w=59 align="CENTER" control=txtSCW_Distance padding=4 control=txtSCW_DistanceUnit>
 
 	<SPRITE xxx x=0  y=81 w=77 z=100 bmp="cock_infobg2.bmp" alpha=0 onrelease='run sc_ToggleSpeedcamSound'>
+</layer>
+
+;WP-SpeedcamWarning
+;<layer ui_SpeedCamWarningLayer_wp z=50 visiblemodel="navigation.curr_speedcam.category.valid&warning.speedcam_visualtype!=0&!ui.vOnFlyover">
+<layer ui_SpeedCamWarningLayer_wp z=50 hide>
+	<SPRITE sprSCW_CamType_wp       x=148 y=110 z=10  phasemodel="navigation.curr_speedcam.category" bmp="$speed_cams_big.spr" alpha=30>
+	<SPRITE sprSCW_CamEnterExit_wp  x=148 y=122 z=20  phasemodel="navigation.curr_speedcam.enterexit" bmp="$speed_cam_enterexit.spr">
+
+	<TEXT txtSCW_SpeedLimit_wp      x=105  y=100  w=48 h=40 z=51 textmodel_wstr="navigation.curr_speedcam.speed_limit.number_text" align="CENTER" fontsize=22 font="tahomabd" color2=#FFFFFF glowtype=1 glowsize=3 color=#FF0000>
+
+	<TEXT    txtSCW_AvgSpeed_wp     template=xtxt x=97 y=120 h=20 z=20 textmodel_wstr="navigation.curr_speedcam.avg_speed.number_text" visiblemodel="navigation.curr_speedcam.avg_speed.valid" align="LEFT"  valign="BOTTOM"   fontsize=14 fonttype=buttonlabel_menu  font="tahomabd"  color=#FFFFFF>
+	<TEXT    txtSCW_AvgSpeedUnit_wp template=xtxt x=119 y=142 h=20 z=20 textmodel_wstr="navigation.curr_speedcam.avg_speed.unit_text"   visiblemodel="navigation.curr_speedcam.avg_speed.valid" align="RIGHT" valign="BOTTOM-1" fontsize=10  fonttype=buttonlabel_menu  font="tahomabd" color=#FFFFFF>
+	<DIRDISTALIGNER xxx                 x=91  w=59 align="CENTER" control=txtSCW_AvgSpeed_wp padding=4 control=txtSCW_AvgSpeedUnit_wp >
+
+	<TEXT    txtSCW_Distance_wp     template=xtxt x=120 y=140 h=20 z=20 textmodel_wstr="navigation.curr_speedcam.distance.number_text"  visiblemodel="navigation.curr_speedcam.distance.valid" align="LEFT"  valign="BOTTOM"   fontsize=20 fonttype=buttonlabel_menu  font="tahomabd" color2=#FFFFFF  glowtype=1 glowsize=2 color=#000000>
+	<TEXT    txtSCW_DistanceUnit_wp template=xtxt x=160 y=145 h=20 z=1 textmodel_wstr="navigation.curr_speedcam.distance.unit_text"    visiblemodel="navigation.curr_speedcam.distance.valid" align="RIGHT" valign="BOTTOM-1" fontsize=20  fonttype=buttonlabel_menu  font="tahomabd" color=#000000>
+	<DIRDISTALIGNER xxx                 x=91  w=79 align="CENTER" control=txtSCW_Distance_wp padding=4 control=txtSCW_DistanceUnit_wp >
+
+	<sprite xxx x=100 y=98 z=0 bmp="$wp_warn_sc.bmp" onrelease='run sc_ToggleSpeedcamSound'>
 </layer>
 
 

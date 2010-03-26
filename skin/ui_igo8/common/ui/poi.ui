@@ -821,6 +821,7 @@
 <script sc_ManagePOIEditBack>
 	runif vManageMode 0 'run sc_P_return_to_map 0'
 	else_run 'PREVSTATE'
+	run sc_ManagePoiMyPoiExecute
 </script>
 
 <script sc_ChangeCurrentPoiIcon>
@@ -897,35 +898,35 @@
 ;****************************************************************************************************************
 
 <state st_ModifyPOIPhone>
-  <uselayer ui_Header2/>
-  <uselayer ui_Background/>
-  <uselayer ui_Title/>
-  <uselayer ui_Footer2/>
-  <uselayer ui_ModifyPoiPhone/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_ModifyPoiPhone/>
 
-  <script init>
-	Title.SET "Phone Number Input"
-	LOADPANELTYPE 4
+	<script init>
+		Title.SET "Phone Number Input"
+		LOADPANELTYPE 4
 
-	vTmp.TEXTMODEL_WSTR "poi.current.phone"
-	vInputDest.SET vTmp
-	vTmp.DROPMODEL
+		vTmp.TEXTMODEL_WSTR "poi.current.phone"
+		vInputDest.SET vTmp
+		vTmp.DROPMODEL
 
-	inpMPP_Text.VALUE vInputDest
-	inpMPP_Text.TITLE ""
-	inpMPP_Text.SYNCKBPANEL
+		inpMPP_Text.VALUE vInputDest
+		inpMPP_Text.TITLE ""
+		inpMPP_Text.SYNCKBPANEL
 
-	vKeyTableDone.SET sc_ModifyPOIPhone
-	vInputDoneScript.SET sc_ModifyPOIPhone
-	vInputDoneScriptSet.set 1
+		vKeyTableDone.SET sc_ModifyPOIPhone
+		vInputDoneScript.SET sc_ModifyPOIPhone
+		vInputDoneScriptSet.set 1
 
-	KEY "RETURN" sc_ModifyPOIPhone
-  </script>
-  
-  <script done>
-	KEY "RETURN"
-	local.keyboard.on_close_panel
-  </script>
+		KEY "RETURN" sc_ModifyPOIPhone
+	</script>
+
+	<script done>
+		KEY "RETURN"
+		local.keyboard.on_close_panel
+	</script>
 </state>
 
 <script sc_ModifyPOIPhone>
@@ -974,6 +975,7 @@
 
 <script sc_ManagePOIEditAddress>
 	exec "poi.current.set_address"
+	poi.current.address.ext vPoiExtraInfoSave
 	prevstate
 </script>
 

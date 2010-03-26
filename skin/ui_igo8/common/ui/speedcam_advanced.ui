@@ -16,7 +16,7 @@
 
 ;Radar
     <var vSpeedcam0AlertSound=5 permanent>
-;!Raffke_jr - changed default from "Continuosly" (0)  to  "At 4 intervals" (4)
+;!Raffke_jr - changed default from "Continously" (0)  to  "At 4 intervals" (4)
     <var vSpeedcam0AlertInterval=4 permanent>
 ;!Raffke_jr - changed default to "Off"
     <var bSpeedcam0Beep=0 permanent>
@@ -28,7 +28,7 @@
 
 ;Mobile
     <var vSpeedcam1AlertSound=5 permanent>
-;!Raffke_jr - changed default from "Continuosly" (0)  to  "At 4 intervals" (4)
+;!Raffke_jr - changed default from "Continously" (0)  to  "At 4 intervals" (4)
     <var vSpeedcam1AlertInterval=4 permanent>
 ;!Raffke_jr - changed default to "Off"
     <var bSpeedcam1Beep=0 permanent>
@@ -39,7 +39,7 @@
 
 ;Trafic light with Radar
     <var vSpeedcam2AlertSound=5 permanent>
-;!Raffke_jr - changed default from "Continuosly" (0)  to  "At 4 intervals" (4)
+;!Raffke_jr - changed default from "Continously" (0)  to  "At 4 intervals" (4)
     <var vSpeedcam2AlertInterval=0 permanent>
 ;!Raffke_jr - changed default to "Off"
     <var bSpeedcam2Beep=0 permanent>

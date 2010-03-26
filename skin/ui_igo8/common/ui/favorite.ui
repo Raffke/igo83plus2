@@ -28,7 +28,7 @@
 	ntmp.DROPMODEL		
 	
 ;!TB - 'NEXTSTATE st_Place' replaced by sc_OpenMapAfterFind call
-	runif ntmp 0 'EXEC "mydata.favorites.gotopos", nPlaceStateMode.SET 0, run sc_OpenMapAfterFind'
+	runif ntmp 0 'EXEC "mydata.favorites.gotopos", nPlaceStateMode.SET 0, map.MOVECURSORTOSELECTEDITEM, run sc_OpenMapAfterFind'
 </script>
 
 ;****************************************************************************************************************

@@ -193,8 +193,9 @@
 	
 	<BUTTON btnETMPOIGrList%ID% template=btn_4b_poigr  textmodel_wstr="*.name"  clickmodel="poi.structure.cont_list.setcurrent $i" onrelease='run sc_SelectPOIGroupManage "all"'>
 	<SPRITE xxx x=368 y=9  z=100 bmp="$poi_vis.spr" phasemodel="*.simple_visibility_mode">
+	<SPRITE xxx x=38 y=4 z=101 bmp="$writable.bmp" visiblemodel="*.writeable">
 	<BUTTON xxx template=btn_4d text="Edit" clickmodel="poi.structure.cont_list.setcurrent $i" onrelease='poi.structure.select_child -1, NEXTSTATE st_EditPOIGroup'>
-	<TEXT xxx x=335 w=46 y=34 fontsize=12 align="RIGHT" fonttype=bw font="tahomabd" textmodel_wstr="*.visible_text" watchstate=btnETMPOIGrList%ID%>
+	<TEXT xxx x=0 w=260 y=10 fontsize=12 align="LEFT+94" fonttype=bw font="tahomabd" textmodel_wstr="*.visible_text" watchstate=btnETMPOIGrList%ID%>
 </element_template>
 
 <element_template et_MPOIGroupListMyPoi>
@@ -202,8 +203,9 @@
 		
 	<BUTTON btnETMPOIGrListMyPoi%ID% template=btn_4b_poigr textmodel_wstr="*.name"  clickmodel="poi.struct_search.cont_list.setcurrent $i" onrelease='run sc_SelectPOIGroupManage "mypoi"'>
 	<SPRITE xxx x=368 y=9  z=100 bmp="$poi_vis.spr" phasemodel="*.simple_visibility_mode">
+	<SPRITE xxx x=38 y=4 z=101 bmp="$writable.bmp" visiblemodel="*.writeable">
 	<BUTTON xxx template=btn_4d text="Edit" clickmodel="poi.struct_search.cont_list.setcurrent $i" onrelease='poi.struct_search.select_child -1, NEXTSTATE st_EditPOIGroup'>
-	<TEXT xxx x=335 w=46 y=34 fontsize=12 align="RIGHT" fonttype=bw font="tahomabd" textmodel_wstr="*.visible_text" watchstate=btnETMPOIGrListMyPoi%ID%>
+	<TEXT xxx x=0 w=260 y=10 fontsize=12 align="LEFT+94" fonttype=bw font="tahomabd" textmodel_wstr="*.visible_text" watchstate=btnETMPOIGrListMyPoi%ID%>
 </element_template>
 
 <element_template et_MPOIItemStructuredList>
@@ -259,7 +261,7 @@
 
 	<CHECKBOX xxx template=chk_5a y=130 z=1 text="Also include subGroups" boolmodel="poi.inherit_visibility" enabledmodel="poi.current_group.has_child">
 
-	<SPRITE xxx x=265 y=239  z=15 iconmodel="poi.current_group.icon" iconindex=1>
+	<SPRITE xxx x=273 y=240  z=15 iconmodel="poi.current_group.icon" iconindex=1>
 
 	<BUTTON xxx template=footer3_1a z=10 text="Rename" enabledmodel="poi.current_group.writeable" onrelease='run sc_RenameCurrentPoiGroup'>
 	<BUTTON xxx template=footer3_2a z=10 text="" onrelease='run sc_ChangeCurrentPoiGroupIcon'>
@@ -369,10 +371,10 @@
 	<TEXT   xxx template=btntext x=74 y=110 w=367 align="LEFT" combined_textmodel="$poi.current.phone:<No phone number>$">
 
 ;!TB - Changed enabledmodel
-	<BUTTON xxx template=footer3_2a z=10 text="Call" onrelease='run sc_poicall' enabledmodel="other.phone.available&poi.current.hasphonenumber|ui.vBTCustom&poi.current.hasphonenumber">
+	<BUTTON xxx template=footer3_2a z=10 text="Call" onrelease='run sc_poicall' visiblemodel="other.phone.available&poi.current.hasphonenumber|ui.vBTCustom&poi.current.hasphonenumber">
 
 	<BUTTON xxx template=footer3_3a z=10 text="Select" onrelease='run sc_SelectPOIItem_map'> 
-	<BUTTON xxx template=footer3_1a z=10 text="Edit" enabledmodel="poi.current.writable&!ui.nUserMode" onrelease='run sc_EditPOIItem_WithMode 2'> 
+	<BUTTON xxx template=footer3_1a z=10 text="Edit" visiblemodel="poi.current.writable&!ui.nUserMode" onrelease='run sc_EditPOIItem_WithMode 2'> 
 
 </layer>
 
@@ -386,7 +388,7 @@
 ;**************************************************************
 <layer ui_FindPOISearch z=30>
 	<SPRITE xxx template=xinputfield>
-	<INPUTTEXT inpFPS_Name template=xinput emptytitle="<POI name filter>" onchange='RUN sc_POISearch'>
+	<INPUTTEXT inpFPS_Name template=xinput w=370 emptytitle="<POI name filter>" onchange='RUN sc_POISearch'>
 	<TEXT txtFPS_NumberOf template=txt_results textmodel_str="poi.flat_search.list.size">
 </layer>
 

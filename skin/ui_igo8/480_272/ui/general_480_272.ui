@@ -2,9 +2,10 @@
 	<layer ui_DisableLayer type="disable" z=10000 x=0 y=0>
 	<layer ui_DisableLayer2 type="disable" z=10000 x=0 y=0>
 
-	<layer ui_CreditsScreenXHTML type="xhtml" template=help_text z=25 h=10000 filename="ui_igo8/common/credits.xhtml">
-	<layer ui_LegalScreenXHTML	 type="xhtml" template=help_text z=25 h=20000 filename="i18n/eula.xhtml"			 >
-	<layer ui_SafetyScreenXHTML	 type="xhtml" template=help_text z=25 h=10000 filename="i18n/legal.xhtml"			 >
+	<layer ui_CreditsScreenXHTML type="xhtml" template=help_text z=1025 h=10000 filename="ui_igo8/common/credits.xhtml">
+	<layer ui_LegalScreenXHTML   type="xhtml" template=help_text z=1025 h=20000 filename="i18n/eula.xhtml">
+	<layer ui_SafetyScreenXHTML  type="xhtml" template=help_text z=1025 h=10000 filename="i18n/legal.xhtml">
+	<layer ui_UpdateScreenXHTML  type="xhtml" template=help_text z=1025 h=10000 filename="i18n/naviextras.xhtml">
 </header>
 
 <layer ui_Header z=30>
@@ -24,7 +25,7 @@
 
 <layer ui_Exiting z=35>
 	<SPRITE xxx x=0 y=0 z=1 bmp="ui_igo8/480_272/loading.bmp">	
-	<TEXT xxx x=0 y=250 w=480 z=160 align="RIGHT" text="EXITING, PLEASE WAIT..." FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=16>
+	<TEXT txt_exiting x=0 y=250 w=480 z=160 align="RIGHT" text="EXITING, PLEASE WAIT..." FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=16>
 </layer>
 
 <layer ui_Title z=35>
@@ -91,7 +92,9 @@
 
 <layer ui_ShutdownTimer z=100002 modal>
 	<SPRITE xxx x=0	  y=0	z=5	  bmp="dialog_2_bg.bmp" >
-	<SPRITE xxx template=a_rubber bmp="ui_igo8/common/dialog_qm.spr"  x=100	 y=109	z=10  fxshowdelay=10>
+;!Raffke_jr - corrected strange path
+;	<SPRITE xxx template=a_rubber bmp="ui_igo8/common/dialog_qm.spr"  x=100	 y=109	z=10  fxshowdelay=10>
+	<SPRITE xxx template=a_rubber bmp="$dialog_qm.spr"  x=100	 y=109	z=10  fxshowdelay=10>
 	<SPRITE spr_sdtmsg_bg x=0 y=0 z=1 bmp="ui_igo8/480_272/default.bmp">	
 
 	<TEXT	xxx		 x=130	y=60  z=31	w=280 h=90 textmodel_wstr="power.shutdown_timer_text" valign="CENTER" align="LEFT" FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=18 wordwrap=3>
@@ -104,12 +107,20 @@
 <layer ui_About z=30>
 	<SPRITE xxx bmp="xhtml_bg.bmp" x=5 y=22 z=0 w=470 align="CENTER">
 
-	<SPRITE sprAbout_Logo		x=0 y=30  w=480 z=0	 align="CENTER" bmp="logo.bmp">
-	<TEXT	txtAbout_Release	x=0 y=136 w=480 h=20 align="CENTER" text="$release$"						font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS>
-	<TEXT	txtAbout_Buildnum	x=0 y=151 w=480 h=20 align="CENTER" text="$buildnum$"						font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS>
-	<TEXT	txtAbout_Date		x=0 y=166 w=480 h=20 align="CENTER" text="$date$"							font="tahoma"	fontsize=11 fonttype=buttonlabel1 REPLACETAGS>
-	<TEXT	txtAbout_WebInfo	x=0 y=181 w=480 h=20 align="CENTER" text="<Web Address> | <Support E-mail>" font="tahomabd" fontsize=11 fonttype=buttonlabel2>
-	<TEXT	txtAbout_Copyright	x=0 y=196 w=480 h=20 align="CENTER" text="$copyright$"						font="tahoma"	fontsize=11 fonttype=buttonlabel1 REPLACETAGS>
+	<SPRITE sprAbout_Logo       x=0 y=30  w=480 z=0  align="CENTER" bmp="logo.bmp" visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Release    x=0 y=136 w=480 h=20 align="CENTER" text="$release$"                        font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Buildnum   x=0 y=151 w=480 h=20 align="CENTER" text="$buildnum$"                       font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Date       x=0 y=166 w=480 h=20 align="CENTER" text="$date$"                           font="tahoma"   fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_WebInfo    x=0 y=181 w=480 h=20 align="CENTER" text="<Web Address> | <Support E-mail>" font="tahomabd" fontsize=11 fonttype=buttonlabel2 visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Copyright  x=0 y=196 w=480 h=20 align="CENTER" text="$copyright$"                      font="tahoma"   fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
+     
+	<SPRITE xxx  x=0 y=30  w=320 z=0  align="CENTER" bmp="logo.bmp" visiblemodel="ui.vGetUpdates">
+	<TEXT   xxx  x=0 y=136 w=320 h=20 align="CENTER" text="$release$"                        font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="ui.vGetUpdates">
+	<TEXT   xxx  x=0 y=151 w=320 h=20 align="CENTER" text="$buildnum$"                       font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="ui.vGetUpdates">
+	<TEXT   xxx  x=0 y=166 w=320 h=20 align="CENTER" text="$date$"                           font="tahoma"   fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="ui.vGetUpdates">
+	<TEXT   xxx  x=0 y=181 w=320 h=20 align="CENTER" text="<Web Address> | <Support E-mail>" font="tahomabd" fontsize=11 fonttype=buttonlabel2 visiblemodel="ui.vGetUpdates">
+	<TEXT   xxx  x=0 y=196 w=320 h=20 align="CENTER" text="$copyright$"                      font="tahoma"   fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="ui.vGetUpdates">    
+	<BUTTON xxx  template=dialog3_2 x=300 y=100  text="Get updates" onrelease='NEXTSTATE st_AboutUpdate' visiblemodel="ui.vGetUpdates">        
 
 	<BUTTON	 xxx  template=footer4_1a  text="Maps"	  onrelease='NEXTSTATE st_AboutMaps'>
 	<BUTTON	 xxx  template=footer4_2a  text="Credits" onrelease='NEXTSTATE st_AboutCredits'>
@@ -134,7 +145,7 @@
 
 <layer ui_AboutMapDetails orientation="L2R" font="tahomabd" fontsize=18 z=300 x=25 y=0 w=480 h=272>
 	<SPRITE xxx	  bmp="xhtml_bg.bmp" x=4 y=21 z=2>
-  <TEXT xxx				  x=65 y=40	 w=55  h=20 text="File:" align="LEFT" font="tahomabd" fontsize=14 fonttype=buttonlabel1>
+	<TEXT xxx				  x=65 y=40	 w=55  h=20 text="File:" align="LEFT" font="tahomabd" fontsize=14 fonttype=buttonlabel1>
 	<TEXT xxx				x=65 y=60  w=55	 h=20 text="Size:" align="LEFT" font="tahomabd" fontsize=14 fonttype=buttonlabel1>
 	<TEXT txtAMD_MapFile	x=125 y=40	w=280 h=20 text="" align="LEFT" font="tahoma" fontsize=14 fonttype=buttonlabel1>
 	<TEXT txtAMD_MapSize	x=125 y=60	w=280 h=20 text="" align="LEFT" font="tahoma" fontsize=14 fonttype=buttonlabel1>
@@ -158,8 +169,8 @@
 </element_template>
 
 <layer ui_AboutLicenses z=30>
-  <LIST lst_Licenses template=tlist element_template="et_License" listmodel="other.license.list">
-  <BUTTON  xxx	template=footer2_1a	 text="SWID" onrelease='run sc_ShowSWID'>
+	<LIST lst_Licenses template=tlist element_template="et_License" listmodel="other.license.list">
+	<BUTTON  xxx	template=footer2_1a	 text="SWID" onrelease='run sc_ShowSWID'>
 	<BUTTON xxx template=prevpage clickmodel="ui.lst_Licenses.prevpage" enabledmodel="ui.lst_Licenses.prevpage.valid" template="slow_repeat">
 	<BUTTON xxx template=nextpage clickmodel="ui.lst_Licenses.nextpage" enabledmodel="ui.lst_Licenses.nextpage.valid" template="slow_repeat">
 	<TEXT xxx template=pageindex  textmodel_wstr="ui.lst_Licenses.page_counter">

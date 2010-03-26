@@ -67,6 +67,40 @@
 
 <script sc_findpath_error>
 	INITMESSAGEBOX 0 $1
+	termif $2 1
+	runif %route.itiner.list.isempty 1 sc_DeleteIsolatedWaypoint
+</script>
+
+<script sc_DeleteIsolatedWaypoint>
+	1 navigation.waypoints.ignore_startfromgps_waypoint 0
+	goto 2
+	2 run sc_DeleteIsolatedWaypoint_listforeach
+	vtmp.boolexpr "navigation.waypoints.has_isolated_waypoint&navigation.waypoints.list.size > 1&!ui.vDeleteError"
+	vtmp.dropmodel
+	runif vtmp 1 'goto 2 sc_DeleteIsolatedWaypoint'
+</script>
+
+;!Raffke_jr - removed unsupported syntax for Builds < 8.3.2
+;  $1 = %*.as_start_isolated
+;  $2 = %*.as_end_isolated
+;  $3 = $i
+<script sc_DeleteIsolatedWaypoint_listforeach_831hack>
+	runif $1 0 ''
+	else_runif $2 1 'incval "ntmp"'
+	runif ntmp 1 'vWaypointslistindex.set $3, ntmp.set 2'
+</script>
+
+<script sc_DeleteIsolatedWaypoint_listforeach>
+	vDeleteError.set 0
+	ntmp.set 0
+	vWaypointslistindex.set -1
+;!Raffke_jr - removed unsupported syntax for Builds < 8.3.2
+;	LIST_FOREACH "navigation.waypoints.list" 'runif %*.as_start_isolated 0 \'\', else_runif %*.as_end_isolated 1 \'incval "ntmp"\', runif ntmp 1 \'vWaypointslistindex.set $i, ntmp.set 2\''
+	LIST_FOREACH "navigation.waypoints.list" 'run sc_DeleteIsolatedWaypoint_listforeach_831hack %*.as_start_isolated %*.as_end_isolated $i'
+	navigation.waypoints.list.setcurrent vWaypointslistindex
+	runif vWaypointslistindex > 0 'navigation.waypoints.delete_current'
+	else_run 'vDeleteError.set 1'
+	runif vWaypointslistindex -1 'deleteroute'
 </script>
 
 <script sc_KeyCandidateSelected>
@@ -83,6 +117,11 @@
 
 	<script init>
 		Title.SET "About"
+;!Raffke_jr - replace WebInfo by skin credits ;-)
+;		txtAbout_WebInfo.text "iGO Plus² Skin  -  (C) 2008 Raffke_jr@gulli.com"
+		vTmp.combined_textmodel "$wstr:screen.theme.list.current.name$  -  (C) 2008 Raffke_jr@gulli.com"
+		vTmp.dropmodel
+		txtAbout_WebInfo.text vTmp
 	</script>
 </state>
 
@@ -181,6 +220,26 @@
 	<script init>
 		Title.SET "EULA"
 		run sc_ScrollingLayerInit ui_LegalScreenXHTML 1
+	</script>
+	
+	<script done>
+		run sc_ScrollingLayerDone
+	</script>
+</state>
+
+;****************************************************************************************************************
+
+<state st_AboutUpdate>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_ScrollButtons/>
+	<uselayer ui_UpdateScreenXHTML/>
+
+	<script init>
+		Title.SET "Get updates"
+		run sc_ScrollingLayerInit ui_UpdateScreenXHTML 1
 	</script>
 	
 	<script done>
@@ -293,3 +352,40 @@
 	runif $1 1 'vUseGestures.SET 0'
 </script>
 
+; =================== Simple Location API / SMS Buddy ===================
+
+<script sc_OnIncomingPosition>
+	vTmp.combined_textmodel "$other.fleet_mgmt.sender$: $other.fleet_mgmt.message:Sent Position$"
+	vTmp.dropmodel
+	vTmp2.combined_textmodel "$other.fleet_mgmt.sender$: $other.fleet_mgmt.message:Sent Position$ \n$other.fleet_mgmt.address:Unknown address.$"
+	vTmp2.dropmodel
+	mydata.history.create_item %other.fleet_mgmt.position_lat %other.fleet_mgmt.position_lon vTmp vTmp2
+
+	runif %other.fleet_mgmt.source "SMS" 'run sc_OnIncomingSmsPosition'
+	else_run 'run sc_OnIncomingExtPosition'
+</script>
+  
+<script sc_OnIncomingSmsPosition>
+	vTmp.combined_textmodel "Position received from $other.fleet_mgmt.sender$.\n$other.fleet_mgmt.message$: $other.fleet_mgmt.address:Unknown address$.\nDo you want to check it now?"
+	vTmp.dropmodel
+	INITMESSAGEBOX 2 vTmp 'run sc_OnIncomingPosAccept' 'run sc_OnIncomingPosCancel'
+</script>
+  
+<script sc_OnIncomingExtPosition>
+	vTmp.combined_textmodel "Position received from $other.fleet_mgmt.sender$.\n$other.fleet_mgmt.address:Unknown address$.\nDo you want to check it now?"
+	vTmp.dropmodel
+	INITMESSAGEBOX 2 vTmp 'run sc_OnIncomingPosAccept' 'run sc_OnIncomingPosCancel'
+</script>
+
+<script sc_OnIncomingPosAccept>
+	SELECT_HISTORY 0
+	map.MOVECURSORTOSELECTEDITEM
+	nPlaceStateMode.SET 0
+	NEXTSTATE st_Place
+</script>
+
+<script sc_OnIncomingPosCancel>
+	INITMESSAGEBOX 0 "The received position has been saved to your History."
+</script>
+
+<observer obs_onincomingposition event="fleet_mgmt_incoming_position" onchange='run sc_OnIncomingPosition' start="NO_TRIGGER">

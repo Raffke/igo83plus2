@@ -39,9 +39,9 @@
 </layer>
 
 <layer ui_PlaceBasic_POS z=30>
-	<button xxx        x=290 y=0   z=0 bmp="main_bg2.bmp" nosound>
+	<button xxx        x=266 y=0   z=0 bmp="main_bg2.bmp" nosound>
 	<SPRITE xxx        x=80  y=239 z=1 bmp="foot_320.bmp" alpha=32 onclick=''>
-	<BUTTON xxx       template=btnmapmenu valign="center" align="CENTER+10" bmp="btn_mapmenu1.bmp#2" x=310 y=65 z=10 text="Add to\nFavourites"       iconspr="ico_fav_add.bmp"  iconalign="LEFT+4" iconvalign="CENTER+2" onrelease='run sc_btnPM_Favorite_OnRelease'>
+	<BUTTON xxx       template=btnmapmenu valign="center" align="CENTER+10" bmp="btn_mapmenu1.bmp#2" x=298 y=65 z=10 text="Add to\nFavourites"       iconspr="ico_fav_add.bmp"  iconalign="LEFT+4" iconvalign="CENTER+2" onrelease='run sc_btnPM_Favorite_OnRelease'>
 	<BUTTON xxx       template=footer2_2a text="Info" onrelease='run sc_btnPA_Info_OnRelease'>
 </layer>
 
@@ -82,9 +82,9 @@
 	<BUTTON btnPM_POS_AddPoi           template=btn_4c_icon_place text="Add POI"          y=20  iconspr="ico_poi_add.bmp"       onrelease='run sc_btnPM_AddPoi_OnRelease'>
 	<BUTTON btnPM_POS_AddPin           template=btn_4c_icon_place text="Add Pin"          y=73  iconspr="ico_pin_add.bmp"       onrelease='run sc_btnPM_AddPin_OnRelease'>
 	<BUTTON btnPM_POS_RemovePin        template=btn_4c_icon_place text="Remove Pin"       y=73  iconspr="ico_pin_rem.bmp"       onrelease='run sc_btnPM_RemovePin_OnRelease'>
-	<BUTTON btnPM_POS_AddCam           template=btn_4c_icon_place text="Add SpeedCam"     y=179  iconspr="ico_speedcam_add.bmp"  onrelease='run sc_btnPM_AddCam_OnRelease' enabledmodel="warning.speedcams_allowed">
-	<BUTTON btnPM_POS_EditCam          template=btn_4c_icon_place text="Edit SpeedCam"    y=179  iconspr="ico_speedcam_edit.bmp" onrelease='run sc_btnPM_EditCam_OnRelease' enabledmodel="warning.speedcams_allowed">
-	<BUTTON	btnPM_POS_Favorite         template=btn_4c_icon_place text="Add to Favorites" y=126  iconspr="ico_fav_add.bmp"       onrelease='run sc_btnPM_Favorite_OnRelease'>
+	<BUTTON btnPM_POS_AddCam           template=btn_4c_icon_place text="Add SpeedCam"     y=126  iconspr="ico_speedcam_add.bmp"  onrelease='run sc_btnPM_AddCam_OnRelease' enabledmodel="warning.speedcams_allowed">
+	<BUTTON btnPM_POS_EditCam          template=btn_4c_icon_place text="Edit SpeedCam"    y=126  iconspr="ico_speedcam_edit.bmp" onrelease='run sc_btnPM_EditCam_OnRelease' enabledmodel="warning.speedcams_allowed">
+	<BUTTON	btnPM_POS_Favorite         template=btn_4c_icon_place text="Add to Favorites" y=179  iconspr="ico_fav_add.bmp"       onrelease='run sc_btnPM_Favorite_OnRelease'>
 </layer>    
 
 <layer ui_MultiRoute z=30>
