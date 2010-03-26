@@ -101,7 +101,7 @@ import "ui_igo8/320_240/ui/speedcam_setting_320_240.ui"
 	<TEXT       xxx                 template=txt_csu_legend  template=y_4  z=1 text="Filter Intensity" enabledmodel="ui.bUseColorFilter">
 	<SPRITE     spr_bgtestmapNF     bmp="$bg_test_mapnf.bmp" x=177 y=138  z=1 visiblemodel="ui.bUseColorFilter">
 	<SPRITE     spr_bgtestNF        bmp="$bg_test_nf.bmp"    x=177 y=138  z=2 alpha="ui.bUseColorFilter" visiblemodel="ui.bUseColorFilter">
-	<HSCROLLBAR hsc_colorFilter     template=csuszka         template=y_4  z=1 endsize=0 blockincrement=_0.0 possiblevalues="6,8,10,12,14,16,18,20,22" valuemodel="ui.vColorFilterValue" onchange='run sc_hsr_colorFilter_change' enabledmodel="ui.bUseColorFilter">
+	<HSCROLLBAR hsc_colorFilter     template=csuszka         template=y_4  z=1 endsize=0 blockincrement=_0.0 possiblevalues="6,8,10,12,14,16,18,20,22,24,26,28" valuemodel="ui.vColorFilterValue" onchange='run sc_hsr_colorFilter_change' enabledmodel="ui.bUseColorFilter">
 
 	<BUTTON xxx  template=prevpage  onrelease='ui_SettingsVisualAdvanced2.HIDE, ui_SettingsVisualAdvanced.SHOW, vMapSettingsActPage.SET 1'>
 	<BUTTON xxx  template=nextpage  onrelease='' DISABLE>
