@@ -1866,8 +1866,10 @@
 	runif vAddFromDoneScript 0 'run st_Place_enter, NEXTSTATE st_Place'
 ;!Raffke_jr - return to PlanMode
 ;	else_runif vAddFromDoneScript 1 'vAddFromDoneScript.set 0, CLEARTOSTATE st_PlanMode, run sc_btnPMB_FitToCursor_PlanMode'
-	else_runif vAddFromDoneScript 1 'CLEARTOMARKER vSaveAs_Marker, ADDSELECTEDITEMTOHISTORY, vAddFromDoneScript.set 0, run sc_btnPMB_FitToCursor_PlanMode'
-	else_run 'map.MOVECURSORTOSELECTEDITEM, run sc_StartPointOnMap2'
+	else_runifnot vAddFromDoneScript 1 'map.MOVECURSORTOSELECTEDITEM, run sc_StartPointOnMap2'
+;!Raffke_jr - support for "other.becker.quicklist"
+	else_runif bBeckerQuicklist 1 'CLEARTOMARKER vSaveAs_Marker, other.becker.quicklist.enable_next_add 1, ADDSELECTEDITEMTOHISTORY, vAddFromDoneScript.set 0, run sc_btnPMB_FitToCursor_PlanMode'
+	else_run 'CLEARTOMARKER vSaveAs_Marker, ADDSELECTEDITEMTOHISTORY, vAddFromDoneScript.set 0, run sc_btnPMB_FitToCursor_PlanMode'
 </script>
 
 

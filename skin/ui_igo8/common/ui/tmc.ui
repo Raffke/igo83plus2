@@ -6,7 +6,7 @@
 	<var vTMCAudioAnnounceNeeded=1>
 ;!Matze - TMC announcement auto update
 	<var vTMCAutoUpdateNeeded=1>
-
+	<var vTMCAutoUpdateActive=0>
 </header>
 
 ;!Raffke_jr - TODO: how to use the following:
@@ -83,6 +83,7 @@
 	
 	<script init>
 		title.set "Traffic events"
+		vTMCAutoUpdateActive.set 1
 		.tmc.events.auto_update 1
 		.tmc.events.split_location_at 40
 		run sc_TMC_ListElementChanged
@@ -95,6 +96,7 @@
 
 	<script done>
 		runif vClearNewMessages 1 'EXEC "tmc.events.set_none_new"'
+		vTMCAutoUpdateActive.set 0
 		.tmc.events.auto_update 0
 	</script>
 </state>
@@ -268,8 +270,13 @@
 <script sc_TMC_Auto_Update_Timered>
 	vTMCAutoUpdateNeeded.set 0
 ;	vTMCAudioAnnounceNeeded.set 0
-	15000 vTMCAutoUpdateNeeded.set 1
-	EXEC "tmc.events.refresh"
+
+;!Raffke_jr - reduced from 5 minutes (15000) to 20 seconds
+	1000 vTMCAutoUpdateNeeded.set 1
+;!Raffke_jr - changed to also refresh tmc.events.announced_events
+;	EXEC "tmc.events.refresh"
+	.tmc.events.auto_update 1
+	runif vTMCAutoUpdateActive 0 '.tmc.events.auto_update 0'
 </script>
 
 <script sc_TMC_Audio_Announce>
@@ -500,7 +507,8 @@
 	
 	<script init>	
 		title.set ""
-		.tmc.events.auto_update 1	
+		vTMCAutoUpdateActive.set 1
+		.tmc.events.auto_update 1
 		; Map properties
 		run sc_FullScreenMap
 		map.mapmode 1
@@ -522,6 +530,7 @@
 	<script done>
 ;!Raffke_jr - now restore .tmc.events.filter_offroute when called from announcement
 		runif vTMCMapFromAnnounce 1 'run sc_TmcUpdateCockpitStatus'
+		vTMCAutoUpdateActive.set 0
 		.tmc.events.auto_update 0
 		map.EnableMoveCursorByClick 1
 		map.SETCARPOSITION 0 0

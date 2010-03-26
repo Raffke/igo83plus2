@@ -38,7 +38,8 @@
 	<TEXT xxx x=60 y=30 w=250 h=50 text="Select from the following possibilties\nto find a place you want to navigate to." font="tahoma" color=#ffffff fontsize=12 valign="CENTER" align="LEFT">
 
 	<BUTTON xxx               template=menu6_2 iconspr="ico_basicmain_address.bmp"   fxshowdelay=0   text="Find Address"    onrelease='NEXTSTATE st_FindAddress'> 
-	<BUTTON xxx               template=menu6_5 iconspr="ico_find_history.bmp"   	 fxshowdelay=15  text="Recent\nPlaces"  onrelease='run sc_FindHistory'  enabledmodel="!mydata.history.list.isempty">
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	<BUTTON xxx               template=menu6_5 iconspr="ico_find_history.bmp"   	 fxshowdelay=15  text="Recent\nPlaces"  onrelease='run sc_FindHistory'  enabledmodel="!ui.bHistoryIsEmpty">
 	<BUTTON xxx               template=menu6_3 iconspr="ico_basicmain_poi.bmp"	     fxshowdelay=5   text="Find POI"        onrelease='run sc_FindPOI'>
 	<BUTTON xxx               template=menu6_6 iconspr="ico_find_favorites.bmp"   	 fxshowdelay=10  text="My\nFavorites"   onrelease='run sc_FindFavorite' enabledmodel="!mydata.favorites.isempty">
                                           

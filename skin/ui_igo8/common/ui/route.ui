@@ -38,6 +38,11 @@
 	else_run 'INITMESSAGEBOX 0 vTmp'
 </script>
 
+;!Raffke_jr - new script to go to RouteSettings
+<script sc_sprRI_Info_OnLongClick>
+	runif vOnFlyover 0 'NEXTSTATE st_SettingRoute'
+</script>
+
 <script sc_btnRI_Simulate_or_FlyOver_OnRelease>
 	run sc_DisableGestures 1
 
@@ -466,6 +471,8 @@
 </script>
 
 <script sc_RouteEdit_AddWaypoint>
+;!Raffke_jr - support for "other.becker.quicklist"
+	runif bBeckerQuicklist 1 'other.becker.quicklist.enable_next_add 1'
 	ADDSELECTEDITEMTOHISTORY
 	vTmp.set %navigation.waypoints.list.index
 	.navigation.waypoints.add_after

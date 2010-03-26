@@ -359,7 +359,9 @@
 	vTmp.dropmodel
 	vTmp2.combined_textmodel "$other.fleet_mgmt.sender$: $other.fleet_mgmt.message:Sent Position$ \n$other.fleet_mgmt.address:Unknown address.$"
 	vTmp2.dropmodel
-	mydata.history.create_item %other.fleet_mgmt.position_lat %other.fleet_mgmt.position_lon vTmp vTmp2
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	runif bBeckerQuicklist 1 'other.becker.quicklist.create_item %other.fleet_mgmt.position_lat %other.fleet_mgmt.position_lon vTmp vTmp2'
+	else_run                 'mydata.history.create_item %other.fleet_mgmt.position_lat %other.fleet_mgmt.position_lon vTmp vTmp2'
 
 	runif %other.fleet_mgmt.source "SMS" 'run sc_OnIncomingSmsPosition'
 	else_run 'run sc_OnIncomingExtPosition'

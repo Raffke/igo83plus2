@@ -440,12 +440,16 @@ import "ui_igo8/480_234/ui/speedcam_setting_480_234.ui"
 	<SLIDER sldSR_RouteCalcMethod  template=sld_5a	 template=y_3  value="Fastest|FAST|Shortest|SHORT|Economic|ECO|Easy|SIMPLE|Scenic/Panoramic_View|SCENIC" var=vRouteType>
 	<TEXT   xxx                    template=txt_sld  template=y_3  text="Route Calculation Method" watchstate=sldSR_RouteCalcMethod>
 
-;!Raffke_jr - removed visiblemodel and enabledmodel
-	<CHECKBOX xxx                  template=chk_5a   template=y_4  text="Use traffic information" boolmodel="!tmc.ignore_all_events" onrelease='run sc_UseTrafficInfoOnRelease'>
+;!Raffke_jr - removed visiblemodel and enabledmodel, changed from template chk_5a to include advanced settings
+	<CHECKBOX xxx                  template=chk_5b   template=y_4  text="Use traffic information" boolmodel="!tmc.ignore_all_events" onrelease='run sc_UseTrafficInfoOnRelease'>
 
-;!Raffke_jr - merged enabledmodel to visiblemodel 2x
-	<SLIDER sldTMCS_RecalcToAvoid  template=sld_5a   template=y_5  var=vTmcReplanMode value="Auto replan|AUTO|Manual|ASK|No replan|OFF" onselect='run sc_TmcReplanChanged' visiblemodel="tmc.present&!tmc.ignore_all_events">
-	<TEXT   xxx                    template=txt_sld  template=y_5  text="Recalculate to avoid traffic:" watchstate=sldTMCS_RecalcToAvoid visiblemodel="tmc.present&!tmc.ignore_all_events">  
+;!Raffke_jr - moved to ui_TmcSettings and replaced by "..."
+;	<SLIDER sldTMCS_RecalcToAvoid  template=sld_5a   template=y_5  var=vTmcReplanMode value="Auto replan|AUTO|Manual|ASK|No replan|OFF" onselect='run sc_TmcReplanChanged' visiblemodel="tmc.present&!tmc.ignore_all_events">
+;	<TEXT   xxx                    template=txt_sld  template=y_5  text="Recalculate to avoid traffic:" watchstate=sldTMCS_RecalcToAvoid visiblemodel="tmc.present&!tmc.ignore_all_events">  
+	<BUTTON xxx                    template=btn_5d   template=y_4  text="..."  onrelease='NEXTSTATE st_TmcSettings' enabledmodel="!tmc.ignore_all_events">
+
+;!Raffke_jr - new checkbox to switch histspeed
+	<CHECKBOX btnSR_HistSpeed      template=chk_5a   template=y_5  text="Use traffic patterns" boolmodel="route.histspeed.enabled">
 
 ;!TB - Commented out, and moved to advanced settings
 ;	<TEXT	xxx                   template=xtxt     x=0   y=93  text="U-turn penalty:" hide>  
@@ -453,10 +457,9 @@ import "ui_igo8/480_234/ui/speedcam_setting_480_234.ui"
 ;	<TEXT txtSR_UTurn             template=xtxt     x=270 y=93  align="RIGHT" hide>
 
 ;!TB MR - Button for Route Advanced Settings
-;!Raffke_jr - changed template and bmp to move right
-	<BUTTON xxx  template=footer4_1a bmp="foot_1_1a.bmp" text="Advanced Settings" onrelease='NEXTSTATE st_SettingRouteAdvanced'>
-
-	<BUTTON xxx  template=footer3_3a    text="Help" onrelease='NEXTSTATE st_HelpSettingRoute'> 
+	<BUTTON xxx  template=footer1_1a    text="Advanced Settings" onrelease='NEXTSTATE st_SettingRouteAdvanced'>
+;!Matze - changed template
+	<BUTTON xxx  template=footer4_4a    text="Help" onrelease='NEXTSTATE st_HelpSettingRoute'> 
 </layer>
 
 

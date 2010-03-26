@@ -10,11 +10,12 @@
 	<TEXT xxx            template=xtxt x=208  y=110 w=110 z=1 text="Method"       color=#FFFFFF alpha=25 fontsize=10>
 	<TEXT txtRI_DestType template=xtxt x=50   y=44  w=80 >
 
-	<SPRITE sprRI_Info1  x=80  y=175 bmp="$ico_route_info.spr" onclick='run sc_sprRI_Info_OnClick 0'>
-	<SPRITE sprRI_Info2  x=140 y=175 bmp="$ico_route_info.spr" onclick='run sc_sprRI_Info_OnClick 1'>
-	<SPRITE sprRI_Info3  x=200 y=175 bmp="$ico_route_info.spr" onclick='run sc_sprRI_Info_OnClick 2'>
-	<SPRITE sprRI_Info4  x=260 y=175 bmp="$ico_route_info.spr" onclick='run sc_sprRI_Info_OnClick 3'>
-	<SPRITE sprRI_Info5  x=320 y=175 bmp="$ico_route_info.spr" onclick='run sc_sprRI_Info_OnClick 4'>
+;!Raffke_jr - 5x changed onclick to onrelease and added onlongclick to change settings
+	<SPRITE sprRI_Info1  x=80  y=175 bmp="$ico_route_info.spr" onrelease='run sc_sprRI_Info_OnClick 0' onlongclick='run sc_sprRI_Info_OnLongClick'>
+	<SPRITE sprRI_Info2  x=140 y=175 bmp="$ico_route_info.spr" onrelease='run sc_sprRI_Info_OnClick 1' onlongclick='run sc_sprRI_Info_OnLongClick'>
+	<SPRITE sprRI_Info3  x=200 y=175 bmp="$ico_route_info.spr" onrelease='run sc_sprRI_Info_OnClick 2' onlongclick='run sc_sprRI_Info_OnLongClick'>
+	<SPRITE sprRI_Info4  x=260 y=175 bmp="$ico_route_info.spr" onrelease='run sc_sprRI_Info_OnClick 3' onlongclick='run sc_sprRI_Info_OnLongClick'>
+	<SPRITE sprRI_Info5  x=320 y=175 bmp="$ico_route_info.spr" onrelease='run sc_sprRI_Info_OnClick 4' onlongclick='run sc_sprRI_Info_OnLongClick'>
 
 	<TEXT txtRI_DestAddress template=xtxt3 x=135   y=43  w=208 font="tahomabd" color=#FFFFFF fontsize=12 align="LEFT">
 
@@ -22,8 +23,8 @@
 	<TEXT txtRI_TimeLeft    template=xtxt3 x=73  y=123 w=117 font="tahomabd" color=#FFFFFF align="RIGHT">
 	<TEXT txtRI_Arrive      template=xtxt3 x=73  y=83  w=117  font="tahomabd" color=#FFFFFF align="RIGHT">
 	<TEXT txtRI_Method      template=xtxt3 x=230 y=123 w=117 font="tahomabd" color=#FFFFFF align="RIGHT">
-;!Raffke_jr - new invisible button, MultiplanDest on Longclick
-	<BUTTON btn_RI_Method x=200 y=107 z=100 alpha=0 text="" bmp="btn_route_method.bmp" onRelease='run sc_btn_RI_Method_OnRelease' onlongclick='run btnPMP_MultiplanDest_OnRelease' visiblemodel="!ui.vOnFlyover">
+;!Raffke_jr - new invisible button
+	<SPRITE btn_RI_Method x=200 y=107 z=100 bmp="btn_route_method.bmp" alpha=0 onrelease='run sc_btn_RI_Method_OnRelease' onlongclick='NEXTSTATE st_SettingRoute' visiblemodel="!ui.vOnFlyover">
 	<TEXT txtRI_Stops hide>
 
 ;!Matze - replaced "Settings" by new button for multiroute

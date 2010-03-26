@@ -130,7 +130,8 @@ import "ui_igo8/480_272/ui/templates_advanced_480_272.ui"
 	<TEMPLATE footer3_2a  template=footera bmp="foot_3_a.bmp" x=224 >
 	<TEMPLATE footer3_3a  template=footera bmp="foot_3_a.bmp" x=352 >
 
-	<TEMPLATE footer1_1a  template=footera bmp="foot_1_1a.bmp" x=0 >
+;!Matze - changed x from 0
+	<TEMPLATE footer1_1a  template=footera bmp="foot_1_1a.bmp" x=96 >
 							
 	<TEMPLATE footer2_1a  template=footera bmp="foot_2_a.bmp" x=96  >
 	<TEMPLATE footer2_2a  template=footera bmp="foot_2_a.bmp" x=288 >

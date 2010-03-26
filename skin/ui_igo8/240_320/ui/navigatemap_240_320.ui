@@ -223,7 +223,7 @@ import "ui_igo8/240_320/ui/navigate_speed_240_320.ui"
 ;!Raffke_jr - 2x removed w/align to support ALIGNER and replaced DIRDISTALIGNER
 	<TEXT DistanceToManuverDist template=txt_sec  textmodel_wstr="navigation.secondary_distance_to_manuver_diff.number_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&!ui.vFullScreenCockpit">
 	<TEXT DistanceToManuverUnit template=txt_sec  color=#bbbbbb  fontsize=10 textmodel_wstr="navigation.secondary_distance_to_manuver_diff.unit_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&!ui.vFullScreenCockpit">
-	<ALIGNER xxx x=0 w=50 align="CENTER" control=DistanceToManuverDist padding=4 control=DistanceToManuverUnit>
+	<ALIGNER xxx x=80 w=50 align="CENTER" control=DistanceToManuverDist padding=4 control=DistanceToManuverUnit>
 </layer>
 
 ;!TB - New layer for LaneInfo

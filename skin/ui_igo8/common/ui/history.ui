@@ -1,9 +1,11 @@
 ;****************************************************************************************************************
 
 <script sc_FindHistory>
-	mydata.history.list.index 0
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	runif bBeckerQuicklist 1 'other.becker.quicklist.list.index 0'
+	else_run                 'mydata.history.list.index 0'
 	.map.store_cursor_pos
-    NEXTSTATE st_FindHistory
+	NEXTSTATE st_FindHistory
 </script>
 
 ;****************************************************************************************************************
@@ -17,12 +19,18 @@
 
 	<script init>
 		Title.set "History"
-	    vMoveCursorToSelectedItem.set 1
+		vMoveCursorToSelectedItem.set 1
+
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+		runif bBeckerQuicklist 1 'lstFH_History.listmodel "other.becker.quicklist.list"'
+		else_run                 'lstFH_History.listmodel "mydata.history.list"'
 	</script>
 </state>
 
 <script sc_SearchHistoryAndGo>
-	vTmp.VALUEMODEL "mydata.history.list.index"
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	runif bBeckerQuicklist 1 'vTmp.VALUEMODEL "other.becker.quicklist.list.index"'
+	else_run                 'vTmp.VALUEMODEL "mydata.history.list.index"'
 	SELECT_HISTORY vTmp
 	vTmp.DROPMODEL
 
@@ -45,8 +53,17 @@
 	<script init>
 		title.set "Manage History"
 
-	    runif %mydata.history.list.size 0 'btnMH_ClearAll.disable'
-	    else_run 'btnMH_ClearAll.enable'
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+;		runif %mydata.history.list.size 0 'btnMH_ClearAll.disable'
+;		else_run 'btnMH_ClearAll.enable'
+		runif bBeckerQuicklist 1 'vTmp.set %other.becker.quicklist.list.size'
+		else_run                 'vTmp.set %mydata.history.list.size'
+		runif vTmp 0 'btnMH_ClearAll.disable'
+		else_run 'btnMH_ClearAll.enable'
+
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+		runif bBeckerQuicklist 1 'lstMH_History.listmodel "other.becker.quicklist.list"'
+		else_run                 'lstMH_History.listmodel "mydata.history.list"'
 	</script>
 
 </state>
@@ -56,7 +73,9 @@
 </script>
 
 <script sc_et_ManageHistoryDel_OnRelease>
-	vTmpID.SET %mydata.history.list.index
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	runif bBeckerQuicklist 1 'vTmpID.SET %other.becker.quicklist.list.index'
+	else_run                 'vTmpID.SET %mydata.history.list.index'
 	INITMESSAGEBOX 1 "Deleting history entry." 'REMOVEHISTORYITEM vTmpID, STATE st_ManageHistory'
 </script>
 

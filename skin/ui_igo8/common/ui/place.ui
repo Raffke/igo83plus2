@@ -234,6 +234,8 @@
 <script sc_SetStartPoint>
 	vStartModeTmp.set 1
 	CITYHISTORY_ADD_RELEASE vSelectedUID
+;!Raffke_jr - support for "other.becker.quicklist"
+	runif bBeckerQuicklist 1 'other.becker.quicklist.enable_next_add 1'
 	ADDSELECTEDITEMTOHISTORY 1
 
 	navigation.waypoints.set_start_at_selection
@@ -249,6 +251,8 @@
 <script sc_btnPM_AddDest_OnRelease>
 	runif vStartModeTmp 0 'vModeTmp.set 1'
 	CITYHISTORY_ADD_RELEASE vSelectedUID
+;!Raffke_jr - support for "other.becker.quicklist"
+	runif bBeckerQuicklist 1 'other.becker.quicklist.enable_next_add 1'
 	ADDSELECTEDITEMTOHISTORY 1
 	map.ISROUTEMULTISEGMENTED vMultiSegmentPath
 	runif vMultiSegmentPath 1 'INITMESSAGEBOX 1 "The previous route will be deleted." sc_RouteTo'
@@ -313,6 +317,8 @@
 <script sc_btnPM_AddVia_OnRelease>
 	runif vStartModeTmp 0 'vModeTmp.set 1'
 	CITYHISTORY_ADD_RELEASE vSelectedUID
+;!Raffke_jr - support for "other.becker.quicklist"
+	runif bBeckerQuicklist 1 'other.becker.quicklist.enable_next_add 1'
 	ADDSELECTEDITEMTOHISTORY 1
 
 	; disabled in route edit menu - if waypoints will be > 3, the next state is route edit
@@ -384,6 +390,8 @@
 
 <script sc_btnPM_Continue_OnRelease>
 	CITYHISTORY_ADD_RELEASE vSelectedUID
+;!Raffke_jr - support for "other.becker.quicklist"
+	runif bBeckerQuicklist 1 'other.becker.quicklist.enable_next_add 1'
 	ADDSELECTEDITEMTOHISTORY 1
 
 	FINDPATH_AFTER
@@ -393,6 +401,8 @@
 <script sc_btnP_Map_OnRelease>
 	vCarWasLockedWhenExitedNavigateMap.set 0
 	CITYHISTORY_ADD_RELEASE vSelectedUID
+;!Raffke_jr - support for "other.becker.quicklist"
+	runif bBeckerQuicklist 1 'other.becker.quicklist.enable_next_add 1'
 	ADDSELECTEDITEMTOHISTORY
 	run sc_FollowOff
 	run sc_P_return_to_map 0
@@ -413,6 +423,8 @@
 ;!TB - new script for "Plan on Map" button on "Place" screen
 <script sc_btnPA_PlanMode_OnRelease>
 	CITYHISTORY_ADD_RELEASE vSelectedUID
+;!Raffke_jr - support for "other.becker.quicklist"
+	runif bBeckerQuicklist 1 'other.becker.quicklist.enable_next_add 1'
 	ADDSELECTEDITEMTOHISTORY
 ;	EMPTYSTATEQUEUE
 	vStateMode.SET ""

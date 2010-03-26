@@ -123,7 +123,8 @@ import "ui_igo8/400_240/ui/templates_advanced_400_240.ui"
 	<TEMPLATE footer3_2a  template=footera bmp="foot_3_a.bmp#3" x=187 >
 	<TEMPLATE footer3_3a  template=footera bmp="foot_3_a.bmp#3" x=294 >
 
-	<TEMPLATE footer1_1a  template=footera bmp="foot_1_1a.bmp" x=60 >
+;!Matze - changed x from 60
+	<TEMPLATE footer1_1a  template=footera bmp="foot_1_1a.bmp" x=80 >
 							
 	<TEMPLATE footer2_1a  template=footera bmp="foot_2_a.bmp#3" x=80  >
 	<TEMPLATE footer2_2a  template=footera bmp="foot_2_a.bmp#3" x=240 >

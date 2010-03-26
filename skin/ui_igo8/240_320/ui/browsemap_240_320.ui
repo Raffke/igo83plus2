@@ -129,7 +129,7 @@
 	<RADIO xxx   template=chk_lb8a y=195	text="Scenic/Panoramic_View"   group=nRMTmp var="4"  onrelease='run sc_RMselected'>
 	<BUTTON xxx  template=chk_lb8a_1 y=225  text="Routing Methods"  onrelease='ui_SelectRM.hide, ui_SelectRM_Algorithm.show, run sc_setMultiroute' enabledmodel="!ui.vRouteCalculation">
 ;!Raffke_jr - add back button
-	<BUTTON xxx  x=0  y=300 z=3 w=80 bmp="info_bg.bmp" text="Back" font="tahoma" fontsize=9 align="CENTER" valign="CENTER" clicked_dy=1 glowtype=1 glowsize=2 color2=#000000 onrelease='ui_SelectRM.hide'>
+	<BUTTON xxx  x=0  y=300 z=3 w=80 bmp="info_bg.bmp" text="Back" font="tahoma" color=#FFFFFF fontsize=9 align="CENTER" valign="CENTER" clicked_dy=1 glowtype=1 glowsize=3 color2=#000000 color3=#000000 onrelease='ui_SelectRM.hide'>
 </layer>
 
 ;!Raffke_jr - changed from hide to modal
@@ -141,5 +141,5 @@
 	<BUTTON xxx  template=chk_lb8a_1 y=165	text="Default"	onrelease='ui_SelectRM_Algorithm.hide, run sc_MultiRouteDraw' enabledmodel="!ui.vRouteCalculation">
 	<BUTTON xxx  template=chk_lb8a_1 y=195	text="Optimal calculation"	onrelease='.route.correctness 100, ui_SelectRM_Algorithm.hide, run sc_MultiRouteDraw' enabledmodel="!ui.vRouteCalculation">
 ;!Raffke_jr - add back button
-	<BUTTON xxx  x=0  y=300 z=3 w=80 bmp="info_bg.bmp" text="Back" font="tahoma" fontsize=9 align="CENTER" valign="CENTER" clicked_dy=1 glowtype=1 glowsize=2 color2=#000000 onrelease='ui_SelectRM_Algorithm.hide'>
+	<BUTTON xxx  x=0  y=300 z=3 w=80 bmp="info_bg.bmp" text="Back" font="tahoma" color=#FFFFFF fontsize=9 align="CENTER" valign="CENTER" clicked_dy=1 glowtype=1 glowsize=3 color2=#000000 color3=#000000 onrelease='ui_SelectRM_Algorithm.hide'>
 </layer>

@@ -3,6 +3,8 @@
 	<var saved_vUturn_penalty1>
 	<var saved_vGPSPositionToRoad permanent>
 	<var vAdvSettingTodayState= 0>
+;!Raffke_jr - switch HistSpeed usage
+	<var saved_bHistSpeed=0>
 	<var saved_bUnpaved=0>
 	<var saved_bHighway=0>
 	<var saved_bFerry=0>
@@ -807,12 +809,16 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 	else_runif nVehicle 6 'nVehicleTmp.set "Bicycle"'
 	btn_vehicle_value.set nVehicleTmp
 
+;!Raffke_jr - switch HistSpeed usage
+	MODEL_EXISTS "route.histspeed" "vTmp"
+	runif vTmp 1 'btnSR_HistSpeed.enable'
+	else_run 'btnSR_HistSpeed.disable'
+
 ;!TB - Commented out, and moved to Advanced Settings
 ;	GET_POSSIBLE_VALUES_DISTANCE vTmp
 ;	hscSR_UTurn.POSSIBLEVALUES vTmp
 ;	hscSR_UTurn.VALUE vUturn_penalty1
 ;	DISTUNIT_TO_FORMATTEDSTR vUturn_penalty1 txtSR_UTurn
-
   </script>
 
   <script enter>
@@ -820,6 +826,8 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 ;	saved_vUturn_penalty1.SET vUturn_penalty1
 	saved_nVehicle.set nVehicle
 	saved_vRouteType.set vRouteType
+;!Raffke_jr - switch HistSpeed usage
+	saved_bHistSpeed.set bHistSpeed
   </script>
   
   <script done>
@@ -833,6 +841,8 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 ;	runifnot saved_vUturn_penalty1 vUturn_penalty1 'vTmp.SET 1'
 	runifnot saved_nVehicle nVehicle 'vTmp.set 1'
 	runifnot saved_vRouteType vRouteType 'vTmp.set 1'
+;!Raffke_jr - switch HistSpeed usage
+	runifnot saved_bHistSpeed bHistSpeed 'vTmp.set 1'
 
 	runif vTmp 1 'ADVNAV_RECALC'
   </script>	 

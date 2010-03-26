@@ -461,14 +461,18 @@ import "ui_igo8/240_320/ui/speedcam_setting_240_320.ui"
 	<SLIDER sldSR_RouteCalcMethod  template=sld_5a_center template=y_3b value="Fastest|FAST|Shortest|SHORT|Economic|ECO|Easy|SIMPLE|Scenic/Panoramic_View|SCENIC" var=vRouteType>
 	<TEXT   xxx                    template=txt_poti      template=y_3  text="Route Calculation Method">
 
-;!Raffke_jr - removed visiblemodel, keep enabledmodel (from 8.2.0.46067)
-	<CHECKBOX xxx                  template=chk_5a        template=y_5  text="Use traffic information" boolmodel="!tmc.ignore_all_events" enabledmodel="tmc.present" onrelease='run sc_UseTrafficInfoOnRelease'>
+;!Raffke_jr - removed visiblemodel and enabledmodel, changed from template chk_5a to include advanced settings
+	<CHECKBOX xxx                  template=chk_5b        template=y_5  text="Use traffic information" boolmodel="!tmc.ignore_all_events" onrelease='run sc_UseTrafficInfoOnRelease'>
 
-;!Raffke_jr - merged enabledmodel to visiblemodel 2x
-	<SPRITE xxx                    template=spr_poti      template=y_6  visiblemodel="tmc.present">
-	<SLIDER sldTMCS_RecalcToAvoid  template=sld_5a_center template=y_6b var=vTmcReplanMode value="Auto replan|AUTO|Manual|ASK|No replan|OFF" onselect='run sc_TmcReplanChanged' enabledmodel="tmc.present&!tmc.ignore_all_events" visiblemodel="tmc.present">
-	<TEXT   xxx                    template=txt_poti      template=y_6  text="Recalculate to avoid traffic:" watchstate=sldTMCS_RecalcToAvoid enabledmodel="tmc.present&!tmc.ignore_all_events" visiblemodel="tmc.present">  
-  
+;!Raffke_jr - moved to ui_TmcSettings and replaced by "..."
+;	<SPRITE xxx                    template=spr_poti      template=y_6  visiblemodel="tmc.present">
+;	<SLIDER sldTMCS_RecalcToAvoid  template=sld_5a_center template=y_6b var=vTmcReplanMode value="Auto replan|AUTO|Manual|ASK|No replan|OFF" onselect='run sc_TmcReplanChanged' enabledmodel="tmc.present&!tmc.ignore_all_events" visiblemodel="tmc.present">
+;	<TEXT   xxx                    template=txt_poti      template=y_6  text="Recalculate to avoid traffic:" watchstate=sldTMCS_RecalcToAvoid enabledmodel="tmc.present&!tmc.ignore_all_events" visiblemodel="tmc.present">  
+	<BUTTON xxx                    template=btn_5d        template=y_5  text="..."  onrelease='NEXTSTATE st_TmcSettings' enabledmodel="!tmc.ignore_all_events">
+
+;!Raffke_jr - new checkbox to switch histspeed
+	<CHECKBOX btnSR_HistSpeed      template=chk_5a        template=y_6  text="Use traffic patterns" boolmodel="route.histspeed.enabled">
+
 ;!TB - Commented out, and moved to advanced settings
 ;	<TEXT	xxx             template=xtxt  x=0   y=97 text="U-turn penalty:" hide>
 ;	<HSCROLLBAR hscSR_UTurn                x=80  y=97 bmp="$fable_scrollbg.spr" sprind="$fable_scrollbtn.spr" onchange='run sc_hscSR_UTurn_OnChange' hide>
