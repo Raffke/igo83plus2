@@ -7,12 +7,14 @@
 <layer ui_FindFavorite z=30>
 	<LIST lstFF_Favorite template=tlist2 element_template="et_FindFavorite" listmodel="mydata.favorites.list">
 	<TEXT xxx   template=pageindex textmodel_wstr="ui.lstFF_Favorite.page_counter">
+
 	<BUTTON xxx template=prevpage clickmodel="ui.lstFF_Favorite.prevpage" enabledmodel="ui.lstFF_Favorite.prevpage.valid" template=slow_repeat>
 	<BUTTON xxx template=nextpage clickmodel="ui.lstFF_Favorite.nextpage" enabledmodel="ui.lstFF_Favorite.nextpage.valid" template=slow_repeat>
 </layer>
 
 <element_template et_ManageFavorite>
-    <BUTTON xxx template=btn_4d iconspr="x.bmp" text="" clickmodel="mydata.favorites.list.setcurrent $i" onrelease='run sc_et_FavoritesDel_OnRelease' enabledmodel="!*.isempty" usefocus=0>
+;!Matze - changed iconspr
+    <BUTTON xxx template=btn_4d iconspr="x.bmp#3" text="" clickmodel="mydata.favorites.list.setcurrent $i" onrelease='run sc_et_FavoritesDel_OnRelease' enabledmodel="!*.isempty" usefocus=0>
 	<BUTTON xxx template=btn_4b textmodel_wstr="*.name" clickmodel="mydata.favorites.list.setcurrent $i" onrelease='run sc_et_ManageFavorite_OnRelease' enabledmodel="!*.isempty|!ui.vManageMode">
 </element_template>
 

@@ -65,7 +65,7 @@
    
    map.ZOOMCONTROL_TEXTOFFSET -4
    map.ZOOMCONTROL_BARHEIGHT 6
-   map.ZOOMCONTROL_ZOOMSIZE 100
+   map.ZOOMCONTROL_ZOOMSIZE 110
    map.ZOOMCONTROL_TICKHEIGHT 2
 </script>
 
@@ -77,18 +77,22 @@
    
    map.ZOOMCONTROL_TEXTOFFSET 12
    map.ZOOMCONTROL_BARHEIGHT 6
-   map.ZOOMCONTROL_ZOOMSIZE 100
+   map.ZOOMCONTROL_ZOOMSIZE 110
    map.ZOOMCONTROL_TICKHEIGHT -2
+;!TB - fullscreen cockpit
+	termif vFullScreenCockpit 0 sc_init_zoomcontrol_browsemap
+	runif vFullScreenNextStreet 0 'map.ZOOMCONTROL_Y -14'
 </script>
 
 <script sc_init_zoomcontrol_planmode>
    map.ZOOMCONTROL_SHOW 1
    map.ZOOMCONTROL_X 70
-   map.ZOOMCONTROL_Y 325
+;!TB - moved down by 36 points
+   map.ZOOMCONTROL_Y 361
    
    map.ZOOMCONTROL_TEXTOFFSET -4
    map.ZOOMCONTROL_BARHEIGHT 6
-   map.ZOOMCONTROL_ZOOMSIZE 100
+   map.ZOOMCONTROL_ZOOMSIZE 110
    map.ZOOMCONTROL_TICKHEIGHT 2
 </script>
 
@@ -97,7 +101,6 @@
 	btnPM_POS_EditCam.x 121
 	btnPMO_AddCam.x 121
 	btnPMO_EditCam.x 121
-	btnPMO_Favorite.y 188
 ;	chk_SpeedCamWarning.show
 ;	btn_SpeedCamWarning.show
 </script>
@@ -108,7 +111,6 @@
 	btnPM_POS_EditCam.x 1000
 	btnPMO_AddCam.x 1000
 	btnPMO_EditCam.x 1000
-	btnPMO_Favorite.y 132
 ;	chk_SpeedCamWarning.hide
 ;	btn_SpeedCamWarning.hide
 </script>
@@ -119,13 +121,15 @@
 	vMapSettings2d3d.SET "3D"
 	map.VIEW2D3D vMapSettings2d3d
 
-	btnNMB_RouteInfo.x -80
+;!TB - allow during flyover
+;	btnNMB_RouteInfo.x -80
 	btnNMB_Menu.HIDE
 	btnNMB_Detour.HIDE
     ;btnNMB_Cursor.HIDE
     ;btnNMB_Pos.y 330
 
-	btnNMR_CockpitInfo.DISABLE
+;!TB - allow during flyover
+;	btnNMR_CockpitInfo.DISABLE
 			
     btn_CSGPS.HIDE
     btn_CSTMC.HIDE
@@ -134,10 +138,19 @@
 	btn_NMPC3D_VZoom3D2.onlongclick ''
 	btn_NMPC2D_VZoom2D1.onlongclick ''
 	btn_NMPC2D_VZoom2D2.onlongclick ''
+;di/\/\ka
+	ui_NavigateMapCompass.y 60
+;!TB - Flyover controls
+;!Raffke_jr - TODO: reposition layer in other resolutions too
+	ui_NavigateMap3dButtons.y 60
+	btnNMB_FlyOver.SHOW
 </script>
 
 <script sc_3DFlyOverModeOff>
-	btnNMB_RouteInfo.x 0
+;!Raffke_jr - no more reposition the RouteInfo
+;	btnNMB_RouteInfo.x 0
+;!TB - fullscreen cockpit
+	runif vFullScreenCockpit 1 'runif vFullScreenDiricon 0 sc_HideFullscreenDiricon'
 	btnNMB_Menu.SHOW
 	btnNMB_Detour.SHOW
 
@@ -154,20 +167,257 @@
 	btn_NMPC2D_VZoom2D1.onlongclick 'NEXTSTATE st_SettingVisualZoom2D'
 	btn_NMPC2D_VZoom2D2.onlongclick 'NEXTSTATE st_SettingVisualZoom2D'
 
+;di/\/\ka
+	ui_NavigateMapCompass.y 0
+;!TB - Flyover controls
+;!Raffke_jr - TODO: reposition layer in other resolutions too
+	ui_NavigateMap3dButtons.y 0
+	btnNMB_FlyOver.HIDE
+	ui_NavigateMapFlyOver_Box.HIDE
     run sc_RestoreSavedMapMode
 
 </script>
 
 <script sc_laneinfo_pos_3D>
-   runif vLaneInfo 0 'sprLaneInfo.y -100,sprLaneInfoSignpost.y -1000'
-   runif vLaneInfo 1 'sprLaneInfo.y 94  ,sprLaneInfoSignpost.y 105'
-   runif vLaneInfo 2 'sprLaneInfo.y 359 ,sprLaneInfoSignpost.y 105'
+;!TB - Added 2 LaneInfo sprites
+   runif vLaneInfo 0 'sprLaneInfo100.y -100, sprLaneInfo150.y -100, sprLaneInfo200.y -100, sprLaneInfoSignpost.y -1000'
+   runif vLaneInfo 1 'sprLaneInfo100.y 94,   sprLaneInfo150.y 94,   sprLaneInfo200.y 94,   sprLaneInfoSignpost.y 98'
+   runif vLaneInfo 2 'sprLaneInfo100.y 359,  sprLaneInfo150.y 249,  sprLaneInfo200.y 239,  sprLaneInfoSignpost.y 98'
+
+;!Raffke_jr - hide (since 8.3.1) un-detachable Sprites
+	run sc_laneinfo_HideInvalidSizes
+
+;!TB - Fullscreen Cockpit
+	run sc_LaneInfoPosFullScreenMode
 </script>
 
 <script sc_laneinfo_pos_2D>
-   runif vLaneInfo 0 'sprLaneInfo.y -100,sprLaneInfoSignpost.y -1000'
-   runif vLaneInfo 1 'sprLaneInfo.y 117 ,sprLaneInfoSignpost.y 105'
-   runif vLaneInfo 2 'sprLaneInfo.y 359 ,sprLaneInfoSignpost.y 105'
+;!TB - Added 2 LaneInfo sprites
+   runif vLaneInfo 0 'sprLaneInfo100.y -100, sprLaneInfo150.y -100, sprLaneInfo200.y -100, sprLaneInfoSignpost.y -1000'
+   runif vLaneInfo 1 'sprLaneInfo100.y 117,  sprLaneInfo150.y 117,  sprLaneInfo200.y 117,  sprLaneInfoSignpost.y 98'
+   runif vLaneInfo 2 'sprLaneInfo100.y 359,  sprLaneInfo150.y 249,  sprLaneInfo200.y 239,  sprLaneInfoSignpost.y 98'
+
+;!Raffke_jr - hide (since 8.3.1) un-detachable Sprites
+	run sc_laneinfo_HideInvalidSizes
+
+;!TB - Fullscreen Cockpit
+	run sc_LaneInfoPosFullScreenMode
 </script>
 
+;****************************************************************************************************************
+
+;!TB - New script for Speed on map display
+<script sc_speedonmap_pos>
+;!Raffke_jr - TODO: do we need to reposition in Portrait?
+;	runif vFullScreenCockpit 1 'ui_NavigateMapCurrentSpeed.x 1, ui_NavigateMapCurrentSpeedV.x 1, ui_NavigateMapCurrentSpeedH.x 1'
+;	else_run 'ui_NavigateMapCurrentSpeed.x 78, ui_NavigateMapCurrentSpeedV.x 78, ui_NavigateMapCurrentSpeedH.x 78'
+	ui_NavigateMapCurrentSpeed.x 5
+	ui_NavigateMapCurrentSpeedV.x 5
+	ui_NavigateMapCurrentSpeedH.x 5
+
+	vTmp.set 0	
+	runif vFullScreenCockpit 0 'vTmp.set 1'
+	runif vFullScreenActualStreet 1 'vTmp.set 1'
+	runif vFullScreenStatus 1 'vTmp.set 1'
+	runif vTmp 1 'ui_NavigateMapCurrentSpeed.y 275, ui_NavigateMapCurrentSpeedV.y 275, ui_NavigateMapCurrentSpeedH.y 275'
+	else_run 'ui_NavigateMapCurrentSpeed.y 295, ui_NavigateMapCurrentSpeedV.y 295, ui_NavigateMapCurrentSpeedH.y 295'
+</script>
+
+;!Raffke_jr - Restore Normal Cockpit, corrected values for 8.3.1
+<script sc_RD_ChangeNormalScreenMode>
+	sprNMRCockpit.x 0
+	sprNMCCockpit.x 0
+
+	sprNMRExitNum.x 18
+	btnNMC_Find.x 0
+	btnNMC_Find_normal.x 0
+;!Raffke_jr - TODO: remove in all resolutions
+;	btnNMC_Recalc.x 7
+	sprNMB_GPSWarn.x 73
+	sprNMINextStreetBG.x 0
+	sprNMINextStreetName.x 0
+	sprNMINextStreetName.w 240
+
+	ui_Lock_Onmap.y 0
+	btn_NMPC_OpenClose.y 175
+
+	btnNMC_Recalc.x 7
+	spr_RecalcAnim.x 7
+	txt_route_planning_progress.x 83
+	txt_route_planning_progress.y 37
+
+;!TB - restore after Fullscreen Cockpit
+	sprNMRDiricon.x 0
+	sprNMRDiriconDist.x 3
+	sprNMRDiriconUnit.x 3
+	sprNMIActualStreetBG.x 0
+	sprNMIActualStreetName.x 30
+	sprNMIActualStreetName.w 180
+	sprNMIActualStreetNameWide.x 0
+	sprNMIActualStreetNameWide.w 240
+	sprNMIActualHouseNum1.x 0
+	txtNMCPIStreetName.x 0
+	txtNMCPIStreetName.w 240
+	ui_NavigateMapPresetControls2D.y 0
+	ui_NavigateMapPresetControls3D.y 0
+	ui_NavigateToggleZoomControls.y  0
+	ui_NavigateMapZoomControls2D.y 0
+	ui_NavigateMapSpeedLimit.x 0
+	ui_NavigateMapSpeedLimit.y 0
+	ui_SpeedCamWarningLayer.y 0
+	ui_NavigateMapRouteLaneInfo.x 0
+	ui_NavigateMapRouteLaneInfo.y 0
+	spr_TMC_Status.x 99
+	spr_TMC_Status_Basic.x 99
+;	txt_TMC_StationName.x 76
+	spr_TMC_Status2.x 99
+	spr_TMC_Signal.x 77
+	sprNM_VolStatus.x 76
+	sprNM_BTStatus.x 117
+	sprNM_RecordStatus.x 94
+
+;!Raffke_jr - use MiniStatus in Empty mode
+;!Raffke_jr - TODO: MiniStatus for Portrait?
+;	runif vCockpitAlpha 2 'sprNM_BatteryStatus.y 222
+;	                       sprNM_GPSStatus.y 231
+;	                       vehicle_icon.y 223'
+;	else_run              'sprNM_BatteryStatus.y 215
+;	                       sprNM_GPSStatus.y 228
+;	                       vehicle_icon.y 218'
+</script>
+
+;!TB - Fullscreen Cockpit
+;!Raffke_jr - corrected values for 8.3.1
+<script sc_RD_ChangeFullScreenMode>
+;!Raffke_jr - TODO: do we need to reposition in Portrait?
+;	ui_NavigateMapSpeedLimit.x -77
+;	ui_NavigateMapSpeedLimit.y 0
+;	ui_SpeedCamWarningLayer.y 3
+;	sprNMIActualStreetBG.x 0
+;	sprNMIActualStreetName.x 30
+;	sprNMIActualStreetName.w 180
+;	sprNMIActualStreetNameWide.x 0
+;	sprNMIActualStreetNameWide.w 240
+;	sprNMIActualHouseNum1.x 0
+;	txtNMCPIStreetName.x 70
+;	txtNMCPIStreetName.w 248
+
+	ui_NavigateMapZoomControls2D.y 12
+	spr_TMC_Status.x -100
+	spr_TMC_Status_Basic.x -100
+;	txt_TMC_StationName.x -200
+	spr_TMC_Status2.x -100
+	spr_TMC_Signal.x -100
+	sprNM_VolStatus.x -100
+	sprNM_BTStatus.x -100
+	sprNM_RecordStatus.x -100
+
+;!Raffke_jr - TODO: MiniStatus for Portrait?
+;	sprNM_BatteryStatus.y 222
+;	sprNM_GPSStatus.y 231
+;	vehicle_icon.y 223
+
+	run sc_LaneInfoPosFullScreenMode
+</script>
+
+;!TB - Fullscreen Cockpit
+<script sc_LaneInfoPosFullScreenMode>
+	runif vFullScreenCockpit 0 'ui_NavigateMapRouteLaneInfo.x 0, ui_NavigateMapRouteLaneInfo.y 0'
+	termif vFullScreenCockpit 0 sc_LaneInfoPosFullScreenMode
+	runif vLaneInfo 1 sc_LaneInfoPosFullScreenModeTop
+	runif vLaneInfo 2 sc_LaneInfoPosFullScreenModeBottom
+</script>
+
+<script sc_LaneInfoPosFullScreenModeTop>
+	runif vFullScreenNextStreet 1 'ui_NavigateMapRouteLaneInfo.y 0'
+	else_run 'ui_NavigateMapRouteLaneInfo.y -20'
+
+;!Raffke_jr - TODO: do we need to reposition in Portrait?
+	ui_NavigateMapRouteLaneInfo.x 0
+;	runif vFullScreenDiricon 0 'ui_NavigateMapRouteLaneInfo.x -43'
+;	else_run 'ui_NavigateMapRouteLaneInfo.x 0'
+</script>
+
+<script sc_LaneInfoPosFullScreenModeBottom>
+	runif vFullScreenActualStreet 1 'ui_NavigateMapRouteLaneInfo.y 0'
+	else_run 'ui_NavigateMapRouteLaneInfo.y 20'
+	ui_NavigateMapRouteLaneInfo.x 0
+</script>
+
+;!TB - Fullscreen Cockpit
+<script sc_HideFullscreenDiricon>
+	sprNMRCockpit.x -200
+	sprNMCCockpit.x -200
+;!Raffke_jr - removed
+;	sprNMCCockpit_Find.x -200
+;!TB - retain RouteInfo button
+;	btnNMB_RouteInfo.x -200
+	sprNMRDiricon.x -200
+	sprNMRExitNum.x -200
+	sprNMRDiriconDist.x -200
+	sprNMRDiriconUnit.x -200
+	btnNMC_Find.x -200
+	btnNMC_Find_normal.x -200
+	btnNMC_Recalc.x -200
+	spr_RecalcAnim.x -200
+;!Raffke_jr - TODO: do we need to reposition in Portrait?
+;	sprNMINextStreetBG.x 0
+;	sprNMINextStreetName.x 0
+;	sprNMINextStreetName.w 240
+</script>
+
+;!TB - Fullscreen Cockpit
+<script sc_HideNextStreet>
+	sprNMINextStreetBG.HIDE
+	sprNMINextStreetName.HIDE
+	ui_NavigateToggleZoomControls.y -20
+;!Raffke_jr - TODO: move DirIcon and all others (and back in sc_RD_ChangeNormalScreenMode)
+</script>
+
+;!TB - Fullscreen Cockpit
+<script sc_HideActualStreet>
+	sprNMIActualStreetBG.HIDE
+	txtNMCPIStreetName.visiblemodel ""
+	txtNMCPIStreetName.HIDE
+	sprNMIActualStreetName.visiblemodel ""
+	sprNMIActualStreetName.HIDE
+	sprNMIActualStreetNameWide.visiblemodel ""
+	sprNMIActualStreetNameWide.HIDE
+	sprNMIActualHouseNum1.visiblemodel ""
+	sprNMIActualHouseNum2.visiblemodel ""
+	sprNMIActualHouseNum1.HIDE
+	sprNMIActualHouseNum2.HIDE
+	ui_NavigateMapPresetControls2D.y 20
+	ui_NavigateMapPresetControls3D.y 20
+	ui_Lock_Onmap.y 20
+	runif vFullScreenStatus 0 'ui_NavigateMapSpeedLimit.y 20'
+</script>
+
+;!TB - Fullscreen Cockpit
+;!Raffke_jr - corrected values for 8.3.1
+<script sc_HideStatusButton>
+	sprNM_BatteryStatus.y 300
+	sprNM_GPSStatus.y 300
+	vehicle_icon.y 300
+	runif vFullScreenActualStreet 0 'ui_NavigateMapSpeedLimit.y 20'
+
+;!Raffke_jr - TODO: do we need to reposition in Portrait?
+;	sprNMIActualStreetName.x 30
+;	sprNMIActualStreetName.w 180
+;	sprNMIActualStreetName.x 0
+;	sprNMIActualStreetName.w 240
+;	sprNMIActualHouseNum1.x 0
+;	txtNMCPIStreetName.x 0
+;	txtNMCPIStreetName.w 240
+</script>
+
+;!Matze - added scripts to set car position
+<script sc_Car_Pos1>
+	runif vFullScreenCockpit 0 'map.SETCARPOSITION 50 72'
+	else_run 'map.SETCARPOSITION 50 75'
+</script>
+<script sc_Car_Pos2>
+	runif vFullScreenCockpit 0 'map.SETCARPOSITION 50 53'
+	else_run 'map.SETCARPOSITION 50 50'
+</script>
 
