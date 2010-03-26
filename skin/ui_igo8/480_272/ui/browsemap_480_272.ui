@@ -25,7 +25,7 @@
 ;!Matze - moved Info Text down by 38 points
 	<SPRITE xxx  bmp="blackstripe.bmp" x=0 y=252 z=0>
 ;!Raffke_jr - moved right by 68 to display Route Info, moved down by 4 and decreased fontsize from 14, decreased width to display route menu button
-	<TEXT xxx template=txt_map x=68 y=254 w=344 fontsize=12 textmodel_wstr="map.cursorpos.posinfotext">
+	<TEXT xxx template=txt_map x=68 y=250 w=344 fontsize=12 textmodel_wstr="map.cursorpos.posinfotext">
 </layer>
 
 ;!Matze - changed x
@@ -111,6 +111,7 @@
 </layer>
 
 <layer ui_SelectRM z=15000 modal>
+	<SPRITE xxx bmp="nightglass.bmp" z=0 alpha=20>
 	<SPRITE xxx bmp="$rm_sel_bg.bmp" x=173 y=53 z=0 >
 
 	<RADIO  xxx template=chk_lb8a    y=56   text="Fast"     group=nRMTmp var="0"  onrelease='run sc_RMselected'>
@@ -125,7 +126,9 @@
 
 ;!Raffke_jr - changed from hide to modal
 <layer ui_SelectRM_Algorithm z=15000 modal>
+	<SPRITE xxx bmp="nightglass.bmp" z=0 alpha=20>
 	<SPRITE xxx  bmp="$correct_sel_bg.bmp" x=173 y=112 z=0 >
+
 	<BUTTON xxx  template=chk_lb8a_1  y=116 text="Fast calculation"    onrelease='.route.correctness 30, ui_SelectRM_Algorithm.hide, run sc_MultiRouteDraw' enabledmodel="!ui.vRouteCalculation">
 	<BUTTON xxx  template=chk_lb8a_1  y=146 text="Default"             onrelease='ui_SelectRM_Algorithm.hide, run sc_MultiRouteDraw' enabledmodel="!ui.vRouteCalculation">
 	<BUTTON xxx  template=chk_lb8a_1  y=176 text="Optimal calculation" onrelease='.route.correctness 100, ui_SelectRM_Algorithm.hide, run sc_MultiRouteDraw' enabledmodel="!ui.vRouteCalculation">

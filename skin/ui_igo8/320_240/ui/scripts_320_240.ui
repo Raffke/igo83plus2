@@ -238,9 +238,7 @@
 
 	sprNMRExitNum.x 22
 	btnNMC_Find.x 11
-	btnNMC_Find1.x 11
 	btnNMC_Find_normal.x 8
-	btnNMC_Find_normal1.x 8
 
 	sprNMB_GPSWarn.x -3
 	sprNMINextStreetBG.x 75
@@ -261,12 +259,10 @@
 	sprNMRDiriconUnit.x 57
 	sprNMIActualStreetBG.x 70
 	sprNMIActualStreetName.x 103
-;8.3:	sprNMIActualStreetName.x 75
 	sprNMIActualStreetName.w 187
-;8.3:	sprNMIActualStreetName.w 240
+	sprNMIActualStreetNameWide.x 73
+	sprNMIActualStreetNameWide.w 247
 	sprNMIActualHouseNum1.x 73
-;8.3:	sprNMIActualHouseNum1.x 127
-;8.3:	sprNMIActualHouseNumBG1.x 125
 	txtNMCPIStreetName.x 74
 	txtNMCPIStreetName.w 244
 	ui_NavigateMapPresetControls2D.y 0
@@ -304,12 +300,10 @@
 	ui_SpeedCamWarningLayer.y 3
 	sprNMIActualStreetBG.x 0
 	sprNMIActualStreetName.x 99
-;8.3:	sprNMIActualStreetName.x 71
 	sprNMIActualStreetName.w 191
-;8.3:	sprNMIActualStreetName.w 244
+	sprNMIActualStreetNameWide.x 69
+	sprNMIActualStreetNameWide.w 251
 	sprNMIActualHouseNum1.x 69
-;8.3:	sprNMIActualHouseNum1.x 123
-;8.3:	sprNMIActualHouseNumBG1.x 121
 	txtNMCPIStreetName.x 70
 	txtNMCPIStreetName.w 248
 
@@ -360,9 +354,7 @@
 	sprNMRDiriconDist.x -200
 	sprNMRDiriconUnit.x -200
 	btnNMC_Find.x -200
-	btnNMC_Find1.x -200
 	btnNMC_Find_normal.x -200
-	btnNMC_Find_normal1.x -200
 	btnNMC_Recalc.x -200
 	spr_RecalcAnim.x -200
 	sprNMINextStreetBG.x 0
@@ -384,6 +376,8 @@
 	txtNMCPIStreetName.HIDE
 	sprNMIActualStreetName.visiblemodel ""
 	sprNMIActualStreetName.HIDE
+	sprNMIActualStreetNameWide.visiblemodel ""
+	sprNMIActualStreetNameWide.HIDE
 	sprNMIActualHouseNum1.visiblemodel ""
 	sprNMIActualHouseNum2.visiblemodel ""
 	sprNMIActualHouseNum1.HIDE
@@ -403,12 +397,10 @@
 	runif vFullScreenActualStreet 0 'ui_NavigateMapSpeedLimit.y 20'
 
 	sprNMIActualStreetName.x 30
-;8.3:	sprNMIActualStreetName.x 2
 	sprNMIActualStreetName.w 260
-;8.3:	sprNMIActualStreetName.w 316
+	sprNMIActualStreetName.x 0
+	sprNMIActualStreetName.w 320
 	sprNMIActualHouseNum1.x 0
-;8.3:	sprNMIActualHouseNum1.x 54
-;8.3:	sprNMIActualHouseNumBG1.x 52
 	txtNMCPIStreetName.x 0
 	txtNMCPIStreetName.w 320
 </script>

@@ -46,6 +46,9 @@
 	<var vCockpitAlpha=0 registermodel permanent>
 	<var vShutdownTime=10 registermodel permanent>
 	<var bShowMinimize=-1 registermodel permanent>
+;!Raffke_jr - new bool expressions to workaround FFUI limitations
+	<var bHouseNumbersVisible registermodel>
+	<var bGPSSateliteVisible registermodel>
 
 ;di/\/\ka
 	<var bShowCompassOnMap=0 registermodel permanent>
@@ -101,4 +104,8 @@ import "ui_igo8/common/ui/speedcam_advanced.ui"
 ;!Matze - new variables initialization for cockpit info pop-up layer
 	run sc_PopUpShowPanel_OnChange
 	vPopUpShowPanel.OnChange "sc_PopUpShowPanel_OnChange"
+
+;!Raffke_jr - new bool expressions to workaround FFUI limitations
+	bHouseNumbersVisible.BOOLEXPR "map.cursorpos.lefthousenumber.valid|map.cursorpos.righthousenumber.valid"
+	bGPSSateliteVisible.BOOLEXPR "!navigation.car_pos_valid&gps.connection_status<3"
 </script>

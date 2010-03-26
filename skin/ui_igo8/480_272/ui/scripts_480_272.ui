@@ -241,9 +241,7 @@
 
 	sprNMRExitNum.x 26
 	btnNMC_Find.x 12
-	btnNMC_Find1.x 12
 	btnNMC_Find_normal.x 12
-	btnNMC_Find_normal1.x 12
 	sprNMB_GPSWarn.x -1
 	sprNMINextStreetBG.x 90
 ;8.0	sprNMINextStreetName.x 103
@@ -264,15 +262,12 @@
 	sprNMRDiriconDist.x 3
 	sprNMRDiriconUnit.x 3
 	sprNMIActualStreetBG.x 80
-;8.0	sprNMIActualStreetName.x 120
 	sprNMIActualStreetName.x 138
-;8.0	sprNMIActualStreetName.w 320
 	sprNMIActualStreetName.w 288
-;8.0	sprNMIActualHouseNum2.x 81
+	sprNMIActualStreetNameWide.x 98
+	sprNMIActualStreetNameWide.w 368
 	sprNMIActualHouseNum1.x 98
-;8.0	txtNMCPIStreetName.x 80
 	txtNMCPIStreetName.x 98
-;8.0	txtNMCPIStreetName.w 400
 	txtNMCPIStreetName.w 368
 	ui_NavigateMapPresetControls2D.y 0
 	ui_NavigateMapPresetControls3D.y 0
@@ -308,15 +303,12 @@
 	ui_NavigateMapSpeedLimit.y 0
 	ui_SpeedCamWarningLayer.y 7
 	sprNMIActualStreetBG.x 0
-;8.0	sprNMIActualStreetName.x 114
 	sprNMIActualStreetName.x 132
-;8.0	sprNMIActualStreetName.w 326
 	sprNMIActualStreetName.w 294
-;8.0	sprNMIActualHouseNum2.x 75
+	sprNMIActualStreetNameWide.x 92
+	sprNMIActualStreetNameWide.w 374
 	sprNMIActualHouseNum1.x 92
-;8.0	txtNMCPIStreetName.x 74
 	txtNMCPIStreetName.x 92
-;8.0	txtNMCPIStreetName.w 406
 	txtNMCPIStreetName.w 374
 
 	ui_NavigateMapZoomControls2D.y 12
@@ -366,9 +358,7 @@
 	sprNMRDiriconDist.x -200
 	sprNMRDiriconUnit.x -200
 	btnNMC_Find.x -200
-	btnNMC_Find1.x -200
 	btnNMC_Find_normal.x -200
-	btnNMC_Find_normal1.x -200
 	btnNMC_Recalc.x -200
 	spr_RecalcAnim.x -200
 	sprNMINextStreetBG.x 0
@@ -390,6 +380,8 @@
 	txtNMCPIStreetName.HIDE
 	sprNMIActualStreetName.visiblemodel ""
 	sprNMIActualStreetName.HIDE
+	sprNMIActualStreetNameWide.visiblemodel ""
+	sprNMIActualStreetNameWide.HIDE
 	sprNMIActualHouseNum1.visiblemodel ""
 	sprNMIActualHouseNum2.visiblemodel ""
 	sprNMIActualHouseNum1.HIDE
@@ -408,12 +400,11 @@
 	vehicle_icon.y 300
 	runif vFullScreenActualStreet 0 'ui_NavigateMapSpeedLimit.y 24'
 
-;8.0	sprNMIActualStreetName.x 40
-	sprNMIActualStreetName.x 58
-;8.0	sprNMIActualStreetName.w 400
-	sprNMIActualStreetName.w 368
-;8.0	sprNMIActualHouseNum2.x 1
-	sprNMIActualHouseNum1.x 18
+	sprNMIActualStreetName.x 54
+	sprNMIActualStreetName.w 372
+	sprNMIActualStreetNameWide.x 14
+	sprNMIActualStreetNameWide.w 452
+	sprNMIActualHouseNum1.x 14
 	txtNMCPIStreetName.x 0
 	txtNMCPIStreetName.w 480
 </script>

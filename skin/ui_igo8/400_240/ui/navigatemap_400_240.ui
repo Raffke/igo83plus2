@@ -176,14 +176,16 @@ import "ui_igo8/400_240/ui/navigate_speed_400_240.ui"
 ;!Raffke_jr - added name, onrelease, onlongclick and moved right by 5
 	<SPRITE sprNMINextStreetBG bmp="blackstripe.bmp" x=75 y=0 z=0 onrelease='SAYNEXTCOMMAND' onlongclick='run sc_ToggleMute'>
 	<ROADSHIELDEDTEXT sprNMINextStreetName   template=txt_map y=0 textmodel_wstr="navigation.next_street_enc"    visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|ui.vPresetOn">
-	<ROADSHIELDEDTEXT sprNMIActualStreetName template=txt_map w=229 x=123 textmodel_wstr="navigation.current_street_enc" visiblemodel="navigation.car_pos_valid&map.follow_gps">
+;!Raffke_jr - duplicated for streets without numbers
+	<ROADSHIELDEDTEXT sprNMIActualStreetName     template=txt_map w=244 x=108 textmodel_wstr="navigation.current_street_enc" visiblemodel="navigation.car_pos_valid&map.follow_gps&ui.bHouseNumbersVisible">
+	<ROADSHIELDEDTEXT sprNMIActualStreetNameWide template=txt_map w=314 x=73 textmodel_wstr="navigation.current_street_enc" visiblemodel="navigation.car_pos_valid&map.follow_gps&!ui.bHouseNumbersVisible">
 </layer>
 
-;!Raffke_jr - removed aligns and enabled HouseNum on Route: removed visiblemodel "!navigation.car_on_planned_route&!ui.vRouteCalculation"
+;!Raffke_jr - enabled HouseNum on Route: replaced visiblemodel "!navigation.car_on_planned_route&!ui.vRouteCalculation" by "ui.bHouseNumbersVisible"
 ;!Raffke_jr - TODO: possibility to display HouseNum only on Destination/Via street?!
 <layer ui_NavigateMapGPSPosHouseNumber z=51 visiblemodel="ui.vShowStreetsLayer">
-	<TEXT sprNMIActualHouseNum1  template=txt_map  x=73  w=30 textmodel_wstr="map.cursorpos.lefthousenumber"  visiblemodel="navigation.car_pos_valid&map.follow_gps"> 
-	<TEXT sprNMIActualHouseNum2  template=txt_map  x=357 w=30 textmodel_wstr="map.cursorpos.righthousenumber" visiblemodel="navigation.car_pos_valid&map.follow_gps">
+	<TEXT sprNMIActualHouseNum1  template=txt_map  x=73  w=30 textmodel_wstr="map.cursorpos.lefthousenumber"  visiblemodel="navigation.car_pos_valid&map.follow_gps&ui.bHouseNumbersVisible"> 
+	<TEXT sprNMIActualHouseNum2  template=txt_map  x=357 w=30 textmodel_wstr="map.cursorpos.righthousenumber" visiblemodel="navigation.car_pos_valid&map.follow_gps&ui.bHouseNumbersVisible">
 </layer>
 
 <layer ui_NavigateMapRouteNavigation z=51>
@@ -445,12 +447,10 @@ import "ui_igo8/400_240/ui/navigate_speed_400_240.ui"
 <layer ui_QuickFind z=40100 visiblemodel="!navigation.calculation_todo&!navigation.has_route">
 ;!Raffke_jr - removed for transparent cockpit (already removed in 8.3.2)
 ;	<SPRITE sprNMCCockpit_Find  x=0 y=0  w=70 z=0 bmp="cock_infobg1.bmp" visiblemodel="!ui.v3dzoomcontrol">
-;!Raffke_jr - duplicated & added visiblemodel to implement !(!navigation.car_pos_valid&gps.connection_status<3)
-	<BUTTON btnNMC_Find         x=11  y=12  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_main_find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="gps.connection_status>2&!ui.nUserMode&!ui.vOnFlyover"> 
-	<BUTTON btnNMC_Find1        x=11  y=12  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_main_find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="navigation.car_pos_valid&!ui.nUserMode&!ui.vOnFlyover"> 
+;!Raffke_jr - 2x added visiblemodel "!ui.bGPSSateliteVisible" to implement !(!navigation.car_pos_valid&gps.connection_status<3)
+	<BUTTON btnNMC_Find         x=11  y=12  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_main_find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="!ui.nUserMode&!ui.vOnFlyover&!ui.bGPSSateliteVisible"> 
 ;!TB - Added vAddFromDoneScript Reset Script to onrelease
-	<BUTTON btnNMC_Find_normal  x=8   y=9   z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_basicmain_address.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='vAddFromDoneScript.set 0, NEXTSTATE st_FindAddress' HIDE visiblemodel="gps.connection_status>2&ui.nUserMode&!ui.vOnFlyover">
-	<BUTTON btnNMC_Find_normal1 x=8   y=9   z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_basicmain_address.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='vAddFromDoneScript.set 0, NEXTSTATE st_FindAddress' HIDE visiblemodel="navigation.car_pos_valid&ui.nUserMode&!ui.vOnFlyover">
+	<BUTTON btnNMC_Find_normal  x=8   y=9   z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_basicmain_address.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='vAddFromDoneScript.set 0, NEXTSTATE st_FindAddress' HIDE visiblemodel="ui.nUserMode&!ui.vOnFlyover&!ui.bGPSSateliteVisible">
 
 ;!Raffke_jr - TODO: change to 400x240 layout?
 ;	<BUTTON btnNMC_Find         x=0   y=0  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="!ui.nUserMode&!ui.vOnFlyover"> 

@@ -273,9 +273,8 @@
 	FINDPATH_SELECT_MULTIPLAN $1
 
 	run sc_MultiplanCancel
-	runif vRouteType $1 'run sc_Fittoscreen_res, term sc_MultiplanSelect'
-	vRouteType.set $1
-	run sc_RMchange
+	runif vRouteType saved_vRouteType 'run sc_Fittoscreen_res'
+	else_run 'run sc_RMchange'
 </script>
 
 <script sc_MultiplanCancel>

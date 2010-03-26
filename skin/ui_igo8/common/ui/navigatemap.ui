@@ -1046,9 +1046,10 @@
 	sprNMINextStreetName.SHOW
 	sprNMIActualStreetBG.SHOW
 	txtNMCPIStreetName.visiblemodel "!map.follow"
-	sprNMIActualStreetName.visiblemodel "navigation.car_pos_valid&map.follow_gps"
-	sprNMIActualHouseNum1.visiblemodel "navigation.car_pos_valid&map.follow_gps"
-	sprNMIActualHouseNum2.visiblemodel "navigation.car_pos_valid&map.follow_gps"
+	sprNMIActualStreetName.visiblemodel "navigation.car_pos_valid&map.follow_gps&ui.bHouseNumbersVisible"
+	sprNMIActualStreetNameWide.visiblemodel "navigation.car_pos_valid&map.follow_gps&!ui.bHouseNumbersVisible"
+	sprNMIActualHouseNum1.visiblemodel "navigation.car_pos_valid&map.follow_gps&ui.bHouseNumbersVisible"
+	sprNMIActualHouseNum2.visiblemodel "navigation.car_pos_valid&map.follow_gps&ui.bHouseNumbersVisible"
 	run sc_RD_ChangeNormalScreenMode
 
 	run sc_speedonmap_pos

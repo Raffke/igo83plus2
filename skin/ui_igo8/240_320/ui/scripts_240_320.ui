@@ -231,9 +231,7 @@
 
 	sprNMRExitNum.x 18
 	btnNMC_Find.x 0
-	btnNMC_Find1.x 0
 	btnNMC_Find_normal.x 0
-	btnNMC_Find_normal1.x 0
 ;!Raffke_jr - TODO: remove in all resolutions
 ;	btnNMC_Recalc.x 7
 	sprNMB_GPSWarn.x 73
@@ -256,6 +254,8 @@
 	sprNMIActualStreetBG.x 0
 	sprNMIActualStreetName.x 30
 	sprNMIActualStreetName.w 180
+	sprNMIActualStreetNameWide.x 0
+	sprNMIActualStreetNameWide.w 240
 	sprNMIActualHouseNum1.x 0
 	txtNMCPIStreetName.x 0
 	txtNMCPIStreetName.w 240
@@ -297,6 +297,8 @@
 ;	sprNMIActualStreetBG.x 0
 ;	sprNMIActualStreetName.x 30
 ;	sprNMIActualStreetName.w 180
+;	sprNMIActualStreetNameWide.x 0
+;	sprNMIActualStreetNameWide.w 240
 ;	sprNMIActualHouseNum1.x 0
 ;	txtNMCPIStreetName.x 70
 ;	txtNMCPIStreetName.w 248
@@ -354,9 +356,7 @@
 	sprNMRDiriconDist.x -200
 	sprNMRDiriconUnit.x -200
 	btnNMC_Find.x -200
-	btnNMC_Find1.x -200
 	btnNMC_Find_normal.x -200
-	btnNMC_Find_normal1.x -200
 	btnNMC_Recalc.x -200
 	spr_RecalcAnim.x -200
 ;!Raffke_jr - TODO: do we need to reposition in Portrait?
@@ -380,6 +380,8 @@
 	txtNMCPIStreetName.HIDE
 	sprNMIActualStreetName.visiblemodel ""
 	sprNMIActualStreetName.HIDE
+	sprNMIActualStreetNameWide.visiblemodel ""
+	sprNMIActualStreetNameWide.HIDE
 	sprNMIActualHouseNum1.visiblemodel ""
 	sprNMIActualHouseNum2.visiblemodel ""
 	sprNMIActualHouseNum1.HIDE
@@ -401,6 +403,8 @@
 ;!Raffke_jr - TODO: do we need to reposition in Portrait?
 ;	sprNMIActualStreetName.x 30
 ;	sprNMIActualStreetName.w 180
+;	sprNMIActualStreetName.x 0
+;	sprNMIActualStreetName.w 240
 ;	sprNMIActualHouseNum1.x 0
 ;	txtNMCPIStreetName.x 0
 ;	txtNMCPIStreetName.w 240
