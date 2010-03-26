@@ -26,8 +26,8 @@
 ;!Raffke_jr - applied new templates
 <layer ui_SettingSpeedCamCategory z=35>
 ;!Raffke_jr - TODO: Fit to new templates (4x)
-	<TEXT       xxx                    template=txt_sld         template=y_1 z=30 w=85  text="Alert sound:">
-	<SLIDER     xxx                    template=sld_lb5f  x=33  template=y_1 z=10 w=84  align="RIGHT-8" var=tmpSpeedcamAlertSound value="Alert 1|1|Alert 2|2|Alert 3|3|Alert 4|4|Alert 5|5|Alert 6|6|User Alert 1|7|User Alert 2|8|User Alert 3|9|User Alert 4|10|User Alert 5|11">
+	<TEXT       xxx                    template=txt_sld         template=y_1 z=30 w=70  text="Alert sound:">
+	<SLIDER     xxx                    template=sld_lb5f  x=33  template=y_1 z=10 w=70  align="RIGHT-8" var=tmpSpeedcamAlertSound value="Alert 1|1|Alert 2|2|Alert 3|3|Alert 4|4|Alert 5|5|Alert 6|6|User Alert 1|7|User Alert 2|8|User Alert 3|9|User Alert 4|10|User Alert 5|11">
 	<SLIDER     xxx                    template=sld_lb5f  x=209 template=y_1 z=20 align="CENTER" padding=4 var=tmpSpeedcamAlertInterval value="Once per overspeed|-2|Off|-1|Continously|0|At 1 interval|1|At 2 intervals|2|At 3 intervals|3|At 4 intervals|4|At 5 intervals|5|At 10 intervals|10|At 15 intervals|15|At 20 intervals|20|At 25 intervals|25|At 30 intervals|30|At 40 intervals|40|At 50 intervals|50">
 	<BUTTON     xxx                    template=btn_lb5e  x=390 template=y_1 z=10 text="test" onrelease='run sc_SpeedcamAlertTestSound'> 
 

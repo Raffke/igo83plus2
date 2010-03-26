@@ -22,6 +22,11 @@
 <TEMPLATE btn_map x=434 w=30   font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5">
 
 ;****************************************************************************************************************
+;!TB, di/\/\ka - speed on map display
+;****************************************************************************************************************
+import "ui_igo8/480_272/ui/navigate_speed_480_272.ui"
+
+;****************************************************************************************************************
 
 <layer ui_NavigateMapButtons z=3000>
 ;!Raffke_jr - removed "navigation.car_pos_valid&!ui.vOnFlyover" from visiblemodel="ui.vDiriconVisible", changed bmp from "startnavi.bmp" to use full size to click
@@ -59,10 +64,11 @@
 
 ;!TB, di/\/\ka
 <layer ui_NavigateMapCompass z=3000 hide>
-	<VSPRITE vspr_compass3d_on_map vec="$compass3d.vpr"   x=435 y=36  z=40 rotatemodel="map.rotation_angle">
-	<SPRITE  vspr_compass2d_on_map bmp="$northlock.spr#2" x=446 y=45  z=40 phase=0 hide>
+	<VSPRITE vspr_compass3d_on_map  vec="$compass3d.vpr"   x=435 y=36  z=40 rotatemodel="map.rotation_angle">
+	<VSPRITE vspr_compass2d_on_map  vec="$compass2d.vpr"   x=435 y=36  z=40 rotatemodel="map.rotation_angle" hide>
+	<SPRITE  vspr_compass2dn_on_map bmp="$northlock.spr#2" x=446 y=45  z=40 phase=0 hide>
 ;!Raffke_jr - changed onlongclick for OverviewMode
-	<BUTTON  sprNMB_Compass  template=btn_map  bmp="$4scr_empty.bmp#2" y=35  onrelease='run feature_switch_3D' onlongclick='run sc_FitToScreen_Cockpit'>
+	<BUTTON  sprNMB_Compass  template=btn_map  bmp="$4scr_empty.bmp#2" y=35  onrelease='run sc_btnBMC_Compass_OnRelease' onlongclick='run sc_FitToScreen_Cockpit'>
 </layer>
 
 ;!TB, di/\/\ka - new layer

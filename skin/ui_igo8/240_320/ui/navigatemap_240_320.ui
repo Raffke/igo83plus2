@@ -11,34 +11,88 @@
 <TEMPLATE btn_map x=195 w=30   font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5">
 
 ;****************************************************************************************************************
+;!TB, di/\/\ka - speed on map display
+;****************************************************************************************************************
+import "ui_igo8/240_320/ui/navigate_speed_240_320.ui"
+
+;****************************************************************************************************************
 
 <layer ui_NavigateMapButtons z=3000>
-	<BUTTON btnNMB_RouteInfo   x=0   y=20  z=100  alpha=0 text="" align="CENTER" valign="CENTER-5"   bmp="startnavi.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_RouteInfo' visiblemodel="ui.vDiriconVisible"> 
+;!Raffke_jr - removed "navigation.car_pos_valid&!ui.vOnFlyover" from visiblemodel="ui.vDiriconVisible", changed bmp from "startnavi.bmp" to use full size to click
+	<BUTTON btnNMB_RouteInfo   x=0   y=20  z=100  alpha=0 text="" align="CENTER" valign="CENTER-5"   bmp="cock_infobg1.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_RouteInfo' visiblemodel="navigation.has_navigable_path&!ui.vRouteCalculation"> 
 
 	;; the STOPFLYOVER command also stops other kinds of simulations (i.e. saved track replay)
-	<BUTTON btnNMB_Stop    bmp="simulate.bmp#2"  x=75 y=20 w=40 z=2 z=1000  text="Stop" font="tahomabd" align="CENTER+1" valign="bottom-7" color=#FFFFFF onRelease='STOPFLYOVER, run sc_3DFlyOverModeOff' visiblemodel="ui.vOnFlyover">
+;!TB - repositioned Stop button
+;	<BUTTON btnNMB_Stop    bmp="simulate.bmp#2"  x=75 y=20 w=40 z=2 z=1000  text="Stop" font="tahomabd" align="CENTER+1" valign="bottom-7" color=#FFFFFF onRelease='STOPFLYOVER, run sc_3DFlyOverModeOff' visiblemodel="ui.vOnFlyover">
+	<BUTTON btnNMB_Stop    template=btn_map bmp="$4scr_stop.bmp#2"     y=194 z=1000 text="Stop" onRelease='run sc_NaviMenuAlphaRestore, STOPFLYOVER, run sc_3DFlyOverModeOff' visiblemodel="ui.vOnFlyover">
 	
-	<BUTTON btnNMB_Menu    template=btn_map bmp="4scr_menu1.bmp#2"  x=195  y=245 text="Menu" fontsize=9 align="CENTER-4" valign="BOTTOM-29"   onrelease='run sc_btnNMB_Menu_OnRelease'>
+;!TB MR - Exit on long click
+	<BUTTON btnNMB_Menu    template=btn_map bmp="4scr_menu1.bmp#2"  x=195  y=245 text="Menu" fontsize=9 align="CENTER-4" valign="BOTTOM-29"   onrelease='run sc_btnNMB_Menu_OnRelease' onlongclick='STATE ExitState'>
 	
+;di/\/\ka - commented out
+;	<BUTTON btnNMB_Nav2D   template=btn_map bmp="$4scr_map.bmp#2"      y=96  text="2D"      onrelease='run sc_btnBMC_Compass_OnRelease'>
+;	<BUTTON btnNMB_Nav2DN  template=btn_map bmp="$4scr_NorthUp.bmp#2"  y=96  text="2D"      onrelease='run sc_btnBMC_Compass_OnRelease'>
+;	<BUTTON btnNMB_Nav3D   template=btn_map bmp="$4scr_cock.bmp#2"     y=96  text="3D"      onrelease='run sc_btnBMC_Compass_OnRelease'>
+;	<BUTTON btnNMB_ExOv2D  template=btn_map bmp="$4scr_map.bmp#2"      y=96  text="2D"      onrelease='map.SET_OVERVIEW 0' hide>
+;	<BUTTON btnNMB_ExOv3D  template=btn_map bmp="$4scr_cock.bmp#2"     y=96  text="3D"      onrelease='map.SET_OVERVIEW 0' hide>
+
+;!TB - New button to show flyover panel
+	<BUTTON btnNMB_FlyOver template=btn_map bmp="$4scr_navfly.bmp#2"   y=96 w=40 text="Fly over" onrelease='run sc_NaviMenuAlphaRestore, btnNMB_FlyOver.HIDE, ui_NavigateMapFlyOver_Box.SHOW' alpha=32 hide>
+
+;!Raffke_jr - PlanMode on long click
+	<BUTTON btnNMB_Detour  template=btn_map bmp="$4scr_route.bmp#2"    y=145 text="Detour"  onrelease='nextstate st_Detour' onlongclick='run sc_StartPlanMode'>	
+
+;!TB - 2x "Find" on long click
+	<BUTTON btnNMB_Cursor  template=btn_map bmp="$4scr_use_cur.bmp#2"  y=194 text="Cursor"  onrelease='nPlaceForPos.set 0, run sc_btnNMB_Use_OnRelease' onlongclick='run sc_OpenFindMenu'>
+	<BUTTON btnNMB_Pos     template=btn_map bmp="$4scr_use.bmp#2"      y=194 text="Pos."    onrelease='nPlaceForPos.set 1, run sc_btnNMB_Pos_OnRelease' onlongclick='run sc_OpenFindMenu'>
+
+;!TB - allow during flyover
+	<BUTTON btnNMB_Itiner bmp="dummy_itiner.bmp" alpha=0 x=78 y=20 onrelease='run sc_ShowCockpitDetailDirInfo2'>
+</layer>
+
+;!TB, di/\/\ka
+<layer ui_NavigateMapCompass z=3000 hide>
+	<VSPRITE vspr_compass3d_on_map  vec="$compass3d.vpr"   x=196 y=97  z=40 rotatemodel="map.rotation_angle">
+	<VSPRITE vspr_compass2d_on_map  vec="$compass2d.vpr"   x=196 y=97  z=40 rotatemodel="map.rotation_angle" hide>
+	<SPRITE  vspr_compass2dn_on_map bmp="$northlock.spr#2" x=207 y=106 z=40 phase=0 hide>
+;!Raffke_jr - changed onlongclick for OverviewMode
+	<BUTTON  sprNMB_Compass  template=btn_map  bmp="$4scr_empty.bmp#2" y=96  onrelease='run sc_btnBMC_Compass_OnRelease' onlongclick='run sc_FitToScreen_Cockpit'>
+</layer>
+
+;!TB, di/\/\ka - new layer
+;!Raffke_jr - changed onlongclick for OverviewMode
+<layer ui_NavigateMap3dButtons z=3000>
 	<BUTTON btnNMB_Nav2D   template=btn_map bmp="$4scr_map.bmp#2"      y=96  text="2D"      onrelease='run sc_btnBMC_Compass_OnRelease'>
 	<BUTTON btnNMB_Nav2DN  template=btn_map bmp="$4scr_NorthUp.bmp#2"  y=96  text="2D"      onrelease='run sc_btnBMC_Compass_OnRelease'>
 	<BUTTON btnNMB_Nav3D   template=btn_map bmp="$4scr_cock.bmp#2"     y=96  text="3D"      onrelease='run sc_btnBMC_Compass_OnRelease'>
 	<BUTTON btnNMB_ExOv2D  template=btn_map bmp="$4scr_map.bmp#2"      y=96  text="2D"      onrelease='map.SET_OVERVIEW 0' hide>
 	<BUTTON btnNMB_ExOv3D  template=btn_map bmp="$4scr_cock.bmp#2"     y=96  text="3D"      onrelease='map.SET_OVERVIEW 0' hide>
-	<BUTTON btnNMB_Detour  template=btn_map bmp="$4scr_route.bmp#2"    y=145 text="Detour"  onrelease='nextstate st_Detour'>	
-	<BUTTON btnNMB_Cursor  template=btn_map bmp="$4scr_use_cur.bmp#2"  y=194 text="Cursor"  onrelease='nPlaceForPos.set 0, run sc_btnNMB_Use_OnRelease'>
-	<BUTTON btnNMB_Pos     template=btn_map bmp="$4scr_use.bmp#2"      y=194 text="Pos."    onrelease='nPlaceForPos.set 1, run sc_btnNMB_Pos_OnRelease'>	
-
-	<BUTTON btnNMB_Itiner bmp="dummy_itiner.bmp" alpha=0 x=78 y=20 onrelease='run sc_ShowCockpitDetailDirInfo2' visiblemodel="!ui.vOnFlyover">
 </layer>
 
+;!TB - New Layer for Flyover controls
+<layer ui_NavigateMapFlyOver_Box z=50001 x=32 y=95 hide>
+	<SPRITE xxx z=0  x=0   y=0 bmp="$navfly_bg.bmp">
+
+	<BUTTON xxx z=22 x=2   y=2 bmp="$navfly_play.bmp#2"       onrelease='SIMULATE_RESUME' visiblemodel="!ui.is_simulation_playing" >
+	<BUTTON xxx z=21 x=2   y=2 bmp="$navfly_pause.bmp#2"      onrelease='SIMULATE_PAUSE' visiblemodel="ui.is_simulation_playing" >
+	<BUTTON xxx z=20 x=43  y=2 bmp="$navfly_slower.bmp#2"     onrelease='SIMULATE_SLOWERSPEED' enabledmodel="ui.is_simulation_playing">
+	<BUTTON xxx z=20 x=84  y=2 bmp="$navfly_resetspeed.bmp#2" onrelease='SIMULATE_RESETSPEED' enabledmodel="ui.is_simulation_playing">
+	<BUTTON xxx z=20 x=125 y=2 bmp="$navfly_faster.bmp#2"     onrelease='SIMULATE_FASTERSPEED' enabledmodel="ui.is_simulation_playing">
+	<BUTTON xxx z=20 x=166 y=2 bmp="$navfly_hide.bmp#2"       onrelease='btnNMB_FlyOver.SHOW, ui_NavigateMapFlyOver_Box.HIDE'>
+
+	<HSCROLLBAR hscNavFly_Progress z=20 x=2 y=31 min=0 max=1 invert bmp="$navfly_progress_bg.bmp" sprind="$navfly_progress_sprind.bmp" valuemodel="navigation.time_to_destination_int" disable>
+	<TEXT   xxx z=20 x=147  y=35 w=59 textmodel_wstr="navigation.current_speed.full_text" visiblemodel="navigation.current_speed.valid" fontsize=10 font="tahomabd" glowsize=1 align="center" color=#FFFFFF color2=#000000 color3=#000000>
+</layer>
+
+
 <layer ui_NavigateMapButtons_nogps z=3001 visiblemodel="!navigation.has_route">
-	<BUTTON	sprNMB_GPSWarn template=xtxt x=73 y=12 z=100 bmp="nogps.bmp" visiblemodel="gps.connection_status>2&!ui.vRouteCalculation&!ui.vOnFlyover" onrelease='NEXTSTATE st_SettingGPS'> 
+;!TB - visiblemodel
+	<BUTTON	sprNMB_GPSWarn template=xtxt x=73 y=12 z=100 bmp="nogps.bmp" visiblemodel="gps.connection_status>2&!ui.vRouteCalculation&!ui.vOnFlyover&!ui.vFullScreenCockpit" onrelease='NEXTSTATE st_SettingGPS'> 
 </layer>
 
 <script sc_GoItinerOnMap>
 	map.ISROUTEVALID vValidRoute vDeletableRoute
-    runif vValidRoute 1 'NEXTSTATE st_RouteItinerary'
+	runif vValidRoute 1 'NEXTSTATE st_RouteItinerary'
 </script>
 
 <layer ui_NavigateMapZoomControls3D z=50000 visiblemodel="ui.vPresetOn&!ui.vHideZoomControls&ui.vMapModeBool">
@@ -51,8 +105,9 @@
 	
 	<BUTTON     xxx x=0   y=20 z=0 bmp="ges_rot1.bmp#2"  onClick='START_STOP_ROTATE 0 1,run sc_NaviMenuAlphaRe_term' onRelease='START_STOP_ROTATE 0 0,run sc_NaviMenuTimerInit' onMouseLeave='START_STOP_ROTATE 0 0,run sc_NaviMenuTimerInit'>
 	<BUTTON     xxx x=39  y=20 z=0 bmp="ges_rot3.bmp#2"  onClick='START_STOP_ROTATE 1 1,run sc_NaviMenuAlphaRe_term' onRelease='START_STOP_ROTATE 1 0,run sc_NaviMenuTimerInit' onMouseLeave='START_STOP_ROTATE 1 0,run sc_NaviMenuTimerInit'>
-	<SPRITE		xxx x=210 y=88 z=0 bmp="cock_infobg4_shadow.bmp">
-	
+
+;!Raffke_jr - moved shadow to ui_NavigateMapStatus
+;	<SPRITE		xxx x=210 y=88 z=0 bmp="cock_infobg4_shadow.bmp">
 </layer>
 
 <layer ui_NavigateMapBT z=50000 visiblemodel="other.bluetooth.available|other.phone.available">
@@ -74,7 +129,6 @@
 	<BUTTON xxx                  x=98  y=276   z=0 bmp="cam_top.bmp#2"         clickmodel="map.carviewpresets TOP"     onRelease='run sc_disable_smartzoom_3D, run sc_RefreshNavigateMapScreenAfterViewPreset 1' onlongclick='run sc_ModifyPreset "TOP"'>
 	<BUTTON btn_NMPC3D_VZoom3D1  x=147 y=276   z=0 bmp="zoom_exitmenu.bmp#2"   visiblemodel="navigation.car_pos_valid&map.follow" onRelease='run sc_enable_smartzoom_3D,  run sc_RefreshNavigateMapScreenAfterViewPreset 1, .map.carviewpresets "DEFAULT"' onlongclick='NEXTSTATE st_SettingVisualZoom3D'>																					
 	<BUTTON btn_NMPC3D_VZoom3D2  x=147 y=276   z=0 bmp="zoom_exitmenu.bmp#2"   visiblemodel="!navigation.car_pos_valid" onRelease='run sc_enable_smartzoom_3D,  run sc_RefreshNavigateMapScreenAfterViewPreset 0, .map.carviewpresets "NOGPS_DEFAULT"' onlongclick='NEXTSTATE st_SettingVisualZoom3D'>
-
 </layer>
 
 <layer ui_NavigateMapPresetControls2D z=50000 visiblemodel="ui.vPresetOn&!ui.vMapModeBool">
@@ -90,8 +144,10 @@
 </layer>
 
 <layer ui_NavigateMapInfos z=50>
+;!Raffke_jr - TODO: remove?!
 	<SPRITE xxx   bmp="blackstripe0.bmp" x=0 y=0 z=0>
-	<SPRITE sprNMIActualStreetBG bmp="blackstripe.bmp"       x=0   y=300 z=0>
+;!Raffke_jr - added Panic Button
+	<SPRITE sprNMIActualStreetBG bmp="blackstripe.bmp"       x=0   y=300 z=0 onlongclick='run sc_PanicButton_onRelease' onrelease='run sc_PanicButton_onRelease'>
 </layer>
 
 <layer ui_NavigateMapSingpost z=30000 visiblemodel="!map.globe_mode">
@@ -99,60 +155,88 @@
 </layer>
 
 <layer ui_NavigateMapCursorPosInfos z=51>
-	<SPRITE xxx bmp="blackstripe.bmp" x=70 y=-3 z=0>
+;!TB - Added onclick handler to say the next voice guidance
+;!Raffke_jr - added name, moved left by 70
+	<SPRITE sprNMCPINextStreetBG bmp="blackstripe.bmp" x=0 y=-3 z=0 onclick='SAYNEXTCOMMAND'>
 	<ROADSHIELDEDTEXT sprNMCPINextStreetName template=txt_map       textmodel_wstr="navigation.next_street_enc" visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|ui.vPresetOn">
 	<TEXT txtNMCPIStreetName                 template=txt_map y=300 textmodel_wstr="map.cursorpos.posinfotext" visiblemodel="!map.follow">
 </layer>
 
 <layer ui_NavigateMapGPSPosInfos z=50001>
-	<SPRITE xxx bmp="blackstripe.bmp" x=70 y=-1 z=0 visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|!navigation.car_pos_valid|ui.vPresetOn">
-
+;!TB - Added onclick handler to say the next voice guidance
+;!Raffke_jr - added name, moved left by 70
+	<SPRITE sprNMINextStreetBG   bmp="blackstripe.bmp" x=0 y=-1 z=0 visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|!navigation.car_pos_valid|ui.vPresetOn" onclick='SAYNEXTCOMMAND'>
 	<ROADSHIELDEDTEXT sprNMINextStreetName   template=txt_map textmodel_wstr="navigation.next_street_enc"         visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|ui.vPresetOn">
-	<ROADSHIELDEDTEXT sprNMIActualStreetName template=txt_map y=300 textmodel_wstr="navigation.current_street_enc"  visiblemodel="navigation.car_pos_valid&map.follow_gps">
 
-;   <TEXT sprNMINextStreetName    template=xtxt    z=10  align="CENTER" textmodel_wstr="navigation.next_street" y=70 fontsize=14 font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000 color3=#000000  visiblemodel="map.follow">
+;!Raffke_jr - added x/w to insert HouseNum
+;	<ROADSHIELDEDTEXT sprNMIActualStreetName template=txt_map y=300 textmodel_wstr="navigation.current_street_enc"  visiblemodel="navigation.car_pos_valid&map.follow_gps">
+	<ROADSHIELDEDTEXT sprNMIActualStreetName template=txt_map x=30 w=180 y=300 textmodel_wstr="navigation.current_street_enc"  visiblemodel="navigation.car_pos_valid&map.follow_gps">
+
+;	<TEXT sprNMINextStreetName    template=xtxt    z=10  align="CENTER" textmodel_wstr="navigation.next_street" y=70 fontsize=14 font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000 color3=#000000  visiblemodel="map.follow">
 ;	<TEXT sprNMIActualStreetName template=xtxt x=30 y=302 z=10 w=187 align="CENTER" textmodel_wstr="navigation.current_street" fontsize=14 font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000 color3=#000000 visiblemodel="map.follow">
 </layer>
 
-<layer ui_NavigateMapGPSPosHouseNumber z=51 visiblemodel="!navigation.car_on_planned_route&ui.vShowStreetsLayer&!ui.vRouteCalculation&!ui.vPresetOn">
-	<SPRITE xxx                  bmp="blackstripe_hnum.bmp"  x=48  y=280 z=0 visiblemodel="map.follow&!ui.vRouteCalculation&map.cursorpos.lefthousenumber.valid">
-	<TEXT sprNMIActualHouseNum1  template=txt_map            x=50  y=280 w=51 textmodel_wstr="map.cursorpos.lefthousenumber"  visiblemodel="navigation.car_pos_valid&map.follow_gps&map.cursorpos.lefthousenumber.valid"> 
-	
-	<SPRITE xxx                  bmp="blackstripe_hnum.bmp"  x=138 y=280 z=0 visiblemodel="map.follow&!ui.vRouteCalculation&map.cursorpos.righthousenumber.valid">
-	<TEXT sprNMIActualHouseNum2  template=txt_map            x=140 y=280 w=51 textmodel_wstr="map.cursorpos.righthousenumber" visiblemodel="navigation.car_pos_valid&map.follow_gps&map.cursorpos.righthousenumber.valid">
+;!Raffke_jr - enabled HouseNum on Route: removed visiblemodel "!navigation.car_on_planned_route&!ui.vRouteCalculation&!ui.vPresetOn"
+;!Raffke_jr - TODO: possibility to display HouseNum only on Destination/Via street?!
+<layer ui_NavigateMapGPSPosHouseNumber z=51 visiblemodel="ui.vShowStreetsLayer">
+;!Raffke_jr - moved back to last line
+;	<SPRITE xxx                  bmp="blackstripe_hnum.bmp"  x=48  y=280 z=0 visiblemodel="map.follow&!ui.vRouteCalculation&map.cursorpos.lefthousenumber.valid">
+;	<TEXT sprNMIActualHouseNum1  template=txt_map            x=50  y=280 w=51 textmodel_wstr="map.cursorpos.lefthousenumber"  visiblemodel="navigation.car_pos_valid&map.follow_gps&map.cursorpos.lefthousenumber.valid"> 
+;	<SPRITE xxx                  bmp="blackstripe_hnum.bmp"  x=138 y=280 z=0 visiblemodel="map.follow&!ui.vRouteCalculation&map.cursorpos.righthousenumber.valid">
+;	<TEXT sprNMIActualHouseNum2  template=txt_map            x=140 y=280 w=51 textmodel_wstr="map.cursorpos.righthousenumber" visiblemodel="navigation.car_pos_valid&map.follow_gps&map.cursorpos.righthousenumber.valid">
+	<TEXT sprNMIActualHouseNum1  template=txt_map  x=0   y=300 w=30 textmodel_wstr="map.cursorpos.lefthousenumber"  visiblemodel="navigation.car_pos_valid&map.follow_gps"> 
+	<TEXT sprNMIActualHouseNum2  template=txt_map  x=210 y=300 w=30 textmodel_wstr="map.cursorpos.righthousenumber" visiblemodel="navigation.car_pos_valid&map.follow_gps">
 </layer>
 
 <layer ui_NavigateMapRouteNavigation z=51>
 	<BUTTON sprNMRCockpit      x=0   y=20 z=0 bmp="cock_infobg1.bmp" visiblemodel="!ui.v3dzoomcontrol"  onrelease='NEXTSTATE st_RouteInfo' enabledmodel="!ui.vDiriconVisible&!ui.vOnFlyover" CHECKHIT>
-	<SPRITE xxx                x=75  y=20 z=0 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol">
-	<SPRITE xxx                x=130 y=20 z=0 bmp="cock_infobg3.bmp" visiblemodel="!ui.v3dzoomcontrol">
-	<BUTTON btnNMR_CockpitInfo x=130 y=0  z=1 bmp="dummy_tripcompu.bmp" alpha=0 onrelease='run sc_ShowCockpitDetailTrip' visiblemodel="!ui.v3dzoomcontrol"  enabledmodel="!ui.vOnFlyover">
-	<SPRITE spr_cock_infobg4   x=209 y=20 z=0 bmp="cock_infobg4.bmp">
+;!TB - visiblemodel for 2 controls below
+;!Raffke_jr - added names for transparent Cockpit style
+	<SPRITE sprNMRCockpit2     x=75  y=20 z=0 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol&!ui.vFullScreenCockpit">
+	<SPRITE sprNMRCockpit3     x=130 y=20 z=0 bmp="cock_infobg3.bmp" visiblemodel="!ui.v3dzoomcontrol&!ui.vFullScreenCockpit">
+;!TB - Removed enabledmodel, changed visiblemodel
+	<BUTTON btnNMR_CockpitInfo x=130 y=0  z=1 bmp="dummy_tripcompu.bmp" alpha=0 onrelease='run sc_ShowCockpitDetailTrip' visiblemodel="!ui.v3dzoomcontrol&!ui.vFullScreenCockpit" >
+;!Raffke_jr - commented as in 480x272
+;	<SPRITE spr_cock_infobg4   x=209 y=20 z=0 bmp="cock_infobg4.bmp">
 
 	<SPRITE sprNMRDiricon x=0  y=37  z=10 iconmodel="navigation.direction_icon" iconindex=2 visiblemodel="navigation.direction_icon.valid&navigation.distance_to_manuver.valid&!ui.vRouteCalculation&navigation.car_on_planned_route">
 	<SPRITE sprNMRExitNum x=18 y=55  z=10 iconmodel="navigation.exit_icon"      iconindex=1 visiblemodel="navigation.exit_icon.valid&navigation.distance_to_manuver.valid&!ui.vRouteCalculation">
-	<SPRITE xxx           x=90 y=24  z=10 iconmodel="navigation.secondary_direction_icon" iconindex=2 visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&navigation.secondary_direction_icon.valid&!ui.vRouteCalculation&!ui.vOnFlyover" zoom=512>
+;!Raffke_jr - visiblemodel for Flyover/Fullscreen/TMC/Speedcam
+	<SPRITE xxx           x=90 y=24  z=10 iconmodel="navigation.secondary_direction_icon" iconindex=2 visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&navigation.secondary_direction_icon.valid&!ui.vRouteCalculation&ui.bShowSecondaryDistance" zoom=512>
 	
-	<SPRITE sprLaneInfo x=30 y=279 w=176 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.bLaneinfoSignpostValid&!ui.vPresetOn">	
-	
-	
-;!Raffke_jr - 2x removed x, w, align and changed DIRDISTALIGNER to ALIGNER
-	<TEXT sprNMRDiriconDist template=xtxt  y=15  z=10  h=30 font="tahomabd" glowsize=1 fontsize=22 color=#FFFFFF color2=#000000 fixedwidthnumbers=1 textmodel_wstr="navigation.distance_to_manuver.number_text" visiblemodel="navigation.distance_to_manuver.valid&!ui.vRouteCalculation&navigation.car_on_planned_route">
-	<TEXT sprNMRDiriconUnit template=xtxt  y=19  z=10  h=30 font="tahomabd"            fontsize=10 color=#bbbbbb                textmodel_wstr="navigation.distance_to_manuver.unit_text" visiblemodel="navigation.distance_to_manuver.valid&!ui.vRouteCalculation&navigation.car_on_planned_route">
-	<ALIGNER xxx x=3 w=65 align="CENTER" control=sprNMRDiriconDist padding=4 control=sprNMRDiriconUnit>
+;!TB - moved to a separate layer
+;	<SPRITE sprLaneInfo x=30 y=279 w=176 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.bLaneinfoSignpostValid&!ui.vPresetOn">
 
-;!Raffke_jr - 2x removed w, align and changed DIRDISTALIGNER to ALIGNER
-	<TEXT DistanceToManuverDist template=txt_sec  textmodel_wstr="navigation.secondary_distance_to_manuver_diff.number_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&!ui.vOnFlyover">
-	<TEXT DistanceToManuverUnit template=txt_sec  color=#bbbbbb fontsize=10 textmodel_wstr="navigation.secondary_distance_to_manuver_diff.unit_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&!ui.vOnFlyover">
-	<ALIGNER xxx x=80 w=50 align="CENTER" control=DistanceToManuverDist padding=4 control=DistanceToManuverUnit>
+	<TEXT sprNMRDiriconDist template=xtxt x=3  y=15  z=10 w=50 h=30 font="tahomabd" glowsize=1 fontsize=22 color=#FFFFFF color2=#000000 align="CENTER" fixedwidthnumbers=1 textmodel_wstr="navigation.distance_to_manuver.number_text" visiblemodel="navigation.distance_to_manuver.valid&!ui.vRouteCalculation&navigation.car_on_planned_route">
+;!Raffke_jr - added glowsize, color2
+	<TEXT sprNMRDiriconUnit template=xtxt x=3 y=19  z=10 w=17 h=30 font="tahomabd" glowsize=1 fontsize=10 color=#bbbbbb color2=#000000 align="LEFT" textmodel_wstr="navigation.distance_to_manuver.unit_text" visiblemodel="navigation.distance_to_manuver.valid&!ui.vRouteCalculation&navigation.car_on_planned_route">
+	<DIRDISTALIGNER xxx x=3 w=65 align="CENTER" control=sprNMRDiriconDist padding=4 control=sprNMRDiriconUnit>
+
+;!Raffke_jr - 2x visiblemodel for Flyover/Fullscreen/TMC/Speedcam: changed "!ui.vOnFlyover" to "ui.bShowSecondaryDistance"
+	<TEXT DistanceToManuverDist template=txt_sec w=35 textmodel_wstr="navigation.secondary_distance_to_manuver_diff.number_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&ui.bShowSecondaryDistance">
+	<TEXT DistanceToManuverUnit template=txt_sec w=15 color=#bbbbbb align="LEFT" fontsize=10 textmodel_wstr="navigation.secondary_distance_to_manuver_diff.unit_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&ui.bShowSecondaryDistance">
+	<DIRDISTALIGNER xxx x=0 w=50 align="CENTER" control=DistanceToManuverDist padding=4 control=DistanceToManuverUnit>
 </layer>
 
-<layer ui_NavigateMapSpeedLimit z=51>
+;!TB - New layer for LaneInfo
+<layer ui_NavigateMapRouteLaneInfo z=52>
+;!Raffke_jr - changed hiding by setting Y, expanded width to center on display
+	<SPRITE sprLaneInfo100 x=30 y=279 w=180 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.bLaneinfoSignpostValid&!ui.vPresetOn">
+	<SPRITE sprLaneInfo150 x=30 y=269 w=180 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.bLaneinfoSignpostValid&!ui.vPresetOn">
+	<SPRITE sprLaneInfo200 x=30 y=259 w=180 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.bLaneinfoSignpostValid&!ui.vPresetOn">
+</layer>
+
+;!TB - added visiblemodel
+<layer ui_NavigateMapSpeedLimit z=51 visiblemodel="navigation.near_speed_limit|ui.vSpeedLimitVisual=2&navigation.current_speed_limit.valid">
   	<SPRITE xxx bmp="$speed.bmp" x=5  y=255 z=100 visiblemodel="navigation.near_speed_limit">
-	<TEXT   xxx	             x=11  y=255  w=28 h=40 z=101 L2R=1 align="CENTER" text="0" FONTTYPE=font_speedlimit_below font="tahomabd" fontsize=18 color=0 textmodel_wstr="navigation.current_speed_limit.number_text" visiblemodel="navigation.near_speed_limit">
+;!TB, di/\/\ka - added smaller sign when not speeding
+	<SPRITE xxx bmp="$speed_limit_on_map.bmp" x=8 y=258 z=99 visiblemodel="!navigation.near_speed_limit">
+;!TB - removed visiblemodel
+	<TEXT   xxx	             x=11  y=255  w=28 h=40 z=101 L2R=1 align="CENTER" text="0" FONTTYPE=font_speedlimit_below font="tahomabd" fontsize=18 color=0 textmodel_wstr="navigation.current_speed_limit.number_text">
 </layer>
 
 <element_template et_NavInfoDistanceToDestination>
+;!Raffke_jr - TODO: add icons here, but change templates to give space
 	<TEXT xxx  template=xetNavInfoNum textmodel_wstr="navigation.distance_to_destination.number_text" visiblemodel="navigation.distance_to_destination.valid">
 	<TEXT xxx  template=xetNavInfoUnit textmodel_wstr="navigation.distance_to_destination.unit_text" visiblemodel="navigation.distance_to_destination.valid">
 </element_template>
@@ -209,25 +293,11 @@
 <layer ui_NavigateMapRouteNavigationInfos z=52>
 	<DYNAMICELEMENT dyn_NMR1 x=132 y=20>
 	<DYNAMICELEMENT dyn_NMR2 x=132 y=42>
-	<DYNAMICELEMENT dyn_NMR3 x=132 y=64>	
-</layer>
-
-
-<layer ui_NavigateMapCockpitelemets_hack z=3010 visiblemodel="navigation.has_route&!ui.vOnFlyover">
-;Mivel nem lehet 4 bool-t egyszerre kezelni....
-	<BUTTON btnNMC_Recalc   x=7   y=25  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="recalc.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='run sc_RecalcWays' HIDE visiblemodel="navigation.car_pos_valid&!ui.vRouteCalculation&!navigation.car_on_planned_route"> 
-</layer>
-
-<layer ui_NavigateMapCockpitelemets z=55>
-	<SPRITE spr_RecalcAnim             x=7   y=25      z=100  align="CENTER" valign="CENTER-5"   bmp="recalc_anim.spr"  font="tahoma" fontsize=12 visiblemodel="ui.vRouteCalculation"> 
-
-	<TEXT txt_route_planning_progress  x=83  y=37 w=45 z=31 font="tahomabd" align="CENTER"  glowsize=1 fontsize=10 color=#78ff78 visiblemodel="ui.vRouteCalculation">
-
+	<DYNAMICELEMENT dyn_NMR3 x=132 y=64>
 </layer>
 
 <layer ui_NavigateMapSettingsCruise z=30>
-
-    ;<TEXT xxx                            template=txt_hud_label_left  y=37  text="Speed">
+	;<TEXT xxx                            template=txt_hud_label_left  y=37  text="Speed">
 	<TEXT txtNMS_1                       template=txt_hud_label_left y=158 text="Distance Left">   
 	<TEXT txtNMS_2                       template=txt_hud_label_left y=199 text="Time Left">  
 	<TEXT txtNMS_3                       template=txt_hud_label_left y=240 text="Arrival Time" >            
@@ -268,16 +338,60 @@
 	<SPRITE sprSpeedRange         x=100 y=15 z=32 w=142 h=142>
 	<SPRITE xxx                   x=100 y=15 z=31 bmp="speedometer_bg1.bmp">
 
+;!TB - all controls below are moved to the new common layer
+</layer>
+
+;!TB - New layer to support Cruise Mode settings
+<layer ui_NavigateMapSettingsCruiseCommon z=32>
+;!TB - all controls are moved from above
 	<SPRITE xxx x=0 y=17 z=0 bmp="trip_diricon_bg_3px.bmp">
 
 	<SPRITE xxx              x=16 y=122 z=11 bmp="compassmask.bmp">
 	<SPRITE sprLinearCompass x=16 y=122 z=10 h=15 w=71>
 
-
 	<BUTTON btnTRIPCOMPUTER      template=footer2_1a iconspr="icof_tripcomp.bmp" text="" onlongclick='run sc_show_btn_help "Trip Computer"' onrelease='nextstate ST_TRIPCOMPUTER' enabledmodel="!ui.vOnFlyover">
-
-
 </layer>
+
+;!TB - New layer to support Cruise Mode settings
+<layer ui_NavigateMapSettingsCruiseOffRoute z=31>
+;!Raffke_jr - copied from ui_NavigateMapSettingsDestination (text="Destination")
+	<TEXT xxx x=19 y=2 w=210 align="CENTER" text="Settings" fonttype=headerfont fontsize=10>
+
+;!Raffke_jr - positions from ui_NavigateMapSettingsCruise
+	<SPRITE xxx bmp="trip0.bmp"  y=155>
+	<SPRITE xxx bmp="trip0.bmp"  y=196>
+	<SPRITE xxx bmp="trip0.bmp"  y=237>
+
+;!Raffke_jr - copied from ui_NavigateMapSettingsCruise & changed names
+	<PUSHBUTTON pbtnc_t4 bmp="trip0.bmp" template=txt_hud_value_right x=121 y=155  z=0   iconvalign="CENTER"  iconalign="RIGHT-1" var="10" textmodel_time="gps.current_time"  formatmodel="local.short_timeformat" dayperiod=1>
+	<TEXT xxx                           template=txt_hud_label_right y=158 text="GPS time" align="RIGHT-28">    
+
+	<PUSHBUTTON pbtnc_t5 bmp="trip0.bmp" template=txt_hud_value_right x=121 y=196  z=0   iconvalign="CENTER"  iconalign="RIGHT-1" var="11" combined_textmodel="$navigation.current_altitude.number_text$ $navigation.current_altitude.unit_text$">
+	<TEXT xxx                           template=txt_hud_label_right y=199 text="Altitude" align="RIGHT-28">    
+	
+	<PUSHBUTTON pbtnc_t6 bmp="trip0.bmp" template=txt_hud_value_right x=121 y=237 z=0    iconvalign="CENTER"  iconalign="RIGHT-1" var="9" textmodel_wstr="navigation.current_speed_limit.full_text">
+	<TEXT xxx                           template=txt_hud_label_right y=240 text="Speed limit" align="RIGHT-28">    
+
+
+	<PUSHBUTTON pbtnc_speed bmp="speedometer_dummy.bmp" template=txt_hud_value_left x=100 y=15 z=100 iconvalign="BOTTOM-14"  iconalign="CENTER" var="8" >
+
+	<PUSHBUTTON pbtnc_compass bmp="tripx.bmp" template=txt_hud_value_right x=6 y=115 iconvalign="CENTER"  iconalign="RIGHT-1"  var="12" >
+
+	<CHECKLIST chkl_NMS_SelectionCruise STATUSSPRITE="states.bmp#4" ADDITEM="*" ADDSLOT="CockpitField1Cruise" ADDSLOT="CockpitField2Cruise" ADDSLOT="CockpitField3Cruise"  onSelect='run sc_NMS_Init'>
+
+
+	<TEXT xxx  template=xtxthud1 x=151 y=72  z=3000 w=40 align="CENTER" fontsize=22 color2=#FFFFFF  glowsize=1 color=#000000 textmodel_wstr="navigation.current_speed.number_text">
+	<TEXT xxx  template=xtxthud1 x=151 y=100 z=3000 w=40 align="CENTER" fontsize=8                  glowsize=0 color=#000000 textmodel_wstr="navigation.current_speed_limit.unit_text">
+
+	 
+	<SPRITE xxx                         x=100 y=15 z=38 bmp="gloss_top.bmp">
+	<SPRITE sprSpeedometerPointerCruise x=100 y=15 z=36 w=142 h=142 >
+	<SPRITE sprSpeedometerNumbersCruise x=100 y=15 z=34 bmp="speedometer_num_km.bmp">
+	<SPRITE xxx                   x=100 y=15 z=33 bmp="speedometer_bg.bmp">
+	<SPRITE sprSpeedRangeCruise         x=100 y=15 z=32 w=142 h=142>
+	<SPRITE xxx                   x=100 y=15 z=31 bmp="speedometer_bg1.bmp">
+</layer>
+
 
 <layer ui_NavigateMapSettingsDestination z=31>
 	<SPRITE xxx bmp="ico_dest_pl.bmp" x=0 y=2 w=240 z=100>
@@ -296,11 +410,12 @@
 	<SPRITE xxx  x=4  y=34  z=10 iconindex=2 iconmodel="navigation.direction_icon" visiblemodel="navigation.direction_icon.valid">
 	<SPRITE xxx  x=22 y=52  z=10 iconindex=1 iconmodel="navigation.exit_icon" visiblemodel="navigation.exit_icon.valid">
 
+;!Raffke_jr - remove DIRDISTALIGNER or add it in other resolutions
 	<TEXT sprNTIDiriconDist template=xtxt x=3   y=13  z=10 w=55 h=30 font="tahomabd"  glowsize=1 fontsize=22 color=#FFFFFF color2=#000000 align="CENTER" fixedwidthnumbers=1 textmodel_wstr="navigation.distance_to_manuver.number_text" visiblemodel="navigation.distance_to_manuver.valid">
 	<TEXT sprNTIDiriconUnit template=xtxt x=20  y=15  z=10 w=20 h=30 font="tahomabd"             fontsize=10 color=#bbbbbb                align="LEFT"  textmodel_wstr="navigation.distance_to_manuver.unit_text" visiblemodel="navigation.distance_to_manuver.valid">
 	<DIRDISTALIGNER xxx x=3 w=70 align="CENTER" control=sprNTIDiriconDist padding=4 control=sprNTIDiriconUnit>
-
 </layer>
+
 <layer ui_NavigateMapSettingsVia z=31>
 	<SPRITE xxx bmp="ico_via_pl.bmp" x=5 y=2 z=100>
 	<TEXT xxx x=19 y=2 w=210 align="CENTER" textmodel_wstr="navigation.next_viapoint_name_short" visiblemodel="navigation.has_waypoint_in_route" fonttype=headerfont fontsize=10>
@@ -314,35 +429,73 @@
 	<TEXT xxx template=txt_hud_value_left y=237 text="--:--" visiblemodel="!navigation.has_waypoint_in_route">
 </layer>
 
+<layer ui_NavigateMapCockpitelemets_hack z=3010 visiblemodel="navigation.has_route&!ui.vOnFlyover">
+;Mivel nem lehet 4 bool-t egyszerre kezelni....
+;!TB MR - Added onlongclick to re-enable Auto Recalc Route
+	<BUTTON btnNMC_Recalc   x=7   y=25  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="recalc.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='run sc_RecalcWays' HIDE visiblemodel="navigation.car_pos_valid&!ui.vRouteCalculation&!navigation.car_on_planned_route" onlongclick='run sc_EnableAutoRecalcRoute'>
+</layer>
+
+<layer ui_NavigateMapCockpitelemets z=55>
+	<SPRITE spr_RecalcAnim             x=7   y=25      z=100  align="CENTER" valign="CENTER-5"   bmp="recalc_anim.spr"  font="tahoma" fontsize=12 visiblemodel="ui.vRouteCalculation"> 
+
+;!Raffke_jr - visiblemodel for Speedcam/TMC
+;	<TEXT txt_route_planning_progress  x=83  y=37 w=42 z=31 font="tahomabd" align="CENTER"  glowsize=1 fontsize=10 color=#78ff78 visiblemodel="ui.vRouteCalculation&ui.bShowSecondaryDistance">
+;!Raffke_jr - TODO: tried to display in full_screen
+	<TEXT txt_route_planning_progress  x=83  y=37 w=42 z=31 font="tahomabd" align="CENTER"  glowsize=1 fontsize=10 color=#78ff78 visiblemodel="ui.vRouteCalculation&!ui.bSpeedcamWarningVisible|ui.vFullScreenCockpit">
+</layer>
+
 <layer ui_QuickFind z=28000 visiblemodel="!navigation.calculation_todo&!navigation.has_route">
+;!Raffke_jr - removed for transparent cockpit (already removed in 8.3.2)
 ;	<SPRITE sprNMCCockpit_Find  x=0   y=20 h=77  z=0 bmp="cock_infobg1.bmp" visiblemodel="!ui.v3dzoomcontrol">
-	<BUTTON btnNMC_Find         x=0   y=20  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="!ui.nUserMode&!ui.vOnFlyover"> 
-	<BUTTON btnNMC_Find_normal  x=0   y=20  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="find_normal.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_FindAddress' HIDE visiblemodel="ui.nUserMode&!ui.vOnFlyover">
+;!Raffke_jr - duplicated & added visiblemodel to implement !(!navigation.car_pos_valid&gps.connection_status<3)
+	<BUTTON btnNMC_Find         x=0   y=20  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="gps.connection_status>2&!ui.nUserMode&!ui.vOnFlyover"> 
+	<BUTTON btnNMC_Find1        x=0   y=20  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="navigation.car_pos_valid&!ui.nUserMode&!ui.vOnFlyover"> 
+;!TB - Added vAddFromDoneScript Reset Script to onrelease
+	<BUTTON btnNMC_Find_normal  x=0   y=20  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="find_normal.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_FindAddress' HIDE visiblemodel="gps.connection_status>2&ui.nUserMode&!ui.vOnFlyover">
+	<BUTTON btnNMC_Find_normal1 x=0   y=20  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="find_normal.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_FindAddress' HIDE visiblemodel="navigation.car_pos_valid&ui.nUserMode&!ui.vOnFlyover">
 </layer>
 
 <layer ui_NavigateMapCruise z=51 visiblemodel="!ui.v3dzoomcontrol">
-	<BUTTON xxx  x=0   y=20 z=0 bmp="cock_infobg1.bmp" visiblemodel="!navigation.has_route&!navigation.calculation_todo&!ui.nUserMode" onrelease='NEXTSTATE st_AdvFindMenu' enabledmodel="!ui.vDiriconVisible" CHECKHIT>
-	<BUTTON xxx  x=0   y=20 z=0 bmp="cock_infobg1.bmp" visiblemodel="!navigation.has_route&!navigation.calculation_todo&ui.nUserMode" onrelease='NEXTSTATE st_FindAddress' enabledmodel="!ui.vDiriconVisible" CHECKHIT>
-	<BUTTON xxx  x=0   y=20 z=0 bmp="cock_infobg1.bmp" visiblemodel="navigation.has_route&!navigation.calculation_todo"  onrelease='NEXTSTATE st_RouteInfo'   enabledmodel="!ui.vDiriconVisible&!ui.vOnFlyover" CHECKHIT>
-	<SPRITE xxx  x=0   y=20 z=0 bmp="cock_infobg1.bmp" visiblemodel="navigation.calculation_todo">
-	<SPRITE xxx  x=75  y=20 z=0 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol">
-	<SPRITE xxx  x=130 y=20 z=0 bmp="cock_infobg3.bmp" visiblemodel="!ui.v3dzoomcontrol">
+;!Raffke_jr - 3x added alpha, increased z for transparent Cockpit style
+	<BUTTON xxx  x=0 y=20   z=1 bmp="cock_infobg1.bmp" alpha=0 visiblemodel="!navigation.has_route&!navigation.calculation_todo&!ui.nUserMode" onrelease='NEXTSTATE st_AdvFindMenu' enabledmodel="!ui.vDiriconVisible" CHECKHIT>
+	<BUTTON xxx  x=0 y=20   z=1 bmp="cock_infobg1.bmp" alpha=0 visiblemodel="!navigation.has_route&!navigation.calculation_todo&ui.nUserMode" onrelease='NEXTSTATE st_FindAddress' enabledmodel="!ui.vDiriconVisible" CHECKHIT>
+	<BUTTON xxx  x=0 y=20   z=1 bmp="cock_infobg1.bmp" alpha=0 visiblemodel="navigation.has_route&!navigation.calculation_todo"  onrelease='NEXTSTATE st_RouteInfo'   enabledmodel="!ui.vDiriconVisible&!ui.vOnFlyover" CHECKHIT>
+;!Raffke_jr - removed visiblemodel="navigation.calculation_todo", added visiblemodel from 320x240, added name for transparent Cockpit style
+	<SPRITE sprNMCCockpit  x=0 y=20   z=0 bmp="cock_infobg1.bmp" visiblemodel="!ui.v3dzoomcontrol">
+
+;!TB - visiblemodel added to 3 controls below
+;!Raffke_jr - added names for transparent Cockpit style
+	<SPRITE sprNMCCockpit2  x=75 y=20 z=0 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol&!ui.vFullScreenCockpit">
+	<SPRITE sprNMCCockpit3  x=130 y=20 z=0 bmp="cock_infobg3.bmp" visiblemodel="!ui.v3dzoomcontrol&!ui.vFullScreenCockpit">
 	<BUTTON xxx  x=130 y=20 z=1 bmp="cock_infobg3.bmp" alpha=0 onrelease='run sc_ShowCockpitDetailTrip' visiblemodel="!ui.v3dzoomcontrol" enabledmodel="!ui.vOnFlyover">
-	<SPRITE xxx  x=209 y=20 z=0 bmp="cock_infobg4.bmp">
+;!Raffke_jr - commented as in 480x272
+;	<SPRITE xxx  x=209 y=20 z=0 bmp="cock_infobg4.bmp">
+
+
+; ------------OFF_ROUTE
 
 	<SPRITE sprTurnRestriction x=78 y=25 z=10 bmp="$turnrestrictions.spr" phasemodel="navigation.turn_restriction_icon" visiblemodel="navigation.turn_restriction_icon.valid&!ui.vRouteCalculation&navigation.car_pos_valid&route.vehicle_type!=5">
 
-	<TEXT xxx  template=xetNavInfoNum  x=112 y=20 z=10 w=65 textmodel_wstr="navigation.current_speed.number_text" visiblemodel="!navigation.has_route&navigation.current_speed.valid">
-	<TEXT xxx  template=xetNavInfoUnit x=182 y=28 z=10 w=25 textmodel_wstr="navigation.current_speed.unit_text" visiblemodel="!navigation.has_route&navigation.current_speed.valid">
+;!TB - Cruise (Off Route) Mode (commented out)
+;	<TEXT xxx  template=xetNavInfoNum  x=112 y=20 z=10 w=65 textmodel_wstr="navigation.current_speed.number_text" visiblemodel="!navigation.has_route&navigation.current_speed.valid">
+;	<TEXT xxx  template=xetNavInfoUnit x=182 y=28 z=10 w=25 textmodel_wstr="navigation.current_speed.unit_text" visiblemodel="!navigation.has_route&navigation.current_speed.valid">
+;
+;	<SPRITE xxx           x=134   y=44 z=11 w=72 bmp="compassmask.bmp"  visiblemodel="!navigation.has_route">
+;	<SPRITE sprNMCCompass x=134   y=44 z=10 h=15 w=71 attach_sprite_provider="other.attach_linear_compass(linear_compass.bmp,navigation.car_heading)" visiblemodel="!navigation.has_route&">
+;
+;	<TEXT xxx  template=xetNavInfoSingle x=138 y=64 z=10 w=65 textmodel_time="gps.current_time" formatmodel="local.short_timeformat" visiblemodel="!navigation.has_route&gps.current_time.valid" dayperiod=1>
+</layer>
 
-	<SPRITE xxx           x=134   y=44 z=11 w=72 bmp="compassmask.bmp"  visiblemodel="!navigation.has_route">
-	<SPRITE sprNMCCompass x=134   y=44 z=10 h=15 w=71 attach_sprite_provider="other.attach_linear_compass(linear_compass.bmp,navigation.car_heading)" visiblemodel="!navigation.has_route&">
-	
-	<TEXT xxx  template=xetNavInfoSingle x=138 y=64 z=10 w=65 textmodel_time="gps.current_time" formatmodel="local.short_timeformat" visiblemodel="!navigation.has_route&gps.current_time.valid" dayperiod=1>
+;!TB - New layer for Cruise Mode (Off Route)
+<layer ui_NavigateMapCruiseInfos z=52 visiblemodel="!ui.v3dzoomcontrol&!navigation.has_route&!ui.vFullScreenCockpit">
+	<DYNAMICELEMENT dyn_NMR1_Cruise x=132 y=20>
+	<DYNAMICELEMENT dyn_NMR2_Cruise x=132 y=42>
+	<DYNAMICELEMENT dyn_NMR3_Cruise x=132 y=64>
 </layer>
 
 <layer ui_NavigateMapStatus z=20000>
-	<BUTTON xxx  x=209 y=20 z=30 bmp="dummy_kvikk.bmp" onrelease='nextstate st_CockpitStatus' alpha=0 enabledmodel="!ui.vOnFlyover">
+;!TB - removed enabledmodel, added onlongclick
+	<BUTTON xxx  x=209 y=20 z=30 bmp="dummy_kvikk.bmp" onrelease='nextstate st_CockpitStatus' onlongclick='run sc_ToggleMute' alpha=0>
 	<SPRITE sprNM_BatteryStatus x=228  y=21 z=20 bmp="status_minibattery.spr"   phasemodel="power.battery_phase">
 	<SPRITE sprNM_GPSStatus     x=215  y=21 z=21 bmp="status_minigps_onmap.spr" phasemodel="gps.connection_status">
 	<SPRITE sprNM_TMCStatus     x=515  y=54 z=22 bmp="$status_minitmc.spr">
@@ -350,13 +503,38 @@
 	<SPRITE spr_TMC_Status       x=99  y=73 z=63 bmp="$tmc_events.spr" phasemodel="ui.vTmcCockpitStatus"  visiblemodel="!ui.nUserMode">
 	<SPRITE spr_TMC_Status_Basic x=99  y=73 z=63 bmp="$tmc_events.spr" phase=1 visiblemodel="ui.nUserMode&tmc.station_tuned">	
 	
+;!Raffke_jr - added TMC  station tuned and signal strength
+;!Raffke_jr - TODO: red bar when not tuned instead of additional icon?!
+;!Raffke_jr - TODO: TMC distance in size 10 normal/bold?
+; tmc.state: "No TMC","Testing..","TMC present","CA-TMC (No key)","CA-TMC (Key OK)" ("TMC State","N/A")
+;	<TEXT   xxx  x=85  y=36  z=199 w=153 textmodel_wstr="tmc.current_station_frequency_short" visiblemodel="!ui.nUserMode&tmc.present" template=xtxt3 align="LEFT"  fontsize=10 fonttype=buttonlabel_menu  font="tahoma" glowsize=1 color=#FFFFFF color2=#000000>
+;	<TEXT   xxx  x=85  y=49  z=199 w=153 textmodel_wstr="tmc.current_station_frequency" visiblemodel="!ui.nUserMode&tmc.present" template=xtxt3 align="LEFT"  fontsize=10 fonttype=buttonlabel_menu  font="tahoma" glowsize=1 color=#FFFFFF color2=#000000>
+;	<TEXT   xxx  x=85  y=62  z=199 w=153 textmodel_wstr="tmc.current_station_name_short" visiblemodel="!ui.nUserMode&tmc.present" template=xtxt3 align="LEFT"  fontsize=10 fonttype=buttonlabel_menu  font="tahoma" glowsize=1 color=#FFFFFF color2=#000000>
+;	<TEXT   txt_TMC_StationName  x=76  y=75  z=199 w=153 textmodel_wstr="tmc.current_station_name" visiblemodel="!ui.nUserMode&tmc.present" template=xtxt3 align="LEFT"  fontsize=8 fonttype=buttonlabel_menu  font="tahoma" glowsize=1 color=#FFFFFF color2=#000000>
+	<SPRITE spr_TMC_Status2      x=99  y=73  z=64 bmp="$tmc_events.spr" phase=0 visiblemodel="!ui.nUserMode&!tmc.station_tuned">
+	<SPRITE spr_TMC_Signal       x=77  y=70  z=63 bmp="tmc_signal_small.spr" phasemodel="tmc.signal_strength" visiblemodel="!ui.nUserMode&tmc.present">
+
 	<SPRITE sprNM_VolStatus     x=76  y=73 z=23 bmp="$status_sound.spr" boolmodel="!sound.os_muted">
 	<SPRITE sprNM_BTStatus      x=117 y=74      bmp="$ico_bt_status.spr" phasemodel="other.bluetooth.status"  visiblemodel="!ui.nUserMode">
 
 	<SPRITE sprNM_RecordStatus  x=94   y=79 z=24 bmp="$record.spr"  visiblemodel="mydata.tracks.isrecording&!ui.nUserMode">
 
-	<SPRITE xxx bmp="status_bg.bmp" x=209 y=20 z=1>
+;!Raffke_jr - added name&visiblemodel for transparent Cockpit style
+	<SPRITE sprNMbg bmp="status_bg.bmp" x=209 y=20 z=1>
+;!Raffke_jr - added shadow (formerly in ui_NavigateMapZoomControls3D), moved left 1px to fit sprNMbg, added visiblemodel
+	<SPRITE	xxx x=209 y=88 z=0 bmp="cock_infobg4_shadow.bmp" visiblemodel="ui.vFullScreenStatus|!ui.vFullScreenCockpit">
+
 	<SPRITE vehicle_icon x=217 y=68 z=10 bmp="vhcl_car.bmp">
+
+;!TB - New controls for fullscreen cockpit
+;	<SPRITE xxx                 x=0  y=211 z=1  bmp="cock_infobg4full.bmp" visiblemodel="ui.vFullScreenCockpit&ui.vFullScreenStatus">
+;	<SPRITE xxx                 x=0  y=210 z=0  bmp="cock_infobg4z.bmp"    visiblemodel="ui.vFullScreenCockpit&ui.v3dzoomcontrol">
+;!Raffke_jr - added for empty mode
+;	<SPRITE xxx                 x=0  y=211 z=1  bmp="cock_infobg4full.bmp" visiblemodel="!ui.vFullScreenCockpit&ui.vCockpitAlpha=2&ui.vFullScreenStatus">
+;	<SPRITE xxx                 x=0  y=210 z=0  bmp="cock_infobg4z.bmp"    visiblemodel="!ui.vFullScreenCockpit&ui.vCockpitAlpha=2&ui.v3dzoomcontrol">
+;!Raffke_jr - TODO: where&how to place in portrait mode?
+;!Raffke_jr - TODO: check "ui.vCockpitAlpha=2&ui.vFullScreenStatus" for other resolutions... (remove ui.vFullScreenStatus?! - combine both?)
+	<SPRITE xxx bmp="status_bg.bmp" x=209 y=20 z=1 visiblemodel="ui.vFullScreenCockpit&ui.vFullScreenStatus|ui.vCockpitAlpha=2&ui.vFullScreenStatus">
 </layer>
 
 <LAYER ui_NavigateMapAvoid z=18003>
@@ -366,8 +544,10 @@
 	<BUTTON btnNMA_10 template=btn_4c fxshowdelay=15 x=121  y=87  text="10km" onrelease='run sc_Avoid "10"'>
 	<BUTTON btnNMA_30 template=btn_4c fxshowdelay=12 x=4    y=149 text="30km" onrelease='run sc_Avoid "30"'>
 
-
+;!TB - Added button to avoid next maneuver
+	<BUTTON btnNMA_NM template=btn_4c fxshowdelay=18 x=121  y=149 text="Detour next turn" fontsize=14 onrelease='SKIPNEXTMANEUVRE, run sc_P_return_to_map 0'>
 </LAYER>
+
 
 <element_template et_Detour>
 	<BUTTON xxx template=btn_4c_icon combined_textmodel="$*.name:<Empty>$" clickmodel="poi.search_manager.list.setcurrent $i" onrelease='run sc_POISearchItemSelect' enabledmodel="*.current_valid">
@@ -377,16 +557,28 @@
 <LAYER ui_Detour z=30>
 	<LIST lstDetour template=tlist2 element_template="et_Detour" listmodel="poi.search_manager.list">
 
-	<BUTTON btnD_RemoveAvoids template=footer2_1a  iconspr="icof_delavoid.bmp#3"  text="" onlongclick='run sc_show_btn_help "Delete Avoids"' onrelease='run sc_RemoveAvoids'>
-	<BUTTON btnD_ByPassRoad   template=footer2_2a  iconspr="icof_avoidroad.bmp#3" text=""   onlongclick='run sc_show_btn_help "By-pass Road"' onrelease='NEXTSTATE st_Bypass' enabledmodel="gps.valid&navigation.has_navigable_path">
+;!TB - Added paging
+	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstDetour.page_counter">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstDetour.prevpage" enabledmodel="ui.lstDetour.prevpage.valid" >
+	<BUTTON xxx template=nextpage clickmodel="ui.lstDetour.nextpage" enabledmodel="ui.lstDetour.nextpage.valid" >
+
+;!TB - Changed button templates
+	<BUTTON btnD_RemoveAvoids template=footer4_1a  iconspr="icof_delavoid.bmp#3"  text="" onlongclick='run sc_show_btn_help "Delete Avoids"' onrelease='run sc_RemoveAvoids'>
+	<BUTTON btnD_ByPassRoad   template=footer4_2a  iconspr="icof_avoidroad.bmp#3" text=""   onlongclick='run sc_show_btn_help "By-pass Road"' onrelease='NEXTSTATE st_Bypass' enabledmodel="gps.valid&navigation.has_navigable_path">
 </LAYER>
 
 
 <LAYER ui_CockpitStatus z=30>
 	<BUTTON btn_CSGPS  template=footer3_3a text="" iconspr="icof_gps.bmp"       onlongclick='run sc_show_btn_help "GPS"'       onrelease='NEXTSTATE st_SettingGPS'>
 	<BUTTON btn_CSTMC  template=footer3_2a text="" iconspr="icof_tmc.bmp#3"       onlongclick='run sc_show_btn_help "TMC"'       enabledmodel="tmc.present|!tmc.events.list.isempty" onrelease='NEXTSTATE st_TmcEventsList' >
-	<BUTTON btn_CSBT   template=footer3_1a text="" iconspr="icof_bluetooth.bmp#3" onlongclick='run sc_show_btn_help "Bluetooth"' visiblemodel="other.bluetooth.available|other.phone.available" onrelease='EXEC "other.bluetooth.show_manager"'>
-	
+;!Raffke_jr - changed visiblemodel to match 320x240
+;	<BUTTON btn_CSBT   template=footer3_1a text="" iconspr="icof_bluetooth.bmp#3" onlongclick='run sc_show_btn_help "Bluetooth"' visiblemodel="other.bluetooth.available|other.phone.available" onrelease='EXEC "other.bluetooth.show_manager"'>
+	<BUTTON btn_CSBT   template=footer3_1a text="" iconspr="icof_bluetooth.bmp#3" onlongclick='run sc_show_btn_help "Bluetooth"'  visiblemodel="other.bluetooth.available&!other.phone.available" onrelease='EXEC "other.bluetooth.show_manager"'>
+	<BUTTON btn_CSPH   template=footer3_1a text="" iconspr="icof_bluetooth.bmp#3" onlongclick='run sc_show_btn_help "Phone"'      visiblemodel="!other.bluetooth.available&other.phone.available" onrelease='EXEC "other.phone.show_dialer"'>
+	<BUTTON btn_CSBTPH template=footer3_1a text="" iconspr="icof_bluetooth.bmp#3" onlongclick='run sc_show_btn_help "BT & Phone"' visiblemodel="other.bluetooth.available&other.phone.available" onrelease='EXEC "other.bluetooth.show_manager"'>
+;!TB - Custom bluetooth button
+	<BUTTON btn_CSBT2  template=footer3_1a text="" iconspr="icof_bluetooth.bmp#3" onlongclick='run sc_show_btn_help "Bluetooth"'  visiblemodel="!other.bluetooth.available&!other.phone.available&ui.vBTCustom" onrelease='START_APPLICATION vPhoneApp vPhoneAppSwitch'>
+
 	<HSCROLLBAR xxx    template=csuszka bmp="$fable_scrollbg_cockpit.spr" y=25 x=10 min=0 max=255 endsize=15 blockincrement=_0.0 value=255 onrelease='run sc_PlayTestSound, run sc_SetVolumeCheckBox' nosound valuemodel="sound.os_volume">
 
 	<CHECKBOX statusSound template=chk_5a   x=65 y=68   z=15  bmp="quick_sound.bmp#2" onrelease='playsound "!button", run sc_SetVolumeSlider, run sc_TimeredPrevState' nosound boolmodel="!sound.os_muted" onlongclick='NEXTSTATE st_SettingSound' noreleaseonlongclick>
@@ -400,25 +592,40 @@
 
 	<CHECKBOX chk_quick3d    template=chk_5a      x=122  y=138  z=15  bmp="quick_3Dmode.bmp#2"  boolmodel="map.3d_buildings" onrelease='run sc_chk_quick3d_onrelease, run sc_TimeredPrevState' onlongclick='NEXTSTATE st_SettingVisual3D' noreleaseonlongclick>
 
-	<BUTTON xxx  template=btn_lb5a  x=7    y=138  z=15  bmp="quick_tracklog_rec.bmp"  visiblemodel="!mydata.tracks.tracking&ui.nUserMode=0" onrelease='run sc_TrackRecord_Start, run sc_TimeredPrevState'    onlongclick='NEXTSTATE st_ManageTrack'>
-	<BUTTON xxx  template=btn_lb5a  x=7    y=138  z=15  bmp="quick_tracklog_stop.bmp" visiblemodel="mydata.tracks.tracking&ui.nUserMode=0"  onrelease='run sc_btnMT_Stop_OnRelease, run sc_TimeredPrevState' onlongclick='NEXTSTATE st_ManageTrack'>	
+;!Raffke_jr - re-added names, moved to upper right position to insert Fullscreen Cockpit button
+;!Raffke_jr - TODO: also fix position in other resolutions and remove movement in 'common\ui\navigatemap.ui'
+	<BUTTON btnMT_Record_Cockpit  template=btn_lb5a  x=122  y=68  z=15  bmp="quick_tracklog_rec.bmp"  visiblemodel="!mydata.tracks.tracking&ui.nUserMode=0" onrelease='run sc_TrackRecord_Start, run sc_TimeredPrevState'    onlongclick='NEXTSTATE st_ManageTrack'>
+	<BUTTON btnMT_Stop_Cockpit    template=btn_lb5a  x=122  y=68  z=15  bmp="quick_tracklog_stop.bmp" visiblemodel="mydata.tracks.tracking&ui.nUserMode=0"  onrelease='run sc_btnMT_Stop_OnRelease, run sc_TimeredPrevState' onlongclick='NEXTSTATE st_ManageTrack'>	
+
+;!TB - Fullscreen Cockpit button
+;!Raffke_jr - changed onlongclick to enable Visual settings in normal mode
+	<CHECKBOX btnCS_Mode_Cockpit  template=chk_lb5a x=7 y=138  z=15 bmp="quick_cockpitmode.bmp#2" boolmodel="ui.vFullScreenCockpit" onrelease='run sc_TimeredPrevState' onlongclick='run sc_btnCS_Mode_Cockpit_OnLongclick' noreleaseonlongclick> 
 </LAYER>
 
 <LAYER ui_pointonmap z=500>
-    <SPRITE xxx  bmp="blackstripe.bmp" x=0 y=0   z=0>
+	<SPRITE xxx  bmp="blackstripe.bmp" x=0 y=0   z=0>
 	<SPRITE xxx bmp="also_a.bmp"  x=0 y=277 z=0>    
 	<BUTTON xxx            x=3 y=38   z=0 bmp="places_center.bmp#4"  text="" font="tahoma" fontsize=11 color=#000000 color2=#FFFFFF clicked_coloring=1 align="CENTER"  valign="CENTER+4"  onRelease='run sc_lock_point_on_map' visiblemodel="ui.vChangePOIcoord" focusphase=3> 
-
 	<TEXT xxx template=txt_map	y=0				 textmodel_wstr="map.cursorpos.address.long_format" align="CENTER" fontsize=12>
 	<TEXT xxx template=txt_map x=80 y=15   w=240 textmodel_wstr="map.cursorpos.geocoord"              align="LEFT" fontsize=12 hide>
 	<BUTTON btnPM_ZoomIn  x=3 y=85  z=0 bmp="map_zoomin.bmp#2"  onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0' focusphase=3>
 	<BUTTON btnPM_ZoomOut x=3 y=149 z=0 bmp="map_zoomout.bmp#2" onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0'>
 	<BUTTON xxx template=back onrelease='prevstate'>
-
 	<BUTTON xxx  template=footer3_3a text="" iconspr="icof_done.bmp#3" onlongclick='run sc_show_btn_help "Select"' onrelease='run sc_ManagePOIEditAddress' visiblemodel="ui.vChangePOIcoord">	
 	<BUTTON xxx  template=footer3_3a text="" iconspr="icof_done.bmp#3" onlongclick='run sc_show_btn_help "OK"' onrelease='run sc_StartPOISearchAroundCursor' visiblemodel="!ui.vChangePOIcoord">
 </LAYER>
 
+;!TB - New layer for displaying map after find
+<LAYER ui_pointonmap2 z=500>
+	<SPRITE xxx  bmp="blackstripe.bmp" x=0 y=0   z=0>
+	<SPRITE xxx bmp="also_a.bmp"  x=0 y=277 z=0>
+	<BUTTON xxx    x=3   y=38 z=0  bmp="places_center.bmp#4" onRelease='run sc_lock_point_on_map'>
+	<BUTTON xxx    x=3 y=85  z=0 bmp="map_zoomin.bmp#2"  onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0'>
+	<BUTTON xxx    x=3 y=149 z=0 bmp="map_zoomout.bmp#2" onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0'>
+	<TEXT xxx    template=xtxt x=0  y=0    w=240 textmodel_wstr="map.cursorpos.address.long_format" align="CENTER" fontsize=12 font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000 color3=#000000>
+	<TEXT xxx    template=xtxt x=80 y=15   w=160 textmodel_wstr="map.cursorpos.geocoord"            align="LEFT"   fontsize=12 font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000 color3=#000000 hide>
+	<BUTTON btnPOM_OK  template=footer3_3a text="" iconspr="icof_done.bmp#3" onlongclick='run sc_show_btn_help "OK"' onrelease='run sc_FindDoneSelected' visiblemodel="ui.vAddFromDoneScript">
+</LAYER>
 
 <layer ui_ModifyPreset z=100001 modal>
 	<SPRITE xxx                   x=0   y=0   z=2   bmp="dialog_2_bg.bmp" >
@@ -430,9 +637,13 @@
 	<BUTTON btnEMB_Cancel2       template=dialog3_3 text="Cancel" onrelease='ui_ModifyPreset.hide' rawkey=13> 
 </layer>
 
-
-<layer ui_GPS_Satelite_Onmap y=20 z=25000 visiblemodel="!navigation.car_pos_valid&gps.connection_status<3&!ui.vRouteCalculation&navigation.has_route">
-	<BUTTON	xxx template=xtxt x=0 y=-10 z=100 bmp="cock_infobg1.bmp" alpha=0 onrelease='NEXTSTATE st_RouteInfo' visiblemodel="!ui.v3dzoomcontrol"> 
+;!Raffke_jr - moved visiblemodel "navigation.has_route" to RouteInfo, increased z from 25000 to overlay ui_QuickFind
+<layer ui_GPS_Satelite_Onmap y=20 z=40200 visiblemodel="!navigation.car_pos_valid&gps.connection_status<3&!ui.vRouteCalculation">
+;!Raffke_jr - corrected y from -10
+	<BUTTON	xxx template=xtxt x=0 y=0 z=100 bmp="cock_infobg1.bmp" alpha=0 onrelease='NEXTSTATE st_RouteInfo' visiblemodel="!ui.v3dzoomcontrol"> 
+;!Raffke_jr - added transparent Find Buttons when no route set (copied from ui_QuickFind, added alpha, removed align/font/color)
+	<BUTTON btnSAT_Find         x=0   y=0  z=101  text="" bmp="cock_infobg1.bmp" alpha=0 onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="!navigation.calculation_todo&!navigation.has_route&!ui.nUserMode&!ui.vOnFlyover">
+	<BUTTON btnSAT_Find_normal  x=0   y=0  z=101  text="" bmp="cock_infobg1.bmp" alpha=0 onRelease='vAddFromDoneScript.set 0, NEXTSTATE st_FindAddress' HIDE visiblemodel="!navigation.calculation_todo&!navigation.has_route&ui.nUserMode&!ui.vOnFlyover">
 
 	<SPRITE sat_map1  x=-50 y=0 z=10 bmp="sat.spr" visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation"> 
 	<SPRITE sat_map2  x=-50 y=0 z=10 bmp="sat.spr" visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation"> 
@@ -470,3 +681,17 @@
 <script sc_SignPostZoomOff>
 	run 'map.SETCARPOSITION 50 75, .smartzoom.addconsttilt 0, .smartzoom.maxangle %smartzoom.maxangle_default, .smartzoom.percentage 100'
 </script>
+
+
+;****************************************************************************************************************
+;!TB - INFO PANEL LAYER
+;****************************************************************************************************************
+<element_template et_NearPoiList>
+	<BUTTON xxx bmp="$cockpit_infobg.spr" iconspr="$cockpit_infobg_i.spr" iconalign="right" iconvalign="center" padding=4 w=92 align="left" valign="center" fonttype=bw fontsize=12 textmodel_wstr="*.name" clickmodel="poi.near_cursor.list.setcurrent $i" onrelease='run sc_MiniPoiList_ShowInfo "poi.near_cursor"'>
+</element_template>
+
+<layer ui_CockpitInfo type="VECTOR" orientation="L2R" font="tahoma" fontsize=16 z=30 x=0 y=0>
+	<SPRITE xxx bmp="$cockpit_infobg_big.spr">
+	<TEXT xxx x=4 y=2 w=112 h=31 textmodel_wstr="map.cursorpos.address.twoline_format" minaspect=75 fonttype=bw fontsize=12 align="left" twolinesmall=1>
+	<LIST lst_NearPoiList x=0 y=35 row=4 col=1 cellw=120 cellh=20 listmodel="poi.near_cursor.list" element_template="et_NearPoiList">
+</layer>

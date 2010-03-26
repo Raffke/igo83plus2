@@ -87,7 +87,7 @@
 
 	<BUTTON btnPMB_Panic    template=dialog3_1    text="Panic"   onrelease='run sc_PanicButton_Execute'> 
 	<BUTTON btnPMB_Restart  template=dialog3_2    text="Restart" onrelease='APP_RESTART'>
-	<BUTTON btnPMB_Cancel   template=dialog3_3    text="Cancel"  onrelease='ui_Panic_MessageBox.hide' rawkey=13> 
+	<BUTTON btnPMB_Cancel   template=dialog3_3    text="Cancel"  onrelease='ui_Panic_MessageBox.hide' rawkey=27>
 </layer>
 
 <layer ui_ShutdownTimer z=100002 modal>
@@ -131,7 +131,6 @@
 	<BUTTON xxx  x=170 y=205 z=30 bmp="arrowup2.bmp#3" onclick='SCROLL_Y vScrollingLayer  1 1 15' onrelease='SCROLL_Y vScrollingLayer 0 0 0' enabledmodel="ui.vScrollingLayerUp" rawkey="UP"   >
 	<BUTTON xxx  x=245 y=205 z=30 bmp="arrowdn2.bmp#3" onclick='SCROLL_Y vScrollingLayer -1 1 15' onrelease='SCROLL_Y vScrollingLayer 0 0 0' enabledmodel="ui.vScrollingLayerDown" rawkey="DOWN" >
 	<SPRITE xxx  x=3   y=21       bmp="xhtml_bg.bmp">
-
 </layer>
 
 <layer ui_AboutMaps z=30>
@@ -186,7 +185,7 @@
 </layer>
 
 <layer ui_drive_carefully_bg z=100000>
-  <SPRITE spr_dc_bg x=0 y=0 z=1 bmp="ui_igo8/320_240/default.bmp">	
+	<SPRITE spr_dc_bg x=0 y=0 z=1 bmp="ui_igo8/320_240/default.bmp">	
 	<SPRITE xxx   bmp="xhtml_bg.bmp" x=4 y=8 z=2>        
 </layer>
 
