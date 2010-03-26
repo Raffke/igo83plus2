@@ -27,6 +27,7 @@
 	<BUTTON btn_RI_Method x=143 y=149 z=100 alpha=0 text="" bmp="btn_route_method.bmp" onRelease='run sc_btn_RI_Method_OnRelease' onlongclick='run btnPMP_MultiplanDest_OnRelease' visiblemodel="!ui.vOnFlyover">
 	<TEXT txtRI_Stops hide>               
 
+;!Raffke_jr - replaced "Settings" by "Edit Route"
 ;	<BUTTON btnRI_Settings  template=footer3_1a text="Settings"  onrelease='NEXTSTATE st_SettingRoute' visiblemodel="!ui.nUserMode">
 	<BUTTON btnRI_EditRoute template=footer3_1a text="Edit Route" onrelease='NEXTSTATE st_RouteEdit' visiblemodel="!ui.nUserMode">
 

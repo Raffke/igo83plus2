@@ -39,7 +39,6 @@
 	<BUTTON xxx template=footerm3_2 fxshowdelay=15 text="Plan Mode" onrelease='run sc_StartPlanMode'>
 ;!Raffke_jr - changed template from footer2_2, added rawkey & exit on long click
 	<BUTTON xxx template=footerm3_3 fxshowdelay=20 text="Exit"               onrelease='run sc_Exit' z=1 color=#ff0000 visiblemodel="interface.show_exit" nostress rawkey=27 onlongclick='STATE ExitState'>	
-
 </layer>
 
 <layer ui_BasMenu z=30>

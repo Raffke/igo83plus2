@@ -163,7 +163,7 @@
 	btnNMB_Detour.SHOW
 
 	btnNMB_Cursor.y 117
-	;btnNMB_Pos.y 168
+	;btnNMB_Pos.y 117
 
 	btnNMR_CockpitInfo.ENABLE
 

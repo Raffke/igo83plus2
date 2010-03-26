@@ -65,8 +65,8 @@
 	<BUTTON xxx template=nextpage clickmodel="ui.lstFPS.nextpage" enabledmodel="ui.lstFPS.nextpage.valid" template=slow_repeat>
 	<BUTTON xxx template=footer4_1a text="Search" onrelease='NEXTSTATE st_POISearchMain'>	
 	<BUTTON btnFPS_Sort template=footer4_2a text="" onrelease='run sc_POIStructuredSort' enabledmodel="!poi.struct_search.poi_list.isempty">
-    <TEXT TitleTop   x=10 y=2 w=460 z=160 align="CENTER" text="Select POI Group"  fonttype=headerfont fontsize=10 visiblemodel="!ui.vPoiGroupSSID">
-    <TEXT TitleModel x=10 y=2 w=460 z=160 align="CENTER" TEXTMODEL_WSTR="poi.struct_search.path_text"  fonttype=headerfont fontsize=10 visiblemodel="ui.vPoiGroupSSID">
+	<TEXT TitleTop   x=10 y=2 w=460 z=160 align="CENTER" text="Select POI Group"  fonttype=headerfont fontsize=10 visiblemodel="!ui.vPoiGroupSSID">
+	<TEXT TitleModel x=10 y=2 w=460 z=160 align="CENTER" TEXTMODEL_WSTR="poi.struct_search.path_text"  fonttype=headerfont fontsize=10 visiblemodel="ui.vPoiGroupSSID">
 </layer>
 
 <layer ui_FindPOIStructuredListButtons z=1050>
@@ -78,7 +78,6 @@
 <element_template et_POIGroupListQS>
 	<SPRITE xxx template=poigr_listicon iconmodel="*.icon" iconindex=1>
 	<BUTTON xxx template=btn_4a_poigr textmodel_wstr="*.name"   clickmodel="poi.structure.cont_list.setcurrent $i" onrelease='run sc_SelectPOIGroupQS'>
-
 </element_template>
 
 <element_template et_POIItemStructuredListQS>

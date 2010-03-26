@@ -23,6 +23,8 @@
 	<TEXT txtRI_TimeLeft    template=xtxt3 x=20  y=192 w=102  font="tahomabd" color=#FFFFFF align="CENTER" >
 	<TEXT txtRI_Arrive      template=xtxt3 x=20  y=135 w=102  font="tahomabd" color=#FFFFFF align="CENTER" >
 	<TEXT txtRI_Method      template=xtxt3 x=150 y=192 w=102  font="tahomabd" color=#FFFFFF align="CENTER" >
+;!Raffke_jr - new invisible button, MultiplanDest on Longclick
+	<BUTTON btn_RI_Method x=142 y=166 z=100 alpha=0 text="" bmp="btn_route_method.bmp" onRelease='run sc_btn_RI_Method_OnRelease' onlongclick='run btnPMP_MultiplanDest_OnRelease' visiblemodel="!ui.vOnFlyover">
 	
 	<TEXT txtRI_Stops hide>
 
@@ -46,10 +48,8 @@
 	<BUTTON btn_RI_DelRoute_basic       template=footer2_2a text="Delete route"    onrelease='run sc_btnARM_Delete_OnRelease' visiblemodel="ui.nUserMode"> 
 
 	<SPRITE xxx x=5 y=31 z=0 bmp="routeinfo_bg.bmp" onclick='run sc_ShowNextRoutePartInfo'>
-
-;!Raffke_jr - new invisible button, MultiplanDest on Longclick
-	<BUTTON btn_RI_Method x=142 y=166 z=100 alpha=0 text="" bmp="btn_route_method.bmp" onRelease='run sc_btn_RI_Method_OnRelease' onlongclick='run btnPMP_MultiplanDest_OnRelease' visiblemodel="!ui.vOnFlyover">
 </layer>
+
 
 ; NEW ITINER
 <element_template et_itinerentry>
@@ -68,8 +68,8 @@
 
 <layer ui_RouteItinerary z=30>
 	<LIST list_itiner template=tlist element_template="et_itinerentry" listmodel="route.itiner.list" SHOWSELECTION=1 KEEPSELECTIONONSCREEN=1>
-	<BUTTON xxx          template=prevpage clickmodel="ui.list_itiner.prevpage" enabledmodel="ui.list_itiner.prevpage.valid" template="slow_repeat">
-	<BUTTON xxx          template=nextpage clickmodel="ui.list_itiner.nextpage" enabledmodel="ui.list_itiner.nextpage.valid" template="slow_repeat">
+	<BUTTON xxx          template=prevpage clickmodel="ui.list_itiner.prevpage" enabledmodel="ui.list_itiner.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx          template=nextpage clickmodel="ui.list_itiner.nextpage" enabledmodel="ui.list_itiner.nextpage.valid" template=slow_repeat>
 	<BUTTON btnRIt_Mode2  template=footer2_1a text="Mode" onrelease='run sc_btnRItN_Mode_OnRelease'>	
 
 	<TEXT xxx   template=pageindex textmodel_wstr="ui.list_itiner.page_counter">
@@ -94,14 +94,14 @@
 	<BUTTON xxx bmp="route_reverse.bmp#3" x=427 y=103  clickmodel="navigation.waypoints.reverse"            enabledmodel="navigation.waypoints.is_route_valid&navigation.waypoints.start_is_user_selected" onrelease='run sc_RouteEdit_ReverseRoute'>
 	<BUTTON xxx bmp="movedown.bmp#3"      x=427 y=150  clickmodel="navigation.waypoints.movedown_current"   enabledmodel="navigation.waypoints.movedown_current.valid">
 
-	<BUTTON xxx          template=prevpage clickmodel="ui.lstRE_WayPoints.prevpage"  enabledmodel="ui.lstRE_WayPoints.prevpage.valid" template="slow_repeat">
-	<BUTTON xxx          template=nextpage clickmodel="ui.lstRE_WayPoints.nextpage"  enabledmodel="ui.lstRE_WayPoints.nextpage.valid" template="slow_repeat">
+	<BUTTON xxx          template=prevpage clickmodel="ui.lstRE_WayPoints.prevpage"  enabledmodel="ui.lstRE_WayPoints.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx          template=nextpage clickmodel="ui.lstRE_WayPoints.nextpage"  enabledmodel="ui.lstRE_WayPoints.nextpage.valid" template=slow_repeat>
 
 ;!TB - Replaced Remove by Add Via button
-;	<BUTTON btnRE_Remove   template=footer4_1a text="Remove" clickmodel="navigation.waypoints.delete_current" enabledmodel="navigation.waypoints.is_route_valid" onrelease='vEditRouteDirty.SET 1, run sc_RemovePoint'> 
+;	<BUTTON btnRE_Remove   template=footer4_1a text="Remove" clickmodel="navigation.waypoints.delete_current" enabledmodel="ui.lstRE_WayPoints.current_index!=0|navigation.waypoints.start_is_user_selected&navigation.waypoints.is_route_valid" onrelease='run sc_RemovePoint'>
 	<BUTTON btnRE_Add      template=footer4_1a text="Add" visiblemodel="!ui.nUserMode" onrelease='run sc_btnRE_Add_OnRelease'>
 
-	<BUTTON btnRE_Optimize template=footer4_2a text="Optimize" clickmodel="navigation.waypoints.optimize" enabledmodel="navigation.waypoints.optimize.valid" onrelease='vEditRouteDirty.SET 1'> 
+	<BUTTON btnRE_Optimize template=footer4_2a text="Optimize" clickmodel="navigation.waypoints.optimize" enabledmodel="navigation.waypoints.optimize.valid">
 
 	<TEXT xxx   template=pageindex textmodel_wstr="ui.lstRE_WayPoints.page_counter">
 </layer>
@@ -136,8 +136,8 @@
 
 <layer ui_MyDataRoute z=30>
 	<LIST   lstMDR_Routes  template=tlist element_template="et_Route" listmodel="mydata.routes.list">
-	<BUTTON xxx template=prevpage clickmodel="ui.lstMDR_Routes.prevpage" enabledmodel="ui.lstMDR_Routes.prevpage.valid" template="slow_repeat">
-	<BUTTON xxx template=nextpage clickmodel="ui.lstMDR_Routes.nextpage" enabledmodel="ui.lstMDR_Routes.nextpage.valid" template="slow_repeat">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstMDR_Routes.prevpage" enabledmodel="ui.lstMDR_Routes.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstMDR_Routes.nextpage" enabledmodel="ui.lstMDR_Routes.nextpage.valid" template=slow_repeat>
 
 	<TEXT   xxx template=txt_empty  x=12 w=463  text="<No Routes Saved>" visiblemodel="mydata.routes.list.isempty">
 	<SPRITE xxx template=spr_empty visiblemodel="mydata.routes.list.isempty">
@@ -155,8 +155,8 @@
 
 <layer ui_MyDataRouteLoad z=30>
 	<LIST   lstMDR_RoutesLoad template=tlist element_template="et_RouteLoad" listmodel="mydata.routes.list">
-	<BUTTON xxx template=prevpage clickmodel="ui.lstMDR_RoutesLoad.prevpage" enabledmodel="ui.lstMDR_RoutesLoad.prevpage.valid" template="slow_repeat">
-	<BUTTON xxx template=nextpage clickmodel="ui.lstMDR_RoutesLoad.nextpage" enabledmodel="ui.lstMDR_RoutesLoad.nextpage.valid" template="slow_repeat">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstMDR_RoutesLoad.prevpage" enabledmodel="ui.lstMDR_RoutesLoad.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstMDR_RoutesLoad.nextpage" enabledmodel="ui.lstMDR_RoutesLoad.nextpage.valid" template=slow_repeat>
 
 	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstMDR_RoutesLoad.page_counter">
 	

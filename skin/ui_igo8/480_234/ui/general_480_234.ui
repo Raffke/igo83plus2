@@ -42,7 +42,6 @@
 	<BUTTON btn_Footer_back2 template=backa onrelease='prevstate' sound="!back" onlongclick='run sc_GoTo_MainMenu' rawkey=27>
 </layer>
 
-
 ;!TB - Footer with no sound on back button - to be used in advanced settings
 <layer ui_Footer3 z=1000>
 	<BUTTON xxx template=back onrelease='prevstate' nosound onlongclick='run sc_GoTo_MainMenu' rawkey=27>
@@ -106,12 +105,12 @@
 <layer ui_About z=30>
 	<SPRITE xxx   bmp="xhtml_bg.bmp" x=4 y=21 z=0>
 
-	<SPRITE sprAbout_Logo       x=20 y=23  w=440 z=5      align="CENTER" bmp="logo.bmp" >
-	<TEXT   txtAbout_Release    x=80  y=115 w=320 z=5 h=20 align="CENTER" text="$release$" font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS>
-    <TEXT   txtAbout_Buildnum   x=80  y=130 w=320 z=5 h=20 align="CENTER" text="$buildnum$" font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS>     
-	<TEXT   txtAbout_Date       x=80  y=145 w=320 z=5 h=20 align="CENTER" text="$date$" font="tahoma" fontsize=11 fonttype=buttonlabel1 REPLACETAGS>
-	<TEXT   txtAbout_WebInfo    x=80  y=160 w=320 z=5 h=20 align="CENTER" text="<Web Address> | <Support E-mail>" font="tahomabd" fontsize=11 fonttype=buttonlabel2>
-	<TEXT   txtAbout_Copyright  x=80  y=175 w=320 z=5 h=20 align="CENTER" text="$copyright$" font="tahoma" fontsize=11 fonttype=buttonlabel1 REPLACETAGS>
+	<SPRITE sprAbout_Logo       x=20 y=23  w=440 z=5      align="CENTER" bmp="logo.bmp" visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Release    x=80  y=115 w=320 z=5 h=20 align="CENTER" text="$release$" font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Buildnum   x=80  y=130 w=320 z=5 h=20 align="CENTER" text="$buildnum$" font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Date       x=80  y=145 w=320 z=5 h=20 align="CENTER" text="$date$" font="tahoma" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_WebInfo    x=80  y=160 w=320 z=5 h=20 align="CENTER" text="<Web Address> | <Support E-mail>" font="tahomabd" fontsize=11 fonttype=buttonlabel2 visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Copyright  x=80  y=175 w=320 z=5 h=20 align="CENTER" text="$copyright$" font="tahoma" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
     
 	<SPRITE xxx  x=0 y=23   w=200 z=5      align="CENTER" bmp="logo.bmp" visiblemodel="ui.vGetUpdates">
 	<TEXT   xxx  x=100  y=115 w=360 z=5 h=20 align="LEFT" text="$release$" font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="ui.vGetUpdates">
@@ -131,12 +130,11 @@
 	<BUTTON xxx  x=330 y=202 z=30 bmp="arrowup2.bmp#3" onclick='SCROLL_Y vScrollingLayer  1 1 15' onrelease='SCROLL_Y vScrollingLayer 0 0 0' rawkey="UP"    enabledmodel="ui.vScrollingLayerUp">
 	<BUTTON xxx  x=405 y=202 z=30 bmp="arrowdn2.bmp#3" onclick='SCROLL_Y vScrollingLayer -1 1 15' onrelease='SCROLL_Y vScrollingLayer 0 0 0' rawkey="DOWN"  enabledmodel="ui.vScrollingLayerDown">
 	<SPRITE xxx  x=4   y=21       bmp="xhtml_bg.bmp">
-
 </layer>
 
 <layer ui_AboutMaps z=30>
 	<LISTTABLE lbAM_Maps   template=xlist       onclick='nextstate st_AboutMapDetails' simpleclickselect>
-    <BUTTON  xxx           template=footer2_1a  text="Licenses" onrelease='NEXTSTATE st_AboutLicenses'>
+	<BUTTON  xxx           template=footer2_1a  text="Licenses" onrelease='NEXTSTATE st_AboutLicenses'>
 	<VSMARTSCROLL lbAM_Maps_smartscroll x=-100  bmp="1pxline320.bmp" sprind="1pxline320.bmp" table="lbAM_Maps" hide SLIDER_ABOVE_FRAME_SIZETHUMB>
 	<BUTTON xxx template=prevpage template=slow_repeat onclick='ui.lbAM_Maps.prevpage' enabledmodel="ui.lbAM_Maps.prevpage.valid">
 	<BUTTON xxx template=nextpage template=slow_repeat onclick='ui.lbAM_Maps.nextpage' enabledmodel="ui.lbAM_Maps.nextpage.valid">
@@ -144,8 +142,8 @@
 </layer>
 
 <layer ui_AboutMapDetails orientation="L2R" font="tahomabd" fontsize=18 z=300 x=0 y=0 w=480 h=240>
-    <SPRITE xxx             x=4  y=21 bmp="xhtml_bg.bmp">
-    <TEXT xxx               x=20 y=40  w=55  h=20 text="File:" align="LEFT" font="tahomabd" fontsize=14 fonttype=buttonlabel1>
+	<SPRITE xxx             x=4  y=21 bmp="xhtml_bg.bmp">
+	<TEXT xxx               x=20 y=40  w=55  h=20 text="File:" align="LEFT" font="tahomabd" fontsize=14 fonttype=buttonlabel1>
 	<TEXT xxx               x=20 y=60  w=55  h=20 text="Size:" align="LEFT" font="tahomabd" fontsize=14 fonttype=buttonlabel1>
 	<TEXT txtAMD_MapFile    x=80 y=40  w=280 h=20 text="" align="LEFT" font="tahoma" fontsize=14 fonttype=buttonlabel1>
 	<TEXT txtAMD_MapSize    x=80 y=60  w=280 h=20 text="" align="LEFT" font="tahoma" fontsize=14 fonttype=buttonlabel1>
@@ -178,7 +176,7 @@
 
 
 <header>
-	<layer disable_layer_dcare type="disable" z=31 x=0 y=0 w=320>
+	<layer disable_layer_dcare type="disable" z=31 x=0 y=0 w=480>
 </header>
 
 <layer ui_drive_carefully_xhtml type="xhtml" filename="i18n/drive_carefully.xhtml" align="LEFT" orientation="L2R" font="tahomabd" fonttype=bw fontsize=14 z=50 x=10 y=0 w=460 h=17000 view_top=15 view_bottom=235> 

@@ -62,12 +62,12 @@
 	<LIST lstFPS template=tlist element_template="et_POIListAll+et_POIGroupList+et_POIItemStructuredList" listmodel="ui.lmListAll.list+poi.struct_search.cont_list+poi.struct_search.poi_list">
 	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstFPS.page_counter">
 	
-	<BUTTON xxx template=prevpage clickmodel="ui.lstFPS.prevpage" enabledmodel="ui.lstFPS.prevpage.valid" template="slow_repeat">
-	<BUTTON xxx template=nextpage clickmodel="ui.lstFPS.nextpage" enabledmodel="ui.lstFPS.nextpage.valid" template="slow_repeat">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstFPS.prevpage" enabledmodel="ui.lstFPS.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstFPS.nextpage" enabledmodel="ui.lstFPS.nextpage.valid" template=slow_repeat>
 	<BUTTON xxx template=footer4_1a text="Search" onrelease='NEXTSTATE st_POISearchMain'>	
 	<BUTTON btnFPS_Sort template=footer4_2a text="" onrelease='run sc_POIStructuredSort' enabledmodel="!poi.struct_search.poi_list.isempty">
-    <TEXT TitleTop x=100 y=2  w=280  z=160 align="CENTER" text="Select POI Group"  fonttype=headerfont fontsize=10 visiblemodel="!ui.vPoiGroupSSID">
-    <TEXT TitleModel x=100 y=2  w=280  z=160 align="CENTER" TEXTMODEL_WSTR="poi.struct_search.path_text"  fonttype=headerfont fontsize=10 visiblemodel="ui.vPoiGroupSSID">
+	<TEXT TitleTop x=100 y=2  w=280  z=160 align="CENTER" text="Select POI Group"  fonttype=headerfont fontsize=10 visiblemodel="!ui.vPoiGroupSSID">
+	<TEXT TitleModel x=100 y=2  w=280  z=160 align="CENTER" TEXTMODEL_WSTR="poi.struct_search.path_text"  fonttype=headerfont fontsize=10 visiblemodel="ui.vPoiGroupSSID">
 </layer>
 
 <layer ui_FindPOIStructuredListButtons z=1050>
@@ -103,8 +103,8 @@
 	<LIST lstFPSQS template=tlist element_template="et_POIGroupListQS+et_POIItemStructuredListQS" listmodel="poi.structure.cont_list+poi.structure.poi_list">
 	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstFPSQS.page_counter">
 	
-	<BUTTON xxx template=prevpage clickmodel="ui.lstFPSQS.prevpage" enabledmodel="ui.lstFPSQS.prevpage.valid" template="slow_repeat">
-	<BUTTON xxx template=nextpage clickmodel="ui.lstFPSQS.nextpage" enabledmodel="ui.lstFPSQS.nextpage.valid" template="slow_repeat">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstFPSQS.prevpage" enabledmodel="ui.lstFPSQS.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstFPSQS.nextpage" enabledmodel="ui.lstFPSQS.nextpage.valid" template=slow_repeat>
 	<BUTTON xxx template=footer4_1a text="Set Filter" onrelease='run sc_POISearchMainQS'>
 	<BUTTON xxx template=footer4_2a text="Save Query" onrelease='run sc_POISaveQuery_OnRelease'>
 
@@ -140,8 +140,8 @@
 	<LIST lstFPFQS template=tlist  element_template="et_POIItemFlatListQS" listmodel="poi.flat_search.list">
 	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstFPFQS.page_counter">
 	
-	<BUTTON xxx template=prevpage clickmodel="ui.lstFPFQS.prevpage" enabledmodel="ui.lstFPFQS.prevpage.valid" template="slow_repeat">
-	<BUTTON xxx template=nextpage clickmodel="ui.lstFPFQS.nextpage" enabledmodel="ui.lstFPFQS.nextpage.valid" template="slow_repeat">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstFPFQS.prevpage" enabledmodel="ui.lstFPFQS.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstFPFQS.nextpage" enabledmodel="ui.lstFPFQS.nextpage.valid" template=slow_repeat>
 	<BUTTON btnFPFQS_Sort template=footer4_2a onrelease='run sc_POIFlatSortQS'>
 
 	<TEXT   xxx template=txt_empty text="<No items>" visiblemodel="poi.flat_search.list.isempty">
@@ -172,8 +172,8 @@
 	<LIST lstFPF template=tlist  element_template="et_POIItemFlatList" listmodel="poi.flat_search.list">
 	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstFPF.page_counter">
 	
-	<BUTTON xxx template=prevpage clickmodel="ui.lstFPF.prevpage" enabledmodel="ui.lstFPF.prevpage.valid" template="slow_repeat">
-	<BUTTON xxx template=nextpage clickmodel="ui.lstFPF.nextpage" enabledmodel="ui.lstFPF.nextpage.valid" template="slow_repeat">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstFPF.prevpage" enabledmodel="ui.lstFPF.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstFPF.nextpage" enabledmodel="ui.lstFPF.nextpage.valid" template=slow_repeat>
 	<BUTTON xxx template=footer4_1a text="Search" onrelease='NEXTSTATE st_POISearchMain'>
 	<BUTTON btnFPF_Sort template=footer4_2a onrelease='run sc_POIFlatSort'>
 
@@ -217,8 +217,8 @@
 	<LIST lstMPS template=tlist element_template="et_MPOIGroupList+et_MPOIItemStructuredList" listmodel="poi.structure.cont_list+poi.struct_search.poi_list">
 	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstMPS.page_counter">
 	
-	<BUTTON xxx template=prevpage clickmodel="ui.lstMPS.prevpage" enabledmodel="ui.lstMPS.prevpage.valid" template="slow_repeat">
-	<BUTTON xxx template=nextpage clickmodel="ui.lstMPS.nextpage" enabledmodel="ui.lstMPS.nextpage.valid" template="slow_repeat">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstMPS.prevpage" enabledmodel="ui.lstMPS.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstMPS.nextpage" enabledmodel="ui.lstMPS.nextpage.valid" template=slow_repeat>
 	
 	<BUTTON xxx template=footer4_1a text="New\nGroup" onrelease='run sc_CreateNewGroupMain "all"'>
 	<BUTTON xxx template=footer4_2a text="My POIs" onrelease='run sc_SetMyPoiView'>
@@ -231,8 +231,8 @@
 	<LIST lstMPSMP template=tlist element_template="et_MPOIGroupListMyPoi+et_MPOIItemStructuredList" listmodel="poi.struct_search.cont_list+poi.struct_search.poi_list">
 	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstMPSMP.page_counter">
 	
-	<BUTTON xxx template=prevpage clickmodel="ui.lstMPSMP.prevpage" enabledmodel="ui.lstMPSMP.prevpage.valid" template="slow_repeat">
-	<BUTTON xxx template=nextpage clickmodel="ui.lstMPSMP.nextpage" enabledmodel="ui.lstMPSMP.nextpage.valid" template="slow_repeat">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstMPSMP.prevpage" enabledmodel="ui.lstMPSMP.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstMPSMP.nextpage" enabledmodel="ui.lstMPSMP.nextpage.valid" template=slow_repeat>
 	
 	<BUTTON xxx template=footer4_1a text="New\nGroup" onrelease='run sc_CreateNewGroupMain "mypoi"'>
 	<BUTTON xxx template=footer4_2a text="All" onrelease='run sc_SetAllPoiView'>
@@ -300,8 +300,8 @@
 	<LIST lstAP template=tlist element_template="et_APOIGroupList" listmodel="poi.structure.cont_list">
 	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstAP.page_counter">
 	
-	<BUTTON xxx template=prevpage clickmodel="ui.lstAP.prevpage" enabledmodel="ui.lstAP.prevpage.valid" template="slow_repeat">
-	<BUTTON xxx template=nextpage clickmodel="ui.lstAP.nextpage" enabledmodel="ui.lstAP.nextpage.valid" template="slow_repeat">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstAP.prevpage" enabledmodel="ui.lstAP.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstAP.nextpage" enabledmodel="ui.lstAP.nextpage.valid" template=slow_repeat>
 	<BUTTON xxx template=footer4_1a text="New Group" onrelease='run sc_CreateNewGroupMain "struct"' visiblemodel="!ui.vChangePoiGroup">
 	<BUTTON xxx template=footer4_2a text="Add here" onrelease='run sc_AddPOIToGroupMain' visiblemodel="!ui.vChangePoiGroup" enabledmodel="ui.vPoiGroupID">
 	<BUTTON xxx template=footer4_2a text="Add here" onrelease='vChangePoiGroup_backup.set vPoiGroupID,run sc_ChangePOIGroupMain' visiblemodel="ui.vChangePoiGroup" enabledmodel="ui.vPoiGroupID">
@@ -330,8 +330,8 @@
 	<LIST lstPQS template=tlist2  element_template="et_POIQuickSearchItem" listmodel="poi.search_manager.list">
 	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstPQS.page_counter">
 	
-	<BUTTON xxx template=prevpage clickmodel="ui.lstPQS.prevpage" enabledmodel="ui.lstPQS.prevpage.valid" template="slow_repeat">
-	<BUTTON xxx template=nextpage clickmodel="ui.lstPQS.nextpage" enabledmodel="ui.lstPQS.nextpage.valid" template="slow_repeat">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstPQS.prevpage" enabledmodel="ui.lstPQS.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstPQS.nextpage" enabledmodel="ui.lstPQS.nextpage.valid" template=slow_repeat>
 </layer>
 
 ;****************************************************************************************************************
@@ -348,8 +348,8 @@
 	<LIST lstMPQS template=tlist element_template="et_ManagePOIQuickSearchItem" listmodel="poi.search_manager.list">
 	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstMPQS.page_counter">
 	
-	<BUTTON xxx template=prevpage clickmodel="ui.lstMPQS.prevpage" enabledmodel="ui.lstMPQS.prevpage.valid" template="slow_repeat">
-	<BUTTON xxx template=nextpage clickmodel="ui.lstMPQS.nextpage" enabledmodel="ui.lstMPQS.nextpage.valid" template="slow_repeat">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstMPQS.prevpage" enabledmodel="ui.lstMPQS.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstMPQS.nextpage" enabledmodel="ui.lstMPQS.nextpage.valid" template=slow_repeat>
 	<BUTTON xxx  template=footer2_1a text="Clear All" enabledmodel="!poi.search_manager.isempty" onrelease='run sc_et_ManageQSearchClearAll_OnRelease'> 
 </layer>
 
@@ -370,7 +370,7 @@
 	<TEXT   txtPoiExtraInfo template=btntext x=74 y=158 w=367 align="LEFT" combined_textmodel="$poi.current.address.ext:<No extra information>$">
 	<TEXT   xxx template=btntext x=74 y=110 w=367 align="LEFT" combined_textmodel="$poi.current.phone:<No phone number>$">
 
-;!TB - Changed enabledmodel
+;!TB - Changed visiblemodel
 	<BUTTON xxx template=footer3_2a z=10 text="Call" onrelease='run sc_poicall' visiblemodel="other.phone.available&poi.current.hasphonenumber|ui.vBTCustom&poi.current.hasphonenumber">
 
 	<BUTTON xxx template=footer3_3a z=10 text="Select" onrelease='run sc_SelectPOIItem_map'> 

@@ -18,7 +18,7 @@
 	<SPRITE xxx x=290 y=4  z=1 bmp="$tmc_event_onroute.spr" phasemodel="*.on_route">	
 	<SPRITE xxx x=290 y=4  z=1 bmp="$tmc_event_cant_avoided.bmp" visiblemodel="*.cant_avoided">
     
-  <BUTTON et_TmcEvent_btn%ID% template=btn_4a SELECTABLE onRelease='run sc_TMCListEventOnRelease' clickmodel="tmc.events.list.setcurrent $i">
+	<BUTTON et_TmcEvent_btn%ID% template=btn_4a SELECTABLE onRelease='run sc_TMCListEventOnRelease' clickmodel="tmc.events.list.setcurrent $i">
   
 	<ROADSHIELDEDTEXT et_TmcEvent_txt1%ID% watchstate=et_TmcEvent_btn%ID% x=210 y=5  w=60  z=1 textmodel_wstr="*.roadnumber_enc" template=xtxt4 font="tahoma" fontsize=14 align="CENTER" USE_BRACKETS=0  visiblemodel="!*.long_roadnumber">
 	<TEXT	et_TmcEvent_txt2%ID%  watchstate=et_TmcEvent_btn%ID%          x=386 y=5  w=50  z=1 textmodel_wstr="*.distance.full_text"  visiblemodel="*.distance.valid" template=xtxt4 align="RIGHT" font="tahomabd" fontsize=14>
@@ -41,7 +41,6 @@
 ; Ez itt a map kepernyore valtana. Hely sincs neki, es nem is biztos, hogy kell ide [tmt]
 	<BUTTON btn_TmcSettings		template=footer4_1a  z=12 text="Settings" onrelease='vClearNewMessages.set 0, NEXTSTATE st_TmcSettings'> 	
 	<BUTTON xxx		            template=footer4_2a  z=12 text="Stations" enabledmodel="tmc.present" onrelease='vClearNewMessages.set 0, NEXTSTATE st_TmcParams'> 	
-	
 </layer>
 
 
@@ -167,17 +166,17 @@
 	
 	<TEXT	xxx x=15 y=70  w=80 z=1 textmodel_wstr="*.distance.full_text" visiblemodel="*.distance.valid" template=xtxt align="CENTER" fonttype=bw font="tahomabd" fontsize=14>
 
-  <TEXT	xxx x=100 y=14 w=280  z=1 textmodel_wstr="*.description" template=xtxt align="LEFT" fonttype=bw fontsize=14>
-  <TEXT	xxx x=100 y=33 w=360  z=1 textmodel_wstr="*.location" template=xtxt font="tahomabd" align="LEFT" fonttype=bw fontsize=14 twolineoffset=-10>
-  <TEXT	xxx x=100 y=61 w=360  z=1 textmodel_wstr="*.location2" template=xtxt align="LEFT" visiblemodel="!*.single_location" fonttype=bw fontsize=14>
+	<TEXT	xxx x=100 y=14 w=280  z=1 textmodel_wstr="*.description" template=xtxt align="LEFT" fonttype=bw fontsize=14>
+	<TEXT	xxx x=100 y=33 w=360  z=1 textmodel_wstr="*.location" template=xtxt font="tahomabd" align="LEFT" fonttype=bw fontsize=14 twolineoffset=-10>
+	<TEXT	xxx x=100 y=61 w=360  z=1 textmodel_wstr="*.location2" template=xtxt align="LEFT" visiblemodel="!*.single_location" fonttype=bw fontsize=14>
 </element_template>
 
 <layer ui_TMCMap z=3000>
-  <SPRITE xxx x=10 y=5 z=10  bmp="btn_lb_4a_tmcevent.bmp" >
+	<SPRITE xxx x=10 y=5 z=10  bmp="btn_lb_4a_tmcevent.bmp" >
 	<LIST list_tmc_1line template=tlist y=2 row=1 element_template="et_TmcEvent_map" listmodel="tmc.events.list"  SHOWSELECTION=1 KEEPSELECTIONONSCREEN=1>
-  <TEXT xxx   x=415 y=10  w=45  z=99  align="RIGHT" fontsize=12  font="tahomabd" fixedwidthnumbers=1 fonttype=bw textmodel_wstr="ui.list_tmc_1line.page_counter">
+	<TEXT xxx   x=415 y=10  w=45  z=99  align="RIGHT" fontsize=12  font="tahomabd" fixedwidthnumbers=1 fonttype=bw textmodel_wstr="ui.list_tmc_1line.page_counter">
 
-  <BUTTON xxx          template=prevpage clickmodel="ui.list_tmc_1line.prevpage" enabledmodel="ui.list_tmc_1line.prevpage.valid" onrelease='run sc_TMC_go_to_current_loc' visiblemodel="!ui.vTMCMapFromAnnounce">
+	<BUTTON xxx          template=prevpage clickmodel="ui.list_tmc_1line.prevpage" enabledmodel="ui.list_tmc_1line.prevpage.valid" onrelease='run sc_TMC_go_to_current_loc' visiblemodel="!ui.vTMCMapFromAnnounce">
 	<BUTTON xxx          template=nextpage clickmodel="ui.list_tmc_1line.nextpage" enabledmodel="ui.list_tmc_1line.nextpage.valid" onrelease='run sc_TMC_go_to_current_loc' visiblemodel="!ui.vTMCMapFromAnnounce">
 	
 	<BUTTON xxx          template=footer2_1a text="Avoid" onrelease='run sc_TmcAvoid' visiblemodel="tmc.events.list.current.filter_option!=1&!tmc.ignore_all_events&!ui.vTMCMapFromAnnounce">
@@ -208,7 +207,7 @@
 	<SPRITE xxx   bmp="xhtml_bg.bmp" x=4 y=21 z=2>
 
 	<TEXT   txt_tmc_expiration_text   template=xtxt3    x=100 y=25  w=280 text="">
-	<TEXT   xxx                       template=xtxt3    x=90  y=85 w=300 text="To purchase 1 year TMC subscription go to\nhttp://...com\nand enter:">
+	<TEXT   txt_tmc_purchase_text     template=xtxt3    x=90  y=85 w=300 text="To purchase 1 year TMC subscription go to\nhttp://...com\nand enter:">
 	
 	<TEXT   txt_tmc_subscriber_id     template=xtxt3    x=105 y=135 w=270 text="" replacetags>
 	

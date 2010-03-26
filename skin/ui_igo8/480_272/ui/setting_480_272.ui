@@ -52,6 +52,7 @@ import "ui_igo8/480_272/ui/speedcam_setting_480_272.ui"
 	<BUTTON   xxx         template=btn_5a   y=192  text="Lane Information" onrelease='NEXTSTATE st_SettingLaneInfo'>
 
 ;!TB - Moved new Help button to common layer
+;	<BUTTON xxx  template=footer4_4a text="Help"       onrelease='NEXTSTATE st_HelpSettingVisual'> 
 
 ;!TB - Buttons for pages and Page Index
 	<BUTTON xxx  template=prevpage  onrelease='' DISABLE>
@@ -119,6 +120,7 @@ import "ui_igo8/480_272/ui/speedcam_setting_480_272.ui"
 	<SLIDER   sldSVA_Speed template=sld_5a  template=y_2  value="Horizontal|0|Vertical|1" var=bVertspedInfo>
 	<TEXT     xxx          template=txt_sld template=y_2  text="Location" watchstate=sldSVA_Speed >
 </layer>
+
 
 ;****************************************************************************************************************
 
@@ -267,11 +269,12 @@ import "ui_igo8/480_272/ui/speedcam_setting_480_272.ui"
 ;****************************************************************************************************************
 ;!TB - Full screen cockpit settings
 
+;!Raffke_jr - applied new templates
 <layer ui_FullScreenCockpit z=30>
-	<CHECKBOX xxx template=chk_lb5a y=21  text="Direction Icons" boolmodel="ui.vFullScreenDiricon">
-	<CHECKBOX xxx template=chk_lb5a y=63  text="Next Street"     boolmodel="ui.vFullScreenNextStreet">
-	<CHECKBOX xxx template=chk_lb5a y=105 text="Actual Street"   boolmodel="ui.vFullScreenActualStreet">
-	<CHECKBOX xxx template=chk_lb5a y=147 text="Status"          boolmodel="ui.vFullScreenStatus">
+	<CHECKBOX xxx template=chk_lb5a  template=y_1  text="Direction Icons" boolmodel="ui.vFullScreenDiricon">
+	<CHECKBOX xxx template=chk_lb5a  template=y_2  text="Next Street"     boolmodel="ui.vFullScreenNextStreet">
+	<CHECKBOX xxx template=chk_lb5a  template=y_3  text="Actual Street"   boolmodel="ui.vFullScreenActualStreet">
+	<CHECKBOX xxx template=chk_lb5a  template=y_4  text="Status"          boolmodel="ui.vFullScreenStatus">
 </layer>
 
 ;****************************************************************************************************************
@@ -412,17 +415,17 @@ import "ui_igo8/480_272/ui/speedcam_setting_480_272.ui"
 	<SPRITE     xxx           template=spr_5a           template=y_3 z=0>
 	<TEXT       xxx           template=txt_csu_legend   template=y_3 z=1 text="U-turn penalty:">
 	<TEXT       txtSR_UTurn   template=txt_csu_valunit  template=y_3 z=1>
-	<HSCROLLBAR hscSR_UTurn   template=csuszka_small    template=y_3 z=1 onchange='run sc_hscSR_UTurn_OnChange'>
+	<HSCROLLBAR hscSR_UTurn   template=csuszka          template=y_3 z=1 onchange='run sc_hscSR_UTurn_OnChange'>
 
 	<SPRITE     xxx           template=spr_5a           template=y_4 z=0>
 	<TEXT       xxx           template=txt_csu_legend   template=y_4 z=1 text="Starting opposite direction:">
 	<TEXT       txtSR_UTurn2  template=txt_csu_valunit  template=y_4 z=1>
-	<HSCROLLBAR hscSR_UTurn2  template=csuszka_small    template=y_4 z=1 onchange='run sc_hscSR_UTurn2_OnChange'>
+	<HSCROLLBAR hscSR_UTurn2  template=csuszka          template=y_4 z=1 onchange='run sc_hscSR_UTurn2_OnChange'>
 
 	<SPRITE     xxx           template=spr_5a           template=y_5 z=0>
 	<TEXT       xxx           template=txt_csu_legend   template=y_5 z=1 text="U-turn at viapoint:">
 	<TEXT       txtSR_UTurn3  template=txt_csu_valunit  template=y_5 z=1>
-	<HSCROLLBAR hscSR_UTurn3  template=csuszka_small    template=y_5 z=1 onchange='run sc_hscSR_UTurn3_OnChange'>
+	<HSCROLLBAR hscSR_UTurn3  template=csuszka          template=y_5 z=1 onchange='run sc_hscSR_UTurn3_OnChange'>
 </layer>
 
 
@@ -548,28 +551,29 @@ import "ui_igo8/480_272/ui/speedcam_setting_480_272.ui"
 
 ;****************************************************************************************************************
 
+;!Raffke_jr - applied new templates
 <layer ui_SettingWarningsOverSpeed z=35>
- 	<SPRITE     xxx                    template=spr_5a          y=20>
-	<TEXT	    txtSWO_OToleranceAlt   template=txt_csu_legend  y=20 text="In cities">
-	<TEXT       txtSWO_OToleranceAltV  template=txt_csu_value   y=20 >
-	<TEXT       txtSWO_OToleranceAltM  template=txt_csu_unit    y=20 text="%">
+ 	<SPRITE     xxx                    template=spr_5a          template=y_1 >
+ 	<TEXT	    txtSWO_OToleranceAlt   template=txt_csu_legend  template=y_1 text="In cities">
+	<TEXT       txtSWO_OToleranceAltV  template=txt_csu_value   template=y_1 >
+	<TEXT       txtSWO_OToleranceAltM  template=txt_csu_unit    template=y_1 text="%">
 ;!TB - Added additional values
-	<HSCROLLBAR hscSWO_OToleranceAlt   template=csuszka         y=20 endsize=0 blockincrement=_0.0 possiblevalues="70,75,80,85,90,95,100,105,110,115,120,125,130,140,150,160,180,200,999" valuemodel="warning.speedwarn_alt_tolerance" onchange='run sc_hscSWO_OToleranceAlt_OnChange' endsize=15>
-    
- 	<SPRITE     xxx                    template=spr_5a          y=63>
-	<TEXT	    txtSWO_OTolerance      template=txt_csu_legend  y=63 text="Overspeed Tolerance" >
-	<TEXT       txtSWO_OToleranceV     template=txt_csu_value   y=63 >
-	<TEXT       txtSWO_OToleranceM     template=txt_csu_unit    y=63 text="%" >
+	<HSCROLLBAR hscSWO_OToleranceAlt   template=csuszka         template=y_1 endsize=0 blockincrement=_0.0 possiblevalues="70,75,80,85,90,95,100,105,110,115,120,125,130,140,150,160,180,200,999" valuemodel="warning.speedwarn_alt_tolerance" onchange='run sc_hscSWO_OToleranceAlt_OnChange' endsize=15>
+
+ 	<SPRITE     xxx                    template=spr_5a          template=y_2 >
+	<TEXT	    txtSWO_OTolerance      template=txt_csu_legend  template=y_2 text="Overspeed Tolerance" >
+	<TEXT       txtSWO_OToleranceV     template=txt_csu_value   template=y_2 >
+	<TEXT       txtSWO_OToleranceM     template=txt_csu_unit    template=y_2 text="%" >
 ;!TB - Added additional values
-	<HSCROLLBAR hscSWO_OTolerance      template=csuszka         y=63 endsize=0 blockincrement=_0.0 possiblevalues="70,75,80,85,90,95,100,105,110,115,120,125,130,140,150,160,180,200,999" valuemodel="warning.speedwarn_tolerance" onchange='run sc_hscSWO_OTolerance_OnChange' endsize=15>
+	<HSCROLLBAR hscSWO_OTolerance      template=csuszka         template=y_2 endsize=0 blockincrement=_0.0 possiblevalues="70,75,80,85,90,95,100,105,110,115,120,125,130,140,150,160,180,200,999" valuemodel="warning.speedwarn_tolerance" onchange='run sc_hscSWO_OTolerance_OnChange' endsize=15>
     
 ;!TB - added slider for overspeed type
-	<SLIDER     sldSWO_Type            template=sld_5a          y=106 value="Percentage|0|Fixed value|1" var=vOverspeedType1>
-	<TEXT       txtSWO_Type            template=txt_sld         y=106 text="Type" watchstate=sldSWO_Type>
+	<SLIDER     sldSWO_Type            template=sld_5a          template=y_3 value="Percentage|0|Fixed value|1" var=vOverspeedType1>
+	<TEXT       txtSWO_Type            template=txt_sld         template=y_3 text="Type" watchstate=sldSWO_Type>
 
 ;!TB - Visual and Sound warning controls moved below
-	<CHECKBOX  xxx                     template=chk_5a          y=149  text="Sound warning:"  boolmodel="warning.speedlimit_warning_voice">
-	<CHECKBOX  xxx                     template=chk_5a          y=192  text="Visual warning:" boolmodel="warning.speedlimit_warning_visual">
+	<CHECKBOX  xxx                     template=chk_5a          template=y_4 text="Sound warning:"  boolmodel="warning.speedlimit_warning_voice">
+	<CHECKBOX  xxx                     template=chk_5a          template=y_5 text="Visual warning:" boolmodel="warning.speedlimit_warning_visual">
 </layer>
 
 ;****************************************************************************************************************
@@ -778,10 +782,10 @@ import "ui_igo8/480_272/ui/speedcam_setting_480_272.ui"
 
 ;****************************************************************************************************************
 ;!TB - Advanced Settings
-;****************************************************************************************************************
 ;!Raffke_jr - removed obsolete sprites (template "pageindexspr")
+;!Raffke_jr - applied new templates (copied from ui_SettingWarnings, et_TmcDeniedStation)
+;****************************************************************************************************************
 
-;!Raffke_jr - fitted to new templates (copied from ui_SettingWarnings)
 <element_template et_MyContent_DaysOfWeek>
 	<CHECKBOX xxx  template=chk_5b  textmodel_wstr="*.name" boolmodel="*.blocked" >
 	<BUTTON   xxx  template=btn_5d  text="..." clickmodel="mydata.blocked_roads.current_weekdays.setcurrent $i" onrelease='INCVAL "vKeepRoadBlock", NEXTSTATE ST_MY_DATA_HOURSOFDAY'>
@@ -815,7 +819,6 @@ import "ui_igo8/480_272/ui/speedcam_setting_480_272.ui"
 </layer>
 
 
-;!Raffke_jr - fitted to new templates (copied from et_TmcDeniedStation)
 <element_template et_MyContent_BlockedRoads>
 	<BUTTON xxx template=btn_4b textmodel_wstr="*.name" selectable clickmodel="mydata.blocked_roads.list.setcurrent $i" onrelease='run sc_EditBlockedRoad' enabledmodel="!*.isempty">
 	<BUTTON xxx template=btn_4d iconspr="x.bmp#3" text="" clickmodel="mydata.blocked_roads.list.setcurrent $i" onrelease='run sc_DeleteBlockedRoadItem' enabledmodel="!*.isempty" usefocus=0>

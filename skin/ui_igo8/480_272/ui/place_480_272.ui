@@ -19,9 +19,9 @@
 	<TEXT   txtPA_Address template=txt_posinfo textmodel_wstr="map.last_selected.name">
 	<TEXT   txtPA_POI     template=txt_posinfo textmodel_wstr="poi.current.name">
 	<SPRITE xxx           bmp="foot_320.bmp" x=80  y=239 z=1 alpha=32 onclick=''>
-
 ;!TB - Changed template of a Map button from footer2_1a, removed bmp="foot_210.bmp"
 	<BUTTON btnPA_Map     template=footer3_1a text="Map"                  onrelease='run sc_btnP_Map_OnRelease'> 
+
 ;!TB - Added "Plan on Map" and smaller Info buttons
 	<BUTTON btnPA_PlanMode template=footer3_2a text="Plan Mode"           onrelease='run sc_btnPA_PlanMode_OnRelease'>
 	<BUTTON btnPA_Info1    template=footer3_3a text="Info"                onrelease='run sc_btnPA_Info_OnRelease' HIDE>
@@ -66,8 +66,6 @@
 </layer>
 
 <layer ui_PlaceMenuPlan z=32>
-
-
 	<BUTTON btnPMP_AddDest   template=btn_4c_icon_place  y=20  text="Set as Destination" iconspr="ico_dest.bmp"     onrelease='run sc_btnPM_AddDest_OnRelease'>
 	<BUTTON btnPMP_RemoveDest  template=btn_4c_icon_place  y=73  text="Remove Destination" iconspr="ico_remdest.bmp"  onrelease='run sc_btnPM_RemoveDest_OnRelease'>
 	<BUTTON btnPMP_AddVia      template=btn_4c_icon_place  y=73  text="Insert Via"         iconspr="ico_via.bmp"      onrelease='run sc_btnPM_AddVia_OnRelease'>
@@ -75,7 +73,6 @@
 	<BUTTON btnPMP_AddPin      template=btn_4c_icon_place  y=126 text="Add Pin"            iconspr="ico_pin_add.bmp"  onrelease='run sc_btnPM_AddPin_OnRelease'>
 	<BUTTON btnPMP_RemovePin   template=btn_4c_icon_place  y=126 text="Remove Pin"         iconspr="ico_pin_rem.bmp"  onrelease='run sc_btnPM_RemovePin_OnRelease'>
 	<BUTTON	btnPMP_More        template=btn_4c_icon_place  y=179 text="More Options..."    onrelease='NEXTSTATE st_PlaceMoreOptions'>
-
 </layer>
     
 <layer ui_PlaceMenuPlan_POS z=32>
@@ -87,6 +84,7 @@
 	<BUTTON	btnPM_POS_Favorite         template=btn_4c_icon_place text="Add to Favorites" y=179  iconspr="ico_fav_add.bmp"       onrelease='run sc_btnPM_Favorite_OnRelease'>
 </layer>    
 
+;!Raffke_jr - TODO: new 1 page layout (with 5 row y-templates
 <layer ui_MultiRoute z=30>
 	<BUTTON btnMR_fastw   template=btn_4a          y=20  text="Fast" font="tahomabd" valign="TOP+10" fontsize=14 onrelease='run sc_SelectMultiplanRoute 0'>
 	<SPRITE sprMPRoute1   template=spr_multi       y=50 >
