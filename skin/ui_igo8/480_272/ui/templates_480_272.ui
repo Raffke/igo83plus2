@@ -1,4 +1,8 @@
-<TEMPLATE btnmapmenu template=a_yzoomin    bmp="btn_lb_4d_map.bmp#2"  x=290 fonttype=bw font="tahoma" padding=6 valign="center" align="center" fontsize=14 clicked_coloring=1>
+;!TB_MR - Import new templates
+import "ui_igo8/480_272/ui/templates_advanced_480_272.ui"
+
+
+<TEMPLATE btnmapmenu template=a_yzoomin    bmp="btn_lb_4d_map.bmp#2"  x=290 fonttype=bw font="tahoma" padding=6 valign="center" fontsize=14 clicked_coloring=1>
 
 <TEMPLATE btnlauncher template=a_yzoomin    bmp="4_2_all.bmp#12"  fonttype=bw font="tahoma" padding=6 valign="center" fontsize=14 clicked_coloring=1>
 
@@ -74,7 +78,7 @@
 <TEMPLATE btnlabeltext template=btntext fontsize=10 x=40 >
 <TEMPLATE btnlabeltext_2 template=btntext fontsize=10 x=248 >
 
-<TEMPLATE xinput MAXLENGTH=30 fonttype=font1  valuefontsize=14 align="left" valign="center" fp=99 x=5 y=23 z=10 w=400 h=26 valuefont="tahomabd" emptycolor=#888888 color=#ffffff valuecolor=#ffffff dontshowfocus  nospace=1>; az inputtext kontroll szovege uresen, es beleirva is
+<TEMPLATE xinput MAXLENGTH=30 fonttype=font1  valuefontsize=14 align="left" valign="center" fp=99 x=5 y=23 z=10 w=370 h=26 valuefont="tahomabd" emptycolor=#888888 color=#ffffff valuecolor=#ffffff dontshowfocus  nospace=1>; az inputtext kontroll szovege uresen, es beleirva is
 <TEMPLATE xinputfield bmp="inputfield.bmp" x=2 y=20 z=5>; a beviteli mezo hattere
 <TEMPLATE xinputfield_short template=xinputfield bmp="inputfield_short.bmp">; a rovidebb beviteli mezo hattere
 
@@ -83,7 +87,7 @@
 <TEMPLATE menu4_3 template=a_yzoomin2c bmp="4_3.bmp#3" x=241 y=125 w=135 ICONALIGN="CENTER" ICONVALIGN="CENTER-10" bmpalign="LEFT"  bmpvalign="BOTTOM" fonttype=bw font="tahoma"  valign="BOTTOM-20" align="CENTER"  fontsize=16 padding=6  clicked_coloring=1 leading=_0.75 twolineoffset=10>
 <TEMPLATE menu4_4 template=a_xzoomin2c bmp="4_4.bmp#3" x=241 y=127 w=135 ICONALIGN="CENTER" ICONVALIGN="CENTER-15" bmpalign="LEFT"  bmpvalign="TOP"    fonttype=bw font="tahoma"  valign="BOTTOM-25" align="CENTER"  fontsize=16 padding=6  clicked_coloring=1 leading=_0.75 twolineoffset=10>
                                                                                                                                                                     
-<TEMPLATE menu6_1 template=a_yzoomin2c bmp="6_1.bmp#3" x=239 y=26  ICONALIGN="LEFT+10" ICONVALIGN="CENTER+6" bmpalign="RIGHT" bmpvalign="TOP"  fonttype=bw font="tahoma" valign="center+6"  align="LEFT+60" fontsize=15  padding=6  clicked_coloring=1>
+<TEMPLATE menu6_1 template=a_yzoomin2c bmp="6_1.bmp#3" x=239 y=26  ICONALIGN="LEFT+10" ICONVALIGN="CENTER+6" bmpalign="RIGHT" bmpvalign="TOP"  fonttype=bw font="tahoma" valign="center+5"  align="LEFT+60" fontsize=15  padding=6  clicked_coloring=1>
 <TEMPLATE menu6_2 template=a_yzoomin2c bmp="6_2.bmp#3" x=239 y=96  ICONALIGN="LEFT+10" ICONVALIGN="CENTER"   bmpalign="RIGHT" bmpvalign="TOP"  fonttype=bw font="tahoma" valign="center"    align="LEFT+60" fontsize=15  padding=6  clicked_coloring=1>
 <TEMPLATE menu6_3 template=a_yzoomin2c bmp="6_3.bmp#3" x=239 y=158 ICONALIGN="LEFT+10" ICONVALIGN="CENTER-6" bmpalign="RIGHT" bmpvalign="TOP"  fonttype=bw font="tahoma" valign="center-3"  align="LEFT+60" fontsize=15  padding=6  clicked_coloring=1 twolineoffset=-3>
                                                                                                                                                             
@@ -143,7 +147,7 @@
 
 
 	;-------------- vastag gombok --------------y=21,66,111,156
-<TEMPLATE txt_4 z=1 align="LEFT" valign="CENTER" fonttype=bw  fontsize=14 font="tahoma">
+<TEMPLATE txt_4 z=1 align="LEFT" valign="CENTER" fonttype=bw  fontsize=14 font="tahoma"  >
 	<TEMPLATE chk_4c template=txt_4 bmp="chk_4c.bmp#3" x=34  z=1 w=140 twolinesmall=1  padding=5 align="CENTER" valign="CENTER" fontsize=16>;ket oszlop
 
 	<TEMPLATE btn_4a template=txt_4 bmp="btn_4a.bmp#2" x=34  z=0   twolinesmall=1 padding=10 clicked_coloring=1>;egy oszlop
@@ -153,7 +157,7 @@
 	
 	<TEMPLATE btn_4b template=txt_4 bmp="btn_4b.bmp#2" x=34  z=0  twolinesmall=1  padding=10 clicked_coloring=1>;egy oszlop + a kicsi helye jobbra
 		<TEMPLATE btn_4b_icon  template=btn_4b align="LEFT+30">;ha ikon van
-		<TEMPLATE btn_4b_poigr template=btn_4b align="LEFT+50" valign="CENTER+10"  bmp="btn_4b_poigr.bmp#2" fontsize=16 >;manage Poigr listakban
+		<TEMPLATE btn_4b_poigr template=btn_4b align="LEFT+50" valign="CENTER+5"  bmp="btn_4b_poigr.bmp#2" fontsize=16 >;manage Poigr listakban
 	
 	<TEMPLATE btn_4c template=txt_4 bmp="btn_4c.bmp#2" x=34  z=0  twolinesmall=1  padding=10 clicked_coloring=1>;ket oszlop                
 		<TEMPLATE btn_4c_icon  template=btn_4c align="LEFT+28">;ha ikon van            
@@ -251,8 +255,8 @@
 <TEMPLATE spr_empty    x=33  y=106  bmp="empty_textbox.bmp" >; amikor egy lista ures ez jelenik meg helyette
 
 <TEMPLATE txt_map      x=98  y=248  z=10 w=368 h=26   align="CENTER" valign="CENTER" fontsize=17 font="tahomabd" color=#FFFFFF color2=#000000 color3=#000000 glowsize=1>; actualstreet, housenumber, nextstreet (mas y-nal), stb
-;!Raffke_jr - removed x=0, w=60, align="CENTER" to work with ALIGNER
-<TEMPLATE txt_sec            y=125  z=1        h=20                  valign="BOTTOM" fontsize=12 font="tahomabd" color=#FFFFFF >;secondary diriconon pl. a manover, speedcam tavolsag, ...
+;!Raffke_jr - added color2, color3, glowsize
+<TEMPLATE txt_sec      x=0   y=125  z=1  w=60  h=20   align="CENTER" valign="BOTTOM" fontsize=12 font="tahomabd" color=#FFFFFF color2=#000000 color3=#000000 glowsize=1>;secondary diriconon pl. a manover, speedcam tavolsag, ...
 
 <TEMPLATE help_text x=12 z=36 w=404 h=20000 fontsize=18 font="tahomabd" fonttype=xhtml_ft align="CENTER" orientation="L2R"  view_top=35 view_bottom=220>; az xhtml alapu szovegek, help, about, legal, stb
 

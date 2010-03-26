@@ -8,7 +8,7 @@
 ;****************************************************************************************************************
 
 <script sc_FindCoord>
-    vGeoInputState.set 0
+	vGeoInputState.set 0
 	SET_LATITUDE_LONGITUDE_BYCURSOR "vLatitudeText" "vLongitudeText"
 	.map.store_cursor_pos
 	GET_CURSOR_POS vGeoInputLongitude vGeoInputLatitude
@@ -19,13 +19,13 @@
 
 <state st_FindCoord>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_FindCoord/>
 
 	<script init>
-	    Title.SET "GEO coordinate"
+		Title.SET "GEO coordinate"
 
 		btnFC_Ok.enable
 		runif vGeoInputLongitude L"" 'btnFC_Ok.disable'
@@ -43,7 +43,7 @@
 
 <state st_FindCoordLongitude>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_FindCoordLongitude/>
@@ -65,8 +65,8 @@
 	
 	<script done>
 		kb_plus.TEXT "+/-"
-	    kb_grad.TEXT "'/''"
-	    local.keyboard.on_close_panel
+		kb_grad.TEXT "'/''"
+		local.keyboard.on_close_panel
 		CONVERT_GCOOR_INTERNAL_TOUI vLongitudeText
 	</script>
 </state>
@@ -79,7 +79,7 @@
 </script>
 
 <script sc_LongitudeKeyChanged>
-    KEYB_GEO_HACK inpFC_Longitude kb_grad
+	KEYB_GEO_HACK inpFC_Longitude kb_grad
 </script>
 
 
@@ -87,7 +87,7 @@
 
 <state st_FindCoordLatitude>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_FindCoordLatitude/>
@@ -109,33 +109,36 @@
 	
 	<script done>
 		kb_plus.TEXT "+/-"
-	    kb_grad.TEXT "'/''"
-	    local.keyboard.on_close_panel
+		kb_grad.TEXT "'/''"
+		local.keyboard.on_close_panel
 		CONVERT_GCOOR_INTERNAL_TOUI vLatitudeText
 	</script>
 </state>
 
 <script sc_FindCoordLatitudeOK>
 	inpFC_Latitude.GET "vTmp"
-    SAVE_GEO_INPUT "vTmp" "vGeoInputLatitude" "vGeoInputState" 1 "vTmp2"
+	SAVE_GEO_INPUT "vTmp" "vGeoInputLatitude" "vGeoInputState" 1 "vTmp2"
 	vLatitudeText.SET vTmp2
 	PREVSTATE
 </script>
 
 <script sc_LatitudeKeyChanged>
-    KEYB_GEO_HACK inpFC_Latitude kb_grad
+	KEYB_GEO_HACK inpFC_Latitude kb_grad
 </script>
 
 ;****************************************************************************************************************
 
 <script sc_SearchCoordAndGo>
-    SAVE_GEO_INPUT "vLongitudeText" "vGeoInputLongitude" "vGeoInputState" 2
-    SAVE_GEO_INPUT "vLatitudeText" "vGeoInputLatitude" "vGeoInputState" 1
+	SAVE_GEO_INPUT "vLongitudeText" "vGeoInputLongitude" "vGeoInputState" 2
+	SAVE_GEO_INPUT "vLatitudeText" "vGeoInputLatitude" "vGeoInputState" 1
 	SELECTGEOITEM 4 "vGeoInputLatitude" "vGeoInputLongitude"
 	map.MOVECURSORTOSELECTEDITEM
 
 	nPlaceStateMode.SET 0
-	NEXTSTATE st_Place
+
+;!TB - 'NEXTSTATE st_Place' replaced by sc_OpenMapAfterFind call
+;	NEXTSTATE st_Place
+	run sc_OpenMapAfterFind
 </script>
 
 ;****************************************************************************************************************

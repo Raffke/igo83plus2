@@ -1,3 +1,7 @@
+;!TB_MR - Import new templates
+import "ui_igo8/320_240/ui/templates_advanced_320_240.ui"
+
+
 <TEMPLATE btnmapmenu template=a_yzoomin    bmp="btn_lb_4d_map.bmp#2"  fonttype=bw font="tahomabd" padding=6 valign="center" align="LEFT+30" fontsize=12 clicked_coloring=1>
 
 <TEMPLATE btnlauncher template=a_yzoomin    bmp="4_2_all.bmp#12"  fonttype=bw font="tahoma" padding=6 valign="center" fontsize=14 clicked_coloring=1>
@@ -47,8 +51,8 @@
 
 <TEMPLATE t_txt_detail_val x=8 y=18 z=2 align="RIGHT" w=247  fontsize=14 font="tahoma" fonttype=bw clipstyle="left" >  
   
-<TEMPLATE t_txtlist_right x=3 y=15 z=2 align="RIGHT-9" w=270 fontsize=14 font="tahoma" fonttype=bw>
-<TEMPLATE t_txtlist_left  x=3 y=15 z=2 align="LEFT+9"  w=270 fontsize=14 font="tahoma" fonttype=bw>
+<TEMPLATE t_txtlist_right x=33 y=18 z=2 align="RIGHT-9" w=350 fontsize=14 font="tahoma" fonttype=bw>
+<TEMPLATE t_txtlist_left  x=33 y=18 z=2 align="LEFT+9" w=350 fontsize=14 font="tahoma" fonttype=bw>
 
 ;***********************  SCROLBAR TXT  **********************************
 <TEMPLATE txt_st1a template=btntext x=132 align="RIGHT" font="tahomabd">
@@ -73,10 +77,10 @@
 
 ;-----------------------------  MENUS -------------------------------------
 
-<TEMPLATE menu4_1 template=a_yzoomin2c bmp="4_1.bmp#3" x=159 y=24  w=120 bmpalign="RIGHT" bmpvalign="TOP"    ICONALIGN="CENTER" ICONVALIGN="CENTER-8"  fonttype=bw font="tahoma" valign="CENTER+20" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 wordwrap=2 twolinesize=12 leading=_0.75>
-<TEMPLATE menu4_2 template=a_yzoomin2c bmp="4_2.bmp#3" x=159 y=109 w=120 bmpalign="RIGHT" bmpvalign="TOP"    ICONALIGN="CENTER" ICONVALIGN="CENTER-13" fonttype=bw font="tahoma" valign="CENTER+15" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 wordwrap=2 twolinesize=12 leading=_0.75>
-<TEMPLATE menu4_3 template=a_yzoomin2c bmp="4_3.bmp#3" x=161 y=107 w=120 bmpalign="LEFT"  bmpvalign="BOTTOM" ICONALIGN="CENTER" ICONVALIGN="CENTER-8"  fonttype=bw font="tahoma" valign="CENTER+20" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 wordwrap=2 twolinesize=12 leading=_0.75>
-<TEMPLATE menu4_4 template=a_xzoomin2c bmp="4_4.bmp#3" x=161 y=109 w=120 bmpalign="LEFT"  bmpvalign="TOP"    ICONALIGN="CENTER" ICONVALIGN="CENTER-13" fonttype=bw font="tahoma" valign="CENTER+15" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 wordwrap=2 twolinesize=12 leading=_0.75>
+<TEMPLATE menu4_1 template=a_yzoomin2c bmp="4_1.bmp#3" x=159 y=24  w=120 bmpalign="RIGHT" bmpvalign="TOP"    ICONALIGN="CENTER" ICONVALIGN="CENTER-8"  fonttype=bw font="tahoma" valign="CENTER+20" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 twolinesmall=3 twolinesize=12 leading=_1.1>
+<TEMPLATE menu4_2 template=a_yzoomin2c bmp="4_2.bmp#3" x=159 y=109 w=120 bmpalign="RIGHT" bmpvalign="TOP"    ICONALIGN="CENTER" ICONVALIGN="CENTER-13" fonttype=bw font="tahoma" valign="CENTER+15" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 twolinesmall=3 twolinesize=12 leading=_1.1>
+<TEMPLATE menu4_3 template=a_yzoomin2c bmp="4_3.bmp#3" x=161 y=107 w=120 bmpalign="LEFT"  bmpvalign="BOTTOM" ICONALIGN="CENTER" ICONVALIGN="CENTER-8"  fonttype=bw font="tahoma" valign="CENTER+20" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 twolinesmall=3 twolinesize=12 leading=_1.1>
+<TEMPLATE menu4_4 template=a_xzoomin2c bmp="4_4.bmp#3" x=161 y=109 w=120 bmpalign="LEFT"  bmpvalign="TOP"    ICONALIGN="CENTER" ICONVALIGN="CENTER-13" fonttype=bw font="tahoma" valign="CENTER+15" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 twolinesmall=3 twolinesize=12 leading=_1.1>
 
 <TEMPLATE menu6_1 template=a_yzoomin2c bmp="6_1.bmp#3" x=159 y=24  w=120 bmpalign="RIGHT" bmpvalign="TOP"    ICONALIGN="LEFT+7" ICONVALIGN="CENTER+4"  fonttype=bw font="tahoma" valign="CENTER"   align="LEFT+50"   fontsize=14  padding=6  clicked_coloring=1 leading=_0.9 twolineoffset=1>
 <TEMPLATE menu6_2 template=a_yzoomin2c bmp="6_2.bmp#3" x=159 y=83  w=120 bmpalign="RIGHT" bmpvalign="TOP"    ICONALIGN="LEFT+5" ICONVALIGN="CENTER"    fonttype=bw font="tahoma" valign="CENTER"   align="LEFT+50"   fontsize=14  padding=6  clicked_coloring=1 leading=_0.9 twolineoffset=1>
@@ -124,7 +128,7 @@
 	<TEMPLATE footer3_2a  template=footera bmp="foot_3_a.bmp" x=160 >
 	<TEMPLATE footer3_3a  template=footera bmp="foot_3_a.bmp" x=240 >
 
-	<TEMPLATE footer1_1a  template=footera bmp="foot_1_1a.bmp" x=80 >
+	<TEMPLATE footer1_1a  template=footera bmp="foot_1_1a.bmp" x=60 >
 							
 	<TEMPLATE footer2_1a  template=footera bmp="foot_2_a.bmp" x=80  >
 	<TEMPLATE footer2_2a  template=footera bmp="foot_2_a.bmp" x=200 >
@@ -158,7 +162,7 @@
 	
 	<TEMPLATE btn_4b template=txt_4 bmp="btn_4b.bmp#2" x=4  z=0  twolinesmall=1  padding=10 clicked_coloring=1>;egy oszlop + a kicsi helye jobbra
 		<TEMPLATE btn_4b_icon  template=btn_4b align="LEFT+25">;ha ikon van
-		<TEMPLATE btn_4b_poigr template=btn_4b align="LEFT+40" valign="CENTER+10"  bmp="btn_4b_poigr.bmp#2">;manage Poigr listakban
+		<TEMPLATE btn_4b_poigr template=btn_4b align="LEFT+50" valign="CENTER+8"  bmp="btn_4b_poigr.bmp#2">;manage Poigr listakban
 	
 	<TEMPLATE btn_4c template=txt_4 bmp="btn_4c.bmp#2" x=4  z=0  twolinesmall=1  padding=10 clicked_coloring=1>;ket oszlop                
 		<TEMPLATE btn_4c_icon  template=btn_4c align="LEFT+25">;ha ikon van            
@@ -248,8 +252,8 @@
 <TEMPLATE spr_empty    x=12  y=92  bmp="empty_textbox.bmp" >; amikor egy lista ures ez jelenik meg helyette
 
 <TEMPLATE txt_map           y=220       z=10     h=20   align="CENTER" valign="CENTER" fontsize=14 font="tahomabd" color=#FFFFFF color2=#000000 color3=#000000 glowsize=1>; actualstreet, housenumber, nextstreet (mas y-nal), stb
-;!Raffke_jr - removed x=1, w=50, align="CENTER" to work with ALIGNER
-<TEMPLATE txt_sec           y=107       z=1      h=20                  valign="BOTTOM" fontsize=12 font="tahomabd" color=#FFFFFF >;secondary diriconon pl. a manover, speedcam tavolsag, ...
+;!Raffke_jr - added color2, color3, glowsize
+<TEMPLATE txt_sec      x=1  y=107       z=1 w=50 h=20   align="CENTER" valign="BOTTOM" fontsize=12 font="tahomabd" color=#FFFFFF color2=#000000 color3=#000000 glowsize=1>;secondary diriconon pl. a manover, speedcam tavolsag, ...
 
 <TEMPLATE help_text x=12 z=36 w=298 h=20000 fontsize=18 font="tahomabd" fonttype=xhtml_ft align="CENTER" orientation="L2R"  view_top=27 view_bottom=193>; az xhtml alapu szovegek, help, about, legal, stb
 

@@ -20,7 +20,7 @@
 	map.GetMapState vMapState
 	runif vMapState 0 sc_2DHeadUpCheck
 	else_runif vMapState 3 'map.SetMapState 4, vMapState.set 4, run sc_2DMode'
-	else_runif vMapState 4 'map.SetMapState 0, vMapState.set 0, run sc_3DMode, run sc_3dMapFollowMode'
+	else_runif vMapState 4 'map.SetMapState 0, vMapState.set 0, bNavmapfollow.set 1, run sc_3DMode'
 	else_runif vMapState 5 'run sc_Back_From_Overview'
 	else_run 'run sc_3DMode'
 	map.GetMapState vMapState
@@ -28,25 +28,16 @@
 	runif vMapState 4 'map.SETCARPOSITION 50 50'
 
 	obs_OverviewMode_Changed.start "NO_TRIGGER"
-	
-	btnNMB_Nav3D.isvisible vTmp
-    runif vTmp  1 '.map.north_lock 1'
-    else_run '.map.north_lock 0'
-</script>
-
-<script sc_3dMapFollowMode>
-    runif %map.follow_gps 0 '.map.follow_rotation 1, .map.follow 0'
-    else_run '.map.follow_rotation 1, .map.follow 1'
 </script>
 
 <script sc_Back_From_Overview>
 	map.GET_MAPSTATE_BEFORE_OVERVIEW vTmp
 	map.setmapstate vTmp
 	.map.zoom_level vZoomLevelBeforeOverview
-    vMapState.set vTmp
-    runif vTmp 0 'run sc_ExitOverviewTo3D'
-    else_runif vTmp 3 'run sc_ExitOverviewTo2D'
-    else_runif vTmp 4 'run sc_ExitOverviewTo2D'
+	vMapState.set vTmp
+	runif vTmp 0 'run sc_ExitOverviewTo3D'
+	else_runif vTmp 3 'run sc_ExitOverviewTo2D'
+	else_runif vTmp 4 'run sc_ExitOverviewTo2D'
 </script>
 
 <script sc_2DHeadUpCheck>
@@ -71,43 +62,62 @@
 	<uselayer ui_PlanMode/>
 	<uselayer ui_PlanModeControls2D/>
 	<uselayer ui_PlanModeOpenCloseButtons/>
+;!TB - Popup Info
+	<uselayer ui_CockpitInfo>
 
 	<script init>
-	    Title.set ""
- 		run sc_FullScreenMap
+		Title.set ""
+		run sc_FullScreenMap
 
 		map.mapmode 1
 		vMapSettings2d3d.set "2D"
-	    map.VIEW2D3D vMapSettings2d3d
-	    
-	    map.EnableMoveCursorByClick 1
+		map.VIEW2D3D vMapSettings2d3d
+
+;!TB - Popup Info
+		runifnot %map.popup_info 0 'ui_CockpitInfo.SHOW, ui_CockpitInfo.h 0'
+		else_run 'ui_CockpitInfo.HIDE'
+;!TB - cleanup poi search for PopupInfo
+		poi.near_cursor.visible_only 0
+		poi.near_cursor.area 1000
+		poi.near_cursor.sort "distance"
+
+		map.EnableMoveCursorByClick 1
 		map.SHOWCURSOR 1
 		map.ONMAPCLICK sc_StartPlanModeMenuPlan_Refresh 1	
-		
-		vPlanModeOn.set 1
-		
-		run sc_init_zoomcontrol_planmode
-		
-        run sc_FitToScreen_PlanMode
 
-	    btnStartPoint.DISABLE
-	    runif %navigation.waypoints.list.size > 1 'btnStartPoint.ENABLE'
+		vPlanModeOn.set 1
+
+		run sc_init_zoomcontrol_planmode
+
+		run sc_FitToScreen_PlanMode
+
+;!Raffke_jr - moved here for permanent update of Route Info button
+		vRouteCalcFinishedCallback.set sc_PM_RefreshRouteInfo
+		run sc_PM_RefreshRouteInfo
+;!Raffke_jr - TODO: is it possible to display "..." if infos invalid (i.e. called from 'Load Route')?
+
+		btnStartPoint.DISABLE
+		runif %navigation.waypoints.list.size > 1 'btnStartPoint.ENABLE'
 
 		runif bBackupNavMapFollowPlanMode 1 'run sc_FollowOff'
 
 		run sc_StartPlanModeMenuPlan
 
-        ; any button can be used for this. This must be after all show/hide layers.
-        btn_Footer_back2.CLEARFOCUS
+		; any button can be used for this. This must be after all show/hide layers.
+		btn_Footer_back2.CLEARFOCUS
 	</script>
-	
-	<script done>	
-		vPlanModeOn.set 0	
+
+	<script done>
+;!Raffke_jr - moved here for permanent update of Route Info button
+		vRouteCalcFinishedCallback.clear
+;!TB - Popup Info
+		ui_CockpitInfo.h 0
+		ui_CockpitInfo.HIDE
 	</script>
 </state>
 
 <script sc_StartPlanModeMenuPlan>
-    btnStartPoint.ENABLE
+	btnStartPoint.ENABLE
 	btnRemStartPoint.ENABLE
 	btnDestPoint.ENABLE
 	btnRemDestPoint.ENABLE
@@ -115,7 +125,7 @@
 	btnRemViaPoint.ENABLE
 	btnContinue.ENABLE
 	
-    GETPLACEROUTEMODE vTmp
+	GETPLACEROUTEMODE vTmp
 	runif vTmp 1 'btnStartPoint.HIDE, btnRemStartPoint.SHOW'
 	else_run 'btnStartPoint.SHOW, btnRemStartPoint.HIDE'
 	runif vTmp 2 'btnAddViaPoint.HIDE, btnRemViaPoint.SHOW'
@@ -131,24 +141,88 @@
 </script>
 
 <script sc_StartPlanModeMenuPlan_Refresh>
-    5 run sc_StartPlanModeMenuPlan
+;!TB - Popup Info
+	run sc_DoStartHideCockpitInfo
+
+	5 run sc_StartPlanModeMenuPlan
 </script>
 
 <script sc_FitToScreen_PlanMode>
 	map.MOVECURSORTOSELECTEDITEM 0
-    runif %navigation.waypoints.list.size > 1 'map.SETCARPOSITION 50 50, run sc_Fittoscreen_res'
-    else_run 'map.CENTERCURSOR'
-    2 run sc_StartPlanModeMenuPlan_Refresh
+	runif %navigation.waypoints.list.size > 1 'map.SETCARPOSITION 50 50, run sc_Fittoscreen_res'
+	else_run 'map.CENTERCURSOR'
+	2 run sc_StartPlanModeMenuPlan_Refresh
 </script>
 
 
 <script sc_StartPlanMode>
-      bBackupNavMapFollowPlanMode.SET bNavMapFollow
-      NEXTSTATE st_PlanMode
+	bBackupNavMapFollowPlanMode.SET bNavMapFollow
+
+;!TB - fix
+	map.SETCARPOSITION 50 50
+
+	NEXTSTATE st_PlanMode
 </script>
  
 <script sc_btnPM_StartNavigation>
+	vPlanModeOn.set 0
 	run sc_FollowOn
 	map.mapmode 0
 	run sc_EmptyStateQueue st_NavigateMap
+</script>
+
+
+;!TB - Added script for "Center Cursor" button on the 2D map
+<script sc_btnPMB_FitToCursor_PlanMode>
+	map.MOVECURSORTOSELECTEDITEM 0
+	map.CENTERCURSOR
+	2 run sc_StartPlanModeMenuPlan_Refresh
+</script>
+
+
+;****************************************************************************************************************
+;!TB NGP - ReCalc Route
+;!Raffke_jr - moved here from common.ui, changed to easier implementation from route.ui
+
+<script sc_PM_CycleRouteMethods>
+	termif nVehicle 5 sc_CycleRouteMethods
+	termif nVehicle 4 sc_CycleRouteMethods
+	termif nVehicle 6 sc_CycleRouteMethods
+	vTmp.TEXTMODEL_WSTR "route.current_route_type"
+	vTmp.DROPMODEL
+	runif vTmp L"FAST" 'vTmp.set L"ECO"'
+	else_runif vTmp L"ECO" 'vTmp.set L"SIMPLE"'
+	else_runif vTmp L"SIMPLE" 'vTmp.set L"SHORT"'
+	else_runif vTmp L"SHORT" 'vTmp.set L"SCENIC"'
+	else_runif vTmp L"SCENIC" 'vTmp.set L"FAST"'
+	vRouteType.set vTmp
+
+	run sc_PM_RefreshRouteMethod
+;!Raffke_jr - replace default "Calculating..", which is too long here
+	txtPM_Distance.text "..."
+	txtPM_TimeLeft.text " "
+
+	ADVNAV_RECALC
+</script>
+
+<script sc_btn_PM_Method_OnRelease>
+	term sc_PM_CycleRouteMethods
+	1 run sc_PM_CycleRouteMethods
+</script>
+
+<script sc_PM_RefreshRouteMethod>
+;!Raffke_jr - TODO: rename button to 'txtPM_Method'
+	runif vRouteType L"FAST" 'txtPM_Method.text "Fastest"'
+	else_runif vRouteType L"SHORT" 'txtPM_Method.text "Shortest"'
+	else_runif vRouteType L"ECO" 'txtPM_Method.text "Economic"'
+	else_runif vRouteType L"SIMPLE" 'txtPM_Method.text "Easy"'
+	else_runif vRouteType L"SCENIC" 'txtPM_Method.text "Scenic/Panoramic_View"'
+</script>
+
+<script sc_PM_RefreshRouteInfo>
+	run sc_PM_RefreshRouteMethod
+
+	ui_Route.GET_ROUTEINFO txtPM_Distance txtRI_Stops txtPM_TimeLeft txtRI_Arrive txtRI_DestAddress
+;!Raffke_jr - Fit to screen after recalc
+	run sc_FitToScreen_PlanMode
 </script>

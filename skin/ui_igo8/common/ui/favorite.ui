@@ -8,8 +8,8 @@
 ;****************************************************************************************************************
 
 <state st_FindFavorite>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_FindFavorite/>
@@ -20,14 +20,15 @@
 </state>
 
 <script sc_et_FindFavorite_OnRelease>
-    vTmp.TEXTMODEL_WSTR "mydata.favorites.list.current.name"
-    vInputDest.SET vTmp
-    vTmp.DROPMODEL
-    
-    ntmp.boolmodel "mydata.favorites.list.current.isempty"
-    ntmp.DROPMODEL      
-    
-    runif ntmp 0 'EXEC "mydata.favorites.gotopos", nPlaceStateMode.SET 0, map.MOVECURSORTOSELECTEDITEM, NEXTSTATE st_Place'
+	vTmp.TEXTMODEL_WSTR "mydata.favorites.list.current.name"
+	vInputDest.SET vTmp
+	vTmp.DROPMODEL
+	
+	ntmp.boolmodel "mydata.favorites.list.current.isempty"
+	ntmp.DROPMODEL		
+	
+;!TB - 'NEXTSTATE st_Place' replaced by sc_OpenMapAfterFind call
+	runif ntmp 0 'EXEC "mydata.favorites.gotopos", nPlaceStateMode.SET 0, run sc_OpenMapAfterFind'
 </script>
 
 ;****************************************************************************************************************
@@ -40,32 +41,32 @@
 	<uselayer ui_ManageFavorite/>
 	
 	<script init>
-    mydata.favorites.list.index 0
-    runif vManageMode 1 'Title.SET "Manage Favorite"'
-    else_run 'Title.SET "Choose Favorite Placement"'
-  </script>
+		mydata.favorites.list.index 0
+		runif vManageMode 1 'Title.SET "Manage Favorite"'
+		else_run 'Title.SET "Choose Favorite Placement"'
+	</script>
 	
 </state>
 
 <script sc_et_ManageFavorite_OnRelease>
-    vTmp.TEXTMODEL_WSTR "mydata.favorites.list.current.name"
-    vInputDest.SET vTmp
-    vTmp.DROPMODEL
-    
-    ntmp.boolmodel "mydata.favorites.list.current.isempty"
-    ntmp.DROPMODEL    
+	vTmp.TEXTMODEL_WSTR "mydata.favorites.list.current.name"
+	vInputDest.SET vTmp
+	vTmp.DROPMODEL
+	
+	ntmp.boolmodel "mydata.favorites.list.current.isempty"
+	ntmp.DROPMODEL	  
 
-    runif vManageMode 1 'runif ntmp 0 sc_ModifyFavorite'
-    else_runif ntmp 0 'INITMESSAGEBOX 1 "Replacing favorite entry." sc_SaveFavorite'
-    else_run sc_SaveFavorite
+	runif vManageMode 1 'runif ntmp 0 sc_ModifyFavorite'
+	else_runif ntmp 0 'INITMESSAGEBOX 1 "Replacing favorite entry." sc_SaveFavorite'
+	else_run sc_SaveFavorite
 </script>
 
 <script sc_SaveFavorite>
-    vTmp.TEXTMODEL_WSTR "map.cursorpos.address.short_format"
-    vInputDest.SET vTmp
-    vTmp.DROPMODEL
-    
-    inpSI_Text.VALUE vInputDest
+	vTmp.TEXTMODEL_WSTR "map.cursorpos.address.short_format"
+	vInputDest.SET vTmp
+	vTmp.DROPMODEL
+	
+	inpSI_Text.VALUE vInputDest
 	inpSI_Text.emptytitle "<Enter new favorite name>" 
 	
 	vKeyTableDone.SET sc_SaveRenameFavorite
@@ -77,22 +78,22 @@
 </script>
 
 <script sc_SaveRenameFavorite>
-    EXEC "mydata.favorites.savepos"
-    vTmp.TEXTMODEL_WSTR "mydata.favorites.list.current.name"
-    inpSI_Text.GET "vTmp2"
-    runif vTmp2 L"" 'vTmp2.SET "<Empty>"'
-    vTmp.SET vTmp2
-    vTmp.DROPMODEL
+	EXEC "mydata.favorites.savepos"
+	vTmp.TEXTMODEL_WSTR "mydata.favorites.list.current.name"
+	inpSI_Text.GET "vTmp2"
+	runif vTmp2 L"" 'vTmp2.SET "<Empty>"'
+	vTmp.SET vTmp2
+	vTmp.DROPMODEL
 	PREVSTATE
-    runif vManageMode 0 'run sc_RenameFavoriteReturnToPlace'
+	runif vManageMode 0 'run sc_RenameFavoriteReturnToPlace'
 </script>
 
 <script sc_ModifyFavorite>
-    vTmp.TEXTMODEL_WSTR "mydata.favorites.list.current.name"
-    vInputDest.SET vTmp
-    vTmp.DROPMODEL
-    
-    inpSI_Text.VALUE vInputDest
+	vTmp.TEXTMODEL_WSTR "mydata.favorites.list.current.name"
+	vInputDest.SET vTmp
+	vTmp.DROPMODEL
+	
+	inpSI_Text.VALUE vInputDest
 	inpSI_Text.emptytitle "<Enter new favorite name>" 
 	
 	vKeyTableDone.SET sc_RenameFavorite
@@ -104,13 +105,13 @@
 </script>
 
 <script sc_RenameFavorite>
-    vTmp.TEXTMODEL_WSTR "mydata.favorites.list.current.name"
-    inpSI_Text.GET "vTmp2"
-    runif vTmp2 L"" 'vTmp2.SET "<Empty>"'
-    vTmp.SET vTmp2
-    vTmp.DROPMODEL
+	vTmp.TEXTMODEL_WSTR "mydata.favorites.list.current.name"
+	inpSI_Text.GET "vTmp2"
+	runif vTmp2 L"" 'vTmp2.SET "<Empty>"'
+	vTmp.SET vTmp2
+	vTmp.DROPMODEL
 	PREVSTATE
-    runif vManageMode 0 'run sc_RenameFavoriteReturnToPlace'
+	runif vManageMode 0 'run sc_RenameFavoriteReturnToPlace'
 </script>
 
 <script sc_RenameFavoriteReturnToPlace>
@@ -124,10 +125,10 @@
 </script>
 
 <script sc_et_FavoritesDel_OnRelease>
-    INITMESSAGEBOX 1 "Deleting favorites entry." 'EXEC "mydata.favorites.clear", run sc_FavoritesDel_IsEmpty'
+	INITMESSAGEBOX 1 "Deleting favorites entry." 'EXEC "mydata.favorites.clear", run sc_FavoritesDel_IsEmpty'
 </script>
 
 <script sc_FavoritesDel_IsEmpty>
-    runif %mydata.favorites.isempty 0 'STATE st_ManageFavorite'
-    else_run 'PREVSTATE'
+	runif %mydata.favorites.isempty 0 'STATE st_ManageFavorite'
+	else_run 'PREVSTATE'
 </script>

@@ -5,8 +5,10 @@
 <FONTTYPE buttonlabel_menu color=#000000 font="tahoma" fontsize=12 color2=#000000>
 <FONTTYPE buttonlabel_menu2 color=#FFFFFF font="tahomabd" fontsize=10 color2=#FFFFFF>
 <FONTTYPE font1 color=#000000 valuecolor=#000000 emptycolor=#5B6B50 color2=#000000>
-<FONTTYPE font_speedlimit_below color=#007000 font="tahoma" fontsize=16 valuecolor=#000000 emptycolor=#5B6B50 color2=#a00000>
-<FONTTYPE font_speedlimit_above color=#700000 font="tahomabd" fontsize=16 valuecolor=#000000 emptycolor=#5B6B50 color2=#a00000>
+;!TB - colors changed for speedlimit_below and speedlimit_above
+<FONTTYPE font_speedlimit_below color=#ffffff font="tahomabd" fontsize=16 valuecolor=#ff0000 emptycolor=#800000 color2=#000000>
+<FONTTYPE font_speedlimit_above color=#f6d900 font="tahomabd" fontsize=16 valuecolor=#000000 emptycolor=#5B6B50 color2=#000000 color3=#000000>
+
 <FONTTYPE keyfont  color=#000000  color2=#a00000>
 <FONTTYPE keyfont1 color=#000000  color2=#a00000>
 <FONTTYPE keyfont2 color=#000000  color2=#a00000>

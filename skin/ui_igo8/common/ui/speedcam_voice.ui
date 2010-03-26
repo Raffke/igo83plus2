@@ -1,0 +1,1784 @@
+;******************************************************
+;* Speedcam Voice scripts
+;* Developed by Delphis
+;* Look for last version at http://4pda.ru/forum/index.php?showtopic=79587&view=findpost&p=1703505
+;******************************************************
+
+<header>
+</header>
+
+<script sc_SpeedcamGetLangTypeValues>
+;!Raffke_jr - added voices, offset 10 to sort foreign languages to end; add additional ascending
+  vTmp.Set "Alert sound|-1|Off|0|German Female|1|German Male|2|Russian Male|11|Russian Female|12|UK English Female|13|German|4|Czech Male|15|Czech Female|16|Hebrew Male|17|Italian|18|Hungarian Male|19|Hungarian Female|20|French Female|21|Espanol Female|22|Romanian Female|23|Polish Female|24"
+</script>
+
+<script sc_SpeedcamVoiceTestSound>
+      runif vSpeedcamWarningType      11 'PLAYSOUND "RUM_warning_1"'
+      else_runif vSpeedcamWarningType 12 'PLAYSOUND "RU_warning_1"'
+      else_runif vSpeedcamWarningType 13 'PLAYSOUND "EN_warning_1"'
+      else_runif vSpeedcamWarningType  4 'PLAYSOUND "DE_einfach_1"'
+      else_runif vSpeedcamWarningType 15 'PLAYSOUND "CSM_warning_1"'
+      else_runif vSpeedcamWarningType 16 'PLAYSOUND "CSF_warning_1"'
+      else_runif vSpeedcamWarningType 17 'PLAYSOUND "HE_warning_1"'
+;!Raffke_jr - added Byte's voices, offset 50
+      else_runif vSpeedcamWarningType  1 'PLAYSOUND "einfach_0_w"'
+      else_runif vSpeedcamWarningType  2 'PLAYSOUND "einfach_0_m"'
+;!Raffke_jr - added GlikoGliko's italian voices
+      else_runif vSpeedcamWarningType 18 'PLAYSOUND "fisso"'
+;!Raffke_jr - added Riks voices
+      else_runif vSpeedcamWarningType 19 'PLAYSOUND "HU_warning_1"'
+      else_runif vSpeedcamWarningType 20 'PLAYSOUND "HUF_warning_1"'
+      else_runif vSpeedcamWarningType 21 'PLAYSOUND "RF-simple"'
+      else_runif vSpeedcamWarningType 22 'PLAYSOUND "ES_warning_2"'
+      else_runif vSpeedcamWarningType 23 'PLAYSOUND "RO_warning_0"'   
+      else_runif vSpeedcamWarningType 24 'PLAYSOUND "PLF_warning_1"'
+</script>
+
+<script sc_spoken_alert_lang_select>
+      runif vSpeedcamWarningType      11 'run sc_selection_alert_RUM'
+      else_runif vSpeedcamWarningType 12 'run sc_selection_alert_RU'
+      else_runif vSpeedcamWarningType 13 'run sc_selection_alert_EN'
+      else_runif vSpeedcamWarningType  4 'run sc_selection_alert_DE'
+      else_runif vSpeedcamWarningType 15 'run sc_selection_alert_CSM'
+      else_runif vSpeedcamWarningType 16 'run sc_selection_alert_CSF'
+      else_runif vSpeedcamWarningType 17 'run sc_selection_alert_HE'
+;!Raffke_jr - added Byte's voices, offset 50
+      else_runif vSpeedcamWarningType  1 'run sc_selection_alert_W'
+      else_runif vSpeedcamWarningType  2 'run sc_selection_alert_M'
+;!Raffke_jr - added GlikoGliko's italian voices
+      else_runif vSpeedcamWarningType 18 'run sc_selection_alert_ITA'
+;!Raffke_jr - added Riks voices
+      else_runif vSpeedcamWarningType 19 'run sc_selection_alert_HU'
+      else_runif vSpeedcamWarningType 20 'run sc_selection_alert_HUF'
+      else_runif vSpeedcamWarningType 21 'run sc_selection_alert_FRA'
+      else_runif vSpeedcamWarningType 22 'run sc_selection_alert_ESP'
+      else_runif vSpeedcamWarningType 23 'run sc_selection_alert_RO'   
+      else_runif vSpeedcamWarningType 20 'run sc_selection_alert_PLF'
+</script>
+
+<script sc_selection_alert_RUM>
+  runif vCurrentSpeedcamCategory 0 'run sc_0_RUM'
+  else_runif vCurrentSpeedcamCategory 1 'run sc_1_RUM'
+  else_runif vCurrentSpeedcamCategory 2 'run sc_2_RUM'
+  else_runif vCurrentSpeedcamCategory 3 'run sc_3_RUM'
+  else_runif vCurrentSpeedcamCategory 4 'playsound "RUM_warning_2"'
+</script>
+
+;Fixed
+<script sc_0_RUM>
+      runifnot nCamSpeedUnit 1 'playsound "RUM_warning_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "RUM_10_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "RUM_20_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "RUM_30_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "RUM_40_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "RUM_50_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "RUM_60_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "RUM_70_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "RUM_80_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "RUM_90_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "RUM_100_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "RUM_110_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "RUM_120_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "RUM_130_kmh_0"'
+      else_run 'playsound "RUM_warning_0"'
+</script>
+
+;Mobile
+<script sc_1_RUM>
+      runifnot nCamSpeedUnit 1 'playsound "RUM_warning_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "RUM_10_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "RUM_20_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "RUM_30_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "RUM_40_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "RUM_50_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "RUM_60_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "RUM_70_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "RUM_80_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "RUM_90_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "RUM_100_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "RUM_110_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "RUM_120_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "RUM_130_kmh_1"'
+      else_run 'playsound "RUM_warning_1"'
+</script>
+
+;Traffic Light
+<script sc_2_RUM>
+      runifnot nCamSpeedUnit 1 'playsound "RUM_warning_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "RUM_10_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "RUM_20_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "RUM_30_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "RUM_40_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "RUM_50_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "RUM_60_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "RUM_70_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "RUM_80_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "RUM_90_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "RUM_100_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "RUM_110_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "RUM_120_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "RUM_130_kmh_2"'
+      else_run 'playsound "RUM_warning_2"'
+</script>
+
+;Section
+<script sc_3_RUM>
+      runifnot nCamSpeedUnit 1 'playsound "RUM_warning_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "RUM_10_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "RUM_20_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "RUM_30_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "RUM_40_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "RUM_50_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "RUM_60_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "RUM_70_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "RUM_80_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "RUM_90_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "RUM_100_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "RUM_110_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "RUM_120_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "RUM_130_kmh_3"'
+      else_run 'playsound "RUM_warning_3"'
+</script>
+
+
+<script sc_selection_alert_RU>                                          
+    runif vCurrentSpeedcamCategory 0 'run sc_0_RU'
+    else_runif vCurrentSpeedcamCategory 1 'run sc_1_RU'
+    else_runif vCurrentSpeedcamCategory 2 'run sc_2_RU'
+    else_runif vCurrentSpeedcamCategory 3 'run sc_3_RU'
+    else_runif vCurrentSpeedcamCategory 4 'playsound "RU_warning_2"' 
+</script>
+
+;Fixed
+<script sc_0_RU>
+      runifnot nCamSpeedUnit 1 'playsound "RU_warning_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "RU_10_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "RU_20_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "RU_30_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "RU_40_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "RU_50_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "RU_60_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "RU_70_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "RU_80_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "RU_90_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "RU_100_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "RU_110_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "RU_120_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "RU_130_kmh_0"'
+      else_run 'playsound "RU_warning_0"'
+</script>
+
+;Mobile
+<script sc_1_RU>
+      runifnot nCamSpeedUnit 1 'playsound "RU_warning_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "RU_10_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "RU_20_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "RU_30_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "RU_40_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "RU_50_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "RU_60_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "RU_70_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "RU_80_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "RU_90_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "RU_100_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "RU_110_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "RU_120_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "RU_130_kmh_1"'
+      else_run 'playsound "RU_warning_1"'
+</script>
+
+;Traffic Light
+<script sc_2_RU>
+      runifnot nCamSpeedUnit 1 'playsound "RU_warning_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "RU_10_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "RU_20_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "RU_30_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "RU_40_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "RU_50_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "RU_60_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "RU_70_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "RU_80_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "RU_90_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "RU_100_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "RU_110_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "RU_120_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "RU_130_kmh_2"'
+      else_run 'playsound "RU_warning_2"'
+</script>
+
+;Section
+<script sc_3_RU>
+      runifnot nCamSpeedUnit 1 'playsound "RU_warning_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "RU_10_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "RU_20_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "RU_30_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "RU_40_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "RU_50_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "RU_60_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "RU_70_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "RU_80_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "RU_90_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "RU_100_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "RU_110_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "RU_120_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "RU_130_kmh_3"' 
+      else_run 'playsound "RU_warning_3"'
+</script>
+          
+<script sc_selection_alert_EN>
+      runif nCamSpeedUnit 1 sc_selection_alert_EN_kmh
+      else_run sc_selection_alert_EN_mph
+</script>
+
+<script sc_selection_alert_EN_kmh>
+            runif vCurrentSpeedcamCategory 0 'run sc_0_EN_kmh'
+      else_runif vCurrentSpeedcamCategory 1 'run sc_1_EN_kmh'
+      else_runif vCurrentSpeedcamCategory 2 'run sc_2_EN_kmh'
+      else_runif vCurrentSpeedcamCategory 3 'run sc_3_EN_kmh'
+      else_runif vCurrentSpeedcamCategory 4 'playsound "EN_warning_2"'
+</script>
+
+<script sc_selection_alert_EN_mph>
+            runif vCurrentSpeedcamCategory 0 'run sc_0_EN_mph'
+      else_runif vCurrentSpeedcamCategory 1 'run sc_1_EN_mph'
+      else_runif vCurrentSpeedcamCategory 2 'run sc_2_EN_mph'
+      else_runif vCurrentSpeedcamCategory 3 'run sc_3_EN_mph'
+      else_runif vCurrentSpeedcamCategory 4 'playsound "EN_warning_2"'
+</script>
+
+;Speed
+<script sc_0_EN_kmh>
+           runif vCurrentSpeedcamSpeedLimit 10  'playsound "EN_10_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "EN_20_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "EN_30_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "EN_40_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "EN_50_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "EN_60_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "EN_70_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "EN_80_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "EN_90_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "EN_100_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "EN_110_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "EN_120_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "EN_130_kmh_0"'
+      else_run 'playsound "EN_warning_0"'
+</script>
+
+;Mobile
+<script sc_1_EN_kmh>
+           runif vCurrentSpeedcamSpeedLimit 10  'playsound "EN_10_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "EN_20_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "EN_30_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "EN_40_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "EN_50_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "EN_60_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "EN_70_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "EN_80_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "EN_90_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "EN_100_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "EN_110_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "EN_120_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "EN_130_kmh_1"'
+      else_run 'playsound "EN_warning_1"'
+</script>
+
+;Traffic Light with Speed
+<script sc_2_EN_kmh>
+           runif vCurrentSpeedcamSpeedLimit 10  'playsound "EN_10_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "EN_20_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "EN_30_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "EN_40_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "EN_50_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "EN_60_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "EN_70_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "EN_80_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "EN_90_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "EN_100_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "EN_110_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "EN_120_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "EN_130_kmh_2"'
+      else_run 'playsound "EN_warning_2"'
+</script>
+
+;Section/SPECS
+<script sc_3_EN_kmh>
+           runif vCurrentSpeedcamSpeedLimit 10  'playsound "EN_10_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "EN_20_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "EN_30_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "EN_40_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "EN_50_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "EN_60_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "EN_70_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "EN_80_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "EN_90_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "EN_100_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "EN_110_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "EN_120_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "EN_130_kmh_3"'
+      else_run 'playsound "EN_warning_3"'
+</script>
+
+;Speed
+<script sc_0_EN_mph>
+           runif vCurrentSpeedcamSpeedLimit 10  'playsound "EN_10_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 15  'playsound "EN_15_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "EN_20_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 25  'playsound "EN_25_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "EN_30_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 35  'playsound "EN_35_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "EN_40_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 45  'playsound "EN_45_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "EN_50_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 55  'playsound "EN_55_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "EN_60_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 65  'playsound "EN_65_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "EN_70_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "EN_80_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 9   'playsound "EN_10_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 14  'playsound "EN_15_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 19  'playsound "EN_20_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 24  'playsound "EN_25_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 29  'playsound "EN_30_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 34  'playsound "EN_35_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 39  'playsound "EN_40_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 44  'playsound "EN_45_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 49  'playsound "EN_50_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 54  'playsound "EN_55_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 59  'playsound "EN_60_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 64  'playsound "EN_65_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 69  'playsound "EN_70_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 79  'playsound "EN_80_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 11  'playsound "EN_10_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 16  'playsound "EN_15_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 21  'playsound "EN_20_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 26  'playsound "EN_25_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 31  'playsound "EN_30_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 36  'playsound "EN_35_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 41  'playsound "EN_40_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 46  'playsound "EN_45_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 51  'playsound "EN_50_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 56  'playsound "EN_55_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 61  'playsound "EN_60_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 66  'playsound "EN_65_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 71  'playsound "EN_70_mph_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 86  'playsound "EN_80_mph_0"'
+      else_run 'playsound "EN_warning_0"'
+</script>
+
+;Mobile
+<script sc_1_EN_mph>
+           runif vCurrentSpeedcamSpeedLimit 10  'playsound "EN_10_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 15  'playsound "EN_15_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "EN_20_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 25  'playsound "EN_25_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "EN_30_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 35  'playsound "EN_35_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "EN_40_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 45  'playsound "EN_45_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "EN_50_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 55  'playsound "EN_55_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "EN_60_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 65  'playsound "EN_65_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "EN_70_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "EN_80_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 9   'playsound "EN_10_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 14  'playsound "EN_15_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 19  'playsound "EN_20_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 24  'playsound "EN_25_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 29  'playsound "EN_30_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 34  'playsound "EN_35_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 39  'playsound "EN_40_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 44  'playsound "EN_45_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 49  'playsound "EN_50_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 54  'playsound "EN_55_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 59  'playsound "EN_60_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 64  'playsound "EN_65_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 69  'playsound "EN_70_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 79  'playsound "EN_80_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 11  'playsound "EN_10_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 16  'playsound "EN_15_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 21  'playsound "EN_20_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 26  'playsound "EN_25_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 31  'playsound "EN_30_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 36  'playsound "EN_35_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 41  'playsound "EN_40_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 46  'playsound "EN_45_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 51  'playsound "EN_50_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 56  'playsound "EN_55_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 61  'playsound "EN_60_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 66  'playsound "EN_65_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 71  'playsound "EN_70_mph_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 86  'playsound "EN_80_mph_1"'
+      else_run 'playsound "EN_warning_1"'
+</script>
+
+;Traffic Light with Speed
+<script sc_2_EN_mph>
+           runif vCurrentSpeedcamSpeedLimit 10  'playsound "EN_10_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 15  'playsound "EN_15_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "EN_20_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 25  'playsound "EN_25_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "EN_30_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 35  'playsound "EN_35_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "EN_40_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 45  'playsound "EN_45_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "EN_50_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 55  'playsound "EN_55_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "EN_60_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 65  'playsound "EN_65_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "EN_70_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "EN_80_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 9   'playsound "EN_10_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 14  'playsound "EN_15_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 19  'playsound "EN_20_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 24  'playsound "EN_25_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 29  'playsound "EN_30_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 34  'playsound "EN_35_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 39  'playsound "EN_40_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 44  'playsound "EN_45_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 49  'playsound "EN_50_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 54  'playsound "EN_55_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 59  'playsound "EN_60_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 64  'playsound "EN_65_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 69  'playsound "EN_70_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 79  'playsound "EN_80_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 11  'playsound "EN_10_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 16  'playsound "EN_15_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 21  'playsound "EN_20_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 26  'playsound "EN_25_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 31  'playsound "EN_30_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 36  'playsound "EN_35_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 41  'playsound "EN_40_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 46  'playsound "EN_45_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 51  'playsound "EN_50_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 56  'playsound "EN_55_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 61  'playsound "EN_60_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 66  'playsound "EN_65_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 71  'playsound "EN_70_mph_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 86  'playsound "EN_80_mph_2"'
+      else_run 'playsound "EN_warning_2"'
+</script>
+
+;Section/SPECS
+<script sc_3_EN_mph>
+           runif vCurrentSpeedcamSpeedLimit 10  'playsound "EN_10_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 15  'playsound "EN_15_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "EN_20_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 25  'playsound "EN_25_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "EN_30_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 35  'playsound "EN_35_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "EN_40_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 45  'playsound "EN_45_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "EN_50_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 55  'playsound "EN_55_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "EN_60_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 65  'playsound "EN_65_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "EN_70_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "EN_80_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 9   'playsound "EN_10_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 14  'playsound "EN_15_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 19  'playsound "EN_20_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 24  'playsound "EN_25_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 29  'playsound "EN_30_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 34  'playsound "EN_35_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 39  'playsound "EN_40_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 44  'playsound "EN_45_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 49  'playsound "EN_50_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 54  'playsound "EN_55_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 59  'playsound "EN_60_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 64  'playsound "EN_65_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 69  'playsound "EN_70_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 79  'playsound "EN_80_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 11  'playsound "EN_10_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 16  'playsound "EN_15_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 21  'playsound "EN_20_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 26  'playsound "EN_25_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 31  'playsound "EN_30_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 36  'playsound "EN_35_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 41  'playsound "EN_40_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 46  'playsound "EN_45_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 51  'playsound "EN_50_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 56  'playsound "EN_55_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 61  'playsound "EN_60_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 66  'playsound "EN_65_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 71  'playsound "EN_70_mph_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 86  'playsound "EN_80_mph_3"'
+      else_run 'playsound "EN_warning_3"'
+</script>
+
+<script sc_selection_alert_DE>
+      runif vCurrentSpeedcamCategory 0 'run sc_0_DE'
+      else_runif vCurrentSpeedcamCategory 1 'run sc_1_DE'
+      else_runif vCurrentSpeedcamCategory 2 'run sc_2_DE'
+      else_runif vCurrentSpeedcamCategory 3 'run sc_3_DE'
+      else_runif vCurrentSpeedcamCategory 4 'playsound "DE_einfach_2"'
+</script>
+
+;feste
+<script sc_0_DE>
+           runif vCurrentSpeedcamSpeedLimit 10  'playsound "DE_10_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "DE_20_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "DE_30_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "DE_40_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "DE_50_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "DE_60_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "DE_70_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "DE_80_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "DE_90_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "DE_100_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "DE_110_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "DE_120_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "DE_130_kmh_0"'
+      else_run 'playsound "DE_einfach_0"'
+</script>
+
+;mobil
+<script sc_1_DE>
+           runif vCurrentSpeedcamSpeedLimit 10  'playsound "DE_10_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "DE_20_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "DE_30_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "DE_40_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "DE_50_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "DE_60_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "DE_70_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "DE_80_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "DE_90_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "DE_100_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "DE_110_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "DE_120_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "DE_130_kmh_1"'
+      else_run 'playsound "DE_einfach_1"'
+</script>
+
+;ampel
+<script sc_2_DE>
+           runif vCurrentSpeedcamSpeedLimit 10  'playsound "DE_10_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "DE_20_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "DE_30_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "DE_40_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "DE_50_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "DE_60_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "DE_70_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "DE_80_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "DE_90_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "DE_100_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "DE_110_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "DE_120_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "DE_130_kmh_2"'
+      else_run 'playsound "DE_einfach_2"'
+</script>
+
+;sektion
+<script sc_3_DE>
+           runif vCurrentSpeedcamSpeedLimit 10  'playsound "DE_10_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "DE_20_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "DE_30_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "DE_40_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "DE_50_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "DE_60_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "DE_70_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "DE_80_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "DE_90_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "DE_100_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "DE_110_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "DE_120_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "DE_130_kmh_3"'
+      else_run 'playsound "DE_einfach_3"'
+</script>
+
+<script sc_selection_alert_CSM>
+  runif vCurrentSpeedcamCategory 0 'run sc_0_CSM'
+  else_runif vCurrentSpeedcamCategory 1 'run sc_1_CSM'
+  else_runif vCurrentSpeedcamCategory 2 'run sc_2_CSM'
+  else_runif vCurrentSpeedcamCategory 3 'run sc_3_CSM'
+  else_runif vCurrentSpeedcamCategory 4 'playsound "CSM_warning_2"'
+</script>
+
+;Fixed
+<script sc_0_CSM>
+      runifnot nCamSpeedUnit 1 'playsound "CSM_warning_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "CSM_10_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "CSM_20_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "CSM_30_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "CSM_40_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "CSM_50_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "CSM_60_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "CSM_70_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "CSM_80_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "CSM_90_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "CSM_100_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "CSM_110_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "CSM_120_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "CSM_130_kmh_0"'
+      else_run 'playsound "CSM_warning_0"'
+</script>
+
+;Mobile
+<script sc_1_CSM>
+      runifnot nCamSpeedUnit 1 'playsound "CSM_warning_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "CSM_10_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "CSM_20_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "CSM_30_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "CSM_40_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "CSM_50_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "CSM_60_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "CSM_70_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "CSM_80_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "CSM_90_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "CSM_100_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "CSM_110_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "CSM_120_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "CSM_130_kmh_1"'
+      else_run 'playsound "CSM_warning_1"'
+</script>
+
+;Traffic Light
+<script sc_2_CSM>
+      runifnot nCamSpeedUnit 1 'playsound "CSM_warning_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "CSM_10_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "CSM_20_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "CSM_30_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "CSM_40_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "CSM_50_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "CSM_60_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "CSM_70_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "CSM_80_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "CSM_90_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "CSM_100_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "CSM_110_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "CSM_120_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "CSM_130_kmh_2"'
+      else_run 'playsound "CSM_warning_2"'
+</script>
+
+;Section
+<script sc_3_CSM>
+      runifnot nCamSpeedUnit 1 'playsound "CSM_warning_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "CSM_10_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "CSM_20_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "CSM_30_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "CSM_40_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "CSM_50_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "CSM_60_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "CSM_70_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "CSM_80_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "CSM_90_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "CSM_100_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "CSM_110_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "CSM_120_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "CSM_130_kmh_3"'
+      else_run 'playsound "CSM_warning_3"'
+</script>
+
+<script sc_selection_alert_CSF>
+  runif vCurrentSpeedcamCategory 0 'run sc_0_CSF'
+  else_runif vCurrentSpeedcamCategory 1 'run sc_1_CSF'
+  else_runif vCurrentSpeedcamCategory 2 'run sc_2_CSF'
+  else_runif vCurrentSpeedcamCategory 3 'run sc_3_CSF'
+  else_runif vCurrentSpeedcamCategory 4 'playsound "CSF_warning_2"'
+</script>
+
+;Fixed
+<script sc_0_CSF>
+      runifnot nCamSpeedUnit 1 'playsound "CSF_warning_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "CSF_10_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "CSF_20_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "CSF_30_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "CSF_40_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "CSF_50_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "CSF_60_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "CSF_70_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "CSF_80_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "CSF_90_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "CSF_100_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "CSF_110_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "CSF_120_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "CSF_130_kmh_0"'
+      else_run 'playsound "CSF_warning_0"'
+</script>
+
+;Mobile
+<script sc_1_CSF>
+      runifnot nCamSpeedUnit 1 'playsound "CSF_warning_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "CSF_10_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "CSF_20_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "CSF_30_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "CSF_40_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "CSF_50_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "CSF_60_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "CSF_70_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "CSF_80_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "CSF_90_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "CSF_100_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "CSF_110_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "CSF_120_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "CSF_130_kmh_1"'
+      else_run 'playsound "CSF_warning_1"'
+</script>
+
+;Traffic Light
+<script sc_2_CSF>
+      runifnot nCamSpeedUnit 1 'playsound "CSF_warning_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "CSF_10_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "CSF_20_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "CSF_30_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "CSF_40_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "CSF_50_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "CSF_60_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "CSF_70_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "CSF_80_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "CSF_90_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "CSF_100_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "CSF_110_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "CSF_120_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "CSF_130_kmh_2"'
+      else_run 'playsound "CSF_warning_2"'
+</script>
+
+;Section
+<script sc_3_CSF>
+      runifnot nCamSpeedUnit 1 'playsound "CSF_warning_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "CSF_10_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "CSF_20_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "CSF_30_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "CSF_40_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "CSF_50_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "CSF_60_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "CSF_70_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "CSF_80_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "CSF_90_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "CSF_100_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "CSF_110_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "CSF_120_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "CSF_130_kmh_3"'
+      else_run 'playsound "CSF_warning_3"'
+</script>
+
+<script sc_selection_alert_HE>
+  runif vCurrentSpeedcamCategory 0 'run sc_0_HE'
+  else_runif vCurrentSpeedcamCategory 1 'run sc_1_HE'
+  else_runif vCurrentSpeedcamCategory 2 'run sc_2_HE'
+  else_runif vCurrentSpeedcamCategory 3 'run sc_3_HE'
+  else_runif vCurrentSpeedcamCategory 4 'playsound "HE_warning_2"'
+</script>
+
+;Fixed
+<script sc_0_HE>
+      runifnot nCamSpeedUnit 1 'playsound "HE_warning_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "HE_10_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "HE_20_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "HE_30_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "HE_40_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "HE_50_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "HE_60_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "HE_70_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "HE_80_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "HE_90_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "HE_100_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "HE_110_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "HE_120_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "HE_130_kmh_0"'
+      else_run 'playsound "HE_warning_0"'
+</script>
+
+;Mobile
+<script sc_1_HE>
+      runifnot nCamSpeedUnit 1 'playsound "HE_warning_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "HE_10_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "HE_20_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "HE_30_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "HE_40_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "HE_50_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "HE_60_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "HE_70_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "HE_80_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "HE_90_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "HE_100_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "HE_110_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "HE_120_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "HE_130_kmh_1"'
+      else_run 'playsound "HE_warning_1"'
+</script>
+
+;Traffic Light
+<script sc_2_HE>
+      runifnot nCamSpeedUnit 1 'playsound "HE_warning_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "HE_10_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "HE_20_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "HE_30_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "HE_40_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "HE_50_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "HE_60_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "HE_70_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "HE_80_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "HE_90_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "HE_100_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "HE_110_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "HE_120_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "HE_130_kmh_2"'
+      else_run 'playsound "HE_warning_2"'
+</script>
+
+;Section
+<script sc_3_HE>
+      runifnot nCamSpeedUnit 1 'playsound "HE_warning_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "HE_10_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "HE_20_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "HE_30_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "HE_40_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "HE_50_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "HE_60_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "HE_70_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "HE_80_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "HE_90_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "HE_100_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "HE_110_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "HE_120_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "HE_130_kmh_3"'
+      else_run 'playsound "HE_warning_3"'
+</script>
+
+
+
+;******************************************************
+;!Raffke_jr - added GlikoGliko's italian voices, optimized & added 'runifnot nCamSpeedUnit'
+;******************************************************
+
+; --- ITALIAN Section --- ( credits to ERVIUS)
+        
+<script sc_selection_alert_ITA>
+           runif vCurrentSpeedcamCategory 0 'run fissi'
+      else_runif vCurrentSpeedcamCategory 1 'run mobili'
+      else_runif vCurrentSpeedcamCategory 2 'run semafori'
+      else_runif vCurrentSpeedcamCategory 3 'run sicves'
+      else_runif vCurrentSpeedcamCategory 4 'playsound "semaforo"'
+</script>
+
+;Speed
+<script fissi>
+      runifnot nCamSpeedUnit 1 'playsound "fisso"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "fisso-30"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "fisso-40"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "fisso-50"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "fisso-60"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "fisso-70"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "fisso-80"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "fisso-90"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "fisso-100"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "fisso-110"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "fisso-120"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "fisso-130"'
+      else_run 'playsound "fisso"'
+</script>
+
+;mobili
+<script mobili>
+      runifnot nCamSpeedUnit 1 'playsound "mobile"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "mobile-30"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "mobile-40"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "mobile-50"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "mobile-60"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "mobile-70"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "mobile-80"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "mobile-90"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "mobile-100"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "mobile-110"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "mobile-120"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "mobile-130"'
+      else_run 'playsound "mobile"'
+</script>
+
+;sicves
+<script sicves>
+      runifnot nCamSpeedUnit 1 'playsound "sicve"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "sicve-30"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "sicve-40"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "sicve-50"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "sicve-60"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "sicve-70"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "sicve-80"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "sicve-90"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "sicve-100"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "sicve-110"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "sicve-120"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "sicve-130"'
+      else_run 'playsound "sicve"'
+</script>
+
+;semafori categoria 4 e 11
+<script semafori>
+      runifnot nCamSpeedUnit 1 'playsound "semaforo"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "semaforo-30"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "semaforo-40"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "semaforo-50"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "semaforo-60"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "semaforo-70"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "semaforo-80"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "semaforo-90"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "semaforo-100"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "semaforo-110"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "semaforo-120"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "semaforo-130"'
+      else_run 'playsound "semaforo"'
+</script>
+
+
+
+;******************************************************
+;!Raffke_jr - added Byte's voices, added 'runifnot nCamSpeedUnit'
+;******************************************************
+
+;!Byte - Support only one language male/female
+; female
+<script sc_selection_alert_W>
+      runif vCurrentSpeedcamCategory 0 'run sc_0_W'
+      else_runif vCurrentSpeedcamCategory 1 'run sc_1_W'
+      else_runif vCurrentSpeedcamCategory 2 'run sc_2_W'
+      else_runif vCurrentSpeedcamCategory 3 'run sc_3_W'
+      else_runif vCurrentSpeedcamCategory 4 'playsound "einfach_2_W"'
+</script>
+
+;feste
+<script sc_0_W>
+      runifnot nCamSpeedUnit 1 'playsound "einfach_0_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "10_kmh_0_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "20_kmh_0_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "30_kmh_0_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "40_kmh_0_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "50_kmh_0_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "60_kmh_0_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "70_kmh_0_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "80_kmh_0_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "90_kmh_0_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "100_kmh_0_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "110_kmh_0_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "120_kmh_0_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "130_kmh_0_w"'
+      else_run 'playsound "einfach_0_w"'
+</script>
+
+;mobil
+<script sc_1_W>
+      runifnot nCamSpeedUnit 1 'playsound "einfach_1_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "10_kmh_1_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "20_kmh_1_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "30_kmh_1_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "40_kmh_1_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "50_kmh_1_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "60_kmh_1_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "70_kmh_1_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "80_kmh_1_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "90_kmh_1_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "100_kmh_1_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "110_kmh_1_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "120_kmh_1_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "130_kmh_1_w"'
+      else_run 'playsound "einfach_1_w"'
+</script>
+
+;ampel
+<script sc_2_W>
+      runifnot nCamSpeedUnit 1 'playsound "einfach_2_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "10_kmh_2_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "20_kmh_2_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "30_kmh_2_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "40_kmh_2_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "50_kmh_2_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "60_kmh_2_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "70_kmh_2_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "80_kmh_2_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "90_kmh_2_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "100_kmh_2_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "110_kmh_2_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "120_kmh_2_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "130_kmh_2_w"'
+      else_run 'playsound "einfach_2_w"'
+</script>
+
+;sektion
+<script sc_3_W>
+      runifnot nCamSpeedUnit 1 'playsound "einfach_3_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "10_kmh_3_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "20_kmh_3_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "30_kmh_3_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "40_kmh_3_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "50_kmh_3_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "60_kmh_3_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "70_kmh_3_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "80_kmh_3_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "90_kmh_3_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "100_kmh_3_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "110_kmh_3_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "120_kmh_3_w"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "130_kmh_3_w"'
+      else_run 'playsound "einfach_3_w"'
+</script>
+
+;!Byte - Support only one language male/female
+; male
+<script sc_selection_alert_M>
+      runif vCurrentSpeedcamCategory 0 'run sc_0_M'
+      else_runif vCurrentSpeedcamCategory 1 'run sc_1_M'
+      else_runif vCurrentSpeedcamCategory 2 'run sc_2_M'
+      else_runif vCurrentSpeedcamCategory 3 'run sc_3_M'
+      else_runif vCurrentSpeedcamCategory 4 'playsound "einfach_2_M"'
+</script>
+
+;feste
+<script sc_0_M>
+      runifnot nCamSpeedUnit 1 'playsound "einfach_0_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "10_kmh_0_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "20_kmh_0_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "30_kmh_0_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "40_kmh_0_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "50_kmh_0_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "60_kmh_0_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "70_kmh_0_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "80_kmh_0_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "90_kmh_0_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "100_kmh_0_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "110_kmh_0_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "120_kmh_0_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "130_kmh_0_m"'
+      else_run 'playsound "einfach_0_m"'
+</script>
+
+;mobil
+<script sc_1_M>
+      runifnot nCamSpeedUnit 1 'playsound "einfach_1_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "10_kmh_1_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "20_kmh_1_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "30_kmh_1_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "40_kmh_1_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "50_kmh_1_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "60_kmh_1_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "70_kmh_1_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "80_kmh_1_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "90_kmh_1_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "100_kmh_1_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "110_kmh_1_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "120_kmh_1_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "130_kmh_1_m"'
+      else_run 'playsound "einfach_1_m"'
+</script>
+
+;ampel
+<script sc_2_M>
+      runifnot nCamSpeedUnit 1 'playsound "einfach_2_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "10_kmh_2_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "20_kmh_2_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "30_kmh_2_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "40_kmh_2_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "50_kmh_2_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "60_kmh_2_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "70_kmh_2_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "80_kmh_2_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "90_kmh_2_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "100_kmh_2_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "110_kmh_2_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "120_kmh_2_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "130_kmh_2_m"'
+      else_run 'playsound "einfach_2_m"'
+</script>
+
+;sektion
+<script sc_3_M>
+      runifnot nCamSpeedUnit 1 'playsound "einfach_3_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "10_kmh_3_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "20_kmh_3_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "30_kmh_3_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "40_kmh_3_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "50_kmh_3_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "60_kmh_3_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "70_kmh_3_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "80_kmh_3_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "90_kmh_3_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "100_kmh_3_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "110_kmh_3_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "120_kmh_3_m"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "130_kmh_3_m"'
+      else_run 'playsound "einfach_3_m"'
+</script>
+
+
+;******************************************************
+;!Raffke_jr - added Riks voices, changed variable names
+;******************************************************
+
+<script sc_selection_alert_HU>                                          
+    runif vCurrentSpeedcamCategory 0 'run sc_0_HU'
+    else_runif vCurrentSpeedcamCategory 1 'run sc_1_HU'
+    else_runif vCurrentSpeedcamCategory 2 'run sc_2_HU'
+    else_runif vCurrentSpeedcamCategory 3 'run sc_3_HU'
+    else_runif vCurrentSpeedcamCategory 4 'playsound "HU_warning_2"' 
+</script>
+
+;Fixed
+<script sc_0_HU>
+      runifnot nCamSpeedUnit 1 'playsound "HU_warning_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "HU_10_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "HU_20_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "HU_30_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "HU_40_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "HU_50_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "HU_60_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "HU_70_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "HU_80_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "HU_90_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "HU_100_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "HU_110_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "HU_120_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "HU_130_kmh_0"'
+      else_run 'playsound "HU_warning_0"'
+</script>
+
+;Mobile
+<script sc_1_HU>
+      runifnot nCamSpeedUnit 1 'playsound "HU_warning_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "HU_10_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "HU_20_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "HU_30_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "HU_40_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "HU_50_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "HU_60_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "HU_70_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "HU_80_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "HU_90_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "HU_100_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "HU_110_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "HU_120_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "HU_130_kmh_1"'
+      else_run 'playsound "HU_warning_1"'
+</script>
+
+;Traffic Light
+<script sc_2_HU>
+      runifnot nCamSpeedUnit 1 'playsound "HU_warning_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "HU_10_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "HU_20_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "HU_30_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "HU_40_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "HU_50_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "HU_60_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "HU_70_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "HU_80_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "HU_90_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "HU_100_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "HU_110_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "HU_120_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "HU_130_kmh_2"'
+      else_run 'playsound "HU_warning_2"'
+</script>
+
+;Section
+<script sc_3_HU>
+      runifnot nCamSpeedUnit 1 'playsound "HU_warning_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "HU_10_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "HU_20_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "HU_30_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "HU_40_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "HU_50_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "HU_60_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "HU_70_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "HU_80_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "HU_90_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "HU_100_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "HU_110_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "HU_120_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "HU_130_kmh_3"' 
+      else_run 'playsound "HU_warning_3"'
+</script>
+
+<script sc_selection_alert_HUF>                                          
+    runif vCurrentSpeedcamCategory 0 'run sc_0_HUF'
+    else_runif vCurrentSpeedcamCategory 1 'run sc_1_HUF'
+    else_runif vCurrentSpeedcamCategory 2 'run sc_2_HUF'
+    else_runif vCurrentSpeedcamCategory 3 'run sc_3_HUF'
+    else_runif vCurrentSpeedcamCategory 4 'playsound "HUF_warning_2"' 
+</script>
+
+;Fixed
+<script sc_0_HUF>
+      runifnot nCamSpeedUnit 1 'playsound "HUF_warning_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "HUF_10_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "HUF_20_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "HUF_30_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "HUF_40_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "HUF_50_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "HUF_60_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "HUF_70_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "HUF_80_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "HUF_90_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "HUF_100_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "HUF_110_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "HUF_120_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "HUF_130_kmh_0"'
+      else_run 'playsound "HUF_warning_0"'
+</script>
+
+;Mobile
+<script sc_1_HUF>
+      runifnot nCamSpeedUnit 1 'playsound "HUF_warning_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "HUF_10_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "HUF_20_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "HUF_30_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "HUF_40_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "HUF_50_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "HUF_60_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "HUF_70_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "HUF_80_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "HUF_90_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "HUF_100_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "HUF_110_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "HUF_120_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "HUF_130_kmh_1"'
+      else_run 'playsound "HUF_warning_1"'
+</script>
+
+;Traffic Light
+<script sc_2_HUF>
+      runifnot nCamSpeedUnit 1 'playsound "HUF_warning_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "HUF_10_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "HUF_20_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "HUF_30_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "HUF_40_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "HUF_50_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "HUF_60_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "HUF_70_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "HUF_80_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "HUF_90_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "HUF_100_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "HUF_110_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "HUF_120_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "HUF_130_kmh_2"'
+      else_run 'playsound "HUF_warning_2"'
+</script>
+
+;Section
+<script sc_3_HUF>
+      runifnot nCamSpeedUnit 1 'playsound "HUF_warning_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "HUF_10_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "HUF_20_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "HUF_30_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "HUF_40_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "HUF_50_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "HUF_60_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "HUF_70_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "HUF_80_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "HUF_90_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "HUF_100_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "HUF_110_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "HUF_120_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "HUF_130_kmh_3"' 
+      else_run 'playsound "HUF_warning_3"'
+</script>
+
+<script sc_selection_alert_RO>
+      runif vCurrentSpeedcamCategory 0 'playsound "RO_warning_00", run sc_ro_0'
+      else_runif vCurrentSpeedcamCategory 1 'playsound "RO_warning_1", run sc_ro_0'
+      else_runif vCurrentSpeedcamCategory 2 'playsound "RO_warning_0"'
+      else_runif vCurrentSpeedcamCategory 3 'playsound "RO_warning_3", run sc_ro_0'
+      else_runif vCurrentSpeedcamCategory 4 'playsound "RO_warning_0"'
+</script>
+<script sc_RO_0>
+	  runif vCurrentSpeedcamSpeedLimit 30 'playsound "RO30kmh"'
+      else_runif vCurrentSpeedcamSpeedLimit 40 'playsound "RO40kmh"'
+      else_runif vCurrentSpeedcamSpeedLimit 50 'playsound "RO50kmh"'
+      else_runif vCurrentSpeedcamSpeedLimit 60 'playsound "RO60kmh"'
+      else_runif vCurrentSpeedcamSpeedLimit 70 'playsound "RO70kmh"'
+      else_runif vCurrentSpeedcamSpeedLimit 80 'playsound "RO80kmh"'
+      else_runif vCurrentSpeedcamSpeedLimit 90 'playsound "RO90kmh"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "RO100kmh"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "RO110kmh"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "RO120kmh"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "RO130kmh"'
+</script>
+
+<script sc_selection_alert_FRA>
+	runif vCurrentSpeedcamCategory 0 'run sc_0_FR'
+    else_runif vCurrentSpeedcamCategory 1 'run sc_1_FR'
+    else_runif vCurrentSpeedcamCategory 2 'run sc_2_FR'
+    else_runif vCurrentSpeedcamCategory 3 'run sc_3_FR'
+    else_runif vCurrentSpeedcamCategory 4 'playsound "R-FEUX"'
+</script>
+
+;Speed (GATSO, Truvelo and Monitron)
+<script sc_0_FR>
+      runifnot nCamSpeedUnit 1 'playsound "RF-simple"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "RF-30"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "RF-40"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "RF-50"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "RF-60"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "RF-70"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "RF-80"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "RF-90"'
+      else_runif vCurrentSpeedcamSpeedLimit 100  'playsound "RF-100"'
+      else_runif vCurrentSpeedcamSpeedLimit 110  'playsound "RF-110"'
+      else_runif vCurrentSpeedcamSpeedLimit 120  'playsound "RF-120"'
+      else_runif vCurrentSpeedcamSpeedLimit 130  'playsound "RF-130"'
+      else_run 'playsound "RF-simple"'
+</script>
+
+;Mobile
+<script sc_1_FR>
+      runifnot nCamSpeedUnit 1 'playsound "RM-simple"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "RM-30"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "RM-40"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "RM-50"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "RM-60"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "RM-70"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "RM-80"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "RM-90"'
+      else_runif vCurrentSpeedcamSpeedLimit 100  'playsound "RM-100"'
+      else_runif vCurrentSpeedcamSpeedLimit 110  'playsound "RM-110"'
+      else_runif vCurrentSpeedcamSpeedLimit 120  'playsound "RM-120"'
+      else_runif vCurrentSpeedcamSpeedLimit 130  'playsound "RM-130"'
+      else_run 'playsound "RM-simple"'
+</script>
+
+;Traffic Light with Speed
+<script sc_2_FR>
+      runifnot nCamSpeedUnit 1 'playsound "R-FEUX"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "RFR-30"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "RFR-40"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "RFR-50"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "RFR-60"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "RFR-70"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "RFR-80"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "RFR-90"'
+      else_runif vCurrentSpeedcamSpeedLimit 100  'playsound "RFR-100"'
+      else_runif vCurrentSpeedcamSpeedLimit 110  'playsound "RFR-110"'
+      else_runif vCurrentSpeedcamSpeedLimit 120  'playsound "RFR-120"'
+      else_runif vCurrentSpeedcamSpeedLimit 130  'playsound "RFR-130"'
+      else_run 'playsound "R-FEUX"'
+</script>
+
+;Section/SPECS
+<script sc_3_FR>
+      runifnot nCamSpeedUnit 1 'playsound "RD-simple"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "RD-30"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "RD-40"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "RD-50"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "RD-60"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "RD-70"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "RD-80"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "RD-90"'
+      else_runif vCurrentSpeedcamSpeedLimit 100  'playsound "RD-100"'
+      else_runif vCurrentSpeedcamSpeedLimit 110  'playsound "RD-110"'
+      else_runif vCurrentSpeedcamSpeedLimit 120  'playsound "RD-120"'
+      else_runif vCurrentSpeedcamSpeedLimit 130  'playsound "RD-130"'
+      else_run 'playsound "RD-simple"'
+</script>
+
+<script sc_selection_alert_ESP>
+      runif nCamSpeedUnit 1 sc_selection_alert_ES_kmh
+      else_run sc_selection_alert_ES_mph
+</script>
+
+<script sc_selection_alert_ES_kmh>
+      runif vCurrentSpeedcamCategory 0 'run sc_0_ES_kmh'
+      else_runif vCurrentSpeedcamCategory 1 'run sc_1_ES_kmh'
+      else_runif vCurrentSpeedcamCategory 2 'run sc_2_ES_kmh'
+      else_runif vCurrentSpeedcamCategory 3 'run sc_3_ES_kmh'
+      else_runif vCurrentSpeedcamCategory 4 'playsound "ES_warning_2"'
+</script>
+
+<script sc_selection_alert_ES_mph>
+      runif vCurrentSpeedcamCategory 0 'run sc_0_ES_mph'
+      else_runif vCurrentSpeedcamCategory 1 'run sc_1_ES_mph'
+      else_runif vCurrentSpeedcamCategory 2 'run sc_2_ES_mph'
+      else_runif vCurrentSpeedcamCategory 3 'run sc_3_ES_mph'
+      else_runif vCurrentSpeedcamCategory 4 'playsound "ES_warning_2"'
+</script>
+
+;Speed (GATSO, Truvelo and Monitron)
+<script sc_0_ES_kmh>
+      runif vCurrentSpeedcamSpeedLimit 0     'playsound "ES_warning_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 10    'playsound "ES_10_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 20    'playsound "ES_20_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 30    'playsound "ES_30_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 40    'playsound "ES_40_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 50    'playsound "ES_50_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 55    'run sc_PlayF55Ext'
+      else_runif vCurrentSpeedcamSpeedLimit 60    'playsound "ES_60_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 70    'playsound "ES_70_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 75    'run sc_PlayF75Ext'
+      else_runif vCurrentSpeedcamSpeedLimit 80    'playsound "ES_80_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 90    'playsound "ES_90_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 95    'run sc_PlayF95Ext'
+      else_runif vCurrentSpeedcamSpeedLimit 100   'playsound "ES_100_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 105   'run sc_PlayF105Ext'
+      else_runif vCurrentSpeedcamSpeedLimit 110   'playsound "ES_110_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 115   'run sc_PlayF115Ext'
+      else_runif vCurrentSpeedcamSpeedLimit 120   'playsound "ES_120_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 130   'playsound "ES_130_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit "???" 'playsound "ES_warning_0"'
+</script>
+
+; Robser Extended
+; Fases bmp: 5 tunel, 6 dudoso, 7 alcochol, 8 pnegro, 9 pinfo.
+; 55=Tunel, 75=Alcoholemia, 95=Puntos Negros, 105=Dudosos, 115=Paneles Informativos
+<script sc_PlayF55Ext>
+        playsound "ES_warning_5"
+</script>
+<script sc_PlayF75Ext>
+        playsound "ES_warning_7"
+</script>
+<script sc_PlayF95Ext>
+        playsound "ES_warning_8"
+</script>
+<script sc_PlayF105Ext>
+        playsound "ES_warning_6"
+</script>
+<script sc_PlayF115Ext>
+        playsound "ES_warning_9"
+</script>
+
+;Mobile
+<script sc_1_ES_kmh>
+      runif vCurrentSpeedcamSpeedLimit 0   'playsound "ES_warning_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "ES_10_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "ES_20_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "ES_30_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "ES_40_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "ES_50_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "ES_60_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "ES_70_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "ES_80_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "ES_90_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "ES_100_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "ES_110_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "ES_120_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "ES_130_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit "???"  'playsound "ES_warning_1"'
+</script>
+
+;Traffic Light with Speed
+<script sc_2_ES_kmh>
+      runif vCurrentSpeedcamSpeedLimit 0  'playsound "ES_warning_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "ES_10_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "ES_20_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "ES_30_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "ES_40_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "ES_50_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "ES_60_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "ES_70_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "ES_80_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "ES_90_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "ES_100_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "ES_110_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "ES_120_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "ES_130_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit "???"  'playsound "ES_warning_2"'
+</script>
+
+;Section/SPECS
+<script sc_3_ES_kmh>
+      runif vCamAvgSpeed 10  'playsound "ES_10_kmh_3"'
+      runif vCamAvgSpeed 20  'playsound "ES_20_kmh_3"'
+      runif vCamAvgSpeed 30  'playsound "ES_30_kmh_3"'
+      runif vCamAvgSpeed 40  'playsound "ES_40_kmh_3"'
+      runif vCamAvgSpeed 50  'playsound "ES_50_kmh_3"'
+      runif vCamAvgSpeed 60  'playsound "ES_60_kmh_3"'
+      runif vCamAvgSpeed 70  'playsound "ES_70_kmh_3"'
+      runif vCamAvgSpeed 80  'playsound "ES_80_kmh_3"'
+      runif vCamAvgSpeed 90  'playsound "ES_90_kmh_3"'
+      runif vCamAvgSpeed 100 'playsound "ES_100_kmh_3"'
+      runif vCamAvgSpeed 110 'playsound "ES_110_kmh_3"'
+      runif vCamAvgSpeed 120 'playsound "ES_120_kmh_3"'
+      runif vCamAvgSpeed 130 'playsound "ES_130_kmh_3"'
+</script>
+
+;Speed (GATSO, Truvelo and Monitron)
+<script sc_0_ES_mph>
+      runif vCurrentSpeedcamSpeedLimit 0   'playsound "ES_warning_0"'
+      runif vCurrentSpeedcamSpeedLimit 10  'playsound "ES_10_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 15  'playsound "ES_15_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 20  'playsound "ES_20_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 25  'playsound "ES_25_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 30  'playsound "ES_30_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 35  'playsound "ES_35_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 40  'playsound "ES_40_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 45  'playsound "ES_45_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 50  'playsound "ES_50_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 55  'playsound "ES_55_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 60  'playsound "ES_60_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 65  'playsound "ES_65_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 70  'playsound "ES_70_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 80  'playsound "ES_80_mph_0"'
+
+      runif vCurrentSpeedcamSpeedLimit 9   'playsound "ES_10_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 14  'playsound "ES_15_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 19  'playsound "ES_20_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 24  'playsound "ES_25_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 29  'playsound "ES_30_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 34  'playsound "ES_35_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 39  'playsound "ES_40_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 44  'playsound "ES_45_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 49  'playsound "ES_50_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 54  'playsound "ES_55_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 59  'playsound "ES_60_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 64  'playsound "ES_65_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 69  'playsound "ES_70_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 79  'playsound "ES_80_mph_0"'
+
+      runif vCurrentSpeedcamSpeedLimit 11  'playsound "ES_10_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 16  'playsound "ES_15_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 21  'playsound "ES_20_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 26  'playsound "ES_25_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 31  'playsound "ES_30_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 36  'playsound "ES_35_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 41  'playsound "ES_40_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 46  'playsound "ES_45_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 51  'playsound "ES_50_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 56  'playsound "ES_55_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 61  'playsound "ES_60_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 66  'playsound "ES_65_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 71  'playsound "ES_70_mph_0"'
+      runif vCurrentSpeedcamSpeedLimit 86  'playsound "ES_80_mph_0"'
+
+      runif vCurrentSpeedcamSpeedLimit "???"  'playsound "ES_warning_0"'
+</script>
+
+;Mobile
+<script sc_1_ES_mph>
+      runif vCurrentSpeedcamSpeedLimit 0   'playsound "ES_warning_1"'
+      runif vCurrentSpeedcamSpeedLimit 10  'playsound "ES_10_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 15  'playsound "ES_15_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 20  'playsound "ES_20_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 25  'playsound "ES_25_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 30  'playsound "ES_30_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 35  'playsound "ES_35_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 40  'playsound "ES_40_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 45  'playsound "ES_45_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 50  'playsound "ES_50_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 55  'playsound "ES_55_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 60  'playsound "ES_60_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 65  'playsound "ES_65_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 70  'playsound "ES_70_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 80  'playsound "ES_80_mph_1"'
+
+      runif vCurrentSpeedcamSpeedLimit 9   'playsound "ES_10_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 14  'playsound "ES_15_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 19  'playsound "ES_20_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 24  'playsound "ES_25_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 29  'playsound "ES_30_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 34  'playsound "ES_35_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 39  'playsound "ES_40_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 44  'playsound "ES_45_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 49  'playsound "ES_50_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 54  'playsound "ES_55_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 59  'playsound "ES_60_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 64  'playsound "ES_65_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 69  'playsound "ES_70_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 79  'playsound "ES_80_mph_1"'
+
+      runif vCurrentSpeedcamSpeedLimit 11  'playsound "ES_10_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 16  'playsound "ES_15_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 21  'playsound "ES_20_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 26  'playsound "ES_25_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 31  'playsound "ES_30_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 36  'playsound "ES_35_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 41  'playsound "ES_40_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 46  'playsound "ES_45_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 51  'playsound "ES_50_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 56  'playsound "ES_55_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 61  'playsound "ES_60_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 66  'playsound "ES_65_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 71  'playsound "ES_70_mph_1"'
+      runif vCurrentSpeedcamSpeedLimit 86  'playsound "ES_80_mph_1"'
+
+      runif vCurrentSpeedcamSpeedLimit "???"  'playsound "ES_warning_1"'
+</script>
+
+;Traffic Light with Speed
+<script sc_2_ES_mph>
+      runif vCurrentSpeedcamSpeedLimit 0   'playsound "ES_warning_2"'
+      runif vCurrentSpeedcamSpeedLimit 10  'playsound "ES_10_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 15  'playsound "ES_15_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 20  'playsound "ES_20_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 25  'playsound "ES_25_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 30  'playsound "ES_30_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 35  'playsound "ES_35_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 40  'playsound "ES_40_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 45  'playsound "ES_45_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 50  'playsound "ES_50_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 55  'playsound "ES_55_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 60  'playsound "ES_60_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 65  'playsound "ES_65_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 70  'playsound "ES_70_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 80  'playsound "ES_80_mph_2"'
+
+      runif vCurrentSpeedcamSpeedLimit 9   'playsound "ES_10_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 14  'playsound "ES_15_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 19  'playsound "ES_20_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 24  'playsound "ES_25_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 29  'playsound "ES_30_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 34  'playsound "ES_35_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 39  'playsound "ES_40_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 44  'playsound "ES_45_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 49  'playsound "ES_50_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 54  'playsound "ES_55_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 59  'playsound "ES_60_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 64  'playsound "ES_65_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 69  'playsound "ES_70_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 79  'playsound "ES_80_mph_2"'
+
+      runif vCurrentSpeedcamSpeedLimit 11  'playsound "ES_10_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 16  'playsound "ES_15_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 21  'playsound "ES_20_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 26  'playsound "ES_25_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 31  'playsound "ES_30_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 36  'playsound "ES_35_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 41  'playsound "ES_40_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 46  'playsound "ES_45_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 51  'playsound "ES_50_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 56  'playsound "ES_55_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 61  'playsound "ES_60_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 66  'playsound "ES_65_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 71  'playsound "ES_70_mph_2"'
+      runif vCurrentSpeedcamSpeedLimit 86  'playsound "ES_80_mph_2"'
+
+      runif vCurrentSpeedcamSpeedLimit "???"  'playsound "ES_warning_2"'
+</script>
+
+;Section/SPECS
+<script sc_3_ES_mph>
+      runif vCamAvgSpeed 0   'playsound "ES_warning_3"'
+      runif vCamAvgSpeed 10  'playsound "ES_10_mph_3"'
+      runif vCamAvgSpeed 15  'playsound "ES_15_mph_3"'
+      runif vCamAvgSpeed 20  'playsound "ES_20_mph_3"'
+      runif vCamAvgSpeed 25  'playsound "ES_25_mph_3"'
+      runif vCamAvgSpeed 30  'playsound "ES_30_mph_3"'
+      runif vCamAvgSpeed 35  'playsound "ES_35_mph_3"'
+      runif vCamAvgSpeed 40  'playsound "ES_40_mph_3"'
+      runif vCamAvgSpeed 45  'playsound "ES_45_mph_3"'
+      runif vCamAvgSpeed 50  'playsound "ES_50_mph_3"'
+      runif vCamAvgSpeed 55  'playsound "ES_55_mph_3"'
+      runif vCamAvgSpeed 60  'playsound "ES_60_mph_3"'
+      runif vCamAvgSpeed 65  'playsound "ES_65_mph_3"'
+      runif vCamAvgSpeed 70  'playsound "ES_70_mph_3"'
+      runif vCamAvgSpeed 80  'playsound "ES_80_mph_3"'
+
+      runif vCamAvgSpeed 9   'playsound "ES_10_mph_3"'
+      runif vCamAvgSpeed 14  'playsound "ES_15_mph_3"'
+      runif vCamAvgSpeed 19  'playsound "ES_20_mph_3"'
+      runif vCamAvgSpeed 24  'playsound "ES_25_mph_3"'
+      runif vCamAvgSpeed 29  'playsound "ES_30_mph_3"'
+      runif vCamAvgSpeed 34  'playsound "ES_35_mph_3"'
+      runif vCamAvgSpeed 39  'playsound "ES_40_mph_3"'
+      runif vCamAvgSpeed 44  'playsound "ES_45_mph_3"'
+      runif vCamAvgSpeed 49  'playsound "ES_50_mph_3"'
+      runif vCamAvgSpeed 54  'playsound "ES_55_mph_3"'
+      runif vCamAvgSpeed 59  'playsound "ES_60_mph_3"'
+      runif vCamAvgSpeed 64  'playsound "ES_65_mph_3"'
+      runif vCamAvgSpeed 69  'playsound "ES_70_mph_3"'
+      runif vCamAvgSpeed 79  'playsound "ES_80_mph_3"'
+
+      runif vCamAvgSpeed 11  'playsound "ES_10_mph_3"'
+      runif vCamAvgSpeed 16  'playsound "ES_15_mph_3"'
+      runif vCamAvgSpeed 21  'playsound "ES_20_mph_3"'
+      runif vCamAvgSpeed 26  'playsound "ES_25_mph_3"'
+      runif vCamAvgSpeed 31  'playsound "ES_30_mph_3"'
+      runif vCamAvgSpeed 36  'playsound "ES_35_mph_3"'
+      runif vCamAvgSpeed 41  'playsound "ES_40_mph_3"'
+      runif vCamAvgSpeed 46  'playsound "ES_45_mph_3"'
+      runif vCamAvgSpeed 51  'playsound "ES_50_mph_3"'
+      runif vCamAvgSpeed 56  'playsound "ES_55_mph_3"'
+      runif vCamAvgSpeed 61  'playsound "ES_60_mph_3"'
+      runif vCamAvgSpeed 66  'playsound "ES_65_mph_3"'
+      runif vCamAvgSpeed 71  'playsound "ES_70_mph_3"'
+      runif vCamAvgSpeed 86  'playsound "ES_80_mph_3"'
+
+      runif vCamAvgSpeed "???"  'playsound "ES_warning_3"'
+</script>
+
+
+;******************************************************
+;!Raffke_jr - added Polish Female (copied HUF)
+;******************************************************
+
+<script sc_selection_alert_PLF>                                          
+    runif vCurrentSpeedcamCategory 0 'run sc_0_PLF'
+    else_runif vCurrentSpeedcamCategory 1 'run sc_1_PLF'
+    else_runif vCurrentSpeedcamCategory 2 'run sc_2_PLF'
+    else_runif vCurrentSpeedcamCategory 3 'run sc_3_PLF'
+    else_runif vCurrentSpeedcamCategory 4 'playsound "PLF_warning_2"' 
+</script>
+
+;Fixed
+<script sc_0_PLF>
+      runifnot nCamSpeedUnit 1 'playsound "PLF_warning_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "PLF_10_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "PLF_20_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "PLF_30_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "PLF_40_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "PLF_50_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "PLF_60_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "PLF_70_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "PLF_80_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "PLF_90_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "PLF_100_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "PLF_110_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "PLF_120_kmh_0"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "PLF_130_kmh_0"'
+      else_run 'playsound "PLF_warning_0"'
+</script>
+
+;Mobile
+<script sc_1_PLF>
+      runifnot nCamSpeedUnit 1 'playsound "PLF_warning_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "PLF_10_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "PLF_20_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "PLF_30_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "PLF_40_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "PLF_50_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "PLF_60_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "PLF_70_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "PLF_80_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "PLF_90_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "PLF_100_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "PLF_110_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "PLF_120_kmh_1"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "PLF_130_kmh_1"'
+      else_run 'playsound "PLF_warning_1"'
+</script>
+
+;Traffic Light
+<script sc_2_PLF>
+      runifnot nCamSpeedUnit 1 'playsound "PLF_warning_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "PLF_10_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "PLF_20_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "PLF_30_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "PLF_40_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "PLF_50_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "PLF_60_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "PLF_70_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "PLF_80_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "PLF_90_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "PLF_100_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "PLF_110_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "PLF_120_kmh_2"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "PLF_130_kmh_2"'
+      else_run 'playsound "PLF_warning_2"'
+</script>
+
+;Section
+<script sc_3_PLF>
+      runifnot nCamSpeedUnit 1 'playsound "PLF_warning_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 10  'playsound "PLF_10_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 20  'playsound "PLF_20_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 30  'playsound "PLF_30_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 40  'playsound "PLF_40_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 50  'playsound "PLF_50_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 60  'playsound "PLF_60_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 70  'playsound "PLF_70_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 80  'playsound "PLF_80_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 90  'playsound "PLF_90_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 100 'playsound "PLF_100_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 110 'playsound "PLF_110_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 120 'playsound "PLF_120_kmh_3"'
+      else_runif vCurrentSpeedcamSpeedLimit 130 'playsound "PLF_130_kmh_3"' 
+      else_run 'playsound "PLF_warning_3"'
+</script>
+

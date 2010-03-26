@@ -1,7 +1,7 @@
 ;****************************************************************************************************************
 <state st_AdvFindMenu>
 	<uselayer ui_Header/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer/>
 	<uselayer ui_AdvFindMenu/>
@@ -9,67 +9,112 @@
 	<script init>
 		Title.SET "Find Menu"
 		vMoveCursorToSelectedItem.set 1
+
+;!TB - Home button
+		run sc_SetupFirstFavoriteButton
+;!TB - Reset Script
+		vAddFromDoneScript.set 0
 	</script>
 </state>
 ;****************************************************************************************************************
+;!TB - Home button
+
+<script sc_SetupFirstFavoriteButton>
+;!Raffke_jr - check whether favorites are set...
+	runif %mydata.favorites.isempty 1 'btnAFM_Home.HIDE, btnAFM_Work.HIDE, term sc_SetupFirstFavoriteButton'
+
+	.mydata.favorites.list.setcurrent 0
+	vtmp.boolmodel "mydata.favorites.list.current.isempty"
+	vtmp.dropmodel
+	runif vtmp 0 'btnAFM_Home.text %mydata.favorites.list.current.name, btnAFM_Home.SHOW'
+	else_run 'btnAFM_Home.HIDE'
+
+	.mydata.favorites.list.setcurrent 1
+	vtmp.boolmodel "mydata.favorites.list.current.isempty"
+	vtmp.dropmodel
+	runif vtmp 0 'btnAFM_Work.text %mydata.favorites.list.current.name, btnAFM_Work.SHOW'
+	else_run 'btnAFM_Work.HIDE'
+</script>
+
+;!TB - Home button script
+;!Raffke_jr MR - added Work button
+ <script sc_btnAFM_Home_OnRelease>
+	.mydata.favorites.list.setcurrent $2
+	vtmp.boolmodel "mydata.favorites.list.current.isempty"
+	vtmp.dropmodel
+	runif bDialogBoxVisible 1 'term sc_btnAFM_Home_OnRelease'
+	else_runifnot vtmp 0 'term sc_btnAFM_Home_OnRelease'
+	run sc_stopflyover
+	EXEC "mydata.favorites.gotopos"
+	runif $1 1 'run sc_RouteToNoPM, run sc_btnPM_StartNavigation'
+	else_run sc_et_FindFavorite_OnRelease
+</script>
+;****************************************************************************************************************
+
 <state st_AdvRouteMenu>
 	<uselayer ui_Header/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer/>
 	<uselayer ui_AdvRouteMenu/>
 	
 	<script init>
-;		vFlyoverOrSimulate.set -1
 		Title.SET "Route Menu"
 
 		run sc_UseGestures
 
 		map.ISROUTEVALID vValidRoute vDeletableRoute
-	    runif vValidRoute 1 'btnARM_Info.ENABLE, btnARM_Itineary.ENABLE, btnARM_Edit.ENABLE, btnARM_Save.ENABLE'
-	    runif vValidRoute 0 'btnARM_Info.DISABLE, btnARM_Itineary.DISABLE, btnARM_Edit.DISABLE, btnARM_Save.DISABLE'
-	    runif vDeletableRoute 1 'btnARM_Delete.ENABLE'
-	    runif vDeletableRoute 0 'btnARM_Delete.DISABLE'
+		runif vValidRoute 1 'btnARM_Info.ENABLE, btnARM_Itineary.ENABLE, btnARM_Edit.ENABLE, btnARM_Save.ENABLE, btnARM_FlyOver.ENABLE, btnARM_Simulate.ENABLE'
+		runif vValidRoute 0 'btnARM_Info.DISABLE, btnARM_Itineary.DISABLE, btnARM_Edit.DISABLE, btnARM_Save.DISABLE, btnARM_FlyOver.DISABLE, btnARM_Simulate.DISABLE'
+		runif vDeletableRoute 1 'btnARM_Delete.ENABLE'
+		runif vDeletableRoute 0 'btnARM_Delete.DISABLE'
+
+;!TB - Always allow "Edit Route" button
+		btnARM_Edit.ENABLE
 
 		runif vBackupAutoReplanIsValid 1 'vAutoReplan.SET vBackupAutoReplan, vBackupAutoReplanIsValid.SET 0, vStateMode.SET ""'
-				
-		map.ISROUTEVALID vValidRoute vDeletableRoute
-		runifnot vValidRoute 0 'INCVAL "vTmp" 1'
-		ntmp.SET %mydata.routes.hasigoitems
-		runifnot ntmp 0 'INCVAL "vTmp" 1'		
-	    runif vtmp 0 'PREVSTATE'
+		
+;!TB - Do not exit Route Menu
+;		map.ISROUTEVALID vValidRoute vDeletableRoute
+;		runifnot vValidRoute 0 'INCVAL "vTmp" 1'
+;		ntmp.SET %mydata.routes.hasigoitems
+;		runifnot ntmp 0 'INCVAL "vTmp" 1'		
+;		runif vtmp 0 'PREVSTATE'
 	</script>
 </state>
-        
+
+
 <script sc_btnARM_Delete_OnRelease>
-    INITMESSAGEBOX 1 "The route will be deleted." 'run sc_DeleteSavedRouteConfirmed' 'vNeedPrevState.set 0'
-    vStartModeTmp.set 0
+	INITMESSAGEBOX 1 "The route will be deleted." 'run sc_DeleteSavedRouteConfirmed' 'vNeedPrevState.set 0'
+	vStartModeTmp.set 0
 </script>
 
 <script sc_DeleteSavedRouteConfirmed>
-    DELETEROUTE
-    btnARM_Delete.DISABLE
-    btnARM_Info.DISABLE
-    btnARM_Itineary.DISABLE
-    btnARM_Edit.DISABLE
-    btnARM_Save.DISABLE
-    run sc_RefreshRouteInfo
+	DELETEROUTE
+	btnARM_Delete.DISABLE
+	btnARM_Info.DISABLE
+	btnARM_Itineary.DISABLE
+;!TB - Always allow "Edit Route" button (commented out next line)
+;	btnARM_Edit.DISABLE
+	btnARM_Save.DISABLE
+	btnARM_FlyOver.DISABLE
+	btnARM_Simulate.DISABLE
+	run sc_RefreshRouteInfo
 
-    Title.SET "Route Menu"
-    vtmp.set 0
-    runif %navigation.waypoints.list.size 0 'incval "vtmp"'
-    runif %mydata.routes.isempty 1 'incval "vtmp"'
-    runif vtmp 2 'PREVSTATE'
-    runif vactivestate "st_navigatemap" 'vNeedPrevState.set 0'
-    runif vNeedPrevState 1 'prevstate'
-    vNeedPrevState.set 0
+	vtmp.set 0
+	runif %navigation.waypoints.list.size 0 'incval "vtmp"'
+	runif %mydata.routes.isempty 1 'incval "vtmp"'
+	runif vtmp 2 'PREVSTATE'
+	runif vactivestate "st_navigatemap" 'vNeedPrevState.set 0'
+	runif vNeedPrevState 1 'prevstate'
+	vNeedPrevState.set 0
 </script>
 
 <script sc_SaveRoute>
-    vTmp.TEXTMODEL_WSTR "mydata.routes.route_name"
+	vTmp.TEXTMODEL_WSTR "mydata.routes.route_name"
 	inpSI_Text.GET "vTmp"
 	vTmp.DROPMODEL
-    EXEC "mydata.routes.save_current"
+	EXEC "mydata.routes.save_current"
 
 	PREVSTATE
 	
@@ -92,27 +137,33 @@
 
 <state st_AdvMyDataMenu>
 	<uselayer ui_Header/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer/>
 	<uselayer ui_AdvMyDataMenu/>
-	
+;!TB - Additional Data Management Menu page
+	<uselayer ui_AdvMyDataMenu2/>
+
 	<script init>
 		Title.SET "Manage"
 		runif %other.geocoding.list_fails.isempty 1 '.other.geocoding.list_fails.valid 0'
 		runif %other.geocoding.list_fails.valid 1 'btn_geocoding_list.enable'
 		else_run 'btn_geocoding_list.disable'
+
+;!TB - Additional Data Management Menu page
+		runif vMyDataActPage 0 'ui_AdvMyDataMenu.SHOW, ui_AdvMyDataMenu2.HIDE'
+		runif vMyDataActPage 1 'ui_AdvMyDataMenu.HIDE, ui_AdvMyDataMenu2.SHOW'
 	</script>
 </state>
 
 <script sc_btnAMDM_POI_OnRelease>
-    run sc_StartManagePOISearch
-    NEXTSTATE st_ManagePOIStructuredList
+	run sc_StartManagePOISearch
+	NEXTSTATE st_ManagePOIStructuredList
 </script>
 
 <script sc_btnAMDM_Favorite_OnRelease>
-    vManageMode.SET 1
-    NEXTSTATE st_ManageFavorite
+	vManageMode.SET 1
+	NEXTSTATE st_ManageFavorite
 </script>
 
 <script sc_btnAMDM_History_OnRelease>
@@ -124,9 +175,10 @@
 
 <state st_AdvSettingsMenu>
 	<uselayer ui_Header/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
-	<uselayer ui_Footer/>
+;!TB - Replaced "ui_Footer" by "ui_Footer3" to fix duplicated back sound issue
+	<uselayer ui_Footer3/>
 	<uselayer ui_AdvSettingsMenu/>
 	<uselayer ui_AdvSettingsMenu2/>
 	<uselayer ui_AdvSettingsMenu_Footer/>
@@ -142,18 +194,20 @@
 
 	<script exit>
 		SAVESETTINGS
+;!TB - Added back sound
+		playsound "!back"
 	</script>
 </state>
 
 <script sc_btnASM_Basic_OnRelease>
-    INITMESSAGEBOX 1 "Changing to Normal mode" 'run sc_btnASM_Basic_OnRelease2'
+	INITMESSAGEBOX 1 "Changing to Normal mode" 'run sc_btnASM_Basic_OnRelease2'
 </script>
 
 <script sc_btnASM_Basic_OnRelease2>
-    run sc_SetBasicMode
-        
-    nUserMode.SET 1
-    ;vFindStateCont.SET st_BasMenu
+	run sc_SetBasicMode
+		
+	nUserMode.SET 1
+	;vFindStateCont.SET st_BasMenu
 	;CLEARTOMARKER vFindStateMarker vFindStateCont
 	;vFindStateCont.SET 0
 
@@ -165,7 +219,7 @@
 
 <state st_UserDataMgmt>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_AdvUserDataMgmt/>
@@ -176,7 +230,7 @@
 </state>
 
 <script sc_UDM_RemovePins>
-    INITMESSAGEBOX 1 "All your Pins will be removed." 'REMOVEALLPINS'
+	INITMESSAGEBOX 1 "All your Pins will be removed." 'REMOVEALLPINS'
 </script>
 
 <script sc_UDM_Backup_Success>
@@ -188,7 +242,7 @@
 </script>
 	
 <script sc_UDM_Backup>
-    INITMESSAGEBOX 2 "Do you want to backup your current settings and data?" 'run sc_UDM_Backup_OK'
+	INITMESSAGEBOX 2 "Do you want to backup your current settings and data?" 'run sc_UDM_Backup_OK'
 </script>
 
 <script sc_UDM_Backup_OK>
@@ -196,7 +250,7 @@
 </script>
 	
 <script sc_UDM_Restore>
-    INITMESSAGEBOX 1 "All your settings and saved data will be lost since the last backup." 'run sc_UDM_Restore_OK'
+	INITMESSAGEBOX 1 "All your settings and saved data will be lost since the last backup." 'run sc_UDM_Restore_OK'
 </script>
 
 <script sc_UDM_Restore_OK>
@@ -208,7 +262,7 @@
 </script>
 
 <script sc_UDM_UserData_Reset>
-    INITMESSAGEBOX 1 "All your settings and saved data will be lost." 'run sc_UDM_UserData_Reset_OK'
+	INITMESSAGEBOX 1 "All your settings and saved data will be lost." 'run sc_UDM_UserData_Reset_OK'
 </script>
 
 <script sc_UDM_UserData_Reset_OK>
@@ -216,7 +270,7 @@
 </script>
 
 <script sc_UDM_AdvancedData_Reset>
-    INITMESSAGEBOX 1 "All advanced settings will be reset to their default values." 'run sc_UDM_AdvancedData_Reset_OK'
+	INITMESSAGEBOX 1 "All advanced settings will be reset to their default values." 'run sc_UDM_AdvancedData_Reset_OK'
 </script>
 
 <script sc_UDM_AdvancedData_Reset_OK>
@@ -225,7 +279,7 @@
 
 <state st_HelpAdvUserDataMgmt>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -237,7 +291,7 @@
 	</script>
 	
 	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>
 

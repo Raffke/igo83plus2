@@ -11,27 +11,27 @@
 	btnMB_Ok.hide
 	btnMB_Yes.show
 	btnMB_No.show
-    runif vUIres "800_480" 'sprMB_Icon.bmp "dialog_qm.spr"'
-    else_runif vUIres "480_800" 'sprMB_Icon.bmp "dialog_qm.spr"'
-    else_run 'sprMB_Icon.bmp "ui_igo8/common/dialog_qm.spr"'
+	runif vUIres "800_480" 'sprMB_Icon.bmp "dialog_qm.spr"'
+	else_runif vUIres "480_800" 'sprMB_Icon.bmp "dialog_qm.spr"'
+	else_run 'sprMB_Icon.bmp "ui_igo8/common/dialog_qm.spr"'
 </script>
 
 <script sc_StartCustomMessageBox>
 	btnMB_Ok.hide
 	btnMB_Yes.show
 	btnMB_No.show
-    runif vUIres "800_480" 'sprMB_Icon.bmp "dialog_qm.spr"'
-    else_runif vUIres "480_800" 'sprMB_Icon.bmp "dialog_qm.spr"'
-    else_run 'sprMB_Icon.bmp "ui_igo8/common/dialog_qm.spr"'
+	runif vUIres "800_480" 'sprMB_Icon.bmp "dialog_qm.spr"'
+	else_runif vUIres "480_800" 'sprMB_Icon.bmp "dialog_qm.spr"'
+	else_run 'sprMB_Icon.bmp "ui_igo8/common/dialog_qm.spr"'
 </script>
 
 <script sc_StartInfoMessageBox>
 	btnMB_Ok.show
 	btnMB_Yes.hide
 	btnMB_No.hide
-    runif vUIres "800_480" 'sprMB_Icon.bmp "dialog_em.spr"'
-    else_runif vUIres "480_800" 'sprMB_Icon.bmp "dialog_em.spr"'
-    else_run 'sprMB_Icon.bmp "ui_igo8/common/dialog_em.spr"'
+	runif vUIres "800_480" 'sprMB_Icon.bmp "dialog_em.spr"'
+	else_runif vUIres "480_800" 'sprMB_Icon.bmp "dialog_em.spr"'
+	else_run 'sprMB_Icon.bmp "ui_igo8/common/dialog_em.spr"'
 	0 playsound "!button"
 </script>
 
@@ -66,41 +66,7 @@
 </script>
 
 <script sc_findpath_error>
-  INITMESSAGEBOX 0 $1
-  termif $2 1
-  runif %route.itiner.list.isempty 1 sc_DeleteIsolatedWaypoint
-</script>
-
-<script sc_DeleteIsolatedWaypoint>
-    1 navigation.waypoints.ignore_startfromgps_waypoint 0
-    goto 2
-    2 run sc_DeleteIsolatedWaypoint_listforeach
-    vtmp.boolexpr "navigation.waypoints.has_isolated_waypoint&navigation.waypoints.list.size > 1&!ui.vDeleteError"
-    vtmp.dropmodel
-    runif vtmp 1 'goto 2 sc_DeleteIsolatedWaypoint'
-</script>
-
-;!Raffke_jr - removed unsupported syntax for Builds < 8.3.2
-;  $1 = %*.as_start_isolated
-;  $2 = %*.as_end_isolated
-;  $3 = $i
-<script sc_DeleteIsolatedWaypoint_listforeach_helper>
-	runif $1 0 ''
-	else_runif $2 1 'incval "ntmp"'
-	runif ntmp 1 'vWaypointslistindex.set $3, ntmp.set 2'
-</script>
-
-<script sc_DeleteIsolatedWaypoint_listforeach>
-    vDeleteError.set 0
-    ntmp.set 0
-    vWaypointslistindex.set -1
-;!Raffke_jr - removed unsupported syntax for Builds < 8.3.2
-;	LIST_FOREACH "navigation.waypoints.list" 'runif %*.as_start_isolated 0 \'\', else_runif %*.as_end_isolated 1 \'incval "ntmp"\', runif ntmp 1 \'vWaypointslistindex.set $i, ntmp.set 2\''
-	LIST_FOREACH "navigation.waypoints.list" 'run sc_DeleteIsolatedWaypoint_listforeach_helper %*.as_start_isolated %*.as_end_isolated $i'
-    navigation.waypoints.list.setcurrent vWaypointslistindex
-    runif vWaypointslistindex > 0 'navigation.waypoints.delete_current'
-    else_run 'vDeleteError.set 1'
-    runif vWaypointslistindex -1 'deleteroute'
+	INITMESSAGEBOX 0 $1
 </script>
 
 <script sc_KeyCandidateSelected>
@@ -139,7 +105,7 @@
 
 <state st_AboutMaps>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_AboutMaps/>
@@ -156,22 +122,22 @@
 
 <state st_AboutMapDetails>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_AboutMapDetails/>
 
 	<script init>
-	    Title.SET "Map Details"
-    	HASFILEINFO lbAM_Maps vTmp
-	    runif vTmp 0 'PREVSTATE'
-	    else_run 'SHOWFILEINFO lbAM_Maps sprAMD_MapLogo txtAMD_MapName txtAMD_MapSource txtAMD_MapFile txtAMD_MapSize txtAMD_MapDetail1 txtAMD_MapDetail2 txtAMD_MapDetail3 txtAMD_MapDetail4'
+		Title.SET "Map Details"
+		HASFILEINFO lbAM_Maps vTmp
+		runif vTmp 0 'PREVSTATE'
+		else_run 'SHOWFILEINFO lbAM_Maps sprAMD_MapLogo txtAMD_MapName txtAMD_MapSource txtAMD_MapFile txtAMD_MapSize txtAMD_MapDetail1 txtAMD_MapDetail2 txtAMD_MapDetail3 txtAMD_MapDetail4'
 	</script>
 </state>
 
 <state st_AboutLicenses>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_AboutLicenses/>
@@ -186,7 +152,7 @@
 
 <state st_AboutCredits>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -198,7 +164,7 @@
 	</script>
 
 	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>
 
@@ -206,7 +172,7 @@
 
 <state st_AboutLegal>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -218,27 +184,7 @@
 	</script>
 	
 	<script done>
-	    run sc_ScrollingLayerDone
-	</script>
-</state>
-
-;****************************************************************************************************************
-
-<state st_AboutUpdate>
-	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
-	<uselayer ui_Title/>
-	<uselayer ui_Footer2/>
-	<uselayer ui_ScrollButtons/>
-	<uselayer ui_UpdateScreenXHTML/>
-
-	<script init>
-		Title.SET "Get updates"
-		run sc_ScrollingLayerInit ui_UpdateScreenXHTML 1
-	</script>
-	
-	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>
 
@@ -246,7 +192,7 @@
 
 <state st_AboutSafety>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -283,24 +229,24 @@
 </script>
 
 <script sc_contactnavi_start>
-    run sc_EmptyStateQueue st_NavigateMap 
-    NEXTSTATE st_ArrowPlace
+	run sc_EmptyStateQueue st_NavigateMap 
+	NEXTSTATE st_ArrowPlace
 </script>
 
 <script sc_contactnavi_error>
-    INITMESSAGEBOX 0 "Cannot find contact or address."
+	INITMESSAGEBOX 0 "Cannot find contact or address."
 </script>
 
 ;***************************************** BT ******************************************
 
 <script sc_drive_carefully_init>
-    run sc_drive_carefully_show
-    runif vUiRes "240_240" 'vScrollingLayer.SET ui_drive_carefully_xhtml'
-    btn_dc_agree.hide
-    KEY "RETURN"
-    KEY "REC"
-    KEY "UP"
-    KEY "DOWN"
+	run sc_drive_carefully_show
+	runif vUiRes "240_240" 'vScrollingLayer.SET ui_drive_carefully_xhtml'
+	btn_dc_agree.hide
+	KEY "RETURN"
+	KEY "REC"
+	KEY "UP"
+	KEY "DOWN"
 </script>
 
 <script sc_drive_carefully_show>
@@ -308,32 +254,35 @@
 	btn_dc_agree.z 100205
 	disable_layer_dcare.z 100200
 	ui_drive_carefully_btn.z 1000000
-	ui_drive_carefully_bg.z 100004   
+	ui_drive_carefully_bg.z 100004	 
 
-    disable_layer_dcare.show
+	disable_layer_dcare.show
 	ui_drive_carefully_bg.show
 	ui_drive_carefully_xhtml.show
 	ui_drive_carefully_btn.show
 	
-    100 btn_dc_agree.show
+	100 btn_dc_agree.show
 </script>
 
 <script sc_drive_carefully_close>
-  disable_layer_dcare.hide
-  ui_drive_carefully_xhtml.hide
-  ui_drive_carefully_btn.hide
-  ui_drive_carefully_bg.hide
-  exec "other.disclamer_closed"
+	disable_layer_dcare.hide
+	ui_drive_carefully_xhtml.hide
+	ui_drive_carefully_btn.hide
+	ui_drive_carefully_bg.hide
+	exec "other.disclamer_closed"
 </script>
 
 <script sc_accept_drive_carefully>
-    vDriveCarefully_show.set 0
+	vDriveCarefully_show.set 0
 	run sc_drive_carefully_close
 </script>
 
 <script sc_UseGestures>
 	GESTURE "IG6" 'run sc_ReturnToMap' 1
-	GESTURE "AG0" 'run sc_GoTo_MainMenu'
+
+;!TB - Renamed script called
+	GESTURE "AG0" 'run sc_GoTo_MainMenu_Direct'
+
 	vUseGestures.SET 1
 </script>
 
@@ -343,42 +292,4 @@
 	GESTURE "AG0" ''
 	runif $1 1 'vUseGestures.SET 0'
 </script>
-
-; =================== Simple Location API / SMS Buddy ===================
-
-<script sc_OnIncomingPosition>
-  vTmp.combined_textmodel "$other.fleet_mgmt.sender$: $other.fleet_mgmt.message:Sent Position$"
-  vTmp.dropmodel
-  vTmp2.combined_textmodel "$other.fleet_mgmt.sender$: $other.fleet_mgmt.message:Sent Position$ \n$other.fleet_mgmt.address:Unknown address.$"
-  vTmp2.dropmodel
-  mydata.history.create_item %other.fleet_mgmt.position_lat %other.fleet_mgmt.position_lon vTmp vTmp2
-
-  runif %other.fleet_mgmt.source "SMS" 'run sc_OnIncomingSmsPosition'
-  else_run 'run sc_OnIncomingExtPosition'
-</script>
-  
-<script sc_OnIncomingSmsPosition>
-  vTmp.combined_textmodel "Position received from $other.fleet_mgmt.sender$.\n$other.fleet_mgmt.message$: $other.fleet_mgmt.address:Unknown address$.\nDo you want to check it now?"
-  vTmp.dropmodel
-  INITMESSAGEBOX 2 vTmp 'run sc_OnIncomingPosAccept' 'run sc_OnIncomingPosCancel'
-</script>
-  
-<script sc_OnIncomingExtPosition>
-  vTmp.combined_textmodel "Position received from $other.fleet_mgmt.sender$.\n$other.fleet_mgmt.address:Unknown address$.\nDo you want to check it now?"
-  vTmp.dropmodel
-  INITMESSAGEBOX 2 vTmp 'run sc_OnIncomingPosAccept' 'run sc_OnIncomingPosCancel'
-</script>
-
-<script sc_OnIncomingPosAccept>
-  SELECT_HISTORY 0
-  map.MOVECURSORTOSELECTEDITEM
-	nPlaceStateMode.SET 0
-	NEXTSTATE st_Place
-</script>
-
-<script sc_OnIncomingPosCancel>
-  INITMESSAGEBOX 0 "The received position has been saved to your History."
-</script>
-
-<observer obs_onincomingposition event="fleet_mgmt_incoming_position" onchange='run sc_OnIncomingPosition' start="NO_TRIGGER">
 

@@ -23,10 +23,10 @@
 	</script>
 	
 	<script init>
-        runif vSelectedStreet L"" 'vIntersectionCount.SET 0'
-        else_run 'map.COUNTJUNCTIONS vSelectedAdvUID2 vSelectedUID vSelectedUID2 vSelectedAdvUID vIntersectionCount'  
+		runif vSelectedStreet L"" 'vIntersectionCount.SET 0'
+		else_run 'map.COUNTJUNCTIONS vSelectedAdvUID2 vSelectedUID vSelectedUID2 vSelectedAdvUID vIntersectionCount'  
 		
-        Title.SET "Find Address"
+		Title.SET "Find Address"
 		vAddressFindMode.set 0
 		vMoveCursorToSelectedItem.set 1
 
@@ -92,7 +92,7 @@
 	
 	btnFA_CityCenter.ENABLE
 	runif vSelectedCity L"" 'btnFA_CityCenter.HIDE, btnFA_CountryCenter.SHOW, btnFA_StateCenter.SHOW'
-	else_run               'btnFA_CityCenter.SHOW, btnFA_CountryCenter.HIDE, btnFA_StateCenter.HIDE'
+	else_run			   'btnFA_CityCenter.SHOW, btnFA_CountryCenter.HIDE, btnFA_StateCenter.HIDE'
 	runif vIsHaveCOS 0 'btnFA_CityCenter.DISABLE'
 	ISCOUNTRYSTATE vSelectedCountryCode vTmp
 	runif vTmp 1 'btnFA_CountryCenter.HIDE'
@@ -103,7 +103,7 @@
 		
 	btnFA_Intersection.ENABLE
 	runif vSelectedStreet L"" 'btnFA_Intersection.DISABLE'
-    runif vIntersectionCount 0 'btnFA_Intersection.DISABLE'    
+	runif vIntersectionCount 0 'btnFA_Intersection.DISABLE'	   
 	
 	map.ANALIZE_SELECTED_COUNTRY vTmp
 	
@@ -142,7 +142,7 @@
 		map.ADDRESSCHANGESTREET inpFAS_Street lbFASR_StreetResult
 		CHECKFINDRESULTCOUNT lbFASR_StreetResult vResultReady vResultCount vResultCountNum
 		CHECKFINDFILTER inpFAS_Street vResultReady
-		runif    vResultCountNum 0 'txtFAS_NumberOf.SET ""'
+		runif	 vResultCountNum 0 'txtFAS_NumberOf.SET ""'
 		runifnot vResultCountNum 0 'txtFAS_NumberOF.SET vResultCount'
 
 		inpFAS_Street.SYNCKBPANEL
@@ -158,37 +158,38 @@
 
 <script sc_GoCountryCenterMain>
 	vSelectedCity.SET L""
-    vSelectedItem.SET L""
-    vSelectedStreet.SET L""
+	vSelectedItem.SET L""
+	vSelectedStreet.SET L""
 
-    SELECTGEOITEM 13 vSelectedCountryCode
+	SELECTGEOITEM 13 vSelectedCountryCode
 	vStateMode.SET ""
-    vZoomAfterFind.SET 0
-    runif vAddressFindMode 0 'run sc_GoCountryCenterShowMap'
+	vZoomAfterFind.SET 0
+	runif vAddressFindMode 0 'run sc_GoCountryCenterShowMap'
 	else_runif vAddressFindMode 1 'run sc_StartPOISearchAroundCursor'
 	vZoomAfterFind.SET 1
 </script>
 
 <script sc_GoCountryCenterShowMap>
-	vMapState.set 4
-    map.setmapstate 4
-
+	map.mapmode 1
+	map.SHOWCURSOR 0
+	vMapSettings2d3d.SET "2D"
+	map.VIEW2D3D vMapSettings2d3d
+	vMapmode.set L"2D"
+	map.MOVECURSORTOSELECTEDITEM
 	vCarWasLockedWhenExitedNavigateMap.set 0
 	run sc_FollowOff
 	run sc_P_return_to_map 0
-
-	map.MOVECURSORTOSELECTEDITEM
 </script>
 
 <script sc_GoCityCenterMain>
-    vSelectedItem.SET L""
-    vSelectedStreet.SET L""
+	vSelectedItem.SET L""
+	vSelectedStreet.SET L""
 	run sc_SearchCityCenterAndGo
 </script>
 
 <script sc_GoStreetCenterMain>
-    vSelectedItem.SET L""
-	RESOLVE_DUPLICATE_HOUSE vSelectedAdvUID vSelectedUID vSelectedUID2 vSelectedItem lbFADH_Duplicated vSelectedAdvUID2   
+	vSelectedItem.SET L""
+	RESOLVE_DUPLICATE_HOUSE vSelectedAdvUID vSelectedUID vSelectedUID2 vSelectedItem lbFADH_Duplicated vSelectedAdvUID2	  
 </script>
 
 <script sc_GoIntersectionMain>
@@ -200,7 +201,7 @@
 
 <state st_FindAddressCountry>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_FindAddressCountry/>
@@ -236,7 +237,7 @@
 
 <state st_FindAddressState>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_FindAddressState/>
@@ -253,7 +254,7 @@
 </state>
 
 <script sc_lbFAS_StateList_OnItemSelected>
-    vSelectedCity.set L""
+	vSelectedCity.set L""
 	vSelectedStreet.SET L""
 	vSelectedItem.SET L""
 	STORE_STATECODE_SELECTED lbFAS_StateList
@@ -284,14 +285,14 @@
 		map.ADDRESSCHANGECITYZIP inpFACi_City lbFACR_CityResult
 		CHECKFINDRESULTCOUNT lbFACR_CityResult vResultReady vResultCount vResultCountNum
 		CHECKFINDFILTER inpFACi_City vResultReady
-		runif    vResultCountNum 0 'txtFACi_NumberOf.SET ""'
+		runif	 vResultCountNum 0 'txtFACi_NumberOf.SET ""'
 		runifnot vResultCountNum 0 'txtFACi_NumberOf.SET vResultCount'
 
 		inpFACi_City.SYNCKBPANEL
 	</script>
 
 	<script done>
-        KEY "RETURN"
+		KEY "RETURN"
 		local.keyboard.on_close_panel
 	</script>
 </state>
@@ -327,7 +328,7 @@
 	map.ADDRESSCHANGECITYZIP inpFACi_City lbFACR_CityResult
 	run sc_CheckCityResult
 	CHECKFINDFILTER inpFACi_City vResultReady
-	RUNIF    vResultCountNum 0 'txtFACi_NumberOf.SET ""'
+	RUNIF	 vResultCountNum 0 'txtFACi_NumberOf.SET ""'
 	RUNIFNOT vResultCountNum 0 'txtFACi_NumberOf.SET vResultCount'
 </script>
 
@@ -353,7 +354,7 @@
 
 <state st_FindAddressCityResult>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_FindAddressCityResult/>
@@ -361,8 +362,8 @@
 	<script init>
 		Title.SET "Select City"
 		map.SHOWMUNICIPAL lbFACR_CityResult 0
-        lbFACR_CityResult.SETCONTROLS "btnFACR_NextPage" "btnFACR_PrevPage" 
-        
+		lbFACR_CityResult.SETCONTROLS "btnFACR_NextPage" "btnFACR_PrevPage" 
+		
 		run sc_hide_municipal
 		
 		CHECKFINDRESULTCOUNT lbFACR_CityResult vResultReady vResultCount vResultCountNum
@@ -388,10 +389,10 @@
 
 <script sc_StoreSelectedCity>
 	FINDCITY_SAVE_CITYDATA vSelectedAdvUID vSelectedUID vSelectedItem2 
-    map.CITYSELECTED vSelectedUID "vIsCOS" "vIsHaveCOS" vSelectedAdvUID
-    PREVSTATE
+	map.CITYSELECTED vSelectedUID "vIsCOS" "vIsHaveCOS" vSelectedAdvUID
+	PREVSTATE
 	runif $1 1 'PREVSTATE'
-    RUNIF vIsCOS 1 sc_SearchCityCOSAndGo
+	RUNIF vIsCOS 1 sc_SearchCityCOSAndGo
 	ELSE_RUNIF vIsCOS 2 sc_CityHaveOnlyHousenumber
 </script>
 
@@ -413,20 +414,19 @@
 
 <state st_FindAddressStreet>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_FindAddressStreet/>
 	
 	<script init>
-		map.ATTACHFINDADDRESSMODELSTREET lbFASR_StreetResult Title 0
-        KEY "RETURN" 'run sc_FindAddressStreetOKNoDelay'
+		KEY "RETURN" 'run sc_FindAddressStreetOKNoDelay'
 		vKeyTableDone.SET sc_FindAddressStreetOKNoDelay
 		LOADPANELTYPE 1 0
 
 		map.ADDRESSCHANGESTREET inpFAS_Street lbFASR_StreetResult
 		CHECKFINDFILTER inpFAS_Street vResultReady
-		runif    vResultCountNum 0 'txtFAS_NumberOf.set ""'
+		runif	 vResultCountNum 0 'txtFAS_NumberOf.set ""'
 		runifnot vResultCountNum 0 'txtFAS_NumberOf.set vResultCount'
 
 		inpFAS_Street.SYNCKBPANEL
@@ -460,7 +460,7 @@
 	map.ADDRESSCHANGESTREET inpFAS_Street lbFASR_StreetResult
 	run sc_CheckStreetResult
 	CHECKFINDFILTER inpFAS_Street vResultReady
-	runif    vResultCountNum 0 'txtFAS_NumberOf.set ""'
+	runif	 vResultCountNum 0 'txtFAS_NumberOf.set ""'
 	runifnot vResultCountNum 0 'txtFAS_NumberOf.set vResultCount'
 </script>
 
@@ -479,7 +479,7 @@
 
 <state st_FindAddressStreetResult>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_FindAddressStreetResult/>
@@ -503,7 +503,7 @@
 	lbFASR_StreetResult.GETITEMLABEL "vSelectedStreet"
 	lbFASR_StreetResult.GETUID "vSelectedUID2"
 	lbFASR_StreetResult.GETADVUID "vSelectedAdvUID2"
-    RUNIF bFindDelayed 0 'PREVSTATE, run sc_FindAddressStreetResultsOK2'
+	RUNIF bFindDelayed 0 'PREVSTATE, run sc_FindAddressStreetResultsOK2'
 </script>
 
 <script sc_FindAddressStreetResultsOK2>
@@ -514,7 +514,7 @@
 
 <state st_FindAddressHousenumber>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_FindAddressHousenumber/>
@@ -545,28 +545,28 @@
 	KEY "RETURN"
 	PLAYSOUND "!mapclick"
 	inpFAH_Housenumber.GET "vSelectedItem"
-    RESOLVE_DUPLICATE_HOUSE vSelectedAdvUID vSelectedUID vSelectedUID2 vSelectedItem lbFADH_Duplicated vSelectedAdvUID2 vSelectedCity vSelectedStreet
+	RESOLVE_DUPLICATE_HOUSE vSelectedAdvUID vSelectedUID vSelectedUID2 vSelectedItem lbFADH_Duplicated vSelectedAdvUID2 vSelectedCity vSelectedStreet
 </script>
 
 <script sc_FindAddressHousenumberOK_ext>
 	KEY "RETURN"
 	PLAYSOUND "!mapclick"
 	inpFAH_Housenumber.GET "vSelectedItem"
-    RESOLVE_DUPLICATE_HOUSE_EXT vSelectedAdvUID vSelectedUID lbFASR_StreetResult lbFADH_Duplicated vSelectedItem     
+	RESOLVE_DUPLICATE_HOUSE_EXT vSelectedAdvUID vSelectedUID lbFASR_StreetResult lbFADH_Duplicated vSelectedItem	 
 	runif vResolveHouseListExtState 0 'RESOLVE_DUPLICATE_HOUSE vSelectedAdvUID vSelectedUID vSelectedUID2 vSelectedItem lbFADH_Duplicated vSelectedAdvUID2'
 	runif vResolveHouseListExtState 1 'NEXTSTATE ST_FINDHOUSENUMBER_LIST'
-    runif vResolveHouseListExtState 2 'INITMESSAGEBOX 0 "House number not found!"'         
+	runif vResolveHouseListExtState 2 'INITMESSAGEBOX 0 "House number not found!"'		   
 </script>
 
 <state st_FindAddressHousenumber_ext>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_FindAddressHousenumber/>
 	
 	<script init>
-		Title.SET "Search in all"
+		Title.SET vSelectedStreet
 		
 		KEY "RETURN" 'run sc_FindAddressHousenumberOK_ext'
 		vKeyTableDone.SET sc_FindAddressHousenumberOK_ext
@@ -612,7 +612,7 @@
 
 <state st_FindAddressDuplicatedHouseNumber>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_FindAddressDuplicatedHouseNumber/>
@@ -633,7 +633,7 @@
 
 <state st_History>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_History/>
@@ -642,10 +642,10 @@
 		Title.SET "Select City"
 		lbH_History.SETCONTROLS "btnH_NextPage" "btnH_PrevPage" 
 		map.ATTACHCITYHISTMODEL lbH_History
-    btnH_CityCenter.ENABLE
-    txt_cleared_history.HIDE
-    spr_cleared_history.HIDE
-    
+	btnH_CityCenter.ENABLE
+	txt_cleared_history.HIDE
+	spr_cleared_history.HIDE
+	
 	</script>
 
 	<script done>
@@ -678,9 +678,9 @@
 	CLEARCITYHISTORY
 	lbH_History.DROPMODEL
 	map.ATTACHCITYHISTMODEL lbH_History
-    btnH_CityCenter.DISABLE
-    txt_cleared_history.SHOW
-    spr_cleared_history.SHOW
+	btnH_CityCenter.DISABLE
+	txt_cleared_history.SHOW
+	spr_cleared_history.SHOW
 
 </script>
 
@@ -688,7 +688,7 @@
 
 <state st_Intersection>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_Intersection/>
@@ -703,14 +703,14 @@
 		map.ADDRESSCHANGEJUNCTION inpI_Street lbIR_Intersections
 		CHECKFINDRESULTCOUNT lbIR_Intersections vResultReady vResultCount vResultCountNum
 		CHECKFINDFILTER inpI_Street vResultReady
-		runif    vResultCountNum 0 'txtI_NumberOf.SET ""'
+		runif	 vResultCountNum 0 'txtI_NumberOf.SET ""'
 		runifnot vResultCountNum 0 'txtI_NumberOf.SET vResultCount'
 		inpI_Street.SYNCKBPANEL
 		inpI_Street.GET "vTmp"
 		runif vTmp L"" 'runif vResultReady 1 sc_IntersectionSwitchToResult'
   </script>
 	<script done>
-        KEY "RETURN"   
+		KEY "RETURN"   
 		local.keyboard.on_close_panel
 	</script>
 </state>
@@ -738,7 +738,7 @@
 	map.ADDRESSCHANGEJUNCTION inpI_Street lbIR_Intersections
 	run sc_CheckIntersectionStreetResult
 	CHECKFINDFILTER inpI_Street vResultReady
-	runif    vResultCountNum 0 'txtI_NumberOf.SET ""'
+	runif	 vResultCountNum 0 'txtI_NumberOf.SET ""'
 	runifnot vResultCountNum 0 'txtI_NumberOf.SET vResultCount'
 </script>
 
@@ -753,7 +753,7 @@
 
 <state st_IntersectionResult>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_IntersectionResult/>
@@ -771,8 +771,8 @@
 </state>
 
 <script sc_lbIR_Intersections_OnItemSelected>
-    vSelectedItem.SET L""
-    RUNIF bFindDelayed 1 'lbIR_Intersections.SETSELECTION -1'
+	vSelectedItem.SET L""
+	RUNIF bFindDelayed 1 'lbIR_Intersections.SETSELECTION -1'
 	ELSE_RUN 'run sc_SearchIntersectionAndGo'
 </script>
 
@@ -809,9 +809,10 @@
 ; !!! It is called from code automaticly by these script commands: SELECTGEOITEM, RESOLVE_DUPLICATE_HOUSE
 <script sc_next_find_done>
 	FINDCITY_SAVE_CITYDATA vSelectedAdvUID vSelectedUID vSelectedItem2 
-    map.CITYSELECTED vSelectedUID "vIsCOS" "vIsHaveCOS" vSelectedAdvUID
-    
-	runif vAddressFindMode 0 'map.MOVECURSORTOSELECTEDITEM,nPlaceStateMode.SET 0, NEXTSTATE st_Place'
+	map.CITYSELECTED vSelectedUID "vIsCOS" "vIsHaveCOS" vSelectedAdvUID
+	
+;!TB - 'NEXTSTATE st_Place' replaced by sc_OpenMapAfterFind call
+	runif vAddressFindMode 0 'map.MOVECURSORTOSELECTEDITEM,nPlaceStateMode.SET 0, run sc_OpenMapAfterFind'
 	else_runif vAddressFindMode 1 'map.MOVECURSORTOSELECTEDITEM, run sc_StartPOISearchAroundCursor'
 </script>
 
