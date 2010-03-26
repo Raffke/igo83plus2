@@ -21,8 +21,10 @@
 	<var vStreetEntrySkipped=0>
 	<var vFindStateMarker>
 	<var vFindStateCont>
-	<var vTmp=1>
+	<var vTmp=1 registermodel>
 	<var vTmp2="">
+	<var vWaypointslistindex=0>
+	<var vDeleteError=0 registermodel>
 	<var vSelectedWayPoint=-1>
 	<var vValidRoute=0>	
 	<var vDeletableRoute=0>
@@ -97,8 +99,7 @@
 	
 	<var nBacklightOn= 0>
 	
-;!Raffke_jr - changed to from 0 to 3
-	<var tmpSpeedWarnSound=3>
+	<var tmpSpeedWarnSound=0>
 	<var tmpSpeedWarnVisual=0>
 
 	<var vHideZoomControls=0 registermodel permanent>
@@ -147,6 +148,7 @@
 	<var vDriveCarefully_show=1>
 	<var v3dzoomcontrol=0 registermodel>
 	<var vChangePOIcoord=0 registermodel>
+	<var vPoiExtraInfoSave>
 
 	; ez kell az antihack-nek, ne szedd ki (a kommentet se;)
 	<var vAH2SCPT=-1 permanent>
@@ -173,6 +175,7 @@
 		
 	<var vMapState=0 permanent>
 	<var vRotationAngle> 
+	<var vRotationAngleNavMap=-1 permanent>
 	<var vScrollingLayerUp=0   registermodel>
 	<var vScrollingLayerDown=0 registermodel>
 	<var v2DHeadUp=0>
@@ -195,6 +198,10 @@
 	<var vIntersectionCount=0>
 	<var vModeTmp=0>
 	<var vStartModeTmp=0>
+	<var vMapModeBool registermodel>
+	<var vMapSelect>
+	<var vGetUpdates registermodel>  
+ 	<var vDiriconVisible=0 registermodel>
 
 ;!Raffke_jr - TODO: are these really used???
 	<var vZoomLevelInNavigate=-1 permanent>

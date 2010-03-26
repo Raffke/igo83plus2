@@ -170,15 +170,14 @@
 </script>
 
 <script sc_GoCountryCenterShowMap>
-	map.mapmode 1
-	map.SHOWCURSOR 0
-	vMapSettings2d3d.SET "2D"
-	map.VIEW2D3D vMapSettings2d3d
-	vMapmode.set L"2D"
-	map.MOVECURSORTOSELECTEDITEM
+	vMapState.set 4
+	map.setmapstate 4
+
 	vCarWasLockedWhenExitedNavigateMap.set 0
 	run sc_FollowOff
 	run sc_P_return_to_map 0
+
+	map.MOVECURSORTOSELECTEDITEM
 </script>
 
 <script sc_GoCityCenterMain>
@@ -420,6 +419,7 @@
 	<uselayer ui_FindAddressStreet/>
 	
 	<script init>
+		map.ATTACHFINDADDRESSMODELSTREET lbFASR_StreetResult Title 0
 		KEY "RETURN" 'run sc_FindAddressStreetOKNoDelay'
 		vKeyTableDone.SET sc_FindAddressStreetOKNoDelay
 		LOADPANELTYPE 1 0
@@ -566,6 +566,8 @@
 	<uselayer ui_FindAddressHousenumber/>
 	
 	<script init>
+;!Raffke_jr - TODO: 8.3.2
+;		Title.SET "Search in all"
 		Title.SET vSelectedStreet
 		
 		KEY "RETURN" 'run sc_FindAddressHousenumberOK_ext'

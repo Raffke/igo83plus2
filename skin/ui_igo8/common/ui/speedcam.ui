@@ -5,6 +5,13 @@
     <var nSpeedCamPosY=0>
 </header>
 
+<script sc_SpeedcamSkippedChanged>
+	runif %navigation.curr_speedcam.skipped 1 'ui_SpeedCamWarningLayer.hide'
+	else_run 'ui_SpeedCamWarningLayer.show'
+</script>
+
+<observer xxx boolmodel="navigation.curr_speedcam.skipped" onchange='run sc_SpeedcamSkippedChanged' start>
+
 ;****************************************************************************************************************
 
 <state st_SpeedCam>
@@ -112,7 +119,8 @@
 ;****************************************************************************************************************
 
 <script sc_ToggleSpeedcamSound>
-	runif %navigation.curr_speedcam.speed_warning_sound_active 0 '.navigation.curr_speedcam.speed_warning_sound_active 1'
+	runif %navigation.curr_speedcam.speed_warning_sound_active 0 '.navigation.curr_speedcam.skipped 1'
+	else_runif %warning.speedcam_soundtype 0 '.navigation.curr_speedcam.skipped 1'
 	else_run '.navigation.curr_speedcam.speed_warning_sound_active 0'
 
 ;!TB MR - Advanced Speedcam Sounds Toggle

@@ -1,0 +1,63 @@
+;*************************************************************
+;* New speedcam settings for 400x240 resolution
+;* Developed by Delphis
+;* Look for last version at http://4pda.ru/forum/index.php?showtopic=79587&view=findpost&p=1703505
+;*************************************************************
+
+; New Layer for speedcam Advanced Settings
+;!Raffke_jr - applied new templates
+<layer ui_SettingWarningsSpeedCamAdvanced z=36 hide>
+	<SLIDER     sldSWC_LangType      template=sld_5a   template=y_3  var=vSpeedcamWarningType value="Alert sound|-1|Off|0|German|4">
+	<TEXT       txtSWC_LangType      template=txt_sld  template=y_3  text="Warning sound:" watchstate=sldSWC_LangType>
+
+	<TEXT       xxx          template=txt_csu_label    template=y_4  text="Speedcam warning volume">
+	<SPRITE     xxx	         template=spr_5a           template=y_4  >
+	<HSCROLLBAR xxx	         template=csuszka_small    template=y_4  min=0 max=64 endsize=0 blockincrement=_0.0 value=64 onrelease='PLAYSOUND "!alert5"' nosound valuemodel="ui.vSpeedcamAlertVolume">
+
+        <BUTTON     xxx          template=btn_lb5e51       template=y_5  iconphase=0 onrelease='run sc_SettingSpeedCamCategory 0'> 
+        <BUTTON     xxx          template=btn_lb5e52       template=y_5  iconphase=1 onrelease='run sc_SettingSpeedCamCategory 1'> 
+        <BUTTON     xxx          template=btn_lb5e53       template=y_5  iconphase=2 onrelease='run sc_SettingSpeedCamCategory 2'> 
+        <BUTTON     xxx          template=btn_lb5e54       template=y_5  iconphase=3 onrelease='run sc_SettingSpeedCamCategory 3'> 
+        <BUTTON     xxx          template=btn_lb5e55       template=y_5  iconphase=4 onrelease='run sc_SettingSpeedCamCategory 4'> 
+</layer>
+
+
+; New Layer for speedcam category settings
+;!Raffke_jr - applied new templates
+<layer ui_SettingSpeedCamCategory z=35>
+	<TEXT       xxx                    template=txt_sld         template=y_1 z=30 w=42  text="Alert sound:">
+	<SLIDER     xxx                    template=sld_5f    x=24  template=y_1 z=10 w=55  align="RIGHT-8" var=tmpSpeedcamAlertSound value="Alert 1|1|Alert 2|2|Alert 3|3|Alert 4|4|Alert 5|5|Alert 6|6|User Alert 1|7|User Alert 2|8|User Alert 3|9|User Alert 4|10|User Alert 5|11">
+;	<TEXT       xxx                    template=txt_sld         template=y_1 z=30 w=57  text="Alert sound:">
+;	<SLIDER     xxx                    template=sld_5f    x=24  template=y_1 z=10 w=65  align="RIGHT-8" var=tmpSpeedcamAlertSound value="Alert 1|1|Alert 2|2|Alert 3|3|Alert 4|4|Alert 5|5|Alert 6|6|User Alert 1|7|User Alert 2|8|User Alert 3|9|User Alert 4|10|User Alert 5|11">
+	<SLIDER     xxx                    template=sld_5f    x=172 template=y_1 z=20 align="CENTER" padding=4 var=tmpSpeedcamAlertInterval value="Once per overspeed|-2|Off|-1|Continously|0|At 1 interval|1|At 2 intervals|2|At 3 intervals|3|At 4 intervals|4|At 5 intervals|5|At 10 intervals|10|At 15 intervals|15|At 20 intervals|20|At 25 intervals|25|At 30 intervals|30|At 40 intervals|40|At 50 intervals|50">
+        <BUTTON     xxx                    template=btn_lb5e  x=319 template=y_1 z=10 text="test" onrelease='run sc_SpeedcamAlertTestSound'> 
+
+	<CHECKBOX   xxx                    template=chk_5a          template=y_2 text="Warning beeps" boolmodel="ui.tmpSpeedcamBeep">
+
+	<SPRITE     xxx                    template=spr_5a          template=y_3 >
+	<TEXT       txtSWC_AlertDistance   template=txt_csu_legend  template=y_3 text="Alert distance:">
+	<TEXT       txtSWC_AlertDistanceV  template=txt_csu_valunit template=y_3 >
+;!Raffke_jr - removed 'blockincrement=_0.0'
+	<HSCROLLBAR hscSWC_AlertDistance   template=csuszka_small   template=y_3 valuemodel="ui.tmpSpeedcamAlertDistance" possiblevalues="0,100,200,300,400,500,600,700,800,900,1000" endsize=0  onchange='run sc_SpeedcamAlertDistance_OnChange'>
+
+	<TEXT       txtSWC_BeepsInterval   template=txt_csu_legend  template=y_3 text="Beeps interval:">
+	<TEXT       txtSWC_BeepsIntervalV  template=txt_csu_valunit template=y_3 >
+;!Raffke_jr - removed 'blockincrement=_0.0'
+	<HSCROLLBAR hscSWC_BeepsInterval   template=csuszka_small   template=y_3 valuemodel="ui.tmpSpeedcamBeepsInterval" possiblevalues="0,1,2,3,4,5,6,7,8,9,10" endsize=0  onchange='run sc_SpeedcamBeepsInterval_OnChange'>
+
+	<SPRITE     xxx                         template=spr_5a          template=y_4 >
+	<TEXT       txtSWC_OverspeedTolerance   template=txt_csu_legend  template=y_4 text="Overspeed tolerance:">
+	<TEXT       txtSWC_OverspeedToleranceV  template=txt_csu_value   template=y_4 >
+	<TEXT       txtSWC_OverspeedToleranceM  template=txt_csu_unit    template=y_4 >
+	<HSCROLLBAR hscSWC_OverspeedTolerance   template=csuszka_small   template=y_4 valuemodel="ui.tmpSpeedcamOverspeedTolerance" possiblevalues="-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10,15,20,25,30,35,40,45,50,55,60" endsize=0 blockincrement=_0.0  onchange='run sc_SpeedcamOverspeedTolerance_OnChange'>
+
+	<SPRITE     xxx                    template=spr_5a          template=y_5 >
+;!Raffke_jr - TODO: Fit to new templates (3x)
+	<TEXT       txtSWC_MinSpeed        template=txt_csu_legend  template=y_5       w=75  text="Min. speed:">
+	<TEXT       txtSWC_MinSpeedL       template=txt_csu_valunit template=y_5 x=130 w=60  text="cam. limit" align="CENTER" visiblemodel="ui.tmpSpeedcamMinSpeed=0">
+	<TEXT       txtSWC_MinSpeedP       template=txt_csu_valunit template=y_5 x=130 w=50  text="cam. limit" visiblemodel="ui.tmpSpeedcamMinSpeed<0">
+	<TEXT       txtSWC_MinSpeedV       template=txt_csu_value   template=y_5 visiblemodel="ui.tmpSpeedcamMinSpeed!=0">
+	<TEXT       txtSWC_MinSpeedM       template=txt_csu_unit    template=y_5 visiblemodel="ui.tmpSpeedcamMinSpeed!=0">
+;!Raffke_jr - removed 'blockincrement=_0.0'
+	<HSCROLLBAR hscSWC_MinSpeed        template=csuszka_small   template=y_5 valuemodel="ui.tmpSpeedcamMinSpeed" possiblevalues="-60,-50,-40,-30,-20,-10,0,1,10,20,30,40,50,60" endsize=0  onchange='run sc_SpeedcamMinSpeed_OnChange'>
+</layer>

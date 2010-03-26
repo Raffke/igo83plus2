@@ -22,9 +22,9 @@
   
 	<ROADSHIELDEDTEXT et_TmcEvent_txt1%ID% watchstate=et_TmcEvent_btn%ID% x=210 y=5  w=60  z=1 textmodel_wstr="*.roadnumber_enc" template=xtxt4 font="tahoma" fontsize=14 align="CENTER" USE_BRACKETS=0  visiblemodel="!*.long_roadnumber">
 	<TEXT	et_TmcEvent_txt2%ID%  watchstate=et_TmcEvent_btn%ID%          x=386 y=5  w=50  z=1 textmodel_wstr="*.distance.full_text"  visiblemodel="*.distance.valid" template=xtxt4 align="RIGHT" font="tahomabd" fontsize=14>
-
-	<TEXT	et_TmcEvent_txt3%ID%  template=xtxt4 watchstate=et_TmcEvent_btn%ID% x=95 h=34 w=309 z=1 textmodel_wstr="*.location" align="LEFT" valign="BOTTOM" font="tahomabd" fontsize=12>
-	;<TEXT	et_TmcEvent_txt4%ID%  template=xtxt4 watchstate=et_TmcEvent_btn%ID% x=95 y=25  w=450 z=1 textmodel_wstr="*.location2" align="LEFT" valign="TOP" visiblemodel="!*.single_location" fontsize=11>
+	<TEXT   et_TmcEvent_txt4%ID%  watchstate=et_TmcEvent_btn%ID% x=95  y=7  w=125 z=1 template=xtxt4   align="LEFT"   textmodel_wstr="*.description">          
+	<TEXT	et_TmcEvent_txt3%ID%  watchstate=et_TmcEvent_btn%ID% x=95 y=23 w=309 z=1 textmodel_wstr="*.location"    template=xtxt4  align="LEFT"  fontsize=12>
+	;<TEXT	et_TmcEvent_txt4old%ID%  template=xtxt4 watchstate=et_TmcEvent_btn%ID% x=95 y=25  w=450 z=1 textmodel_wstr="*.location2" align="LEFT" valign="TOP" visiblemodel="!*.single_location" fontsize=11>
 	;<TEXT	et_TmcEvent_txt5%ID%  watchstate=et_TmcEvent_btn%ID% x=50 y=40  w=400 z=1 textmodel_wstr="*.description" template=xtxt4 align="LEFT" valign="TOP" fontsize=12>
 </element_template>
 
@@ -56,9 +56,9 @@
 	<BUTTON btn_TMC_dec x=390 y=54 bmp="btn_tmc_next.bmp#3"  enabledmodel="!tmc.auto_tuning" clickmodel="tmc.tuner_step_up" onrelease='' onlongclick='exec "tmc.tuner_search_up"'>
 
 	<TEXT	xxx x=46 y=90  w=392 z=99 template=texttmc text="State Info"      align="center" fontsize=14 textmodel_wstr="tmc.state">
-  <TEXT	xxx x=46 y=107  w=392 z=99 template=texttmc text="Current Message" align="center" fontsize=14 textmodel_wstr="tmc.current_station_message">  
+	<TEXT	xxx x=46 y=107  w=392 z=99 template=texttmc text="Current Message" align="center" fontsize=14 textmodel_wstr="tmc.current_station_message">  
 	
-  <SPRITE xxx x=34 y=90 bmp="empty_textbox_tmc.bmp">	
+	<SPRITE xxx x=34 y=90 bmp="empty_textbox_tmc.bmp">	
 	
 	<BUTTON xxx template=btn_5a   y=126 text="Exclude this station"    clickmodel="tmc.deny_current_station" enabledmodel="tmc.station_tuned">
 	<BUTTON xxx template=btn_5a   y=162 text="Show Excluded stations" onrelease='NEXTSTATE st_TmcTiltStations' enabledmodel="!tmc.denied_stations_list.isempty" >
@@ -73,6 +73,9 @@
 	<SLIDER sld_tmc_eventlist  template=sld_5a        y=55 z=10   var=vTmcShowOnRoute value="All Events|0|On Route|1" align="RIGHT">
 	<TEXT   xxx  template=btntext                   x=44 y=63 w=120 text="Event list:" watchstate=sld_tmc_eventlist>
 	
+;!TB - voice announcement
+	<CHECKBOX xxx  template=chk_5a  template=y_3  text="Voice warning" boolmodel="ui.vTMCVoiceWarning">
+
 	<BUTTON xxx  template=footer2_2a text="Help"       onrelease='NEXTSTATE st_HelpTmcSettings'> 
 </layer>
 
@@ -133,19 +136,25 @@
 ;==============================
 ; TMC announcement
 
+;!Raffke_jr - visiblemodels for Speedcam
 <element_template et_TmcEvent_Announce>
-	<SPRITE xxx x=17 y=0   z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="*.single_icon&!ui.vOnFlyover">
-	<SPRITE xxx x=6 y=0  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="!*.single_icon&!ui.vOnFlyover">
-	<SPRITE xxx x=29 y=0  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase2" visiblemodel="!*.single_icon&!ui.vOnFlyover">
+	<SPRITE xxx x=17 y=0   z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="*.single_icon&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible">
+	<SPRITE xxx x=6 y=0  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="!*.single_icon&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible">
+	<SPRITE xxx x=29 y=0  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase2" visiblemodel="!*.single_icon&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible">
 
-	<TEXT	xxx x=-8  y=21 w=52  z=1 textmodel_wstr="*.roadnumber"                                         template=xtxt3 fontsize=12 fonttype=buttonlabel_menu  font="tahomabd" color=#FFFFFF  visiblemodel="!*.long_roadnumber&!ui.vOnFlyover" align="CENTER">
+	<TEXT	xxx x=-8  y=21 w=52  z=1 textmodel_wstr="*.roadnumber"                                         template=xtxt3 fontsize=12 fonttype=buttonlabel_menu  font="tahomabd" color=#FFFFFF  visiblemodel="!*.long_roadnumber&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible" align="CENTER">
+;!Raffke_jr - added to show distance
+;!Raffke_jr - TODO: keep it updated...
+	<TEXT   xxx x=68  y=9  w=153  z=1 textmodel_wstr="*.distance.full_text" visiblemodel="*.distance.valid&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible" template=xtxt3 align="LEFT"  fontsize=12 fonttype=buttonlabel_menu  font="tahomabd" color=#FFFFFF>
 </element_template>
 
 
 <layer ui_TmcAnnounce z=4500 hide>
-	<SPRITE xxx x=0  y=72 w=65 z=1 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol&!ui.vOnFlyover">
+;!Raffke_jr - removed for transparent Cockpit style
+;	<SPRITE xxx x=0  y=72 w=65 z=1 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol&!ui.vOnFlyover">
 	<LIST lstTMC_EventsOnRoute template=glist_TMC x=8 y=93 z=10 row=1 element_template="et_TmcEvent_Announce" listmodel="tmc.events.announced_events" showselection=0>
-	<BUTTON xxx x=0  y=72 w=65 z=15 bmp="cock_infobg2.bmp" onrelease='run sc_TmcAnnounceClicked' alpha=0 clickmodel="tmc.events.announced_events.setcurrent 0" visiblemodel="!ui.vOnFlyover">
+;!Raffke_jr - visiblemodel for Speedcam
+	<BUTTON xxx x=0  y=72 w=65 z=15 bmp="cock_infobg2.bmp" onrelease='run sc_TmcAnnounceClicked' alpha=0 clickmodel="tmc.events.announced_events.setcurrent 0" visiblemodel="!ui.vOnFlyover&!ui.bSpeedcamWarningVisible">
 </layer>
 
 ;==============================
@@ -174,14 +183,13 @@
 	<BUTTON xxx          template=footer2_1a text="Avoid" onrelease='run sc_TmcAvoid' visiblemodel="tmc.events.list.current.filter_option!=1&!tmc.ignore_all_events&!ui.vTMCMapFromAnnounce">
 	<BUTTON xxx          template=footer2_1a text="Unavoid" onrelease='run sc_TmcUnavoid' visiblemodel="tmc.events.list.current.filter_option=1&!tmc.ignore_all_events&!ui.vTMCMapFromAnnounce">
 	
-  <BUTTON xxx          template=footer2_1a text="Avoid" onrelease='run sc_TmcAvoidAnn' visiblemodel="!tmc.ignore_all_events&ui.vTMCMapFromAnnounce">
-	<BUTTON xxx          template=footer2_2a text="Ignore" onrelease='run sc_TmcUnavoidAnn' visiblemodel="!tmc.ignore_all_events&ui.vTMCMapFromAnnounce">
+	<BUTTON xxx          template=footer2_1a text="Avoid" onrelease='run sc_TmcAvoidAnn' visiblemodel="!tmc.ignore_all_events&ui.vTMCMapFromAnnounce">
+	<BUTTON xxx          template=footer2_2a text="Unavoid" onrelease='run sc_TmcUnavoidAnn' visiblemodel="!tmc.ignore_all_events&ui.vTMCMapFromAnnounce">
 
 	<BUTTON xxx  x=10 y=99   z=0 bmp="map_zoomin1.bmp#2"  onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0'>  
 	<BUTTON xxx  x=10 y=150  z=0 bmp="map_zoomout1.bmp#2" onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0'> 
 
-  <BUTTON xxx x=10 y=5 z=40  bmp="btn_lb_4a_tmcevent.bmp" onrelease='' alpha=0  DISABLE>
-    
+	<BUTTON xxx x=10 y=5 z=40  bmp="btn_lb_4a_tmcevent.bmp" onrelease='' alpha=0  DISABLE>
 </layer>
 
 <LAYER ui_TMCMapBack z=1001>

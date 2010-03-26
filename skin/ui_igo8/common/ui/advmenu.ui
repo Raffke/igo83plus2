@@ -59,11 +59,13 @@
 	<uselayer ui_AdvRouteMenu/>
 	
 	<script init>
+;		vFlyoverOrSimulate.set -1
 		Title.SET "Route Menu"
 
 		run sc_UseGestures
 
 		map.ISROUTEVALID vValidRoute vDeletableRoute
+;!Raffke_jr - TODO: 8.3.2 removes btnARM_FlyOver/btnARM_Simulate enabling/disabling
 		runif vValidRoute 1 'btnARM_Info.ENABLE, btnARM_Itineary.ENABLE, btnARM_Edit.ENABLE, btnARM_Save.ENABLE, btnARM_FlyOver.ENABLE, btnARM_Simulate.ENABLE'
 		runif vValidRoute 0 'btnARM_Info.DISABLE, btnARM_Itineary.DISABLE, btnARM_Edit.DISABLE, btnARM_Save.DISABLE, btnARM_FlyOver.DISABLE, btnARM_Simulate.DISABLE'
 		runif vDeletableRoute 1 'btnARM_Delete.ENABLE'
@@ -97,10 +99,13 @@
 ;!TB - Always allow "Edit Route" button (commented out next line)
 ;	btnARM_Edit.DISABLE
 	btnARM_Save.DISABLE
+;!Raffke_jr - TODO: 8.3.2 removes btnARM_FlyOver/btnARM_Simulate enabling/disabling
 	btnARM_FlyOver.DISABLE
 	btnARM_Simulate.DISABLE
+
 	run sc_RefreshRouteInfo
 
+	Title.SET "Route Menu"
 	vtmp.set 0
 	runif %navigation.waypoints.list.size 0 'incval "vtmp"'
 	runif %mydata.routes.isempty 1 'incval "vtmp"'

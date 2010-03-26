@@ -28,6 +28,9 @@
 ;****************************************************************************************************************
 <script sc_PanicButton_onRelease>
 	ui_Panic_MessageBox.show
+	runif vUIres "800_480" 'sprPMB_Icon.bmp "dialog_em.spr"'
+	else_runif vUIres "480_800" 'sprPMB_Icon.bmp "dialog_em.spr"'
+	else_run 'sprPMB_Icon.bmp "ui_igo8/common/dialog_em.spr"'
 </script>
 
 <script sc_PanicButton_Execute>
@@ -54,13 +57,14 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 ;****************************************************************************************************************
 <state st_PointOnMap>
 	<uselayer map/>
-	<uselayer ui_Header2/>
+	;<uselayer ui_Header2/>
 	<uselayer ui_footer2/>						 
 	<uselayer ui_pointonmap/>
 	<uselayer ui_title/>
 	
 	<script init>
 		title.set ""
+		vPoiExtraInfoSave.SET %poi.current.address.ext
 		.map.store_cursor_pos 
 		bBackupNavMapFollowPlanMode.SET bNavMapFollow
 		runif bBackupNavMapFollowPlanMode 1 'run sc_FollowOff'
@@ -121,7 +125,6 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 
 		run sc_daynightModeChange
 		bNightMode.onchange "sc_daynightModeChange"
-
 		runif nUserMode	1 'run sc_SetCockpitStatusBasicMode'
 		else_run 'run sc_SetCockpitStatusAdvMode'
 
@@ -138,6 +141,7 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 		bNightMode.onchange ""
 		term sc_TimeredPrevState
 	</script>
+
 	<script sc_daynightModeChange>
 		runif bNightMode 1 'vMapColors.SET "NIGHT",statusDay.show,statusAutoDN.hide,statusNight.hide'
 		else_run 'vMapColors.SET "DAY",statusAutoDN.hide,statusNight.show,statusDay.hide'
@@ -146,6 +150,7 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 </state>
 
 <script sc_SetCockpitStatusBasicMode>
+;!Raffke_jr - removed unnecessary movements
 ;	runif vUIRes "240_240" 'statusSound.x 85'
 ;	runif vUIRes "320_240" 'statusSound.x 110'
 ;	runif vUIRes "320_320" 'statusSound.x 110'
@@ -160,12 +165,13 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 ;!TB - Full Screen cockpit buttons
 ;!Raffke_jr - added 400_240 and 480_234
 	runif vUIRes "320_240" 'statusSound.x 162, btnCS_Mode_Cockpit.x	 57'
-	runif vUIRes "400_240" 'statusSound.x 202, btnCS_Mode_Cockpit.x	 97'
+	runif vUIRes "400_240" 'statusSound.x 212, btnCS_Mode_Cockpit.x	 87'
 	runif vUIRes "480_234" 'statusSound.x 243, btnCS_Mode_Cockpit.x 108'
 	runif vUIRes "480_272" 'statusSound.x 243, btnCS_Mode_Cockpit.x 108'
 </script>
 
 <script sc_SetCockpitStatusAdvMode>
+;!Raffke_jr - removed unnecessary movements
 ;	runif vUIRes "240_240" 'statusSound.x 45'
 ;	runif vUIRes "320_240" 'statusSound.x 57'
 ;	runif vUIRes "320_320" 'statusSound.x 57'
@@ -180,7 +186,7 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 ;!TB - Full Screen cockpit buttons
 ;!Raffke_jr - added 400_240 and 480_234
 	runif vUIRes "320_240" 'statusSound.x 110, btnCS_Mode_Cockpit.x	 5, btnMT_Record_Cockpit.x 215, btnMT_Stop_Cockpit.x 215'
-	runif vUIRes "400_240" 'statusSound.x 150, btnCS_Mode_Cockpit.x 45, btnMT_Record_Cockpit.x 255, btnMT_Stop_Cockpit.x 255'
+	runif vUIRes "400_240" 'statusSound.x 150, btnCS_Mode_Cockpit.x 25, btnMT_Record_Cockpit.x 275, btnMT_Stop_Cockpit.x 275'
 	runif vUIRes "480_234" 'statusSound.x 175, btnCS_Mode_Cockpit.x 40, btnMT_Record_Cockpit.x 310, btnMT_Stop_Cockpit.x 310'
 	runif vUIRes "480_272" 'statusSound.x 175, btnCS_Mode_Cockpit.x 40, btnMT_Record_Cockpit.x 310, btnMT_Stop_Cockpit.x 310'
 </script>
@@ -198,6 +204,7 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 	<uselayer ui_MultiRouteCommon />
 
 	<script init>
+		FINDPATH_SELECT_MULTIPLAN_DRAW 0
 		Title.SET "Route Alternatives"
 		ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute1 1
 		ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute2 2
@@ -334,6 +341,10 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 	<uselayer ui_NavigateMapSpeedLimit/>
 	<uselayer ui_NavigateMapGPSPosHouseNumber/>
 	<uselayer ui_SpeedCamWarningLayer/>
+	<uselayer ui_NavigateMapZoomControls2D/>
+	<uselayer ui_NavigateMapZoomControls3D/>
+	<uselayer ui_NavigateMapPresetControls2D/>
+	<uselayer ui_NavigateMapPresetControls3D/>
 	<uselayer ui_Title/>
 ;!TB - Flyover controls
 	<uselayer ui_NavigateMapFlyOver_Box/>
@@ -351,9 +362,13 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 	<uselayer ui_SpeedCamWarningLayer2/>
 
 	<script init>
+;		runifnot vFlyoverOrSimulate -1 'runif %map.flyover 0 \'FINDPATH_SIMULATE vFlyoverOrSimulate\''
 		Title.SET ""
+		obs_Zoomlevel.start
 		;Auto follow mod visszaallitasa...
 		vcf_bAutoFollowModeOn.set vcf_bAutoFollowModeOn_save
+		runif vMapState 5 sc_ExitOverview
+		;runif vMapState 5 'vMapState.set 0'
 		map.setmapstate vMapState
 		runif vMapState 0 'vMapMode.set L"3D"'
 		else_run 'vMapMode.set L"2D", run sc_2dMode'
@@ -460,8 +475,15 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 		; any button can be used for this. This must be after all show/hide layers.
 		3 btn_Footer_back2.CLEARFOCUS
 		runif vModeTmp 1 'vMapState.set 0,run sc_3DMode'
+		run sc_ZoomLevel
 		vModeTmp.set 0
 		runif %map.follow_gps 1 'SETGPSMODE 1 1'
+
+		btnNMB_Nav3D.isvisible vTmp
+		runif vTmp  1 '.map.north_lock 1'
+		else_run '.map.north_lock 0'
+
+		vDiriconVisible.BOOLEXPR "navigation.car_pos_valid&navigation.has_navigable_path&!ui.vRouteCalculation&!ui.vOnFlyover"
 	</script>
 
 	<script sc_CheckMapState>
@@ -534,11 +556,11 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 			else_runif vUIRes "480_800" sc_change_vehicle_icon_big
 			else_run sc_change_vehicle_icon
 			run sc_checkGPSPositionToRoad
-			ADVNAV_RECALC
+			run sc_route_recalc
 	</script>
 	
 	<script sc_checkGPSPositionToRoad>
-		runif nvehicle 5 'saved_vGPSPositionToRoad.set vGPSPositionToRoad, 1 vGPSPositionToRoad.set 0'
+		runif nvehicle 5 'saved_vGPSPositionToRoad.set vGPSPositionToRoad, vGPSPositionToRoad.set 0'
 		else_run 'vGPSPositionToRoad.set saved_vGPSPositionToRoad'
 	</script>
 	
@@ -566,6 +588,7 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 	</script>
 	
 	<script done>
+		obs_Zoomlevel.stop
 		;Auto follow mod kikapcsolasa
 		vcf_bAutoFollowModeOn_save.set vcf_bAutoFollowModeOn
 		vcf_bAutoFollowModeOn.set 0
@@ -679,11 +702,7 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 	vspr_compass2d_on_map.alpha vNaviMenuAlphaDown
 
 	map.onmapclick sc_NavigateMapClick
-	ui_NavigateMapZoomControls2D.hide
-	ui_NavigateMapZoomControls3D.hide
 	v3dzoomcontrol.set 0
-	ui_NavigateMapPresetControls3D.hide
-	ui_NavigateMapPresetControls2D.hide
 	ui_NavigateToggleZoomControls.hide
 	vPresetOn.set 0
 	run sc_ShowCockpitPanel
@@ -739,13 +758,14 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 	else_run 'vTmp.set 0'
 	
 	runif vTmp 1 'run sc_CarPos2D2dHeadUp,.smartzoom.percentage 100'
-	else_run 'map.SETCARPOSITION 50 62,.smartzoom.percentage 100'
+	else_run 'map.SETCARPOSITION 50 75,.smartzoom.percentage 100'
+	runif %map.globe_mode 1 'map.SETCARPOSITION 50 50'
 </script>
 
 <script sc_CarPos2D2dHeadUp>
-   runif vMapstate 3 'map.SETCARPOSITION 50 75'
-   runif vMapstate 4 'map.SETCARPOSITION 50 50'
-   runif vMapstate 5 'map.SETCARPOSITION 50 50'
+	runif vMapstate 3 'map.SETCARPOSITION 50 75'
+	runif vMapstate 4 'map.SETCARPOSITION 50 50'
+	runif vMapstate 5 'map.SETCARPOSITION 50 50'
 </script>
 
 <script sc_SetCarPos3D>
@@ -782,7 +802,7 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 	else_run 'btnNMB_Nav2DN.SHOW'
 	runif v2DHeadUp 0 'btnNMB_Nav3D.SHOW'
 
-	runif vPresetOn 1 'ui_NavigateMapPresetControls2D.SHOW, ui_NavigateMapPresetControls3D.HIDE, ui_NavigateToggleZoomControls.show, run sc_Show2DZoomControls'
+	runif vPresetOn 1 'ui_NavigateToggleZoomControls.show, run sc_Show2DZoomControls'
 		
 	vMapSettings2d3d.SET "2D"
 	map.GetMapState vMapState	
@@ -805,7 +825,7 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 	btnNMB_Nav2D.SHOW
 	btnNMB_Nav2DN.HIDE
 	btnNMB_Nav3D.HIDE
-	runif vPresetOn 1 'ui_NavigateMapPresetControls2D.HIDE, ui_NavigateMapPresetControls3D.SHOW, ui_NavigateToggleZoomControls.show, run sc_Show3DZoomControls'
+	runif vPresetOn 1 'ui_NavigateToggleZoomControls.show, run sc_Show3DZoomControls'
 
 	map.mapmode 0
 	map.setmapstate 0
@@ -823,47 +843,47 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 
 ;!Raffke_jr - Transparent cockpit
 <script sc_ChangeCockpitAlpha>
-         runif vCockpitAlpha 1 'sprNMRCockpit2.bmp "cock_infobg2transp.bmp"
-                                sprNMCCockpit2.bmp "cock_infobg2transp.bmp"
-                                sprNMRCockpit3.bmp "cock_infobg3transp.bmp"
-                                sprNMCCockpit3.bmp "cock_infobg3transp.bmp"
+    runif vCockpitAlpha 1      'sprNMRCockpit2.bmp "cock_infobg2transp.bmp",
+                                sprNMCCockpit2.bmp "cock_infobg2transp.bmp",
+                                sprNMRCockpit3.bmp "cock_infobg3transp.bmp",
+                                sprNMCCockpit3.bmp "cock_infobg3transp.bmp",
                                 sprNMbg.bmp "status_bg_transp.bmp"'
-    else_run                   'sprNMRCockpit2.bmp "cock_infobg2.bmp"
-                                sprNMCCockpit2.bmp "cock_infobg2.bmp"
-                                sprNMRCockpit3.bmp "cock_infobg3.bmp"
-                                sprNMCCockpit3.bmp "cock_infobg3.bmp"
+    else_run                   'sprNMRCockpit2.bmp "cock_infobg2.bmp",
+                                sprNMCCockpit2.bmp "cock_infobg2.bmp",
+                                sprNMRCockpit3.bmp "cock_infobg3.bmp",
+                                sprNMCCockpit3.bmp "cock_infobg3.bmp",
                                 sprNMbg.bmp "status_bg.bmp"'
 
-         runif vCockpitAlpha 0 'sprNMINextStreetBG.alpha 32
-                                sprNMCPINextStreetBG.alpha 32
+    runif vCockpitAlpha 0      'sprNMINextStreetBG.alpha 32,
+                                sprNMCPINextStreetBG.alpha 32,
                                 sprNMIActualStreetBG.alpha 32'
-    else_runif vCockpitAlpha>2 'sprNMINextStreetBG.alpha vCockpitAlpha
-                                sprNMCPINextStreetBG.alpha vCockpitAlpha
+    else_runif vCockpitAlpha>2 'sprNMINextStreetBG.alpha vCockpitAlpha,
+                                sprNMCPINextStreetBG.alpha vCockpitAlpha,
                                 sprNMIActualStreetBG.alpha vCockpitAlpha'
-    else_run                   'sprNMINextStreetBG.alpha 0
-                                sprNMCPINextStreetBG.alpha 0
+    else_run                   'sprNMINextStreetBG.alpha 0,
+                                sprNMCPINextStreetBG.alpha 0,
                                 sprNMIActualStreetBG.alpha 0'
 
-         runif vCockpitAlpha>2 'sprNMRCockpit.alpha vCockpitAlpha
-                                sprNMCCockpit.alpha vCockpitAlpha
-                                sprNMRCockpit2.alpha vCockpitAlpha
-                                sprNMCCockpit2.alpha vCockpitAlpha
-                                sprNMRCockpit3.alpha vCockpitAlpha
-                                sprNMCCockpit3.alpha vCockpitAlpha
+    runif vCockpitAlpha>2      'sprNMRCockpit.alpha vCockpitAlpha,
+                                sprNMCCockpit.alpha vCockpitAlpha,
+                                sprNMRCockpit2.alpha vCockpitAlpha,
+                                sprNMCCockpit2.alpha vCockpitAlpha,
+                                sprNMRCockpit3.alpha vCockpitAlpha,
+                                sprNMCCockpit3.alpha vCockpitAlpha,
                                 sprNMbg.alpha vCockpitAlpha'
-    else_runif vCockpitAlpha 2 'sprNMRCockpit.alpha 0
-                                sprNMCCockpit.alpha 0
-                                sprNMRCockpit2.alpha 0
-                                sprNMCCockpit2.alpha 0
-                                sprNMRCockpit3.alpha 0
-                                sprNMCCockpit3.alpha 0
+    else_runif vCockpitAlpha 2 'sprNMRCockpit.alpha 0,
+                                sprNMCCockpit.alpha 0,
+                                sprNMRCockpit2.alpha 0,
+                                sprNMCCockpit2.alpha 0,
+                                sprNMRCockpit3.alpha 0,
+                                sprNMCCockpit3.alpha 0,
                                 sprNMbg.alpha 0'
-    else_run                   'sprNMRCockpit.alpha 32
-                                sprNMCCockpit.alpha 32
-                                sprNMRCockpit2.alpha 32
-                                sprNMCCockpit2.alpha 32
-                                sprNMRCockpit3.alpha 32
-                                sprNMCCockpit3.alpha 32
+    else_run                   'sprNMRCockpit.alpha 32,
+                                sprNMCCockpit.alpha 32,
+                                sprNMRCockpit2.alpha 32,
+                                sprNMCCockpit2.alpha 32,
+                                sprNMRCockpit3.alpha 32,
+                                sprNMCCockpit3.alpha 32,
                                 sprNMbg.alpha 32'
 </script>
 
@@ -1017,20 +1037,16 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 </script>
 
 <script sc_Show3DZoomControls>
-	ui_NavigateMapZoomControls2D.hide
-	ui_NavigateMapZoomControls3D.hide
 	v3dzoomcontrol.set 0
-	runif vHideZoomControls 0 'run sc_HideCockpitPanel, ui_NavigateMapZoomControls3D.show, v3dzoomcontrol.set 1, ui_NavigateMapZoomControls2D.hide'
-	else_runif vHideZoomControls 1 'ui_NavigateMapZoomControls3D.hide, v3dzoomcontrol.set 0, ui_NavigateMapZoomControls2D.hide, run sc_ShowCockpitPanel'
+	runif vHideZoomControls 0 'run sc_HideCockpitPanel, v3dzoomcontrol.set 1'
+	else_runif vHideZoomControls 1 'v3dzoomcontrol.set 0, run sc_ShowCockpitPanel'
 </script>
 
 <script sc_Show2DZoomControls>
-	 ui_NavigateMapZoomControls2D.hide
-	 ui_NavigateMapZoomControls3D.hide
-	 v3dzoomcontrol.set 0
-	 run sc_ShowCockpitPanel
-	 runif vHideZoomControls 0 'run sc_ShowCockpitPanel, ui_NavigateMapZoomControls2D.show, ui_NavigateMapZoomControls3D.hide'
-	 else_runif vHideZoomControls 1 'ui_NavigateMapZoomControls3D.hide, ui_NavigateMapZoomControls2D.hide, run sc_ShowCockpitPanel'
+	v3dzoomcontrol.set 0
+	run sc_ShowCockpitPanel
+	runif vHideZoomControls 0 'run sc_ShowCockpitPanel'
+	else_runif vHideZoomControls 1 'run sc_ShowCockpitPanel'
 </script>
 
 <script sc_btnNMB_Nav2D_OnRelease>
@@ -1084,7 +1100,10 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 	vShowStreetsLayer.SET 1
 	ui_NavigateMapCursorPosInfos.HIDE
 	map.SHOWCURSOR 0
-	SETGPSMODE 1 1
+
+	runif vOnFlyover 1 'SETGPSMODE 1'
+	else_run 'SETGPSMODE 1 1'
+
 	run sc_SetCarPos
 </script>
 
@@ -1099,11 +1118,7 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 	else_run 'ui_NavigateMapGPSPosInfos.hide, ui_NavigateMapSingpost.HIDE, vShowStreetsLayer.SET 0, ui_NavigateMapCursorPosInfos.SHOW'
 	
 	runif vOnFlyOver 1 'run sc_FollowOn'
-	ui_NavigateMapZoomControls2D.hide
-	ui_NavigateMapZoomControls3D.hide
 	v3dzoomcontrol.set 0
-	ui_NavigateMapPresetControls3D.hide
-	ui_NavigateMapPresetControls2D.hide
 	ui_NavigateToggleZoomControls.hide
 
 	vPresetOn.set 0
@@ -1150,8 +1165,8 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 	vPresetOn.set 1
 	;sprLaneInfo.HIDE
 	
-	runif vMapMode L"3D" 'run sc_Show3DZoomControls, ui_NavigateToggleZoomControls.show, ui_NavigateMapPresetControls3D.SHOW, ui_NavigateMapPresetControls2D.HIDE'
-	runif vMapMode L"2D" 'run sc_Show2DZoomControls, ui_NavigateToggleZoomControls.show, ui_NavigateMapPresetControls3D.HIDE, ui_NavigateMapPresetControls2D.SHOW'
+	runif vMapMode L"3D" 'run sc_Show3DZoomControls, ui_NavigateToggleZoomControls.show'
+	runif vMapMode L"2D" 'run sc_Show2DZoomControls, ui_NavigateToggleZoomControls.show'
 
 	map.ONMAPCLICK sc_NavigateMapClickSecond 1
 </script>
@@ -1320,77 +1335,41 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 	vZoomLevelBeforeOverview.set %map.zoom_level
 	map.getmapstate vTmp
 	runif vTmp 3 'map.setmapstate 5'
-	vMapMode.set L"2D"
+	run sc_2DMode
+	map.GET_MAPSTATE_BEFORE_OVERVIEW vTmp
 	btnNMB_Nav2D.hide
 	btnNMB_Nav2DN.HIDE
 	btnNMB_Nav3D.hide
-	map.GET_MAPSTATE_BEFORE_OVERVIEW vTmp
 	runif v2dheadup 1 'run sc_EnterOverviewWITH2dHeadup'
 	else_run 'run sc_EnterOverviewWITHOUT2dHeadup'
-	map.getmapstate vMapState
-	run sc_SetCarPos2D
-	run sc_init_zoomcontrol_browsemap	
 </script>
 
 <script sc_EnterOverviewWITH2dHeadup>
 	runif vTmp 0 'btnNMB_Nav3D.show'
 	runif vTmp 3 'btnNMB_Nav2D.show'
 	runif vTmp 4 'btnNMB_Nav2DN.show'
-
 </script>
+
 <script sc_EnterOverviewWITHOUT2dHeadup>
 	runif vTmp 0 'btnNMB_Nav3D.show'
 	runif vTmp 4 'btnNMB_Nav2D.show'
 </script>
 
 <script sc_ExitOverviewTo2D>
-  vMapMode.set L"2D"
-  runif v2dheadup 1 'run sc_ExitOverviewTo2DWith2Dheadup'
-  else_run 'run sc_ExitOverviewTo2DWITHOUT2Dheadup'
-  run sc_SetCarPos2D
-  runif vMapState 4 'map.setmapstate 4, map.SETCARPOSITION 50 50'
-  runif vMapState 3 'map.setmapstate 3, map.SETCARPOSITION 50 75'
-  map.ZOOMCONTROL_SHOW 1
-</script>
-
-<script sc_ExitOverviewTo2DWith2Dheadup>
-	runif vMapState 4 'map.setmapstate 4, btnNMB_Nav2DN.hide, btnNMB_Nav2D.hide, btnNMB_Nav3D.hide, btnNMB_Nav3D.show'
-	runif vMapState 3 'map.setmapstate 3, btnNMB_Nav2D.hide, btnNMB_Nav3D.hide, btnNMB_Nav2DN.hide, btnNMB_Nav2DN.show'
-</script>
-
-<script sc_ExitOverviewTo2DWITHOUT2Dheadup>
-	map.setmapstate 4
-	btnNMB_Nav2DN.hide
-	btnNMB_Nav2D.hide
-	btnNMB_Nav3D.hide
-	btnNMB_Nav3D.show
+	runif v2DHeadUp 1 'map.setmapstate vMapState'
+	else_run 'map.setmapstate 4'
+	run sc_2DMode
+	map.ZOOMCONTROL_SHOW 1
 </script>
 
 <script sc_ExitOverviewTo3D>
-	vMapMode.set L"3D"
-	map.setmapstate 0
-	btnNMB_Nav2D.hide
-	btnNMB_Nav2DN.HIDE
-	btnNMB_Nav3D.hide
-	btnNMB_Nav2D.show
-	run sc_3dmode
-	run sc_SetCarPos3D
-	map.ZOOMCONTROL_SHOW 0
+	run sc_3DMode
 </script>
 
 <script sc_ExitOverview>
-  map.GET_MAPSTATE_BEFORE_OVERVIEW vTmp
-  map.GET_MAPSTATE_BEFORE_OVERVIEW vMapState
-  btnNMB_Nav2D.hide
-  btnNMB_Nav2DN.hide
-  btnNMB_Nav3D.hide
-  runif vTmp 4 'btnNMB_Nav3D.show'
-  else_runif vTmp 0 'btnNMB_Nav2D.show'
-  else_runif vTmp 3 'btnNMB_Nav2DN.show'
-  else_run 'btnNMB_Nav3D.show'
-
-  runif vTmp 0 sc_ExitOverviewTo3D
-  else_run sc_ExitOverviewTo2D
+	map.GET_MAPSTATE_BEFORE_OVERVIEW vMapState
+	runif vMapState 0 sc_ExitOverviewTo3D
+	else_run sc_ExitOverviewTo2D
 </script>
 
 ;*****************************************************************************************************************
@@ -1462,8 +1441,8 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 
 <script sc_ModifyPreset>
 	map.GetMapState vMapState
-	runif vMapState 5 'run sc_Back_From_Overview'
-	ui_ModifyPreset.show
+	;runif vMapState 5 'run sc_Back_From_Overview'
+	runif %map.flyover 0 'ui_ModifyPreset.show'
 	vTmp.set $1
 </script>
 
@@ -1533,12 +1512,27 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 	10 PREVSTATE
 </script>
 
+<script sc_ZoomLevel2D>
+	runif bLaneinfoSignpostValid 1 'map.SETCARPOSITION 50 75'
+	else_run 'map.SETCARPOSITION 50 50'
+</script>
+ 
+<script sc_ZoomLevel>
+	runif %map.globe_mode 1 'map.SETCARPOSITION 50 50'
+	else_runif vMapState 4 'run sc_ZoomLevel2D'
+	else_runif vMapState 5 'run sc_ZoomLevel2D'
+	else_run 'map.SETCARPOSITION 50 75'
+</script> 
+<observer obs_Zoomlevel model="map.globe_mode" onchange='run sc_ZoomLevel'>
+
+
+;****************************************************************************************************************
 
 ;!TB - Popup Info Scripts
 <script sc_MiniPoiList_ShowInfo>
 ;	SELECTPOIITEM $1 0
-  SELECTPOIITEM $1 1
-  map.MOVECURSORTOSELECTEDITEM
+	SELECTPOIITEM $1 1
+	map.MOVECURSORTOSELECTEDITEM
 	runif vMapMode L"2D" 'map.ZOOMTOSELECTEDITEMANDCAR'
 	NEXTSTATE st_ShowPoiInfo
 </script>

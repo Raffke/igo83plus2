@@ -1,0 +1,55 @@
+;*************************************************************
+;* New element templates for 480x234 resolution
+;* Developed by Delphis
+;* Look for last version at http://4pda.ru/forum/index.php?showtopic=79587&view=findpost&p=1703505
+;*************************************************************
+
+;***********************  SLIDERS  ******************************
+;!Sib Template for Speedcam setting advanced
+;<TEMPLATE sld_lb5e       bmp="btn_lb_5e.bmp#3"           align="center" valign="center" fonttype=bw fontsize=14>
+<TEMPLATE sld_lb5f_small   bmp="btn_lb_5f_small.bmp#2"  align="center" valign="center" fonttype=bw fontsize=14>
+
+;***********************  BUTTONS  ******************************
+;!Raffke_jr - renamed to add x values, added z & iconspr, inherited template=btn_lb5e
+;<TEMPLATE btn_lb4e51                bmp="btn_lb_4e.bmp#3"  padding=4 align="center" valign="center" fonttype=bw twolinesmall=1 clicked_coloring=1>
+<TEMPLATE btn_lb5e5   template=btn_lb5e   z=20 iconspr="$speed_cams_transp.spr" iconalign="CENTER" iconvalign="CENTER">
+<TEMPLATE btn_lb5e51  template=btn_lb5e5  x=34 >
+<TEMPLATE btn_lb5e52  template=btn_lb5e5  x=123>
+<TEMPLATE btn_lb5e53  template=btn_lb5e5  x=212>
+<TEMPLATE btn_lb5e54  template=btn_lb5e5  x=301>
+<TEMPLATE btn_lb5e55  template=btn_lb5e5  x=390>
+
+;*************************************************************
+
+;!Sib new templates for positions
+<TEMPLATE y_1 y=18> 
+<TEMPLATE y_2 y=54> 
+<TEMPLATE y_3 y=90> 
+<TEMPLATE y_4 y=126> 
+<TEMPLATE y_5 y=162> 
+
+;!Raffke_jr - new templates for scrollbar with 2 text legends (org: txt_csu_legend x=34 w=170 - txt_csu_valunit x=177 w=58 - csuszka x=241)
+<TEMPLATE txt_csu2_legend  template=txt_csu_legend          w=60  z=1>
+<TEMPLATE csuszka_2txt     template=csuszka          x=184        z=1>
+;!Raffke_jr - TODO: correct both x values
+<TEMPLATE txt_csu2_left    template=txt_csu_legend   x=131  w=50  z=1 align="RIGHT">
+<TEMPLATE txt_csu2_right   template=txt_csu_legend   x=383  w=50  z=1 align="LEFT">
+
+;!Raffke_jr - new template for scrollbar without value (right border from txt_csu_valunit)
+<TEMPLATE txt_csu_label    template=txt_csu_legend          w=201>
+
+;!Raffke_jr - new templates for scrollbar with checkbox (copied from ui_SettingSound)
+<TEMPLATE chk_5a_csu       template=chk_5a                  w=156 >
+<TEMPLATE csuszka_chk      template=csuszka          x=206 >
+
+;!Raffke_jr - new templates for 2 columns, 4 rows (copied from ui_SettingRouteParam)
+<TEMPLATE x_4c_1 x=34>
+<TEMPLATE x_4c_2 x=241>
+<TEMPLATE y_4c_1 y=18>
+<TEMPLATE y_4c_2 y=63>
+<TEMPLATE y_4c_3 y=108>
+<TEMPLATE y_4c_4 y=153>
+
+;!Raffke_jr - new templates for route edit
+<TEMPLATE btn_REWP_txt template=btn_4b x=8>
+<TEMPLATE btn_REWP_del template=btn_4d x=362 iconspr="x.bmp" text=""> 

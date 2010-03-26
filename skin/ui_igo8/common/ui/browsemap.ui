@@ -20,7 +20,7 @@
 	map.GetMapState vMapState
 	runif vMapState 0 sc_2DHeadUpCheck
 	else_runif vMapState 3 'map.SetMapState 4, vMapState.set 4, run sc_2DMode'
-	else_runif vMapState 4 'map.SetMapState 0, vMapState.set 0, bNavmapfollow.set 1, run sc_3DMode'
+	else_runif vMapState 4 'map.SetMapState 0, vMapState.set 0, run sc_3DMode, run sc_3dMapFollowMode'
 	else_runif vMapState 5 'run sc_Back_From_Overview'
 	else_run 'run sc_3DMode'
 	map.GetMapState vMapState
@@ -28,6 +28,15 @@
 	runif vMapState 4 'map.SETCARPOSITION 50 50'
 
 	obs_OverviewMode_Changed.start "NO_TRIGGER"
+	
+	btnNMB_Nav3D.isvisible vTmp
+	runif vTmp  1 '.map.north_lock 1'
+	else_run '.map.north_lock 0'
+</script>
+
+<script sc_3dMapFollowMode>
+    runif %map.follow_gps 0 '.map.follow_rotation 1, .map.follow 0'
+    else_run '.map.follow_rotation 1, .map.follow 1'
 </script>
 
 <script sc_Back_From_Overview>
@@ -107,7 +116,8 @@
 		btn_Footer_back2.CLEARFOCUS
 	</script>
 
-	<script done>
+	<script done>	
+		vPlanModeOn.set 0	
 ;!Raffke_jr - moved here for permanent update of Route Info button
 		vRouteCalcFinishedCallback.clear
 ;!TB - Popup Info
@@ -165,7 +175,6 @@
 </script>
  
 <script sc_btnPM_StartNavigation>
-	vPlanModeOn.set 0
 	run sc_FollowOn
 	map.mapmode 0
 	run sc_EmptyStateQueue st_NavigateMap

@@ -1,4 +1,5 @@
 <layer ui_AdvMenu z=30>
+;!Raffke_jr - TODO: fit to MSDN outfit to leave PlanOnMap Button
 
 	<BUTTON xxx           template=menu4_1  fxshowdelay=0   text="Find"     iconspr="ico_main_find.bmp"     onrelease='NEXTSTATE st_AdvFindMenu'> 
 	<BUTTON btnAM_Route   template=menu4_3  fxshowdelay=22  text="Route"    iconspr="ico_main_route.bmp"    onrelease='NEXTSTATE st_AdvRouteMenu'>
@@ -32,8 +33,12 @@
 	<BUTTON btnAMM_Msnd   template=menu6_5    fxshowdelay=15    text="MSN Direct" align="LEFT+70" iconspr="$ico_msnd.bmp">	
 	<BUTTON xxx           template=menu6_6    fxshowdelay=10    text="Settings"   align="LEFT+70" iconspr="$ico_settings.bmp"   onrelease='vSettingsActPage.set 0, NEXTSTATE st_AdvSettingsMenu'>
 
-	<BUTTON xxx template=footer2_1 fxshowdelay=10 bmp="foot_a.bmp" x=0 text="Map"  onrelease='STATE st_NavigateMap'>	
-	<BUTTON xxx template=footer2_2 fxshowdelay=20 text="Exit"               onrelease='run sc_Exit' z=1 color=#ff0000 visiblemodel="interface.show_exit" nostress>	
+;!Raffke_jr - changed template from footer2_1
+	<BUTTON xxx template=footerm3_1 fxshowdelay=10 bmp="foot_a.bmp" x=0 text="Map"  onrelease='STATE st_NavigateMap'>	
+;!Raffke_jr - Added button to go to 2D map
+	<BUTTON xxx template=footerm3_2 fxshowdelay=15 text="Plan Mode" onrelease='run sc_StartPlanMode'>
+;!Raffke_jr - changed template from footer2_2, added rawkey & exit on long click
+	<BUTTON xxx template=footerm3_3 fxshowdelay=20 text="Exit"               onrelease='run sc_Exit' z=1 color=#ff0000 visiblemodel="interface.show_exit" nostress rawkey=27 onlongclick='STATE ExitState'>	
 
 </layer>
 
@@ -42,8 +47,8 @@
 	<TEXT xxx x=85 y=35 w=320 h=55 text="Select from the following possibilties\nto find a place you want to navigate to." font="tahoma" color=#ffffff fontsize=14 valign="CENTER" align="LEFT">
 
 	<BUTTON xxx               template=menu6_2 iconspr="ico_basicmain_address.bmp"	fxshowdelay=0  text="Find Address"   onrelease='NEXTSTATE st_FindAddress'> 
-	<BUTTON xxx               template=menu6_5 iconspr="ico_find_history.bmp"   	fxshowdelay=15 text="Recent\nPlaces" onrelease='run sc_FindHistory'  enabledmodel="!mydata.history.list.isempty">
-	<BUTTON xxx               template=menu6_3 iconspr="ico_basicmain_poi.bmp"	    fxshowdelay=3  text="Find POI"       onrelease='run sc_FindPOI'>
+	<BUTTON xxx               template=menu6_5 iconspr="ico_find_history.bmp"       fxshowdelay=15 text="Recent\nPlaces" onrelease='run sc_FindHistory'  enabledmodel="!mydata.history.list.isempty">
+	<BUTTON xxx               template=menu6_3 iconspr="ico_basicmain_poi.bmp"      fxshowdelay=3  text="Find POI"       onrelease='run sc_FindPOI'>
 	<BUTTON xxx               template=menu6_6 iconspr="ico_find_favorites.bmp"     fxshowdelay=6  text="My\nFavorites"  onrelease='run sc_FindFavorite' enabledmodel="!mydata.favorites.isempty">
                                           
 	<BUTTON ui_BasMenu_Map      template=footerm3_1 fxshowdelay=5  text="Map"      onrelease='STATE st_NavigateMap'>

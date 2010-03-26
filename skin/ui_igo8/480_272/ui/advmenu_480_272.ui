@@ -26,14 +26,14 @@
 	<BUTTON btnARM_Itineary template=menu6_2 iconspr="ico_route_itiner.bmp"		fxshowdelay=5	text="Itinerary"	  onrelease='NEXTSTATE st_RouteItinerary'> 
 	<BUTTON btnARM_Edit		template=menu6_3 iconspr="ico_route_edit.bmp"		fxshowdelay=10	text="Edit Route"	  onrelease='NEXTSTATE st_RouteEdit'> 
 														
-	<BUTTON xxx				template=menu6_4 iconspr="ico_route_load.bmp"		fxshowdelay=28	text="Load Route"	  onrelease='NEXTSTATE st_MyDataRouteLoad'	enabledmodel="!mydata.routes.isempty"> 
-	<BUTTON btnARM_Delete	template=menu6_6 iconspr="ico_route_remove.bmp"		fxshowdelay=15	text="Remove\nRoute"  onrelease='run sc_btnARM_Delete_OnRelease'> 
-	<BUTTON btnARM_Save		template=menu6_5 iconspr="ico_route_save.bmp"		fxshowdelay=20	text="Save Route"	  onrelease='run sc_btnARM_Save_OnRelease'>
+	<BUTTON xxx                     template=menu6_4 iconspr="ico_route_load.bmp"		fxshowdelay=28	text="Load Route"	  onrelease='NEXTSTATE st_MyDataRouteLoad'	enabledmodel="!mydata.routes.isempty"> 
+	<BUTTON btnARM_Delete           template=menu6_6 iconspr="ico_route_remove.bmp"		fxshowdelay=15	text="Remove\nRoute"  onrelease='run sc_btnARM_Delete_OnRelease'> 
+	<BUTTON btnARM_Save             template=menu6_5 iconspr="ico_route_save.bmp"		fxshowdelay=20	text="Save Route"	  onrelease='run sc_btnARM_Save_OnRelease'>
 										
 
-	<BUTTON btnARM_Params	 template=footer3_1 text="Settings"		onrelease='NEXTSTATE st_SettingRoute'> 
-	<BUTTON btnARM_FlyOver	 template=footer3_2 text="Fly Over"		  onrelease='run sc_btnRI_FlyOver_OnRelease'> 
-	<BUTTON btnARM_Simulate	 template=footer3_3 text="Simulate"		  onrelease='run sc_btnRI_Simulate_OnRelease'> 
+	<BUTTON btnARM_Params	 template=footer3_1 text="Settings"     onrelease='NEXTSTATE st_SettingRoute'> 
+	<BUTTON btnARM_FlyOver   template=footer3_2 text="Fly Over"     onrelease='run sc_btnRI_Simulate_or_FlyOver_OnRelease 0' enabledmodel="navigation.has_navigable_path&!navigation.calculation_todo"> 
+	<BUTTON btnARM_Simulate  template=footer3_3 text="Simulate"     onrelease='run sc_btnRI_Simulate_or_FlyOver_OnRelease 1' enabledmodel="navigation.has_navigable_path&!navigation.calculation_todo"> 
 </layer>
 
 <layer ui_AdvMyDataMenu z=30>
@@ -62,7 +62,7 @@
 	<TEXT xxx   template=pageindex text="1/2">
 </layer>
 
-;!TB - Additional Data Management Menu level
+;!TB - Additional Data Management Menu
 <layer ui_AdvMyDataMenu2 z=30>
 	<BUTTON btnAMDM_QSearch  template=menu4_1 fxshowdelay=0  iconspr="ico_manage_savedsearch.bmp"	text="Saved\nSearch"		onrelease='NEXTSTATE st_ManagePOIQuickSearch'>
 	<BUTTON btnAMDM_UserData template=menu4_3 fxshowdelay=22 iconspr="$ico_mydata.bmp"		text="User Data\nManagement"	onrelease='NEXTSTATE st_UserDataMgmt'>
@@ -85,7 +85,6 @@
 	<BUTTON btnASM_Regional template=menu6_5 fxshowdelay=20 iconspr="ico_sett_regional.bmp"	   text="Regional"			onrelease='NEXTSTATE st_SettingRegional'> 
 	<BUTTON xxx				template=menu6_3 fxshowdelay=10 iconspr="ico_sett_navigation.bmp"  text="Navigation"		onrelease='NEXTSTATE st_SettingGuidance'> 
 													 
-
 	<BUTTON xxx template=prevpage_sett onrelease='' DISABLE>
 	<BUTTON xxx template=nextpage_sett onrelease='ui_AdvSettingsMenu.HIDE, ui_AdvSettingsMenu2.SHOW, vSettingsActPage.set 1'>
 
@@ -116,13 +115,11 @@
 </layer>
 
 <layer ui_AdvUserDataMgmt z=30>
-  <BUTTON btnUDM_RemovePins	   template=btn_5a y=20	 text="Remove Pins"		   onrelease='run sc_UDM_RemovePins'>
+	<BUTTON btnUDM_RemovePins	 template=btn_5a y=20	 text="Remove Pins"		   onrelease='run sc_UDM_RemovePins'>
 	<BUTTON btnUDM_Backup		 template=btn_5a y=63  text="Backup User Data"	 onrelease='run sc_UDM_Backup'>
 	<BUTTON btnUDM_Restore		 template=btn_5a y=106 text="Restore User Data"	 onrelease='run sc_UDM_Restore'>
-	<BUTTON btnUDM_UserDataReset template=btn_5a y=149 text="Delete User Data"	 onrelease='run sc_UDM_UserData_Reset'>	 
+	<BUTTON btnUDM_UserDataReset     template=btn_5a y=149 text="Delete User Data"	 onrelease='run sc_UDM_UserData_Reset'>	 
 	<BUTTON btnUDM_FactoryReset	 template=btn_5a y=192 text="Reset All Settings" onrelease='run sc_UDM_AdvancedData_Reset'> 
   
 	<BUTTON xxx	 template=footer3_3a text="Help"	   onrelease='NEXTSTATE st_HelpAdvUserDataMgmt'> 
 </layer>
-
-

@@ -3,8 +3,9 @@
 	<layer ui_DisableLayer2 type="disable" z=10000 x=0 y=0>
 
 	<layer ui_CreditsScreenXHTML type="xhtml" template=help_text z=1025 h=10000 filename="ui_igo8/common/credits.xhtml">
-	<layer ui_LegalScreenXHTML   type="xhtml" template=help_text z=1025 h=20000 filename="i18n/eula.xhtml"             >
-	<layer ui_SafetyScreenXHTML  type="xhtml" template=help_text z=1025 h=10000 filename="i18n/legal.xhtml"            >
+	<layer ui_LegalScreenXHTML   type="xhtml" template=help_text z=1025 h=20000 filename="i18n/eula.xhtml">
+	<layer ui_SafetyScreenXHTML  type="xhtml" template=help_text z=1025 h=10000 filename="i18n/legal.xhtml">
+	<layer ui_UpdateScreenXHTML  type="xhtml" template=help_text z=1025 h=10000 filename="i18n/naviextras.xhtml">
 </header>
 
 <layer ui_Header z=30> 
@@ -24,7 +25,7 @@
 
 <layer ui_Exiting z=35>
 	<SPRITE xxx x=0 y=0         z=1 bmp="ui_igo8/320_240/loading.bmp">	
-	<TEXT xxx   x=0 y=218 w=320 z=160 align="RIGHT" text="EXITING, PLEASE WAIT..." FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=16>
+	<TEXT txt_exiting   x=0 y=218 w=320 z=160 align="RIGHT" text="EXITING, PLEASE WAIT..." FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=16>
 </layer>
 
 <layer ui_Title z=35>
@@ -104,12 +105,21 @@
 <layer ui_About z=30>
 	<SPRITE xxx   bmp="xhtml_bg.bmp" x=3 y=21 z=0>
 
-	<SPRITE sprAbout_Logo       x=40 y=23  w=240 z=5      align="CENTER" bmp="logo.bmp" >
-	<TEXT   txtAbout_Release    x=0  y=115 w=320 z=5 h=20 align="CENTER" text="$release$" font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS>
-	<TEXT   txtAbout_Buildnum   x=0  y=130 w=320 z=5 h=20 align="CENTER" text="$buildnum$" font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS>     
-	<TEXT   txtAbout_Date       x=0  y=145 w=320 z=5 h=20 align="CENTER" text="$date$" font="tahoma" fontsize=11 fonttype=buttonlabel1 REPLACETAGS>
-	<TEXT   txtAbout_WebInfo    x=0  y=160 w=320 z=5 h=20 align="CENTER" text="<Web Address> | <Support E-mail>" font="tahomabd" fontsize=11 fonttype=buttonlabel2>
-	<TEXT   txtAbout_Copyright  x=0  y=175 w=320 z=5 h=20 align="CENTER" text="$copyright$" font="tahoma" fontsize=11 fonttype=buttonlabel1 REPLACETAGS>
+	<SPRITE sprAbout_Logo       x=40 y=23  w=240 z=5      align="CENTER" bmp="logo.bmp" visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Release    x=0  y=115 w=320 z=5 h=20 align="CENTER" text="$release$" font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Buildnum   x=0  y=130 w=320 z=5 h=20 align="CENTER" text="$buildnum$" font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">     
+	<TEXT   txtAbout_Date       x=0  y=145 w=320 z=5 h=20 align="CENTER" text="$date$" font="tahoma" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_WebInfo    x=0  y=160 w=320 z=5 h=20 align="CENTER" text="<Web Address> | <Support E-mail>" font="tahomabd" fontsize=11 fonttype=buttonlabel2 visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Copyright  x=0  y=175 w=320 z=5 h=20 align="CENTER" text="$copyright$" font="tahoma" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
+    
+	<SPRITE xxx  x=0 y=23   w=200 z=5      align="CENTER" bmp="logo.bmp" visiblemodel="ui.vGetUpdates">
+;!Raffke_jr - reduced all widths by 40
+	<TEXT   xxx  x=20  y=115 w=280 z=5 h=20 align="LEFT" text="$release$" font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="ui.vGetUpdates">
+	<TEXT   xxx  x=20  y=130 w=280 z=5 h=20 align="LEFT" text="$buildnum$" font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="ui.vGetUpdates">     
+	<TEXT   xxx  x=20  y=145 w=280 z=5 h=20 align="LEFT" text="$date$" font="tahoma" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="ui.vGetUpdates">
+	<TEXT   xxx  x=20  y=160 w=280 z=5 h=20 align="LEFT" text="<Web Address> | <Support E-mail>" font="tahomabd" fontsize=11 fonttype=buttonlabel2 visiblemodel="ui.vGetUpdates">
+	<TEXT   xxx  x=20  y=175 w=280 z=5 h=20 align="LEFT" text="$copyright$" font="tahoma" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="ui.vGetUpdates">
+	<BUTTON xxx  template=dialog3_2 x=210 y=80  text="Get updates" onrelease='NEXTSTATE st_AboutUpdate' visiblemodel="ui.vGetUpdates" >               
 
 	<BUTTON xxx template=footer4_1a text="Maps"    onrelease='NEXTSTATE st_AboutMaps'>
 	<BUTTON xxx template=footer4_2a text="Credits" onrelease='NEXTSTATE st_AboutCredits'>
@@ -134,7 +144,7 @@
 </layer>
 
 <layer ui_AboutMapDetails orientation="L2R" font="tahomabd" fontsize=18 z=300 x=0 y=0 w=320 h=240>
-	<SPRITE xxx             x=3  y=21 bmp="xhtml_bg.bmp">
+	<SPRITE xxx             x=4  y=21 bmp="xhtml_bg.bmp">
 	<TEXT xxx               x=10 y=40  w=55  h=20 text="File:" align="LEFT" font="tahomabd" fontsize=14 fonttype=buttonlabel1>
 	<TEXT xxx               x=10 y=60  w=55  h=20 text="Size:" align="LEFT" font="tahomabd" fontsize=14 fonttype=buttonlabel1>
 	<TEXT txtAMD_MapFile    x=70 y=40  w=280 h=20 text="" align="LEFT" font="tahoma" fontsize=14 fonttype=buttonlabel1>
@@ -151,8 +161,8 @@
 
 <element_template et_License>
  	<BUTTON xxx template=btn_4a onrelease=''>
-  <TEXT xxx x=6   y=3  template=xtxt fonttype=bw fontsize=15 w=210 textmodel_wstr="*.name">
-	<TEXT xxx x=6   y=22 template=xtxt fonttype=bw fontsize=13 w=180 textmodel_wstr="*.code">
+	<TEXT xxx x=12   y=3  template=xtxt fonttype=bw fontsize=15 w=200 textmodel_wstr="*.name">
+	<TEXT xxx x=12   y=22 template=xtxt fonttype=bw fontsize=13 w=170 textmodel_wstr="*.code">
 	<TEXT xxx x=220 y=3  template=xtxt fonttype=bw fontsize=15 w=85 align="RIGHT" textmodel_wstr="*.type">
 	<TEXT xxx x=190 y=22 template=xtxt fonttype=bw fontsize=13 w=115 align="RIGHT" textmodel_wstr="*.timelimit">
  	<BUTTON xxx template=btn_4a z=100 nosound alpha=0 disable onrelease=''>           
@@ -177,7 +187,7 @@
 
 <layer ui_drive_carefully_bg z=100000>
   <SPRITE spr_dc_bg x=0 y=0 z=1 bmp="ui_igo8/320_240/default.bmp">	
-	<SPRITE xxx   bmp="xhtml_bg.bmp" x=3 y=8 z=2>        
+	<SPRITE xxx   bmp="xhtml_bg.bmp" x=4 y=8 z=2>        
 </layer>
 
 

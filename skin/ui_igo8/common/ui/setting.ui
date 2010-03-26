@@ -30,6 +30,9 @@
 	<var vLastZoomLevels>
 	<var vLastZoomMin>
 	<var vLastZoomMax>
+	<var tmpSpeedcamVis registermodel>
+	<var tmpSpeedcamAud registermodel> 
+	<var tmpSpeedcamBool registermodel>     
 </header>
 
 ;****************************************************************************************************************
@@ -840,10 +843,10 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 		else_runif nVehicle 4 'nVehicleTmp.set "Emergency"'
 		else_runif nVehicle 5 'nVehicleTmp.set "Pedestrian"'
 		else_runif nVehicle 6 'nVehicleTmp.set "Bicycle"'
-
 	</script>
 
 	<script done>
+		nVehicle.onchange ""
 		runif nVehicleTmp "Car"		   'nVehicle.set 0'
 		runif nVehicleTmp "Taxi"	   'nVehicle.set 1'
 		runif nVehicleTmp "Bus"		   'nVehicle.set 2'
@@ -853,9 +856,9 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 		runif nVehicleTmp "Pedestrian" 'nVehicle.set 5'
 		runif nVehicleTmp "Bicycle"	   'nVehicle.set 6'
 		
-		runifnot saved_nVehicle nVehicle sc_route_recalc
+		runifnot saved_nVehicle nVehicle 'run sc_route_recalc, run sc_nVehicle_change'
+		nVehicle.onchange "sc_nVehicle_change"      
 	</script>
-
 </state>
 
 ;****************************************************************************************************************
@@ -925,6 +928,7 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 ;!Raffke_jr - Uninitialized variable "vAdvSettingTodaySliderState" and no correspondig UI!
 		TODAYPLUGIN_QUERY_STATE vAdvSettingTodaySliderState		
 		vAdvSettingTodayState.set vAdvSettingTodaySliderState
+
 		runif vScreenCalibration 1 'run sc_ScreenCalibrate'
 
 ;!Raffke_jr - Moved to new layer for Power management settings
@@ -1050,6 +1054,8 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 </script>
 
 <script sc_AskSpeedCamEula>
+	tmpSpeedcamVis.set %warning.speedcam_visualtype
+	tmpSpeedcamAud.set %warning.speedcam_soundtype
 	vCustomMessageBox2ndLine.set "Turn it on anyway?"
 	INITMESSAGEBOX 2 "Using this function may be prohibited by law in certain countries." sc_SpeedcamWarningEnabled sc_SpeedcamWarningDisabled
 </script>
@@ -1059,6 +1065,9 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 	vSpeedcamEulaAck.SET 1
 	.warning.speedcam_warning 1
 	chk_SpeedCamWarning.phase 1
+	tmpSpeedcamBool.boolexpr "ui.tmpSpeedcamVis|ui.tmpSpeedcamAud"
+	runifnot  tmpSpeedcamBool 0 '.warning.speedcam_visualtype tmpSpeedcamVis
+	                             .warning.speedcam_soundtype tmpSpeedcamAud'
 </script>
 
 <script sc_SpeedcamWarningDisabled>
@@ -1171,7 +1180,6 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 	
 	<script done>
 		runif %int:warning.speedcam_soundtype 0 'runif %int:warning.speedcam_visualtype 0 sc_Disable_SpeedcamWarning'
-	
 		SYSCONFIG_SAVE
 ;!TB MR - Done Speedcam Voice Settings
 		run sc_DoneSpeedcamSettings
@@ -1278,7 +1286,7 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 	Title.SET "Detecting GPS device"
 
 	GPS_STOP
-	GPS_START
+	;GPS_START
 	REGISTER_AUTODETECT_DISPLAY txtSGA_Port txtSGA_Baud sc_GPSAutoDetectSuccess sc_GPSAutoDetectFailed
 	100 GPS_AUTODETECT
   </script>
@@ -1344,7 +1352,7 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 </script>
 
 <script sc_FastPedestrianWarning_IfNotSimul>
-	runif vFlyoverOrSimulate 0 'run sc_FastPedestrianWarning_IfNotIgnored'
+	runif vOnFlyover 0 'run sc_FastPedestrianWarning_IfNotIgnored'
 </script>
 
 <script sc_FastPedestrianWarning_IfNotIgnored>

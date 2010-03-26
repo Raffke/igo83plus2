@@ -51,8 +51,8 @@ import "ui_igo8/320_240/ui/templates_advanced_320_240.ui"
 
 <TEMPLATE t_txt_detail_val x=8 y=18 z=2 align="RIGHT" w=247  fontsize=14 font="tahoma" fonttype=bw clipstyle="left" >  
   
-<TEMPLATE t_txtlist_right x=33 y=18 z=2 align="RIGHT-9" w=350 fontsize=14 font="tahoma" fonttype=bw>
-<TEMPLATE t_txtlist_left  x=33 y=18 z=2 align="LEFT+9" w=350 fontsize=14 font="tahoma" fonttype=bw>
+<TEMPLATE t_txtlist_right x=3 y=15 z=2 align="RIGHT-9" w=270 fontsize=14 font="tahoma" fonttype=bw>
+<TEMPLATE t_txtlist_left  x=3 y=15 z=2 align="LEFT+9"  w=270 fontsize=14 font="tahoma" fonttype=bw>
 
 ;***********************  SCROLBAR TXT  **********************************
 <TEMPLATE txt_st1a template=btntext x=132 align="RIGHT" font="tahomabd">
@@ -77,10 +77,10 @@ import "ui_igo8/320_240/ui/templates_advanced_320_240.ui"
 
 ;-----------------------------  MENUS -------------------------------------
 
-<TEMPLATE menu4_1 template=a_yzoomin2c bmp="4_1.bmp#3" x=159 y=24  w=120 bmpalign="RIGHT" bmpvalign="TOP"    ICONALIGN="CENTER" ICONVALIGN="CENTER-8"  fonttype=bw font="tahoma" valign="CENTER+20" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 twolinesmall=3 twolinesize=12 leading=_1.1>
-<TEMPLATE menu4_2 template=a_yzoomin2c bmp="4_2.bmp#3" x=159 y=109 w=120 bmpalign="RIGHT" bmpvalign="TOP"    ICONALIGN="CENTER" ICONVALIGN="CENTER-13" fonttype=bw font="tahoma" valign="CENTER+15" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 twolinesmall=3 twolinesize=12 leading=_1.1>
-<TEMPLATE menu4_3 template=a_yzoomin2c bmp="4_3.bmp#3" x=161 y=107 w=120 bmpalign="LEFT"  bmpvalign="BOTTOM" ICONALIGN="CENTER" ICONVALIGN="CENTER-8"  fonttype=bw font="tahoma" valign="CENTER+20" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 twolinesmall=3 twolinesize=12 leading=_1.1>
-<TEMPLATE menu4_4 template=a_xzoomin2c bmp="4_4.bmp#3" x=161 y=109 w=120 bmpalign="LEFT"  bmpvalign="TOP"    ICONALIGN="CENTER" ICONVALIGN="CENTER-13" fonttype=bw font="tahoma" valign="CENTER+15" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 twolinesmall=3 twolinesize=12 leading=_1.1>
+<TEMPLATE menu4_1 template=a_yzoomin2c bmp="4_1.bmp#3" x=159 y=24  w=120 bmpalign="RIGHT" bmpvalign="TOP"    ICONALIGN="CENTER" ICONVALIGN="CENTER-8"  fonttype=bw font="tahoma" valign="CENTER+20" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 wordwrap=2 twolinesize=12 leading=_0.75>
+<TEMPLATE menu4_2 template=a_yzoomin2c bmp="4_2.bmp#3" x=159 y=109 w=120 bmpalign="RIGHT" bmpvalign="TOP"    ICONALIGN="CENTER" ICONVALIGN="CENTER-13" fonttype=bw font="tahoma" valign="CENTER+15" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 wordwrap=2 twolinesize=12 leading=_0.75>
+<TEMPLATE menu4_3 template=a_yzoomin2c bmp="4_3.bmp#3" x=161 y=107 w=120 bmpalign="LEFT"  bmpvalign="BOTTOM" ICONALIGN="CENTER" ICONVALIGN="CENTER-8"  fonttype=bw font="tahoma" valign="CENTER+20" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 wordwrap=2 twolinesize=12 leading=_0.75>
+<TEMPLATE menu4_4 template=a_xzoomin2c bmp="4_4.bmp#3" x=161 y=109 w=120 bmpalign="LEFT"  bmpvalign="TOP"    ICONALIGN="CENTER" ICONVALIGN="CENTER-13" fonttype=bw font="tahoma" valign="CENTER+15" align="CENTER" fontsize=14 padding=6  clicked_coloring=1  twolineoffset=1 wordwrap=2 twolinesize=12 leading=_0.75>
 
 <TEMPLATE menu6_1 template=a_yzoomin2c bmp="6_1.bmp#3" x=159 y=24  w=120 bmpalign="RIGHT" bmpvalign="TOP"    ICONALIGN="LEFT+7" ICONVALIGN="CENTER+4"  fonttype=bw font="tahoma" valign="CENTER"   align="LEFT+50"   fontsize=14  padding=6  clicked_coloring=1 leading=_0.9 twolineoffset=1>
 <TEMPLATE menu6_2 template=a_yzoomin2c bmp="6_2.bmp#3" x=159 y=83  w=120 bmpalign="RIGHT" bmpvalign="TOP"    ICONALIGN="LEFT+5" ICONVALIGN="CENTER"    fonttype=bw font="tahoma" valign="CENTER"   align="LEFT+50"   fontsize=14  padding=6  clicked_coloring=1 leading=_0.9 twolineoffset=1>
@@ -128,7 +128,7 @@ import "ui_igo8/320_240/ui/templates_advanced_320_240.ui"
 	<TEMPLATE footer3_2a  template=footera bmp="foot_3_a.bmp" x=160 >
 	<TEMPLATE footer3_3a  template=footera bmp="foot_3_a.bmp" x=240 >
 
-	<TEMPLATE footer1_1a  template=footera bmp="foot_1_1a.bmp" x=60 >
+	<TEMPLATE footer1_1a  template=footera bmp="foot_1_1a.bmp" x=80 >
 							
 	<TEMPLATE footer2_1a  template=footera bmp="foot_2_a.bmp" x=80  >
 	<TEMPLATE footer2_2a  template=footera bmp="foot_2_a.bmp" x=200 >
@@ -162,7 +162,7 @@ import "ui_igo8/320_240/ui/templates_advanced_320_240.ui"
 	
 	<TEMPLATE btn_4b template=txt_4 bmp="btn_4b.bmp#2" x=4  z=0  twolinesmall=1  padding=10 clicked_coloring=1>;egy oszlop + a kicsi helye jobbra
 		<TEMPLATE btn_4b_icon  template=btn_4b align="LEFT+25">;ha ikon van
-		<TEMPLATE btn_4b_poigr template=btn_4b align="LEFT+50" valign="CENTER+8"  bmp="btn_4b_poigr.bmp#2">;manage Poigr listakban
+		<TEMPLATE btn_4b_poigr template=btn_4b align="LEFT+40" valign="CENTER+10"  bmp="btn_4b_poigr.bmp#2">;manage Poigr listakban
 	
 	<TEMPLATE btn_4c template=txt_4 bmp="btn_4c.bmp#2" x=4  z=0  twolinesmall=1  padding=10 clicked_coloring=1>;ket oszlop                
 		<TEMPLATE btn_4c_icon  template=btn_4c align="LEFT+25">;ha ikon van            
@@ -194,7 +194,8 @@ import "ui_igo8/320_240/ui/templates_advanced_320_240.ui"
 <TEMPLATE csuszka       x=50  z=500 bmp="$fable_scrollbg.spr" sprind="$fable_scrollbtn.spr">
 
 <TEMPLATE only_white color=#FFFFFF color2=#FFFFFF color3=#FFFFDD>>
-<TEMPLATE spr_poti x=2 y=0 z=0 bmp="poti_bg.bmp">
+;!Raffke_jr - corrected X from 2
+<TEMPLATE spr_poti x=4 y=0 z=0 bmp="poti_bg.bmp">
 <TEMPLATE txt_poti template=txt_5 template=only_white x=14 w=292 z=100>; Poti bg- lévõ szöveg, mindig fehér
 
 ;-----------------------------  ANIMS -------------------------------------

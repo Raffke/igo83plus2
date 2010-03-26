@@ -103,10 +103,8 @@
 	btnPM_POS_EditCam.x 270
 	btnPMO_AddCam.x 240
 	btnPMO_EditCam.x 240
-	btnPMO_Favorite.y 179
 ;	chk_SpeedCamWarning.show
 ;	btn_SpeedCamWarning.show
-	chk_WarnInPredest.y 149
 </script>
 
 
@@ -115,10 +113,8 @@
 	btnPM_POS_EditCam.x 1000
 	btnPMO_AddCam.x 1000
 	btnPMO_EditCam.x 1000
-	btnPMO_Favorite.y 126
 ;	chk_SpeedCamWarning.hide
 ;	btn_SpeedCamWarning.hide
-	chk_WarnInPredest.y 63
 </script>
 
 <script sc_3DFlyOverModeOn>

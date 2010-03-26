@@ -21,10 +21,10 @@
 	<var vMonkeyRestriction>
 	<var vfirst_start_default_settings=1 permanent>
 	<var vStartUp=1>
+	<var vMinimize registermodel>
 </header>
 ;****************************************************************************************************************
 <script sc_first_start_default_settings>
-	nBuildingDistance.set 3
 	vcf_nAutoFollowTime.set 30
 
 	vfirst_start_default_settings.set 0
@@ -43,6 +43,7 @@
 	.map.zoom_level_in_map vZoomLevelInMap
 	.map.tilt_in_navigate vTiltInNavigate
 	.map.zoom_level vZoomLevel
+	.map.rotation_angle vRotationAngleNavMap
 </script>
 ;****************************************************************************************************************
 
@@ -87,7 +88,6 @@
 <state st_Start>
 	<script init>
 		phonekeyinput 2
-
 		run sc_set_UIresolution
 		run sc_start_pre_customize
 		
@@ -108,19 +108,11 @@
 		run sc_SetTmcRecalcOptionFromVar
 		run sc_SetShowTmcDetour
 
-;!Raffke_jr - enable minimize button on PNA (set device default on first start)
-		vtmp.boolmodel "interface.show_minimize"
-		vtmp.dropmodel
-		runif bShowMinimize -1 'bShowMinimize.set vTmp'
-
-;!Raffke_jr - New variable for Auto-Standby setting
-		GETSYSENTRY "shutdown_time" "interface" vShutdownTime vShutdownTime
-
 ;!TB 0.4d - commented out to allow uturns configuration
 ;		.route.allow_uturn 0
 		.map.force_3d_after_overview 0
 		.map.change_zoom_on_manual_overview 0
-		.map.switch_overview_on_manual_zoom 1
+		.map.switch_overview_on_manual_zoom 0
 
 		map.SETMINISTATUS "" "" "btn_record_sprite" "btn_record_sprite2" "sprNM_TMCStatus"
 		map.ZOOMCONTROL_ENABLED 0
@@ -174,6 +166,16 @@
 
 		GETSYSENTRY "monkey_restriction" "debug" "no" vMonkeyRestriction
 		GETSYSENTRY "2dheadup" "map" 0 v2DHeadUp
+		GETSYSENTRY "getupdates" "debug" 0 vGetUpdates
+		GETSYSENTRY "minimize_button" "debug" 0 vMinimize
+;!Raffke_jr - New variable for Auto-Standby setting
+		GETSYSENTRY "shutdown_time" "interface" vShutdownTime vShutdownTime
+
+;!Raffke_jr - enable minimize button on PNA (set device default on first start)
+;!Raffke_jr - TODO: 8.3.2 consolidate with vMinimize ?!
+		vtmp.boolmodel "interface.show_minimize"
+		vtmp.dropmodel
+		runif bShowMinimize -1 'bShowMinimize.set vTmp'
 
 		bMapTextureFill.set 1
 ;!TB 0.4c - commented out to allow uturns configuration
@@ -238,11 +240,11 @@
 	vOnBattery.onchange "sc_BatteryOnChange"
 	vShutdownInProgress.onchange "sc_ShutdownInProgressChange"
 </script>
+
 <script sc_SelectKeyPanel>
 		runif %local.keyboard.name "BoPoMoFo" 'local.keyboard.candidate_layer "ui_key_candidates"' 
 		else_run 'local.keyboard.candidate_layer "ui_key_candidates_long"'
 </script>
-
 
 <script sc_demo_mode>
 	runif %other.demo_mode 1 sc_demo_mode_off
@@ -274,8 +276,14 @@
 	vRecalcOffByStartPoint.set 0
 </script>
 
+<script sc_map_mode_to_bool>
+	runif %map.map_mode L"2D" 'vMapModeBool.set 0'
+	else_runif %map.map_mode L"3D" 'vMapModeBool.set 1'
+</script>
+
 <observer use_tmc_obs model="tmc.ignore_all_events" onchange='ADVNAV_RECALC' start>
 <observer no_route model="navigation.waypoints.list.isempty" onchange='run sc_enable_offroute_recalc' start>
+<observer map_modetobool model="map.map_mode" onchange='run sc_map_mode_to_bool' start>
 
 <script sc_BasicMode>
 	nUserMode.set 1
@@ -308,8 +316,10 @@
 	.warning.speedcam_enabled 0
 	EXEC "warning.check_speedcam_functions" 1
 	map.REDRAW_POI
-	HASVIA vTmp
-	runif vTmp 1 'DELETEROUTE'
+	runif %navigation.waypoints.list.size > 2 'SELECTWAYPOINT 1,
+                                               DELETEROUTE,
+                                               map.MOVECURSORTOSELECTEDITEM,
+                                               FINDPATH_TO'
 	vAutoReplan.SET 1
 
 	btn_CSTMC.y 1600
@@ -342,6 +352,7 @@
 
 <script sc_SetAdvancedMode>
 	.warning.speedcam_enabled 1
+;!Raffke_jr - copied from BasicMode to enable speedcam functions without satfix
 	EXEC "warning.check_speedcam_functions" 1
 	map.REDRAW_POI
 
@@ -488,7 +499,8 @@
 <script sc_Exit>
 	ui_Exit_MessageBox.show
 ;!Raffke_jr - enable minimize button on PNA
-;	vtmp.boolmodel "interface.show_minimize"
+;	vtmp.boolexpr "interface.show_minimize|ui.vMinimize"
+;!Raffke_jr - TODO: 8.3.2 consolidate with vMinimize ?!
 ;	vtmp.dropmodel
 ;	runif vtmp 0 sc_Exit_pna
 	runif bShowMinimize 0 sc_Exit_pna
@@ -575,4 +587,11 @@
 	vZoomLevelInMap.SET %map.zoom_level_in_map
 	vTiltInNavigate.SET %map.tilt_in_navigate
 	vZoomLevel.SET %map.zoom_level
+	runifnot vMapState 5 'vRotationAngleNavMap.set %map.rotation_angle'
+</script>
+
+<script sc_SelectDestination>
+	vTmp.set %navigation.waypoints.list.size
+	DECVAL "vTmp" 1
+	SELECTWAYPOINT vTmp
 </script>

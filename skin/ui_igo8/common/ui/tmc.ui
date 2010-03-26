@@ -17,6 +17,7 @@
 	else_runif %tmc.present 0 'vTmcCockpitStatus.set 0'
 	else_runif %tmc.station_tuned 0 'vTmcCockpitStatus.set 0' 
 	else_runifnot %tmc.has_last_calc_avoided 0 'vTmcCockpitStatus.set 4'
+	else_runif %tmc.has_message 1 'vTmcCockpitStatus.set 5'
 	else_run 'vTmcCockpitStatus.set 1'
 </script>
 
@@ -182,7 +183,7 @@
 ;	runifnot vTmcReplanMode "ASK" 'runif vActiveState "st_navigatemap" sc_TMC_Audio_Announce'
 
 	termifnot vTmcReplanMode "ASK"
-	runif vActiveState "st_navigatemap" 'term sc_TMC_Announce_Init, run sc_TMC_Announce_Init'
+	runif vActiveState "st_navigatemap" 'term sc_TMC_Announce_Init, 1 run sc_TMC_Announce_Init'
 </script>
 
 ;!Raffke_jr - removed multiple TMC announcements
@@ -200,7 +201,7 @@
 	runif vTMCVoiceWarning 1 '.sound.announcer.traffic_jam_ahead'
 </script>
 
-<observer tmc_announce_obs boolmodel="tmc.events.announced_events.isempty" onchange='run sc_TMC_Announce'>
+<observer tmc_announce_obs boolmodel="tmc.events.announced_events.isempty" onselect='run sc_TMC_Announce'>
 
 <script sc_TMC_Announce_Init>
 ;!Raffke_jr - removed multiple TMC announcements (moved to top instead of after showing layer)

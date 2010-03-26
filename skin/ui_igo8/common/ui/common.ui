@@ -74,6 +74,7 @@
 
 <script quick_show_volume>
 	runifnot vactivestate "st_cockpitstatus" 'runifnot vactivestate "st_settingsound" quick_show_volume_init'
+	5  vQuickMasterVol.set 500
 </script>
 
 <script quick_show_volume_init>
@@ -86,19 +87,19 @@
 
 
 <script hide_volume>
-  5	 vQuickMasterVol.set 500
-  100 ui_volume.hide
+	100 ui_volume.hide
 </script>
 
 <state st_KeyboardSelection>
-  <uselayer ui_Header2/>
-  <uselayer ui_Background/>
-  <uselayer ui_Title/>
-  <uselayer ui_Footer2/>
-  <uselayer ui_KeyboardPanelList/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_KeyboardPanelList/>
 
-  <script init>
-  </script>
+	<script init>
+		Title.SET "Keyboard layouts"
+	</script>
 </state>
 
 ;****************************************************************************************************************
