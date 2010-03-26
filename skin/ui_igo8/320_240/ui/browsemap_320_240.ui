@@ -1,0 +1,32 @@
+<TEMPLATE btn_plan       y=0 w=74 fonttype=bw  bmp="btn_plan_cursor.bmp#3" clicked_coloring=1 font="tahomabd" fontsize=8 valign="BOTTOM-9" align="CENTER"  iconvalign="TOP+2" iconalign="CENTER">
+
+;****************************************************************************************************************
+<header>
+	<var vBrowseMapZoomPosMin=35>
+	<var vBrowseMapZoomPosMax=201>
+</header>
+
+<layer ui_PlanMode z=50>
+	<BUTTON xxx template=backa   z=12 onrelease='PREVSTATE'>
+
+	<BUTTON btnPM_FitScreen  template=footer2_1a text="Fit to screen" onrelease='run sc_FitToScreen_PlanMode' enabledmodel="navigation.waypoints.list.size>1">
+	<BUTTON btnPM_StartNav   template=footer2_2a text="Start Nav" onrelease='run sc_btnPM_StartNavigation' enabledmodel="navigation.has_route">
+
+	<SPRITE xxx  bmp="blackstripe.bmp" x=0 y=185 z=0>
+	<TEXT xxx template=txt_map x=0 y=186 w=320 textmodel_wstr="map.cursorpos.posinfotext">
+</layer>
+
+<layer ui_PlanModeOpenCloseButtons z=50>
+	<BUTTON btnStartPoint    template=btn_plan x=2    text="Add Start" iconspr="ico_start_pl.bmp"     onrelease='run sc_btnPM_AddStart_OnRelease'>
+	<BUTTON btnRemStartPoint template=btn_plan x=2    text="Rem Start" iconspr="ico_remstart_pl.bmp"  onrelease='run sc_btnPM_RemoveStart_OnRelease'>
+	<BUTTON btnAddViaPoint   template=btn_plan x=81   text="Add Via"   iconspr="ico_via_pl.bmp"       onrelease='run sc_btnPM_AddVia_OnRelease'>
+	<BUTTON btnRemViaPoint   template=btn_plan x=81   text="Rem Via"   iconspr="ico_remvia_pl.bmp"    onrelease='run sc_btnPM_RemoveVia_OnRelease'>
+	<BUTTON btnDestPoint     template=btn_plan x=160  text="Add Dest"  iconspr="ico_dest_pl.bmp"      onrelease='run sc_btnPM_AddDest_OnRelease'>
+	<BUTTON btnRemDestPoint  template=btn_plan x=160  text="Rem Dest"  iconspr="ico_remdest_pl.bmp"   onrelease='run sc_btnPM_RemoveDest_OnRelease'>
+	<BUTTON btnContinue      template=btn_plan x=239  text="Continue " iconspr="ico_dest_pl.bmp"      onrelease='run sc_btnPM_Continue_OnRelease' >
+</layer>
+
+<layer ui_PlanModeControls2D z=60>
+	<BUTTON xxx  x=2 y=45  z=0 bmp="map_zoomin.bmp#2" text=""  align="center-3"  valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1  onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0'>  
+	<BUTTON xxx  x=2 y=109 z=0 bmp="map_zoomout.bmp#2" text=""  align="center-3" valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1  onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0' > 
+</layer>

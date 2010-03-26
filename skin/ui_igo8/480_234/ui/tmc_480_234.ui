@@ -1,0 +1,208 @@
+<header>
+    <layer ui_HelpTmcSettings         type="xhtml" template=help_text filename="i18n/hlp_settingtmc.xhtml">
+    <layer ui_HelpTmcParams           type="xhtml" template=help_text filename="i18n/hlp_settingtmc_stations.xhtml">
+    <layer ui_HelpNoTmcHardware       type="xhtml" template=help_text filename="i18n/hlp_settingdetecttmc.xhtml">
+
+    ; its place would be tmc.ui correctly, but the engine doesn't support lazy var models yet (hasn't been merged from ..._GM branch), and tmc_*x*.ui references it
+	  <var vTMCMapFromAnnounce=0 registermodel>
+</header>
+
+<element_template et_TmcEvent>
+	<SPRITE xxx x=56 y=24  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase">
+	<SPRITE xxx x=83 y=24  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase2" visiblemodel="!*.single_icon">
+
+	<SPRITE xxx x=33 y=-1 z=1 bmp="$tmc_event_new.spr" phase=1 visiblemodel="*.is_new">
+	<SPRITE xxx x=33 y=-1 z=1 bmp="$tmc_event_new.spr" phase=0 visiblemodel="!*.is_new">
+    
+
+	<SPRITE xxx x=290 y=4  z=1 bmp="$tmc_event_onroute.spr" phasemodel="*.on_route">	
+	<SPRITE xxx x=290 y=4  z=1 bmp="$tmc_event_cant_avoided.bmp" visiblemodel="*.cant_avoided">
+    
+  <BUTTON et_TmcEvent_btn%ID% template=btn_4a SELECTABLE onRelease='run sc_TMCListEventOnRelease' clickmodel="tmc.events.list.setcurrent $i">
+  
+	<ROADSHIELDEDTEXT et_TmcEvent_txt1%ID% watchstate=et_TmcEvent_btn%ID% x=210 y=5  w=60  z=1 textmodel_wstr="*.roadnumber_enc" template=xtxt4 font="tahoma" fontsize=14 align="CENTER" USE_BRACKETS=0  visiblemodel="!*.long_roadnumber">
+	<TEXT	et_TmcEvent_txt2%ID%  watchstate=et_TmcEvent_btn%ID%          x=386 y=5  w=50  z=1 textmodel_wstr="*.distance.full_text"  visiblemodel="*.distance.valid" template=xtxt4 align="RIGHT" font="tahomabd" fontsize=14>
+
+	<TEXT	et_TmcEvent_txt3%ID%  template=xtxt4 watchstate=et_TmcEvent_btn%ID% x=95 h=34 w=309 z=1 textmodel_wstr="*.location" align="LEFT" valign="BOTTOM" font="tahomabd" fontsize=12>
+	;<TEXT	et_TmcEvent_txt4%ID%  template=xtxt4 watchstate=et_TmcEvent_btn%ID% x=95 y=25  w=450 z=1 textmodel_wstr="*.location2" align="LEFT" valign="TOP" visiblemodel="!*.single_location" fontsize=11>
+	;<TEXT	et_TmcEvent_txt5%ID%  watchstate=et_TmcEvent_btn%ID% x=50 y=40  w=400 z=1 textmodel_wstr="*.description" template=xtxt4 align="LEFT" valign="TOP" fontsize=12>
+</element_template>
+
+<layer ui_TmcEventsList z=30>
+	<LIST   lstTEL_Events template=tlist element_template="et_TmcEvent" listmodel="tmc.events.list">
+	<TEXT xxx   template=pageindex textmodel_wstr="ui.lstTEL_Events.page_counter">
+
+	<BUTTON xxx template=prevpage clickmodel="ui.lstTEL_Events.prevpage" enabledmodel="ui.lstTEL_Events.prevpage.valid" template="slow_repeat">
+	<BUTTON xxx template=nextpage clickmodel="ui.lstTEL_Events.nextpage" enabledmodel="ui.lstTEL_Events.nextpage.valid" template="slow_repeat">
+
+	<TEXT   xxx template=txt_empty text="<No Traffic Events>" visiblemodel="tmc.events.list.isempty">
+	<SPRITE xxx template=spr_empty visiblemodel="tmc.events.list.isempty">
+
+; Ez itt a map kepernyore valtana. Hely sincs neki, es nem is biztos, hogy kell ide [tmt]
+	<BUTTON btn_TmcSettings		template=footer4_1a  z=12 text="Settings" onrelease='vClearNewMessages.set 0, NEXTSTATE st_TmcSettings'> 	
+	<BUTTON xxx		            template=footer4_2a  z=12 text="Stations" enabledmodel="tmc.present" onrelease='vClearNewMessages.set 0, NEXTSTATE st_TmcParams'> 	
+	
+</layer>
+
+
+<layer ui_TmcParams z=35>
+	<CHECKBOX xxx template=chk_5a y=18  z=99  text="Use Auto tuner" boolmodel="tmc.auto_tuning" enabledmodel="tmc.auto_tuning_available" onrelease='exec "tmc.change_tuning_mode"'>
+
+	<SPRITE xxx         x=92  y=54 bmp="tmc_statname_bg.bmp">
+	<TEXT	StationName x=145 y=58  w=190 z=99 template=texttmc text="Station Name" align="center" fontsize=16 textmodel_wstr="tmc.current_station_name">
+	<SPRITE xxx         x=116 y=80 z=199 bmp="tmc_signal.spr" phasemodel="tmc.signal_strength">
+	
+	<BUTTON btn_TMC_inc x=34  y=54 bmp="btn_tmc_prev.bmp#3"  enabledmodel="!tmc.auto_tuning" clickmodel="tmc.tuner_step_down" onrelease='' onlongclick='exec "tmc.tuner_search_down"'>
+	<BUTTON btn_TMC_dec x=390 y=54 bmp="btn_tmc_next.bmp#3"  enabledmodel="!tmc.auto_tuning" clickmodel="tmc.tuner_step_up" onrelease='' onlongclick='exec "tmc.tuner_search_up"'>
+
+	<TEXT	xxx x=46 y=90  w=392 z=99 template=texttmc text="State Info"      align="center" fontsize=14 textmodel_wstr="tmc.state">
+  <TEXT	xxx x=46 y=107  w=392 z=99 template=texttmc text="Current Message" align="center" fontsize=14 textmodel_wstr="tmc.current_station_message">  
+	
+  <SPRITE xxx x=34 y=90 bmp="empty_textbox_tmc.bmp">	
+	
+	<BUTTON xxx template=btn_5a   y=126 text="Exclude this station"    clickmodel="tmc.deny_current_station" enabledmodel="tmc.station_tuned">
+	<BUTTON xxx template=btn_5a   y=162 text="Show Excluded stations" onrelease='NEXTSTATE st_TmcTiltStations' enabledmodel="!tmc.denied_stations_list.isempty" >
+
+	<BUTTON xxx  template=footer3_2a text="Subscription" onrelease='NEXTSTATE STF_TMC_SUBSCRIBE' visiblemodel="tmc.enable_subscription"> 
+	<BUTTON xxx  template=footer3_3a text="Help"       onrelease='NEXTSTATE st_HelpTmcParams'>
+</layer>
+
+<layer ui_TmcSettings z=35>	
+	<SLIDER sld_tmc_sortevents  template=sld_5a       y=18  z=10   var=vTmcSortMode   value="Distance|0|Type|1|Road name|2" onselect='' align="RIGHT">	
+	<TEXT   xxx  template=btntext                   x=44 y=27 w=120 text="Sort events by:" watchstate=sld_tmc_sortevents>
+	<SLIDER sld_tmc_eventlist  template=sld_5a        y=55 z=10   var=vTmcShowOnRoute value="All Events|0|On Route|1" align="RIGHT">
+	<TEXT   xxx  template=btntext                   x=44 y=63 w=120 text="Event list:" watchstate=sld_tmc_eventlist>
+	
+	<BUTTON xxx  template=footer2_2a text="Help"       onrelease='NEXTSTATE st_HelpTmcSettings'> 
+</layer>
+
+<element_template et_TmcDeniedStation>
+	<BUTTON btnTMCDeniedStation%ID% template=btn_4b textmodel_wstr="*.provider"  clickmodel="tmc.denied_stations_list.setcurrent $i">
+	<TEXT xxx template=txt_4 w=220 x=44 y=10 align="left" textmodel_wstr="*.station_name" fontsize=18 watchstate=btnTMCDeniedStation%ID%>
+	<TEXT xxx template=txt_4 w=101 x=273 y=14 align="right" textmodel_wstr="*.frequency" watchstate=btnTMCDeniedStation%ID%>
+	<BUTTON xxx template=btn_4d iconspr="x.bmp" text="" clickmodel="tmc.denied_stations_list.setcurrent $i" onrelease='run sc_Enable_Selected_Station'>
+</element_template>
+
+<layer ui_TmcDeniedStations z=35>
+	<LIST lstTES_DeniedStations template=tlist element_template="et_TmcDeniedStation" listmodel="tmc.denied_stations_list">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstTES_DeniedStations.prevpage" enabledmodel="ui.lstTES_DeniedStations.prevpage.valid" template="slow_repeat">
+	<BUTTON xxx template=nextpage clickmodel="ui.lstTES_DeniedStations.nextpage" enabledmodel="ui.lstTES_DeniedStations.nextpage.valid" template="slow_repeat">
+
+	<TEXT   xxx template=txt_empty  text="<No Excluded Stations>" visiblemodel="tmc.denied_stations_list.isempty">
+	<SPRITE xxx  template=spr_empty visiblemodel="tmc.denied_stations_list.isempty">
+	
+	<BUTTON xxx  template=footer2_1a text="Clear All"  clickmodel="tmc.enable_all_stations" enabledmodel="!tmc.denied_stations_list.isempty" >
+</layer>
+
+<layer ui_NoTmcHardware z=35>
+    <SPRITE xxx                  x=33  y=21 w=480 z=0 bmp="poti_bg_1line.bmp" >
+	<TEXT   xxx template=btntext x=90  y=29 w=300 color=#FFFFFF text="No TMC Hardware Found!" align="CENTER">
+
+    <SLIDER  sldNTHprotocol template=sld_5a y=57 value="AUTO|-1|AVANTEQ|10|Fx|9|Samsung|8|Ngai Lik|7|Open TMC v2|6|Open TMC v1|5|Amaryllo|4|Eten|3|Royaltek|2|GNS|1" var=vTmcReceiverType enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress">
+	<TEXT   xxx template=txt_sld      y=57 text="Protocol" enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress" watchstate=sldNTHprotocol>
+   
+    <SLIDER sldNTHPort template=sld_5a      y=93 value="AUTO|-1|9|9|8|8|7|7|6|6|5|5|4|4|3|3|2|2|1|1" var=vTmcPort enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress">
+	<TEXT   xxx template=txt_sld      y=93 text="Port" enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress" watchstate=sldNTHPort>
+	
+    <SLIDER sldNTHBaudR template=sld_5a     y=129 value="AUTO|-1|4800|4800|9600|9600|19200|19200|38400|38400|57600|57600" var=vTmcBaud enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress">
+    <TEXT   xxx template=txt_sld      y=129 text="Baud rate:" enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress" watchstate=sldNTHBaudR>
+	  
+   <BUTTON xxx template=footer3_2a text="Start autodetect" enabledmodel="!tmc.autodetection_in_progress" onrelease='EXEC "tmc.start_autodetect", STATE st_TMCAutoDetect'>
+	<BUTTON  xxx template=footer3_3a text="Help" onrelease='NEXTSTATE st_HelpNoTmcHardware'>
+</layer>
+
+
+
+<LAYER ui_TMCAutoDetect z=35>
+	<SPRITE xxx            x=0   y=50 z=0  w=480 align="CENTER" bmp="GPSdetect_bg.bmp" >
+
+	<TEXT   xxx template=btntext x=84  y=59  text="Detecting TMC reveiver..." font="tahomabd" align="CENTER" w=295>
+	
+  <TEXT   xxx template=btntext x=44 y=87    text="Protocol">
+	<TEXT   xxx template=btntext x=140  y=87 align="RIGHT" w=295 text="" textmodel_wstr="tmc.autodetect_current_source">
+
+	<TEXT   xxx template=btntext x=44 y=107 text="Port">
+	<TEXT   xxx template=btntext x=140 y=107 align="RIGHT" w=295 text="" textmodel_wstr="tmc.autodetect_current_port">
+
+  <BUTTON xxx template=footer3_3a text="Stop" enabledmodel="tmc.autodetection_in_progress" onrelease='exec "tmc.stop_autodetect",STATE st_NoTmcHardware'>    
+    
+</layer>
+
+  
+
+;==============================
+; TMC announcement
+
+<element_template et_TmcEvent_Announce>
+	<SPRITE xxx x=17 y=0   z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="*.single_icon&!ui.vOnFlyover">
+	<SPRITE xxx x=6 y=0  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="!*.single_icon&!ui.vOnFlyover">
+	<SPRITE xxx x=29 y=0  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase2" visiblemodel="!*.single_icon&!ui.vOnFlyover">
+
+	<TEXT	xxx x=-8  y=21 w=52  z=1 textmodel_wstr="*.roadnumber"                                         template=xtxt3 fontsize=12 fonttype=buttonlabel_menu  font="tahomabd" color=#FFFFFF  visiblemodel="!*.long_roadnumber&!ui.vOnFlyover" align="CENTER">
+</element_template>
+
+
+<layer ui_TmcAnnounce z=4500 hide>
+	<SPRITE xxx x=0  y=72 w=65 z=1 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol&!ui.vOnFlyover">
+	<LIST lstTMC_EventsOnRoute template=glist_TMC x=8 y=93 z=10 row=1 element_template="et_TmcEvent_Announce" listmodel="tmc.events.announced_events" showselection=0>
+	<BUTTON xxx x=0  y=72 w=65 z=15 bmp="cock_infobg2.bmp" onrelease='run sc_TmcAnnounceClicked' alpha=0 clickmodel="tmc.events.announced_events.setcurrent 0" visiblemodel="!ui.vOnFlyover">
+</layer>
+
+;==============================
+<element_template et_TmcEvent_map>
+	<SPRITE xxx x=55 y=25  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase" visiblemodel="*.single_icon">
+	<SPRITE xxx x=40 y=25  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase" visiblemodel="!*.single_icon">
+	<SPRITE xxx x=67 y=25  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase2" visiblemodel="!*.single_icon">
+
+	<ROADSHIELDEDTEXT	xxx USE_BRACKETS=0 x=15 y=47  w=80  z=20 template=xtxt4 fontsize=14 font="tahomabd" align="CENTER" textmodel_wstr="*.roadnumber_enc" visiblemodel="!*.long_roadnumber">
+	
+	<TEXT	xxx x=15 y=70  w=80 z=1 textmodel_wstr="*.distance.full_text" visiblemodel="*.distance.valid" template=xtxt align="CENTER" fonttype=bw font="tahomabd" fontsize=14>
+
+  <TEXT	xxx x=100 y=14 w=280  z=1 textmodel_wstr="*.description" template=xtxt align="LEFT" fonttype=bw fontsize=14>
+  <TEXT	xxx x=100 y=33 w=360  z=1 textmodel_wstr="*.location" template=xtxt font="tahomabd" align="LEFT" fonttype=bw fontsize=14 twolineoffset=-10>
+  <TEXT	xxx x=100 y=61 w=360  z=1 textmodel_wstr="*.location2" template=xtxt align="LEFT" visiblemodel="!*.single_location" fonttype=bw fontsize=14>
+</element_template>
+
+<layer ui_TMCMap z=3000>
+  <SPRITE xxx x=10 y=5 z=10  bmp="btn_lb_4a_tmcevent.bmp" >
+	<LIST list_tmc_1line template=tlist y=2 row=1 element_template="et_TmcEvent_map" listmodel="tmc.events.list"  SHOWSELECTION=1 KEEPSELECTIONONSCREEN=1>
+  <TEXT xxx   x=415 y=10  w=45  z=99  align="RIGHT" fontsize=12  font="tahomabd" fixedwidthnumbers=1 fonttype=bw textmodel_wstr="ui.list_tmc_1line.page_counter">
+
+  <BUTTON xxx          template=prevpage clickmodel="ui.list_tmc_1line.prevpage" enabledmodel="ui.list_tmc_1line.prevpage.valid" onrelease='run sc_TMC_go_to_current_loc' visiblemodel="!ui.vTMCMapFromAnnounce">
+	<BUTTON xxx          template=nextpage clickmodel="ui.list_tmc_1line.nextpage" enabledmodel="ui.list_tmc_1line.nextpage.valid" onrelease='run sc_TMC_go_to_current_loc' visiblemodel="!ui.vTMCMapFromAnnounce">
+	
+	<BUTTON xxx          template=footer2_1a text="Avoid" onrelease='run sc_TmcAvoid' visiblemodel="tmc.events.list.current.filter_option!=1&!tmc.ignore_all_events&!ui.vTMCMapFromAnnounce">
+	<BUTTON xxx          template=footer2_1a text="Unavoid" onrelease='run sc_TmcUnavoid' visiblemodel="tmc.events.list.current.filter_option=1&!tmc.ignore_all_events&!ui.vTMCMapFromAnnounce">
+	
+  <BUTTON xxx          template=footer2_1a text="Avoid" onrelease='run sc_TmcAvoidAnn' visiblemodel="!tmc.ignore_all_events&ui.vTMCMapFromAnnounce">
+	<BUTTON xxx          template=footer2_2a text="Ignore" onrelease='run sc_TmcUnavoidAnn' visiblemodel="!tmc.ignore_all_events&ui.vTMCMapFromAnnounce">
+
+	<BUTTON xxx  x=10 y=99   z=0 bmp="map_zoomin1.bmp#2"  onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0'>  
+	<BUTTON xxx  x=10 y=150  z=0 bmp="map_zoomout1.bmp#2" onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0'> 
+
+  <BUTTON xxx x=10 y=5 z=40  bmp="btn_lb_4a_tmcevent.bmp" onrelease='' alpha=0  DISABLE>
+    
+</layer>
+
+<LAYER ui_TMCMapBack z=1001>
+	<SPRITE xxx x=80 y=205 z=1 bmp="main_bg3.bmp" alpha=16>
+	<BUTTON xxx template=backa onrelease='PREVSTATE' onlongclick='run sc_GoTo_MainMenu'>
+</layer>
+
+; **** Clear Channel ****
+<layer ui_tmc_enter_code z=30>
+	<SPRITE xxx template=xinputfield>
+	<INPUTTEXT input_tmccode template=xinput MAXLENGTH=20 fp=99 CAPITALIZE=3 dontshowfocus emptytitle="<Enter TMC subscription code>">
+</layer>
+
+    
+<layer ui_tmc_subscribe_status z=30>
+	<SPRITE xxx   bmp="xhtml_bg.bmp" x=4 y=21 z=2>
+
+	<TEXT   txt_tmc_expiration_text   template=xtxt3    x=100 y=25  w=280 text="">
+	<TEXT   xxx                       template=xtxt3    x=90  y=85 w=300 text="To purchase 1 year TMC subscription go to\nhttp://...com\nand enter:">
+	
+	<TEXT   txt_tmc_subscriber_id     template=xtxt3    x=105 y=135 w=270 text="" replacetags>
+	
+	<BUTTON btn_tmc_enter_code        template=btn_5a       y=157 align="CENTER"  text="Activate" onrelease='NEXTSTATE STF_TMC_ENTER_CODE'> 
+</layer>

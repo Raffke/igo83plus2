@@ -1,0 +1,557 @@
+<header>
+    <var nPlaceStateMode=0>
+	<var vLastMapMode>
+	<var bBackupNavMapFollow>
+	<var nLandmarkDiameter="0">
+	<var nLandmarkHeight="0">
+</header>
+
+;****************************************************************************************************************
+
+<state st_Place>
+	<uselayer ui_Footer2/>
+	<uselayer ui_PlaceAdvanced/>
+	<uselayer ui_PlaceBasic/>
+	<uselayer ui_PlaceMenuPlan_POS/>
+	<uselayer ui_PlaceBasic_POS/>
+	<uselayer ui_PlaceZoomControls/>
+	<uselayer ui_PlaceAddressText/>
+	<uselayer ui_PlacePOIText/>
+	<uselayer ui_PlaceMenuPlan/>
+	<uselayer ui_PlaceMenuBack/>
+	<uselayer map/>
+	
+	<script init>
+        vcf_bAutoFollowModeOn.SET 0
+        run sc_PlaceStateInit
+        btnPA_Map.SHOW
+        btnPB_Map.SHOW
+        map.ONMAPCLICK sc_placemenu_mapclick 2
+        map.ENABLEMOVECURSORBYCLICK 1
+        run sc_StartPlaceMenuPlan
+        ; any button can be used for this. This must be after all show/hide layers.
+        btn_Footer_back2.CLEARFOCUS
+	</script>
+    
+    <script enter>
+        .map.store_cursor_pos  
+        runif vUIres "800_480" 'map.select_cursor "cursor_places_big"'
+	    else_runif vUIres "480_800" 'map.select_cursor "cursor_places_big"'
+	    else_run 'map.select_cursor "cursor_places"'
+    </script>
+	
+	<script done>
+        map.onmapclick
+        run sc_PlaceStateDone
+	    map.EnableMoveCursorByClick 1
+	</script>
+    
+    <script exit>
+      runif vUIRes "800_480" 'map.select_cursor "cursor_big"'
+      else_runif vUIRes "480_800" 'map.select_cursor "cursor_big"'
+      else_run 'map.select_cursor "cursor"'
+      vcf_bAutoFollowModeOn.SET vcf_bAutoFollowModeOn_save
+    </script>
+</state>
+
+<script sc_PlaceStateInit2D>
+  ; Map properties
+  run sc_RD_SetMapSize
+  map.mapmode 1
+  vLastMapMode.SET vMapSettings2d3d
+  map.setmapstate 4
+  vMapSettings2d3d.set "2D"
+  map.VIEW2D3D vMapSettings2d3d
+  map.EnableMoveCursorByClick 1
+  map.ZOOMCONTROL_SHOW 0
+
+  bBackupNavMapFollow.SET bNavMapFollow
+  run sc_FollowOff
+
+  vLastSelectedCityStored.set 0
+  ;lbFASR_StreetResult.dropmodel
+  lbFACR_CityResult.dropmodel
+  runif vMoveCursorToSelectedItem 1 'map.MOVECURSORTOSELECTEDITEM'
+
+  run sc_RD_CenterCursor
+
+  ; Controls
+  ui_PlaceAdvanced.HIDE
+  ui_PlaceBasic.HIDE
+  ui_PlaceBasic_POS.HIDE
+
+  runif nUserMode 0 'ui_PlaceAdvanced.SHOW'
+  else_run 'run sc_cursor_or_pos_basic'
+
+  ui_PlaceAddressText.Hide
+  ui_PlacePOIText.Hide
+  txtPA_POI.HIDE
+  txtPA_Address.HIDE
+  runif nPlaceStateMode 1 'txtPA_POI.SHOW'
+  else_run 'txtPA_Address.SHOW'
+
+  ui_PlaceMenuPlan.HIDE
+  ui_PlaceMenuPlan_POS.HIDE
+
+  runif nUserMode 0 sc_StartPlaceMenuPlan
+  else_runif nPlaceStateMode 1 'txtPA_POI.HIDE, ui_PlacePOIText.SHOW'
+  else_run 'txtPA_Address.HIDE, ui_PlaceAddressText.SHOW'
+</script>
+
+<script sc_cursor_or_pos_advanced>
+    runif nPlaceForPos 0 'ui_PlaceMenuPlan.SHOW, ui_PlaceMenuPlan_POS.HIDE'
+    else_run 'ui_PlaceMenuPlan_POS.SHOW, ui_PlaceMenuPlan.HIDE'
+</script>
+  
+
+<script sc_cursor_or_pos_basic>
+    runif nPlaceForPos 0 'ui_PlaceBasic.SHOW, ui_PlaceBasic_POS.HIDE'
+    else_run 'ui_PlaceBasic_POS.SHOW, ui_PlaceBasic.HIDE'
+</script>
+
+<script sc_PlaceStateInit3D>
+	; Map properties
+	run sc_RD_SetMapSize
+	map.mapmode 0
+	vLastMapMode.SET vMapSettings2d3d
+	vMapSettings2d3d.set "3D"
+    map.VIEW2D3D vMapSettings2d3d
+    map.EnableMoveCursorByClick 1
+    map.ZOOMCONTROL_SHOW 0
+    START_STOP_ROTATE 0 1
+    .map.stop_rotate_on_map_move 1    
+	
+	bBackupNavMapFollow.SET bNavMapFollow
+	run sc_FollowOff
+	map.SHOWCURSOR 0
+
+	vLastSelectedCityStored.set 0
+	;lbFASR_StreetResult.dropmodel
+	lbFACR_CityResult.dropmodel
+	run sc_RD_CenterCursor
+	runif vMoveCursorToSelectedItem 1 'map.MOVECURSORTOSELECTEDITEM 1'
+	map.FITLANDMARKTOSCREEN nLandmarkHeight nLandmarkDiameter
+  			
+	; Controls
+    ui_PlaceAdvanced.HIDE
+    ui_PlaceBasic.HIDE
+    runif nUserMode 0 'ui_PlaceAdvanced.SHOW'
+    else_run 'ui_PlaceBasic.SHOW'
+    ui_PlaceAddressText.Hide
+    ui_PlacePOIText.Hide
+    txtPA_POI.HIDE
+    txtPA_Address.HIDE
+    runif nPlaceStateMode 1 'txtPA_POI.SHOW'
+    else_run 'txtPA_Address.SHOW'
+  
+	ui_PlaceMenuPlan.HIDE
+    ui_PlaceBasic_POS.HIDE
+	ui_PlaceMenuPlan_POS.HIDE
+
+    runif nUserMode 0 sc_StartPlaceMenuPlan
+        
+    else_runif nPlaceStateMode 1 'txtPA_POI.HIDE, ui_PlacePOIText.SHOW'
+    else_run 'txtPA_Address.HIDE, ui_PlaceAddressText.SHOW'
+</script>
+
+<script sc_PlaceStateInit>
+	runif nPlaceStateMode 2 'nPlaceStateMode.set 1,run sc_PlaceStateInit3D'
+	else_run sc_PlaceStateInit2D
+</script>
+
+<script sc_PlaceMenuBack>
+   	.map.restore_cursor_pos
+	PREVSTATE
+</script>
+
+<script sc_PlaceStateDone>
+	;runif bBackupNavMapFollow 1 sc_FollowOn
+	START_STOP_ROTATE 0 0
+	START_STOP_ROTATE 1 0
+	.map.stop_rotate_on_map_move 0
+</script>
+
+<script sc_StartPlaceMenuPlan>
+	runif nUserMode 0 sc_cursor_or_pos_advanced
+  
+	
+	btnPMP_AddDest.ENABLE
+	btnPMP_RemoveDest.ENABLE
+    btnPMP_AddVia.ENABLE
+    btnPMP_RemoveVia.ENABLE
+
+	GETPLACEROUTEMODE vTmp
+	runif vTmp 2 'btnPMP_AddVia.HIDE, btnPMP_RemoveVia.SHOW'
+	else_run 'btnPMP_AddVia.SHOW, btnPMP_RemoveVia.HIDE'
+	runif vTmp 3 'btnPMP_AddDest.SHOW, btnPMP_RemoveDest.SHOW, btnPMP_AddVia.HIDE'
+	else_run 'btnPMP_AddDest.SHOW, btnPMP_RemoveDest.HIDE'
+	runif vTmp 5 'btnPMP_AddVia.DISABLE'
+	else_run 'btnPMP_AddVia.ENABLE'
+   
+	runif vTmp 1 'btnPMP_AddDest.DISABLE, btnPMP_RemoveDest.DISABLE, btnPMP_AddVia.DISABLE, btnPMP_RemoveVia.DISABLE'
+	else_runif vTmp 2 'btnPMP_AddDest.DISABLE, btnPMP_RemoveDest.DISABLE'
+	else_runif vTmp 3 'btnPMP_AddVia.DISABLE, btnPMP_RemoveVia.DISABLE'
+
+    POSISPIN vTmp
+    runif vTmp 1 'btnPMP_AddPin.HIDE, btnPMP_RemovePin.SHOW, btnPM_POS_AddPin.HIDE, btnPM_POS_RemovePin.SHOW'
+    else_run 'btnPMP_AddPin.SHOW, btnPMP_RemovePin.HIDE, btnPM_POS_AddPin.SHOW, btnPM_POS_RemovePin.HIDE'
+	
+    POSISCAM vTmp
+	runif vTmp 1 'btnPM_POS_AddCam.HIDE, btnPM_POS_EditCam.SHOW'
+	else_run 'btnPM_POS_AddCam.SHOW, btnPM_POS_EditCam.HIDE'
+</script>
+
+<script sc_btnPM_AddStart_OnRelease>
+	runif vAutoReplan 1 'INITMESSAGEBOX 1 "Would you like to disable navigation from GPS position?" sc_TurnOnPlanMode sc_CancelSetStart'
+	else_run sc_SetStartPoint
+</script>
+
+<script sc_TurnOffAutoReplan>
+	vAutoReplan.SET 0
+	vRecalcOffByStartPoint.set 1
+</script>
+
+<script sc_TurnOnPlanMode>
+	run sc_TurnOffAutoReplan
+	run sc_SetStartPoint
+</script>
+
+<script sc_CancelSetStart>
+	INITMESSAGEBOX 0 "The startpoint is the current GPS position."
+</script>
+
+<script sc_SetStartPoint>
+    vStartModeTmp.set 1
+	CITYHISTORY_ADD_RELEASE vSelectedUID
+	ADDSELECTEDITEMTOHISTORY 1
+
+	navigation.waypoints.set_start_at_selection
+	run sc_ClosePlaceMenu
+</script>
+
+<script sc_btnPM_RemoveStart_OnRelease>
+	vStartModeTmp.set 0
+    FINDPATH_FROMLAST
+	run sc_ClosePlaceMenu
+</script>
+
+<script sc_btnPM_AddDest_OnRelease>
+  runif vStartModeTmp 0 'vModeTmp.set 1'
+  CITYHISTORY_ADD_RELEASE vSelectedUID
+  ADDSELECTEDITEMTOHISTORY 1
+  map.ISROUTEMULTISEGMENTED vMultiSegmentPath
+	runif vMultiSegmentPath 1 'INITMESSAGEBOX 1 "The previous route will be deleted." sc_RouteTo'
+	else_run sc_RouteTo
+	runif vPlanModeOn 1 'run sc_FitToScreen_PlanMode'
+</script>
+
+<script sc_RouteTo>
+	runif vPlanModeOn 1 'run sc_RouteToPM'
+	else_run 'run sc_RouteToNoPM'
+</script>
+
+<script sc_RouteToPM>
+	FINDPATH_TO_CLEARAVOIDS
+</script>
+
+<script sc_RouteToNoPM>
+	map.mapmode 1
+	FINDPATH_TO_CLEARAVOIDS
+	runif vAutoReplan 1 'vStateMode.SET ""'
+	run sc_ClosePlaceMenu
+	runif vAutoReplan 1 'run sc_FollowOn'
+	;runif %gps.valid 1 'btnNMB_Cursor.HIDE, btnNMB_Pos.SHOW'
+	;else_run 'btnNMB_Cursor.show, btnNMB_Pos.hide'
+</script>
+
+<script btnPMP_MultiplanDest_OnRelease>
+	FINDPATH_SET_MULTIPLAN_METHODS L"FAST" L"SHORT" L"ECO" L"SIMPLE"
+	FINDPATH_MULTIPLAN_TO 0 "vTmp"
+	runifnot vTmp 0 'NEXTSTATE st_MultiRoute'
+	else_run 'FINDPATH_MULTIPLAN_CANCEL, run sc_P_return_to_map 0'
+</script>
+
+<script sc_SelectMultiplanRoute>
+	FINDPATH_SELECT_MULTIPLAN $1
+	run sc_P_return_to_map 0
+	runif vAutoReplan 1 'run sc_FollowOn'
+</script>
+
+<script sc_btnPM_RemoveDest_OnRelease>
+	FINDPATH_CONTINUE
+	run sc_ClosePlaceMenu
+</script>
+
+<script sc_btnPM_AddPin_OnRelease>
+	map.PUTPIN
+	run sc_P_return_to_map 0
+</script>
+
+<script sc_btnPM_AddPin_To_GPS>
+    runif vActiveState "st_navigatemap" 'map.movecursortogps'
+	runif vActiveState "st_navigatemap" 'map.PUTPIN'
+</script>
+
+<script sc_btnPM_RemovePin_OnRelease>
+	map.PUTPIN
+	run sc_P_return_to_map 0
+</script>
+
+<script sc_btnPM_AddVia_OnRelease>
+    runif vStartModeTmp 0 'vModeTmp.set 1'
+    CITYHISTORY_ADD_RELEASE vSelectedUID
+	ADDSELECTEDITEMTOHISTORY 1
+	; disabled in route edit menu - if waypoints will be > 3, the next state is route edit
+	runif %navigation.waypoints.list.size > 2 '.navigation.waypoints.findpath_on_modify 0'
+	.navigation.waypoints.add_optimally
+    vSelectedWayPoint.SET %navigation.waypoints.list.index
+	runif %navigation.waypoints.list.size > 3 'run sc_StartRouteEditState'
+	else_run '.navigation.waypoints.findpath_on_modify 1, run sc_ClosePlaceMenu'
+    runif vAutoReplan 1 'run sc_FollowOn'  
+</script>
+	
+<script sc_ClosePlaceMenu>
+	runif vPlanModeOn 0 'run sc_P_return_to_map 1'
+	else_runif vPlanModeOn 1 'run sc_FitToScreen_PlanMode'    
+</script>
+
+<script sc_StartRouteEditState>
+	runif vPlanModeOn 0 'run sc_RouteEditBack_OnRelease'
+    NEXTSTATE st_RouteEdit
+</script>
+
+<script sc_RouteEditBack_OnRelease>
+	btn_Footer_back2.onrelease 'run sc_P_return_to_map 1'
+</script>
+
+<script sc_btnPM_RemoveVia_OnRelease>
+	FINDPATH_CONTINUE
+	run sc_ClosePlaceMenu
+</script>
+
+<script sc_btnPM_AddCam_OnRelease>
+	POI_GET_SPEEDCAM_PARAMS nCamType nCameraSpeed nCamHeading nCamDirectionType nCamOnScreenHeading nCamSpeedUnit
+	sprSC_Type.PHASE nCamType
+	btnSC_Delete.HIDE
+	run sc_SetCameraDirection nCamDirectionType
+	nSpeedCamStateMode.SET 1
+	GET_CURSOR_POS nSpeedCamPosX nSpeedCamPosY
+	NEXTSTATE st_SpeedCam
+</script>
+
+<script sc_btnPM_EditCam_OnRelease>
+	POI_GET_SPEEDCAM_PARAMS nCamType nCameraSpeed nCamHeading nCamDirectionType nCamOnScreenHeading nCamSpeedUnit
+	sprSC_Type.PHASE nCamType
+	btnSC_Delete.SHOW
+	run sc_SetCameraDirection nCamDirectionType
+	nSpeedCamStateMode.SET 0
+	GET_CURSOR_POS nSpeedCamPosX nSpeedCamPosY
+	NEXTSTATE st_SpeedCam
+</script>
+
+<script sc_btnPM_Favorite_OnRelease>
+    vManageMode.SET 0
+    NEXTSTATE st_ManageFavorite
+</script>
+
+<script sc_btnPM_AddPOI_OnRelease>
+	poi.structure.center "cursor"
+	poi.structure.reset
+	;don't merge the next line to R4+
+	poi.structure.search_root 0
+	poi.structure.execute
+	NEXTSTATE st_AddPOI
+</script>
+
+<script sc_btn_ChangePoiGroupe_OnRelease>
+    exec "poi.structure.execute"
+    NEXTSTATE st_AddPOI
+</script>
+
+<script sc_btnPM_Continue_OnRelease>
+	CITYHISTORY_ADD_RELEASE vSelectedUID
+	ADDSELECTEDITEMTOHISTORY 1
+	FINDPATH_AFTER
+	run sc_ClosePlaceMenu
+</script>
+
+<script sc_btnP_Map_OnRelease>
+    vCarWasLockedWhenExitedNavigateMap.set 0
+	CITYHISTORY_ADD_RELEASE vSelectedUID
+	ADDSELECTEDITEMTOHISTORY
+	run sc_FollowOff
+	run sc_P_return_to_map 0
+    run sc_NaviMenuAlphaDown   
+</script>
+
+<script sc_btnPA_Info_OnRelease>
+    run sc_ResetPlaceInfoSearch
+    NEXTSTATE st_PlaceInfo
+</script>
+
+<script sc_P_return_to_map>
+	runif $1 1 'map.MOVECURSORTOSELECTEDITEM'
+	vStateMode.SET ""
+	run sc_EmptyStateQueue st_NavigateMap
+</script>
+
+;****************************************************************************************************************
+
+<state st_ArrowPlace>
+	<uselayer ui_Footer2/>
+	<uselayer ui_PlaceAdvanced/>
+	<uselayer ui_PlaceBasic/>
+	<uselayer ui_PlaceZoomControls/>
+	<uselayer ui_PlaceAddressText/>
+	<uselayer ui_PlacePOIText/>
+	<uselayer map/>
+	
+	<script init>
+        run sc_PlaceStateInit
+	    btnPA_Map.HIDE
+	    btnPB_Map.HIDE
+      
+        map.ONMAPCLICK sc_placemenu_mapclick 2
+        map.ENABLEMOVECURSORBYCLICK 1
+        run sc_StartPlaceMenuPlan
+        ; any button can be used for this. This must be after all show/hide layers.
+        btn_Footer_back2.CLEARFOCUS
+	</script>
+    
+    <script enter>
+        runif vmapstate 5 'map.get_mapstate_before_overview vmapstate'
+        else_run 'map.getmapstate vmapstate'
+        .map.store_cursor_pos
+        runif vUIres "800_480" 'map.select_cursor "cursor_places_big"'
+	    else_runif vUIres "480_800" 'map.select_cursor "cursor_places_big"'
+	    else_run 'map.select_cursor "cursor_places"'        
+    </script>        
+    
+<script sc_lock_plan_mode>
+    .map.restore_cursor_pos
+    run sc_RD_CenterCursor
+    runif vUIres "800_480" 'map.select_cursor "cursor_places_big"'
+	else_runif vUIres "480_800" 'map.select_cursor "cursor_places_big"'
+	else_run 'map.select_cursor "cursor_places"'
+    run sc_StartPlaceMenuPlan
+    map.ONMAPCLICK sc_placemenu_mapclick 2
+</script>
+  
+<script sc_placemenu_mapclick>
+		runif vUIRes "800_480" 'map.select_cursor "cursor_big"'
+        else_runif vUIRes "480_800" 'map.select_cursor "cursor_big"'      
+		else_run 'map.select_cursor "cursor"'
+    map.ONMAPCLICK sc_StartPlaceMenuPlan 2
+    run sc_StartPlaceMenuPlan    
+</script>
+ 
+  
+	<script done>
+        map.onmapclick
+	    run sc_PlaceStateDone
+        map.EnableMoveCursorByClick 1
+        runif nPlaceForPos 1 sc_FollowOn
+        vPresetOn.SET 0
+        ui_NavigateToggleZoomControls.hide
+	</script>
+    
+    <script exit>
+        nPlaceForPos.set 0
+		    runif vUIRes "800_480" 'map.select_cursor "cursor_big"'
+            else_runif vUIRes "480_800" 'map.select_cursor "cursor_big"'
+		    else_run 'map.select_cursor "cursor"'      
+    </script>
+</state>
+
+;****************************************************************************************************************
+
+<state st_PlaceInfo>
+	<uselayer ui_Footer2/>
+	<uselayer ui_PlaceInfo/>
+	<uselayer ui_Background/>
+	<uselayer ui_Header2 />
+	<uselayer ui_Title/>
+
+	<script init>
+		Title.SET "Point Info"
+		poi.near_cursor.area 1000
+		exec "poi.near_cursor.reset"
+		exec "poi.near_cursor.execute"
+	</script>
+</state>
+
+<script sc_ResetPlaceInfoSearch>
+		exec "poi.near_cursor.reset"
+		exec "poi.near_cursor.sort" "distance"
+		exec "poi.near_cursor.execute"
+</script>
+
+<script sc_etPIA_OnRelease>
+  runif bMsndValid 1 sc_etPIA_OnRelease_msnd
+  else_run sc_etPIA_OnRelease_orig
+</script>
+
+<script sc_etPIA_OnRelease_orig>
+	SELECTPOIITEM "poi.near_cursor" 0
+	NEXTSTATE st_ShowPoiInfo
+</script>
+
+<script sc_etPIA_OnRelease_msnd>
+    vTmp2.set 1
+	SELECTPOIITEM "poi.near_cursor" 0
+	.poi.find_provider "msnd.gas_stations" vTmp
+	runif vTmp %poi.current.provider_id 'vTmp2.set 0, exec "other.msnd.gas_stations.show", exec "other.msnd.gas_stations.select", NEXTSTATE st_MsndGasStationInfo'
+	
+	.poi.find_provider "msnd.movies" vTmp
+	runif vTmp %poi.current.provider_id 'vTmp2.set 0, exec "other.msnd.movies.theaters.show", exec "other.msnd.movies.theaters.select", NEXTSTATE st_MsndMovieTheaterInfo'
+	
+	;.poi.find_provider "msnd.user_locations" vTmp
+	;runif vTmp %poi.current.provider_id 'vTmp2.set 0, exec "other.msnd.user_locations.show", exec "other.msnd.user_locations.select", NEXTSTATE st_MsndUserLocationsInfo'
+	
+	.poi.find_provider "msnd.local_events" vTmp
+	runif vTmp %poi.current.provider_id 'vTmp2.set 0, exec "other.msnd.local_events.show", exec "other.msnd.local_events.select", NEXTSTATE st_MsndLocalEventsInfo'
+	
+	runif vTmp2 1 'NEXTSTATE st_ShowPoiInfo'
+</script>
+
+;****************************************************************************************************************
+
+<state st_PlaceMoreOptions>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_PlaceMoreOptions/>
+
+	<script init>
+		Title.SET "Cursor Menu"
+
+		btnPMO_AddStart.ENABLE
+		btnPMO_RemoveStart.ENABLE
+		btnPMO_AddDest.ENABLE
+		btnPMO_RemoveDEST.ENABLE
+		btnPMO_AddVia.ENABLE
+		btnPMO_RemoveVia.ENABLE
+		btnPMO_Continue.ENABLE
+		btnPMP_MultiplanDest.ENABLE
+		GETPLACEROUTEMODE vTmp
+		runif vTmp 1 'btnPMO_AddStart.HIDE, btnPMO_RemoveStart.SHOW'
+		else_run 'btnPMO_AddStart.SHOW, btnPMO_RemoveStart.HIDE'
+		runif vTmp 2 'btnPMO_AddVia.HIDE, btnPMO_RemoveVia.SHOW'
+		else_run 'btnPMO_AddVia.SHOW, btnPMO_RemoveVia.HIDE'
+		runif vTmp 3 'btnPMO_AddDest.HIDE, btnPMO_RemoveDest.SHOW'
+		else_run 'btnPMO_AddDest.SHOW, btnPMO_RemoveDest.HIDE'
+		runif vTmp 5 'btnPMO_AddVia.DISABLE, btnPMO_Continue.DISABLE'
+		else_run 'btnPMO_AddVia.ENABLE, btnPMO_Continue.ENABLE'
+		runif vTmp 1 'btnPMO_AddDest.DISABLE, btnPMO_RemoveDest.DISABLE, btnPMO_AddVia.DISABLE, btnPMO_RemoveVia.DISABLE, btnPMO_Continue.DISABLE, btnPMP_MultiplanDest.DISABLE'
+		else_runif vTmp 2 'btnPMO_AddStart.DISABLE, btnPMO_RemoveStart.DISABLE, btnPMO_AddDest.DISABLE, btnPMO_RemoveDest.DISABLE, btnPMO_Continue.DISABLE'
+		else_runif vTmp 3 'btnPMO_AddStart.DISABLE, btnPMO_RemoveStart.DISABLE, btnPMO_AddVia.DISABLE, btnPMO_RemoveVia.DISABLE, btnPMO_Continue.DISABLE'
+		POSISPIN vTmp
+		runif vTmp 1 'btnPMO_AddPin.HIDE, btnPMO_RemovePin.SHOW'
+		else_run 'btnPMO_AddPin.SHOW, btnPMO_RemovePin.HIDE'
+		POSISCAM vTmp
+		runif vTmp 1 'btnPMO_AddCam.HIDE, btnPMO_EditCam.SHOW'
+		else_run 'btnPMO_AddCam.SHOW, btnPMO_EditCam.HIDE'
+	</script>
+</state>
+

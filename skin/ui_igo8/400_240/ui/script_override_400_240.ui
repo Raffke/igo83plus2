@@ -1,0 +1,29 @@
+;****************************************************************************************************************
+; Overriden scripts
+;****************************************************************************************************************
+
+<script sc_set_UIresolution override>
+    vUIRes.set "400_240"
+</script>  
+  
+<script sc_FindAddress_positions_nostate override>
+	btnFA_Country.y 25 
+	btnFA_City.y 68 
+	btnFA_Street.y 111
+	btnFA_House.y 155
+	btnFA_history.y 68
+</script>
+
+<script sc_FindAddress_positions_state override>
+	btnFA_Country.y 20
+	btnFA_City.y 93
+	btnFA_Street.y 130
+	btnFA_House.y 167
+	btnFA_history.y 93
+</script>  
+
+
+<script sc_ScreenCalibrate override>
+  runif %power.backlight_supported 1 'btn_screen_calibtare.y 129'
+  else_run 'btn_screen_calibtare.y 57'
+</script>

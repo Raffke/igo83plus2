@@ -1,0 +1,141 @@
+;****************************************************************************************************************
+<header>
+	<layer ui_Route type="routeinfo" z=30000 x=11 y=28 w=460 h=50 DISABLE_INVISIBLE_ROUTE=1>
+</header>
+
+<layer ui_RouteInfo z=30> 		
+	<TEXT xxx            template=xtxt x=151  y=95 w=102 z=1 text="Route length" color=#FFFFFF alpha=25 fontsize=10 align="CENTER">
+	<TEXT xxx            template=xtxt x=21   y=152 w=102 z=1 text="Time left"    color=#FFFFFF alpha=25 fontsize=10 align="CENTER">
+	<TEXT xxx            template=xtxt x=21   y=95 w=102 z=1 text="Arrival"      color=#FFFFFF alpha=25 fontsize=10 align="CENTER">
+	<TEXT xxx            template=xtxt x=151  y=152 w=102 z=1 text="Method"       color=#FFFFFF alpha=25 fontsize=10 align="CENTER">
+	<TEXT txtRI_DestType template=xtxt x=21   y=61  w=85>
+                                          
+	<SPRITE sprRI_Info1  x=315 y=115 bmp="$ico_route_info.spr" template=a_buggy fxshowdelay=0  onclick='run sc_sprRI_Info_OnClick 0'>
+	<SPRITE sprRI_Info2  x=378 y=115 bmp="$ico_route_info.spr" template=a_buggy fxshowdelay=5  onclick='run sc_sprRI_Info_OnClick 1'>
+	<SPRITE sprRI_Info3  x=441 y=115 bmp="$ico_route_info.spr" template=a_buggy fxshowdelay=10 onclick='run sc_sprRI_Info_OnClick 2'>
+	<SPRITE sprRI_Info4  x=315 y=172 bmp="$ico_route_info.spr" template=a_buggy fxshowdelay=15 onclick='run sc_sprRI_Info_OnClick 3'>
+	<SPRITE sprRI_Info5  x=378 y=172 bmp="$ico_route_info.spr" template=a_buggy fxshowdelay=20 onclick='run sc_sprRI_Info_OnClick 4'>
+	<SPRITE sprRI_Info6  x=441 y=172 bmp="$ico_route_info.spr" template=a_buggy fxshowdelay=25 onclick='run sc_sprRI_Info_OnClick 5'>
+
+	<TEXT txtRI_DestAddress template=xtxt3 x=136 y=60  w=300 font="tahomabd" color=#FFFFFF fontsize=12 align="LEFT">
+                                           
+	<TEXT txtRI_Distance    template=xtxt3 x=151 y=116 w=102 font="tahomabd" color=#FFFFFF align="CENTER">
+	<TEXT txtRI_TimeLeft    template=xtxt3 x=21  y=173 w=102 font="tahomabd" color=#FFFFFF align="CENTER">
+	<TEXT txtRI_Arrive      template=xtxt3 x=21  y=116 w=102 font="tahomabd" color=#FFFFFF align="CENTER">
+	<TEXT txtRI_Method      template=xtxt3 x=151 y=173 w=102 font="tahomabd" color=#FFFFFF align="CENTER">
+	<TEXT txtRI_Stops hide>               
+
+	<BUTTON btnRI_Settings  template=footer3_1a text="Settings"  onrelease='NEXTSTATE st_SettingRoute' visiblemodel="!ui.nUserMode">
+	<BUTTON btnRI_Fit       template=footer3_2a text="Plan Mode"  onrelease='run sc_StartPlanMode' visiblemodel="!ui.nUserMode"> 
+
+	<BUTTON btn_RI_SkipNextVia    template=footer3_3a text="Skip next via"   onrelease='SKIPNEXTVIAPOINT, run sc_RefreshRouteInfo' visiblemodel="!ui.nUserMode">
+	<BUTTON btn_RI_DelRoute       template=footer3_3a text="Delete route"    onrelease='vNeedPrevState.set 1, run sc_btnARM_Delete_OnRelease' visiblemodel="!ui.nUserMode"> 
+
+	<BUTTON btnRI_Settings_basic  template=footer2_1a text="Settings"  onrelease='NEXTSTATE st_SettingRoute' visiblemodel="ui.nUserMode">
+
+	<BUTTON btn_RI_SkipNextVia_basic    template=footer2_2a text="Skip next via"   onrelease='SKIPNEXTVIAPOINT, run sc_RefreshRouteInfo' visiblemodel="ui.nUserMode"> 
+	<BUTTON btn_RI_DelRoute_basic       template=footer2_2a text="Delete route"    onrelease='run sc_btnARM_Delete_OnRelease' visiblemodel="ui.nUserMode"> 
+
+
+	<SPRITE xxx x=5 y=19 z=0 bmp="routeinfo_bg.bmp"     onclick='run sc_ShowNextRoutePartInfo'>
+</layer>
+
+
+; NEW ITINER
+
+<element_template et_itinerentry>
+	<SPRITE xxx x=39 y=2 z=20 iconindex=1 iconmodel="*.icon_id" visiblemodel="*.icon_visible">
+	<SPRITE xxx x=39 y=2 z=20 iconmodel="*.icon_small_id" visiblemodel="!*.icon_visible">
+	<BUTTON btnETItinerEntry%ID% template=btn_4a clickmodel="route.itiner.list.setcurrent $i" onrelease='NEXTSTATE st_RouteItineraryMap, run sc_RItMNew_go_to_current_loc'>
+	<TEXT txtETItinerEntryCrossing%ID% template=xtxt3 watchstate=btnETItinerEntry%ID% z=20 align="LEFT" valign="TOP" y=5 fontsize=16 textmodel_wstr="*.cross_count" visiblemodel="*.distance_visible">
+	<TEXT txtETItinerEntryLength%ID% template=xtxt3 watchstate=btnETItinerEntry%ID% z=20 align="LEFT" valign="TOP" y=5 fontsize=16 textmodel_wstr="*.length.full_text" visiblemodel="*.distance_visible">
+	<ALIGNER xxx align="LEFT" x=84 control=txtETItinerEntryCrossing%ID% padding=5 control=txtETItinerEntryLength%ID%>
+	<ROADSHIELDEDTEXT xxx template=xtxt3 watchstate=btnETItinerEntry%ID% z=20 x=84 w=350 h=19 align="LEFT" y=22 valign="CENTER-2" fontsize=14 textmodel_wstr="*.text_enc" visiblemodel="*.distance_visible">
+	<ROADSHIELDEDTEXT xxx template=xtxt3 watchstate=btnETItinerEntry%ID% z=20 x=84 w=350 h=19 align="LEFT" y=12 valign="CENTER-2" fontsize=14 textmodel_wstr="*.text_enc" visiblemodel="!*.distance_visible">
+</element_template>
+
+<layer ui_RouteItinerary z=30>
+	<LIST list_itiner template=tlist element_template="et_itinerentry" listmodel="route.itiner.list" SHOWSELECTION=1 KEEPSELECTIONONSCREEN=1>
+	<BUTTON xxx          template=prevpage clickmodel="ui.list_itiner.prevpage" enabledmodel="ui.list_itiner.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx          template=nextpage clickmodel="ui.list_itiner.nextpage" enabledmodel="ui.list_itiner.nextpage.valid" template=slow_repeat>
+	<BUTTON btnRIt_Mode2  template=footer2_1a text="Mode" onrelease='run sc_btnRItN_Mode_OnRelease'>	
+
+	<TEXT xxx   template=pageindex textmodel_wstr="ui.list_itiner.page_counter">
+
+</layer>
+
+<element_template et_RE_WayPoint>
+	<BUTTON xxx template=btn_4b  textmodel_wstr="*.name" clickmodel="navigation.waypoints.list.setcurrent $i" selectable>
+</element_template>
+
+<LAYER ui_RouteEdit z=30>
+
+	<LIST lstRE_WayPoints template=tlist element_template="et_RE_WayPoint" showselection=1 listmodel="navigation.waypoints.list">
+
+	<BUTTON xxx bmp="moveup.bmp#3"        x=425 y=18   clickmodel="navigation.waypoints.moveup_current"   enabledmodel="navigation.waypoints.moveup_current.valid">
+	<BUTTON xxx bmp="route_reverse.bmp#3" x=425 y=88   clickmodel="navigation.waypoints.reverse"          enabledmodel="navigation.waypoints.is_route_valid&navigation.waypoints.start_is_user_selected" onrelease='run sc_RouteEdit_ReverseRoute'>
+	<BUTTON xxx bmp="movedown.bmp#3"      x=425 y=132  clickmodel="navigation.waypoints.movedown_current" enabledmodel="navigation.waypoints.movedown_current.valid">
+
+	<BUTTON xxx          template=prevpage clickmodel="ui.lstRE_WayPoints.prevpage"  enabledmodel="ui.lstRE_WayPoints.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx          template=nextpage clickmodel="ui.lstRE_WayPoints.nextpage"  enabledmodel="ui.lstRE_WayPoints.nextpage.valid" template=slow_repeat>
+
+	<BUTTON btnRE_Remove   template=footer4_1a text="Remove"   clickmodel="navigation.waypoints.delete_current" enabledmodel="ui.lstRE_WayPoints.current_index!=0|navigation.waypoints.start_is_user_selected&navigation.waypoints.is_route_valid" onrelease='run sc_RemovePoint'> 
+	<BUTTON btnRE_Optimize template=footer4_2a text="Optimize" clickmodel="navigation.waypoints.optimize" enabledmodel="navigation.waypoints.optimize.valid"> 
+	<TEXT xxx   template=pageindex textmodel_wstr="ui.lstRE_WayPoints.page_counter">
+</layer>
+
+
+<layer ui_RouteItineraryMap z=3000>
+	<LIST list_itiner_1line template=tlist y=2 row=1 element_template="et_itinerentry" listmodel="route.itiner.list" SHOWSELECTION=1 KEEPSELECTIONONSCREEN=1>
+	<BUTTON xxx          template=prevpage clickmodel="ui.list_itiner_1line.prevpage" enabledmodel="ui.list_itiner_1line.prevpage.valid" onrelease='run sc_RItMNew_go_to_current_loc'>
+	<BUTTON xxx          template=nextpage clickmodel="ui.list_itiner_1line.nextpage" enabledmodel="ui.list_itiner_1line.nextpage.valid" onrelease='run sc_RItMNew_go_to_current_loc'>
+		
+	<BUTTON xxx          template=footer2_1a text="Avoid.." onrelease='run sc_ItinerAvoid'>
+
+	<BUTTON xxx  x=0 y=65   z=0 bmp="map_zoomin.bmp#2"  onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0'>  
+	<BUTTON xxx  x=0 y=129  z=0 bmp="map_zoomout.bmp#2" onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0'> 
+</layer>
+
+<LAYER ui_RouteItinerAvoid z=8001>
+	<BUTTON btn_RIA1 template=btn_4c text="Maneuver" y=20  align="CENTER"   fxshowdelay=0  onrelease='vAvoidMenu.set "M",  run sc_AvoidMenuSelected'>
+	<BUTTON btn_RIA2 template=btn_4c text="Street"   x=242 y=20  align="CENTER"   fxshowdelay=15 onrelease='vAvoidMenu.set "S",  run sc_AvoidMenuSelected'>
+	<BUTTON btn_RIA3 template=btn_4c text="1km"      y=65  align="CENTER"   fxshowdelay=3  onrelease='vAvoidMenu.set "1",  run sc_AvoidMenuSelected'>
+	<BUTTON btn_RIA5 template=btn_4c text="5km"      x=242 y=65  align="CENTER"   fxshowdelay=12 onrelease='vAvoidMenu.set "5",  run sc_AvoidMenuSelected'>
+	<BUTTON btn_RIA6 template=btn_4c text="10km"     y=110 align="CENTER"   fxshowdelay=6  onrelease='vAvoidMenu.set "10", run sc_AvoidMenuSelected'>
+	<BUTTON btn_RIA8 template=btn_4c text="30km"     x=242 y=110 align="CENTER"   fxshowdelay=9  onrelease='vAvoidMenu.set "30", run sc_AvoidMenuSelected'>
+</LAYER>
+
+<element_template et_Route>
+	<BUTTON xxx template=btn_4d iconspr="x.bmp" text="" clickmodel="mydata.routes.list.setcurrent $i" onrelease='run sc_DeleteSavedRoute'>
+	<BUTTON xxx template=btn_4b textmodel_wstr="*.name+*.info" twolinesmall=1 clickmodel="mydata.routes.list.setcurrent $i" onrelease='run sc_et_Route_OnRelese' enabledmodel="*.type = 0">
+	<SPRITE xxx x=235 y=4 z=100 bmp="$ico_kml_list.bmp" visiblemodel="*.type = 1">	
+</element_template>
+
+<layer ui_MyDataRoute z=30>
+	<LIST   lstMDR_Routes  template=tlist element_template="et_Route" listmodel="mydata.routes.list">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstMDR_Routes.prevpage" enabledmodel="ui.lstMDR_Routes.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstMDR_Routes.nextpage" enabledmodel="ui.lstMDR_Routes.nextpage.valid" template=slow_repeat>
+
+	<TEXT   xxx template=txt_empty text="<No Routes Saved>" visiblemodel="mydata.routes.list.isempty">
+	<SPRITE xxx template=spr_empty visiblemodel="mydata.routes.list.isempty">
+	
+	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstMDR_Routes.page_counter">
+	
+
+	<BUTTON btnMDR_ClearAll  template=footer2_1a text="Clear All" onrelease='run sc_btnMDR_ClearAll_OnRelease' enabledmodel="mydata.routes.hasigoitems"> 
+</layer>
+
+<element_template et_RouteLoad>
+	<BUTTON xxx template=btn_4a textmodel_wstr="*.name+*.info" twolinesmall=1 clickmodel="mydata.routes.list.setcurrent $i" onrelease='run sc_lbMDR_RouteLoad_OnItemSelected'>
+	<SPRITE xxx x=295 y=4 z=100 bmp="$ico_kml_list.bmp" visiblemodel="*.type = 1">	
+</element_template>
+
+<layer ui_MyDataRouteLoad z=30>
+	<LIST   lstMDR_RoutesLoad template=tlist element_template="et_RouteLoad" listmodel="mydata.routes.list">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstMDR_RoutesLoad.prevpage" enabledmodel="ui.lstMDR_RoutesLoad.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstMDR_RoutesLoad.nextpage" enabledmodel="ui.lstMDR_RoutesLoad.nextpage.valid" template=slow_repeat>
+
+	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstMDR_RoutesLoad.page_counter">
+	
+</layer>
+

@@ -1,0 +1,46 @@
+;****************************************************************************************************************
+; Overriden scripts
+;****************************************************************************************************************
+<script sc_set_UIresolution override>
+    vUIRes.set "240_400"
+    .tmc.events.split_location_at 20
+    vActiveState.onchange "sc_hide_btn_help"
+</script>  
+
+<script st_SpeedCam_init override>
+    run st_SpeedCam_init_orig
+    txtSC_Poti.SHOW
+    runif vTmp 1 'txtSC_Poti.HIDE'
+    runif vTmp 4 'txtSC_Poti.HIDE'
+</script>
+
+  
+<script sc_FindAddress_positions_nostate override>
+	btnFA_Country.y 20 
+	btnFA_City.y 76 
+	btnFA_Street.y 132
+	btnFA_House.y 188
+	btnFA_history.y 76
+</script>
+
+<script sc_FindAddress_positions_state override>
+	btnFA_Country.y 20 
+	btnFA_City.y 132 
+	btnFA_Street.y 188
+	btnFA_House.y 244
+	btnFA_history.y 132
+</script>  
+
+
+<script sc_sprRI_Info_OnClick override>
+    ui_Route.GET_ICON_HINT $1 vTmp
+    runif vTmp 1 'ui_Route.SHOW_ICONS sprRI_Info1 sprRI_Info2 sprRI_Info3 sprRI_Info4 sprRI_Info5 sprRI_Info6'
+	else_runif vTmp 2 'playsound "!invalid"'
+	else_run 'INITMESSAGEBOX 0 vTmp'
+</script>
+
+
+<script sc_ScreenCalibrate override>
+  runif %power.backlight_supported 1 'btn_screen_calibtare.y 129'
+  else_run 'btn_screen_calibtare.y 57'
+</script>

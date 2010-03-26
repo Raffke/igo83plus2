@@ -1,0 +1,1131 @@
+;****************************************************************************************************************
+<header>
+    <layer ui_FlyOver type="flyover" x=480 y=0 w=40 h=40 z=13004>
+    <var vValid>
+    <var MultiSeg=0>
+
+	<var vStateMode="">
+	
+	<var vCarWasLockedWhenExitedNavigateMap=0>
+</header>
+
+<observer obs_OverviewMode_Changed boolmodel="map.overview" onchange='run sc_OverviewModeChanged'>
+
+; State Modes (vStateMode):
+; "3DFlyOverMode"  : FlyOver and Simulate
+; "2DPlanMode"     : Has route with own start point (navigation is off)
+; "3DCruiseMode"   : Follow mode (navigation is off)
+; "3DNavigateMode" : Has route and navigating (navigation is on)
+; "2DNavigateMode" : Has route and navigating (navigation is on)
+; "2DOverviewMode" : Overview (start/stop automaticly)
+
+;****************************************************************************************************************
+<state st_PointOnMap>
+    <uselayer map/>
+    ;<uselayer ui_Header2/>
+    <uselayer ui_footer2/>                       
+    <uselayer ui_pointonmap/>
+    <uselayer ui_title/>
+    
+	<script init>
+	    title.set ""
+	    vPoiExtraInfoSave.SET %poi.current.address.ext
+	    .map.store_cursor_pos 
+	    bBackupNavMapFollowPlanMode.SET bNavMapFollow
+		runif bBackupNavMapFollowPlanMode 1 'run sc_FollowOff'
+		run sc_FullScreenMap
+		map.ZOOMCONTROL_SHOW 0
+		
+		vPrevStateMode.set vStateMode
+		map.mapmode 1
+		vMapSettings2d3d.set "2D"
+	    map.VIEW2D3D vMapSettings2d3d
+	    map.EnableMoveCursorByClick 1
+		map.CENTERCURSOR 50 50
+		map.SHOWCURSOR 1
+		
+	    runif vUIres "800_480" 'run sc_StartBig'
+	    else_runif vUIres "480_800" 'run sc_StartBig'
+	    else_run 'run sc_StartSmart'
+	    
+        ; any button can be used for this. This must be after all show/hide layers.
+        btn_Footer_back2.CLEARFOCUS
+	</script>
+	    
+	<script sc_StartBig>
+	    runif vChangePOIcoord 1 'map.select_cursor "cursor_places_big", map.onmapclick sc_point_on_map_click 1'
+		else_run 'map.ONMAPCLICK'
+	</script>
+	
+	<script sc_StartSmart>
+	    runif vChangePOIcoord 1 'map.select_cursor "cursor_places", map.onmapclick sc_point_on_map_click 1'
+		else_run 'map.ONMAPCLICK'
+	</script>
+	
+	<script done>
+		vStateMode.set vPrevStateMode
+		runif vUIRes "800_480" 'map.select_cursor "cursor_big"'
+		else_runif vUIRes "480_800" 'map.select_cursor "cursor_big"'
+		else_run 'map.select_cursor "cursor"'
+		vChangePOIcoord.set 0
+	</script>
+</state>
+
+
+<script sc_StartPointOnMap>
+    bBackupNavMapFollowPlanMode.SET bNavMapFollow
+    nextstate st_PointOnMap
+</script>
+
+;****************************************************************************************************************
+<state st_CockpitStatus>
+	<uselayer ui_Header2/>
+	<uselayer ui_Title/>
+	<uselayer ui_Background />
+	<uselayer ui_Footer2/>
+	<uselayer ui_CockpitStatus />
+
+	<script init>
+		Title.SET "Cockpit Menu"	
+
+        run sc_daynightModeChange
+        bNightMode.onchange "sc_daynightModeChange"
+		runif nUserMode	1 'run sc_SetCockpitStatusBasicMode'
+		else_run 'run sc_SetCockpitStatusAdvMode'
+
+      runif vUIRes "800_480" sc_change_vehicle_icon_big
+      else_runif vUIRes "480_800" sc_change_vehicle_icon_big
+      else_run sc_change_vehicle_icon
+	</script>
+	
+	<script done>
+	    bNightMode.onchange ""
+		term sc_TimeredPrevState
+	</script>
+	
+	<script sc_daynightModeChange>
+		runif bNightMode 1 'vMapColors.SET "NIGHT",statusDay.show,statusAutoDN.hide,statusNight.hide'
+		else_run 'vMapColors.SET "DAY",statusAutoDN.hide,statusNight.show,statusDay.hide'
+	</script>
+
+
+</state>
+
+<script sc_SetCockpitStatusBasicMode>
+        runif vUIRes "240_240" 'statusSound.x 85'
+        runif vUIRes "320_240" 'statusSound.x 110'
+        runif vUIRes "320_320" 'statusSound.x 110'
+        runif vUIRes "240_320" 'chk_quick3d.x 65'
+        runif vUIRes "480_234" 'statusSound.x 190'
+        runif vUIRes "480_272" 'statusSound.x 175'
+        runif vUIRes "400_240" 'statusSound.x 150' 
+        runif vUIRes "240_400" 'chk_quick3d.x 65'
+        runif vUIRes "800_480" 'statusSound.x 280'
+        runif vUIRes "480_800" 'chk_quick3d.x 120' 
+</script>
+
+<script sc_SetCockpitStatusAdvMode>
+
+	    runif vUIRes "240_240" 'statusSound.x 45'
+	    runif vUIRes "320_240" 'statusSound.x 57'
+	    runif vUIRes "320_320" 'statusSound.x 57'
+        runif vUIRes "240_320" 'chk_quick3d.x 122'
+        runif vUIRes "480_234" 'statusSound.x 137'
+        runif vUIRes "480_272" 'statusSound.x 108'
+        runif vUIRes "400_240" 'statusSound.x 87'
+        runif vUIRes "240_400" 'chk_quick3d.x 122'
+        runif vUIRes "800_480" 'statusSound.x 150'
+        runif vUIRes "480_800" 'chk_quick3d.x 245'
+	</script>
+
+
+
+<state st_MultiRoute>
+    <uselayer ui_Header2 />
+    <uselayer ui_Title />
+    <uselayer ui_Background />
+    <uselayer ui_Footer2 />
+    <uselayer ui_MultiRoute />
+
+	<script init>
+		FINDPATH_SELECT_MULTIPLAN_DRAW 0
+		Title.SET "Route Alternatives"
+		ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute1 1
+		ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute2 2
+		ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute3 3
+		ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute4 4
+		runif vUIRes "240_320" sc_change_vehicle_icon_on_footer
+		else_runif vUIRes "240_240" sc_change_vehicle_icon_on_footer
+		else_runif vUIRes "240_400" sc_change_vehicle_icon_on_footer
+		else_runif vUIRes "800_480" sc_change_vehicle_icon_on_big
+		else_runif vUIRes "480_800" sc_change_vehicle_icon_on_big
+	</script>
+	<script exit>
+		vMultiRouteCalculate.set 0
+		FINDPATH_MULTIPLAN_CANCEL
+	</script>
+</state>
+
+<script sc_MultiRouteVehicle>
+	vMultiRouteCalculate.set 1
+	NEXTSTATE st_SettingVehicle
+</script>
+
+<script sc_change_vehicle_icon_on_footer>
+	runif nVehicle 0 'btnMR_vehicle.iconspr "$vhcl_car_onbtn.bmp"'
+	else_runif nVehicle 1 'btnMR_vehicle.iconspr "$vhcl_taxi_onbtn.bmp"'
+	else_runif nVehicle 2 'btnMR_vehicle.iconspr "$vhcl_bus_onbtn.bmp"'
+	else_runif nVehicle 3 'btnMR_vehicle.iconspr "$vhcl_car_onbtn.bmp"'
+	else_runif nVehicle 4 'btnMR_vehicle.iconspr "$vhcl_emr_onbtn.bmp"'
+	else_runif nVehicle 5 'btnMR_vehicle.iconspr "$vhcl_ped_onbtn.bmp"'
+	else_runif nVehicle 6 'btnMR_vehicle.iconspr "$vhcl_bic_onbtn.bmp"'
+	</script>
+
+<script sc_change_vehicle_icon_on_big>
+	runif nVehicle 0 'btnMR_vehicle.iconspr "vhcl_car.bmp"'
+	else_runif nVehicle 1 'btnMR_vehicle.iconspr "vhcl_taxi.bmp"'
+	else_runif nVehicle 2 'btnMR_vehicle.iconspr "vhcl_bus.bmp"'
+	else_runif nVehicle 3 'btnMR_vehicle.iconspr "vhcl_car.bmp"'
+	else_runif nVehicle 4 'btnMR_vehicle.iconspr "vhcl_emr.bmp"'
+	else_runif nVehicle 5 'btnMR_vehicle.iconspr "vhcl_ped.bmp"'
+	else_runif nVehicle 6 'btnMR_vehicle.iconspr "vhcl_bic.bmp"'
+</script>	
+<script sc_MultiRouteRouteTypes>
+	vMultiRouteCalculate.set 1
+	NEXTSTATE st_SettingRouteParam
+</script>
+
+;****************************************************************************************************************
+
+<state st_Bypass>
+    <uselayer ui_Header2 />
+    <uselayer ui_Title/>
+    <uselayer ui_Background />
+    <uselayer ui_Footer2 />
+    <uselayer ui_NavigateMapAvoid />
+
+	<script init>
+		Title.SET "Bypass Road"
+		run sc_NMA_Init
+	</script>
+</state>
+
+;****************************************************************************************************************
+
+<state st_Detour>
+    <uselayer ui_Header2 />
+    <uselayer ui_Background />
+    <uselayer ui_Title />
+	<uselayer ui_Footer2 />
+	<uselayer ui_Detour />
+
+	<script init>
+		Title.SET "Detour"
+		SET_QUICK_SEARCH_ITEMS_ENABLED 300000
+		HAS_AVOIDS vTmp
+		runif vTmp 0 'btnD_RemoveAvoids.disable'
+		else_run 'btnD_RemoveAvoids.enable'
+		
+		runif nUserMode 1 'btnD_RemoveAvoids.hide, btnD_ByPassRoad.hide'
+		else_run 'btnD_RemoveAvoids.show, btnD_ByPassRoad.show'
+		
+		.poi.search_manager.list.index 0
+	</script>
+</state>
+
+<script sc_RemoveAvoids>
+	CLEAR_AVOIDS
+	btnD_RemoveAvoids.disable
+	PREVSTATE
+</script>
+
+<script sc_ShowSignpostLayer>
+	runifnot vLaneInfo 0 'ui_NavigateMapSingpost.SHOW'
+</script>
+
+;****************************************************************************************************************
+<state st_NavigateMap>
+    <uselayer map/>
+    <uselayer ui_NavigateMapButtons/>
+	<uselayer ui_NavigateMapButtons_nogps/>
+    <uselayer ui_NavigateMapInfos/>
+    <uselayer ui_NavigateMapRouteNavigation/>
+    <uselayer ui_NavigateMapCruise/>
+    <uselayer ui_QuickFind/>
+    <uselayer ui_NavigateMapStatus/>
+    <uselayer ui_NavigateMapAvoid/>
+    <uselayer ui_Lock_Onmap/>
+    <uselayer ui_NavigateMapBT/>
+    <uselayer safemode_layer/>
+    <uselayer ui_NavigateMapCockpitelemets/>
+    <uselayer ui_NavigateMapCockpitelemets_hack/>    
+    <uselayer ui_FlyOver/>
+    <uselayer ui_GPS_Satelite_Onmap/>    
+    <uselayer ui_NavigateMapSpeedLimit/>
+	<uselayer ui_NavigateMapGPSPosHouseNumber/>
+	<uselayer ui_SpeedCamWarningLayer/>
+	<uselayer ui_NavigateMapZoomControls2D/>
+	<uselayer ui_NavigateMapZoomControls3D/>
+	<uselayer ui_NavigateMapPresetControls2D/>
+	<uselayer ui_NavigateMapPresetControls3D/>
+    <uselayer ui_Title/>
+    
+    <script init>
+;      runifnot vFlyoverOrSimulate -1 'runif %map.flyover 0 \'FINDPATH_SIMULATE vFlyoverOrSimulate\''
+      Title.SET ""
+      obs_Zoomlevel.start
+      ;Auto follow mod visszaallitasa...
+      vcf_bAutoFollowModeOn.set vcf_bAutoFollowModeOn_save
+      runif vMapState 5 sc_ExitOverview
+      ;runif vMapState 5 'vMapState.set 0'
+      map.setmapstate vMapState
+      runif vMapState 0 'vMapMode.set L"3D"'
+      else_run 'vMapMode.set L"2D", run sc_2dMode'
+      vtmp.set 0
+      runifnot %navigation.waypoints.start_is_user_selected 1 'incval "vtmp" 1'
+      runif vCarWasLockedWhenExitedNavigateMap 1 'incval "vtmp" 1'
+      runif vtmp 2 'run sc_FollowOn'
+      run sc_GPS_Satelite_map
+      register_satellite_display  "l_sat_map" "sat_map" "l_prn" "spr_prn"
+
+      bNavMapFollow.onchange "sc_check_cursor"
+      map.PROGRESS_SHOW 0
+      run sc_safemode_off
+      runif bnavmapfollow 1 'map.showcursor 0'
+      else_run 'map.showcursor 1'
+
+      vGpsValid.onchange ""
+      vMoveCursorToSelectedItem.set 1
+      run sc_RD_SetCockpitMapSize
+
+      runif vMapMode L"3D" 'map.ZOOMCONTROL_SHOW 0, run sc_laneinfo_pos_3D'
+      else_run 'run sc_init_zoomcontrol_browsemap, run sc_laneinfo_pos_2D'
+
+      ;vHideZoomControls.set 1
+
+      runif vOnFlyover 0 'SETMARKER vFindStateMarker'
+      else_run 'map.showcursor 0'
+
+      SETFLYOVERLAYER ui_FlyOver btnNMB_Stop
+
+      runif vUIres "800_480" 'run sc_attach_lane_big'
+      else_runif vUIres "480_800" 'run sc_attach_lane_big'
+      else_run 'run sc_attach_lane_small'
+
+      ui_NavigateMapAvoid.HIDE
+
+      ;Overview mode change handling moved to observer
+      ;vOverviewMode.ONCHANGE "sc_OverviewModeChanged"
+      obs_OverviewMode_Changed.start "NO_TRIGGER"
+
+      runif bNavMapFollow 1 'runif %navigation.car_pos_valid 1 sc_InitPresetMode'
+
+      nVehicle.onchange "sc_nVehicle_change"
+
+      runif vUIRes "800_480" sc_change_vehicle_icon_big
+      else_runif vUIRes "480_800" sc_change_vehicle_icon_big
+      else_run sc_change_vehicle_icon
+
+      runif vGpsValid 1 sc_cursor_pos
+      else_run 'btnNMB_Pos.HIDE, btnNMB_Cursor.SHOW'
+
+
+      run sc_NaviMenuAlphaRestore
+
+      vMapIsShowed.SET 1
+      vPresetOn.set 0
+
+      ;sprLaneInfo.SHOW
+      run sc_ShowCockpitPanel
+
+      vGPSSignal.onchange "sc_CockpitReInit"
+
+      runif bNavMapFollow 1 'ui_NavigateMapGPSPosInfos.SHOW, run sc_ShowSignpostLayer, vShowStreetsLayer.SET 1, ui_NavigateMapCursorPosInfos.hide'
+      else_run 'ui_NavigateMapGPSPosInfos.hide, ui_NavigateMapSingpost.HIDE, vShowStreetsLayer.SET 0, ui_NavigateMapCursorPosInfos.SHOW'
+
+      bLaneinfoSignpostValid.onchange "sc_SetCarPos"
+
+      run sc_TMC_Announce
+      EXEC "tmc.events.update_cockpit_status"
+      1 vMapModeChange.set 0
+      1 run sc_CockpitReInit
+      3 runif vOnFlyover 1 'btnNMB_Cursor.hide,btnNMB_Pos.hide, ui_NavigateMapGPSPosInfos.SHOW, run sc_ShowSignpostLayer, vShowStreetsLayer.SET 1, ui_NavigateMapCursorPosInfos.hide'
+
+      run sc_TmcUpdateCockpitStatus
+      runif v2DHeadUp 1 sc_2DHeadUpInit
+      else_run sc_2DNoHeadUpInit
+      runif vSetZoomSettings 1 sc_set_zoom_and_tilt_settings
+      
+      runif vMapState 3 'map.SETCARPOSITION 50 75'
+	    runif vMapState 4 'map.SETCARPOSITION 50 50'
+	    runif vMapState 0 'run sc_3dmode'
+      3 run sc_CheckMapState 
+      
+      ; any button can be used for this. This must be after all show/hide layers.
+      3 btn_Footer_back2.CLEARFOCUS
+      runif vModeTmp 1 'vMapState.set 0,run sc_3DMode'
+      run sc_ZoomLevel
+      vModeTmp.set 0
+      runif %map.follow_gps 1 'SETGPSMODE 1 1'
+      
+      btnNMB_Nav3D.isvisible vTmp
+      runif vTmp  1 '.map.north_lock 1'
+      else_run '.map.north_lock 0'
+      
+      vDiriconVisible.BOOLEXPR "navigation.car_pos_valid&navigation.has_navigable_path&!ui.vRouteCalculation&!ui.vOnFlyover"
+    </script>
+
+  <script sc_CheckMapState>
+      map.getmapstate vTmp
+      runif vTmp 1 'map.setmapstate 0'
+  </script>
+  
+  <script sc_2DNoHeadUpInit>
+    runif vMapState 3 'map.setmapstate 4, vMapState.set 4'
+    map.getmapstate vTmp
+    btnNMB_Nav2D.hide
+    btnNMB_Nav2DN.hide
+    btnNMB_Nav3D.hide
+    runif vMapSettings2d3d "3D" 'btnNMB_Nav2D.show'
+    else_runif vTmp 4 'btnNMB_Nav3D.show'
+    else_runif vTmp 0 'btnNMB_Nav2D.show'
+    else_run 'btnNMB_Nav3D.show'
+  </script>
+  
+  <script sc_2DHeadUpInit>
+    map.getmapstate vTmp
+    btnNMB_Nav2D.hide
+    btnNMB_Nav2DN.hide
+    btnNMB_Nav3D.hide
+    runif vMapSettings2d3d "3D" 'btnNMB_Nav2D.show'
+    else_runif vTmp 4 'btnNMB_Nav3D.show'
+    else_runif vTmp 0 'btnNMB_Nav2D.show'
+    else_runif vTmp 3 'btnNMB_Nav2DN.show'
+    else_run 'btnNMB_Nav3D.show'
+  </script>
+  
+	<script sc_attach_lane_big>
+	    runif vLaneInfo 0 'ATTACH_LANEINFO sprLaneInfo,ATTACH_LANEINFO sprLaneInfoSignpost,bLaneinfoSignpostValid.set 0'
+		else_run 'ATTACH_LANEINFO sprLaneInfo "laneinfo.ini",ATTACH_LANEINFO sprLaneInfoSignpost "laneinfo_signpost.ini"'
+	</script>
+	
+	<script sc_attach_lane_small>
+	    runif vLaneInfo 0 'ATTACH_LANEINFO sprLaneInfo,ATTACH_LANEINFO sprLaneInfoSignpost,bLaneinfoSignpostValid.set 0'
+		else_run 'ATTACH_LANEINFO sprLaneInfo "$laneinfo.ini",ATTACH_LANEINFO sprLaneInfoSignpost "laneinfo_signpost.ini"'
+	</script>
+	
+	<script sc_cursor_pos>
+		runif bNavMapFollow 1 'btnNMB_Pos.SHOW, btnNMB_Cursor.HIDE'
+		else_run 'btnNMB_Pos.HIDE, btnNMB_Cursor.SHOW'
+	</script>
+	
+	<script sc_GPS_change>
+		runif vGpsValid 1 sc_cursor_pos
+		else_run 'btnNMB_Pos.HIDE, btnNMB_Cursor.SHOW'
+	</script>
+	
+	<script sc_nVehicle_change>
+			runif vUIRes "800_480" sc_change_vehicle_icon_big
+			else_runif vUIRes "480_800" sc_change_vehicle_icon_big
+			else_run sc_change_vehicle_icon
+			run sc_checkGPSPositionToRoad
+			run sc_route_recalc
+	</script>
+	
+	<script sc_checkGPSPositionToRoad>
+		runif nvehicle 5 'saved_vGPSPositionToRoad.set vGPSPositionToRoad, vGPSPositionToRoad.set 0'
+		else_run 'vGPSPositionToRoad.set saved_vGPSPositionToRoad'
+	</script>
+	
+	<script sc_change_vehicle_icon>	
+		runif nVehicle 0 'vehicle_icon.bmp "$vhcl_car.bmp", btnCS_Vehicle_Icon.bmp "$vhcl_car_big.bmp"'
+		else_runif nVehicle 1 'vehicle_icon.bmp "$vhcl_taxi.bmp", btnCS_Vehicle_Icon.bmp "$vhcl_taxi_big.bmp"'
+		else_runif nVehicle 2 'vehicle_icon.bmp "$vhcl_bus.bmp", btnCS_Vehicle_Icon.bmp "$vhcl_bus_big.bmp"'
+		else_runif nVehicle 3 'vehicle_icon.bmp "$vhcl_truck.bmp", btnCS_Vehicle_Icon.bmp "$vhcl_car_big.bmp"'
+		else_runif nVehicle 4 'vehicle_icon.bmp "$vhcl_emr.bmp", btnCS_Vehicle_Icon.bmp "$vhcl_emr_big.bmp"'
+		else_runif nVehicle 5 'vehicle_icon.bmp "$vhcl_ped.bmp", btnCS_Vehicle_Icon.bmp "$vhcl_ped_big.bmp"'
+		else_runif nVehicle 6 'vehicle_icon.bmp "$vhcl_bic.bmp", btnCS_Vehicle_Icon.bmp "$vhcl_bic_big.bmp"'
+	</script>
+
+	
+	<script sc_change_vehicle_icon_big>	
+		runif nVehicle 0 'vehicle_icon.bmp "vhcl_car.bmp", btnCS_Vehicle_Icon.bmp "vhcl_car_big.bmp"'
+		else_runif nVehicle 1 'vehicle_icon.bmp "vhcl_taxi.bmp", btnCS_Vehicle_Icon.bmp "vhcl_taxi_big.bmp"'
+		else_runif nVehicle 2 'vehicle_icon.bmp "vhcl_bus.bmp", btnCS_Vehicle_Icon.bmp "vhcl_bus_big.bmp"'
+		else_runif nVehicle 3 'vehicle_icon.bmp "vhcl_truck.bmp", btnCS_Vehicle_Icon.bmp "vhcl_car_big.bmp"'
+		else_runif nVehicle 4 'vehicle_icon.bmp "vhcl_emr.bmp", btnCS_Vehicle_Icon.bmp "vhcl_emr_big.bmp"'
+		else_runif nVehicle 5 'vehicle_icon.bmp "vhcl_ped.bmp", btnCS_Vehicle_Icon.bmp "vhcl_ped_big.bmp"'
+		else_runif nVehicle 6 'vehicle_icon.bmp "vhcl_bic.bmp", btnCS_Vehicle_Icon.bmp "vhcl_bic_big.bmp"'
+	</script>
+	
+	<script done>
+		obs_Zoomlevel.stop
+		;Auto follow mod kikapcsolasa
+		vcf_bAutoFollowModeOn_save.set vcf_bAutoFollowModeOn
+		vcf_bAutoFollowModeOn.set 0
+
+		unregister_satellite_display "l_sat_map" "sat_map" "l_prn" "spr_prn"
+		run sc_GPS_Satelite
+		term sc_NaviMenuAlphaRe
+		vGpsValid.onchange ""
+		vMapIsShowed.SET 0
+
+		vGPSSignal.onchange
+
+		map.ZOOMCONTROL_SHOW 1
+		map.ONMAPCLICK
+		map.ENABLEMAPMOVE 1
+
+		;Overview mode change handling moved to observer
+		;vOverviewMode.ONCHANGE ""
+		obs_OverviewMode_Changed.stop
+
+		vShowNavCockpitControls.onchange
+		v3dzoomcontrol.set 0
+		vCarWasLockedWhenExitedNavigateMap.set bNavMapFollow
+		bLaneinfoSignpostValid.onchange
+		vSetZoomSettings.SET 1
+		run sc_SaveZoomAndTilt
+	</script>
+</state>
+
+<script sc_CockpitReInit>
+    runif %map.follow 1 sc_cursor_pos
+	runif vOnFlyover 1 'run sc_3DFlyOverModeOn'
+	else_run sc_3DFlyOverModeOff
+	
+	;runif vMapMode L"2D"      sc_2DMode
+	;else_runif vMapMode L"3D" sc_3DMode
+	
+	run sc_NavigationInfoRefresh
+    vShowNavCockpitControls.onchange "sc_NavigationInfoRefresh"
+
+	run sc_NMS_Init
+
+    map.ONMAPCLICK sc_NavigateMapClick
+    
+</script>
+
+<script sc_RestoreSavedMapMode>
+	runif vMapMode_saved L"3D" 'vMapMode.set L"3D", map.MAPMODE 0'
+	runif vMapMode_saved L"2D" 'vMapMode.set L"2D", map.MAPMODE 1'
+	vMapMode_saved.SET L""
+</script>
+
+<script sc_NavigationInfoRefresh>
+	map.ISROUTEVALID vValidRoute vDeletableRoute
+	; ha nincs ut, vagy nem a tervezett uton vagyunk es nincs autoreplan, akkor sc_ShowOffrouteInfo (ez rakja ki a find gombot)
+	runif vValidRoute 0 'run sc_ShowOffrouteInfo'
+	else_runif vShowNavCockpitControls 0 'runif vAutoReplan 0 sc_ShowOffrouteInfo'
+	else_run 'run sc_ShowNavigateInfo'
+</script>
+
+<script sc_NaviMenuAlphaDown>
+    btnNMB_Nav2D.alpha 10
+    btnNMB_Nav2DN.alpha 10 
+    btnNMB_Nav3D.alpha 10
+    btnNMB_Detour.alpha 10
+    btnNMB_Cursor.alpha 10
+    btnNMB_Pos.alpha 10
+    map.onmapclick sc_NavigateMapClick
+	v3dzoomcontrol.set 0
+	ui_NavigateToggleZoomControls.hide
+	vPresetOn.set 0
+	run sc_ShowCockpitPanel
+</script>
+
+<script sc_NaviMenuAlphaRestore>
+    btnNMB_Menu.alpha 32  
+    btnNMB_Nav2D.alpha 32
+    btnNMB_Nav2DN.alpha 32 
+    btnNMB_Nav3D.alpha 32
+    btnNMB_Detour.alpha 32
+    btnNMB_Cursor.alpha 32
+    btnNMB_Pos.alpha 32
+	
+	term sc_NaviMenuAlphaRe
+	1 run sc_NaviMenuAlphaRe
+</script>
+
+<script sc_NaviMenuAlphaRe>
+	350 runif vActiveState "st_navigatemap" sc_NaviMenuAlphaDown
+</script>	
+
+<script sc_NaviMenuAlphaRe_term>
+	term sc_NaviMenuAlphaRe
+</script>
+
+<script sc_NaviMenuTimerInit>
+	run sc_NaviMenuAlphaRe
+</script>
+
+<script sc_ChangeMap2D3D>
+	map.CENTERCURSOR
+	runif vMapmode L"3D" 'run sc_btnNMB_Nav2D_OnRelease'
+	else_run 'run sc_btnNMB_Nav3D_OnRelease'
+</script>
+
+<script sc_SetCarPos2D>
+	vTmp.set 0
+	runif bNavMapFollow 0 'vTmp.set 1'
+	else_runif vPresetOn 1 'vTmp.set 1'
+	;else_runif %navigation.car_pos_valid 0 'vTmp.set 1'
+	;else_runif vLaneInfo 0 'vTmp.set 1'
+	else_runif bLaneinfoSignpostValid 0 'vTmp.set 1'
+	else_run 'vTmp.set 0'
+	
+	runif vTmp 1 'run sc_CarPos2D2dHeadUp,.smartzoom.percentage 100'
+	else_run 'map.SETCARPOSITION 50 75,.smartzoom.percentage 100'
+	runif %map.globe_mode 1 'map.SETCARPOSITION 50 50'
+</script>
+
+<script sc_CarPos2D2dHeadUp>
+   runif vMapstate 3 'map.SETCARPOSITION 50 75'
+   runif vMapstate 4 'map.SETCARPOSITION 50 50'
+   runif vMapstate 5 'map.SETCARPOSITION 50 50'
+</script>
+
+<script sc_SetCarPos3D>
+	vTmp.set 0
+	runif bNavMapFollow 0 'vTmp.set 1'
+	else_runif vPresetOn 1 'vTmp.set 1'
+	;else_runif %navigation.car_pos_valid 0 'vTmp.set 1'
+	;else_runif vLaneInfo 0 'vTmp.set 1'
+	else_runif bLaneinfoSignpostValid 0 'vTmp.set 1'
+	else_run 'vTmp.set 0'
+	
+	runif vTmp 1 sc_SignPostZoomOff
+	else_run sc_SignPostZoomOn
+</script>
+
+<script sc_SetCarPos>
+	runif vMapmode L"2D" sc_SetCarPos2D
+	else_run sc_SetCarPos3D
+</script>
+
+<script sc_2DMode>
+	vMapmode.set L"2D"
+	run sc_laneinfo_pos_2D
+	run sc_init_zoomcontrol_browsemap
+    
+    map.GetMapState vTmp
+    btnNMB_Nav2D.HIDE
+    btnNMB_Nav3D.HIDE
+    btnNMB_Nav2DN.HIDE
+    
+    runif vTmp 0 'btnNMB_Nav2D.SHOW'
+    else_runif vTmp 3 'btnNMB_Nav2DN.SHOW'
+    else_runif vTmp 4 'btnNMB_Nav3D.SHOW'
+    else_run 'btnNMB_Nav2DN.SHOW'
+    runif v2DHeadUp 0 'btnNMB_Nav3D.SHOW'
+
+	runif vPresetOn 1 'ui_NavigateToggleZoomControls.show, run sc_Show2DZoomControls'
+		
+	vMapSettings2d3d.SET "2D"
+    map.GetMapState vMapState	
+	runifnot vOverviewmode 1 'map.mapmode 1,map.VIEW2D3D vMapSettings2d3d, map.SetMapState vMapState'
+
+ 	run sc_SetCarPos2D	
+	
+    runif bnavmapfollow 1 'map.showcursor 0'
+    else_run 'map.showcursor 1'
+
+</script>
+	
+<script sc_3DMode>
+	vMapmode.set L"3D"
+	run sc_laneinfo_pos_3D
+	map.ZOOMCONTROL_SHOW 0
+
+    btnNMB_Nav2D.SHOW
+    btnNMB_Nav2DN.HIDE
+    btnNMB_Nav3D.HIDE
+    runif vPresetOn 1 'ui_NavigateToggleZoomControls.show, run sc_Show3DZoomControls'
+
+	map.mapmode 0
+	map.setmapstate 0
+	vMapSettings2d3d.SET "3D"
+	map.VIEW2D3D vMapSettings2d3d
+	
+	runif bnavmapfollow 1 'map.showcursor 0'
+    else_run 'map.showcursor 1'
+  
+	run sc_SetCarPos3D
+</script>
+
+<script Sc_FitToScreen>
+	map.mapmode 1
+	map.SHOWCURSOR 0
+	vMapSettings2d3d.SET "2D"
+	map.VIEW2D3D vMapSettings2d3d
+	vMapmode.set L"2D"
+	run sc_Fittoscreen_res
+</script>
+
+<script sc_OffRoute>
+    runif vActiveState "st_navigatemap" 'run sc_ShowOffrouteInfo'
+</script>
+
+<script sc_ShowOffrouteInfo>
+    vNavMode.set "OFFROUTE"
+
+	map.ENABLEMAPMOVE 1
+    	
+	ui_NavigateMapRouteNavigation.HIDE
+	ui_NavigateMapCruise.SHOW
+	
+	btnNMB_RouteInfo.x -80
+	
+	map.ISROUTEVALID vValidRoute vDeletableRoute
+    runif vValidRoute 1 'ui_NavigateMapRouteNavigationInfos.SHOW'
+    else_run 'vNavMode.set "NOROUTE", ui_NavigateMapRouteNavigationInfos.HIDE'
+</script>
+
+
+<script sc_ShowNavigateInfo>
+    vNavMode.set "ONTHEROUTE"
+
+	map.ENABLEMAPMOVE 1
+	
+	runif vOnFlyover 0 'btnNMB_RouteInfo.x 0'
+	runif vgpsvalid 0 'btnNMB_RouteInfo.x -80'
+
+	ui_NavigateMapRouteNavigation.SHOW
+	ui_NavigateMapRouteNavigationInfos.SHOW
+	
+	ui_NavigateMapCruise.HIDE
+	
+	ui_NavigateMapZoomControls3D.isvisible vtmp
+	sprNMRCockpit.isvisible ntmp
+	runif vtmp ntmp 'ui_NavigateMapRouteNavigationInfos.HIDE,ui_NavigateMapRouteNavigation.hide'
+</script>
+
+<script sc_InitPresetMode>
+	runif vNavigationMode "FRONT1"        'run sc_RefreshNavigateMapScreenAfterViewPreset 1'
+	runif vNavigationMode "FRONT2"        'run sc_RefreshNavigateMapScreenAfterViewPreset 1'
+	runif vNavigationMode "TOP"	          'run sc_RefreshNavigateMapScreenAfterViewPreset 1'
+	runif vNavigationMode "DEFAULT"       'run sc_RefreshNavigateMapScreenAfterViewPreset 1'
+	runif vNavigationMode "NOGPS_FRONT1"  'run sc_RefreshNavigateMapScreenAfterViewPreset 0'
+	runif vNavigationMode "NOGPS_FRONT2"  'run sc_RefreshNavigateMapScreenAfterViewPreset 0'
+	runif vNavigationMode "NOGPS_TOP"     'run sc_RefreshNavigateMapScreenAfterViewPreset 0'
+	runif vNavigationMode "NOGPS_DEFAULT" 'run sc_RefreshNavigateMapScreenAfterViewPreset 0'
+</script>
+
+<script sc_Show3DZoomControls>
+    v3dzoomcontrol.set 0
+    runif vHideZoomControls 0 'run sc_HideCockpitPanel, v3dzoomcontrol.set 1'
+    else_runif vHideZoomControls 1 'v3dzoomcontrol.set 0, run sc_ShowCockpitPanel'
+</script>
+
+<script sc_Show2DZoomControls>
+     v3dzoomcontrol.set 0
+     run sc_ShowCockpitPanel
+     runif vHideZoomControls 0 'run sc_ShowCockpitPanel'
+     else_runif vHideZoomControls 1 'run sc_ShowCockpitPanel'
+</script>
+
+<script sc_btnNMB_Nav2D_OnRelease>
+    run sc_NaviMenuAlphaRestore
+    run sc_2DMode
+</script>
+
+<script sc_btnNMB_Nav3D_OnRelease>
+	run sc_NaviMenuAlphaRestore
+	run sc_3DMode
+</script>
+
+<script sc_btnNMB_Menu_OnRelease>
+    runif nUserMode 0 'STATE st_AdvMenu'
+    else_run 'STATE st_BasMenu'
+</script>
+
+<script sc_btnNMB_Use_OnRelease>    
+    nPlaceStateMode.SET 0
+	map.ISSHOWEDCURSOR vTmp
+    runif vTmp 0 'SELECTGEOITEM 12'
+	NEXTSTATE st_ArrowPlace
+</script>
+
+<script sc_btnNMB_Pos_OnRelease>
+	run sc_FollowOff
+	map.MOVECURSORTOGPS
+	; store cursor pos as selected to allow MOVECURSORTOSELECTEDITEM zoom on this position
+	SELECTGEOITEM 5
+	run sc_btnNMB_Use_OnRelease
+</script>
+
+<script sc_FollowOff>
+	bNavMapFollow.SET 0
+	map.SHOWCURSOR 1
+	runif %navigation.car_pos_valid 1 'SETGPSMODE 0'
+</script>
+
+<script sc_FollowOn>
+	bNavMapFollow.SET 1
+	;runif %navigation.car_pos_valid 1 'SETGPSMODE 1 1'
+	runif vActiveState "st_navigatemap" 'ui_NavigateMapGPSPosInfos.SHOW,run sc_ShowSignpostLayer'
+	vShowStreetsLayer.SET 1
+	ui_NavigateMapCursorPosInfos.HIDE
+	map.SHOWCURSOR 0
+	
+	runif vOnFlyover 1 'SETGPSMODE 1'
+	else_run 'SETGPSMODE 1 1'
+	
+	run sc_SetCarPos
+</script>
+
+<script sc_RefreshNavigateMapScreenAfterViewPreset>
+	runif %gps.valid 1 'btnNMB_Cursor.HIDE, btnNMB_Pos.SHOW'
+	else_run 'btnNMB_Cursor.show, btnNMB_Pos.hide'
+
+	runif vOnFlyover 1 'btnNMB_Cursor.hide, btnNMB_Pos.hide'
+	
+	ui_NavigateMapCursorPosInfos.HIDE
+	runif bNavMapFollow 1 'ui_NavigateMapGPSPosInfos.SHOW, run sc_ShowSignpostLayer, vShowStreetsLayer.SET 1, ui_NavigateMapCursorPosInfos.hide'
+	else_run 'ui_NavigateMapGPSPosInfos.hide, ui_NavigateMapSingpost.HIDE, vShowStreetsLayer.SET 0, ui_NavigateMapCursorPosInfos.SHOW'
+	
+	runif vOnFlyOver 1 'run sc_FollowOn, .map.follow_rotation 1'
+	v3dzoomcontrol.set 0
+	ui_NavigateToggleZoomControls.hide
+
+	vPresetOn.set 0
+	;sprLaneInfo.SHOW
+
+	map.ONMAPCLICK sc_NavigateMapClick
+
+	run sc_ShowCockpitPanel
+</script>
+
+<script sc_RecalcWays>
+    vStartModeTmp.set 0
+    BYPASSROUTE 0
+    runif vRecalcOffByStartPoint 1 'vAutoReplan.SET 1, vRecalcOffByStartPoint.set 0, 1 run sc_ShowNavigateInfo'
+    else_run '1 run sc_ShowNavigateInfo'
+    
+    GETPLACEROUTEMODE vTmp
+    runif vtmp 1 'map.movecursortoselecteditem'
+</script>
+
+<script sc_disable_smartzoom_3D>
+    .smartzoom.enabled 0
+</script>
+
+<script sc_disable_smartzoom_2D>
+    .smartzoom.enabled2d 0
+</script>
+
+<script sc_enable_smartzoom_3D>
+	runifnot nVehicle 5 '.smartzoom.enabled 1'
+</script>
+
+<script sc_enable_smartzoom_2D>
+	runifnot nVehicle 5 '.smartzoom.enabled2d 1'
+</script>
+
+<script sc_Route_Finished>
+    runif vActiveState "st_navigatemap" 'run sc_ShowOffrouteInfo'
+    else_runif vActiveState "st_routeinfo"   'run sc_RefreshRouteInfo'
+</script>
+
+<script sc_NavigateMapClick>
+    run sc_NaviMenuAlphaRestore
+    vPresetOn.set 1
+    ;sprLaneInfo.HIDE
+	
+	runif vMapMode L"3D" 'run sc_Show3DZoomControls, ui_NavigateToggleZoomControls.show'
+	runif vMapMode L"2D" 'run sc_Show2DZoomControls, ui_NavigateToggleZoomControls.show'
+
+	map.ONMAPCLICK sc_NavigateMapClickSecond 1
+</script>
+
+<script sc_NavigateMapClickSecond>
+    run sc_NaviMenuAlphaRestore
+	btnNMB_Cursor.SHOW
+	btnNMB_Pos.HIDE
+	ui_NavigateMapCursorPosInfos.SHOW
+	ui_NavigateMapGPSPosInfos.HIDE
+	ui_NavigateMapSingpost.HIDE
+	vShowStreetsLayer.SET 0
+	run sc_FollowOff
+	map.ONMAPCLICK sc_NaviMenuAlphaRestore 1
+</script>
+
+<script sc_ShowCockpitPanel>
+    runif vNavMode "ONTHEROUTE" 'run sc_ShowNavigateInfo'
+    else_runif vNavMode "OFFROUTE" 'run sc_ShowOffrouteInfo'
+    else_runif vNavMode "NOROUTE" 'run sc_ShowOffrouteInfo'
+    else_runif vGPSValid 0 'run sc_ShowOffrouteInfo'
+    else_run 'run sc_ShowNavigateInfo'
+</script>
+
+<script sc_HideCockpitPanel>
+	ui_NavigateMapRouteNavigation.HIDE
+	ui_NavigateMapCruise.HIDE
+	ui_NavigateMapRouteNavigationInfos.HIDE
+</script>
+
+<script sc_NMA_Init>
+    runif bUnitType 1 'btnNMA_1.TEXT "1 km", btnNMA_2.TEXT "2 km", btnNMA_5.TEXT "5 km", btnNMA_10.TEXT "10 km", btnNMA_30.TEXT "30 km"'
+	else_run 'btnNMA_1.TEXT "1 mi", btnNMA_2.TEXT "2 mi", btnNMA_5.TEXT "5 mi", btnNMA_10.TEXT "10 mi", btnNMA_30.TEXT "30 mi"'
+</script>
+
+<script sc_Avoid>
+	BYPASSROUTE 2 $1
+	run sc_P_return_to_map 0
+</script>
+
+<script sc_ShowCockpitDetailTrip>
+    runif nUserMode	0 'nextstate st_NavigateMapSettings'
+    else_run 'nextstate st_CockpitStatus'
+</script>
+
+<script sc_ShowCockpitDetailDirInfo2>
+    runif nUserMode	0 'run sc_GoItinerOnMap'
+    else_run 'nextstate st_CockpitStatus'
+</script>
+
+;****************************************************************************************************************
+
+<state st_NavigateMapSettings>
+	<uselayer ui_Title/>
+    <uselayer ui_Header2 />
+    <uselayer ui_Footer2 />
+    <uselayer ui_Background />
+    <uselayer ui_NavigateMapSettingsCruise/>
+    <uselayer ui_NavigateMapSettingsVia />
+    <uselayer ui_NavigateMapSettingsDestination/>
+
+	<script init>
+		Title.SET ""
+		
+		RUNIF %navigation.has_route 0 'run sc_ShowNavigateMapSettingsCruise'
+		ELSE_RUN   'run sc_ShowNavigateMapSettingsDestination'
+		
+		run 'chkl_NMS_Selection.init'
+
+		ATTACH_SPEEDOMETER sprSpeedRange  "speedometer_range.ini"
+		runif bUnitType 1 'sprSpeedometerNumbers.bmp "speedometer_num_km.bmp"'
+		else_run 'sprSpeedometerNumbers.bmp "speedometer_num_mph.bmp"'
+		ATTACH_SPEEDOMETER sprSpeedometerPointer "speedometer.ini"
+		runif vUIRes "240_400" 'ATTACH_LINEARCOMPASS sprLinearCompass "linear_compass2.bmp" "navigation.car_heading"'
+		else_runif vUIRes "480_800" 'ATTACH_LINEARCOMPASS sprLinearCompass "linear_compass2.bmp" "navigation.car_heading"'
+		else_run 'ATTACH_LINEARCOMPASS sprLinearCompass "linear_compass.bmp" "navigation.car_heading"'
+		run sc_NMS_Init
+	</script>
+	
+	<script done>
+		run sc_HideNavigateMapSettings
+	</script>
+</state>
+
+<script sc_NMS_Init>
+    vActualField.set "1"
+    vActualFieldValue.set CockpitField1
+    run sc_NMS_Changed
+
+    vActualField.set "2"
+    vActualFieldValue.set CockpitField2
+    run sc_NMS_Changed
+
+    vActualField.set "3"
+    vActualFieldValue.set CockpitField3
+    run sc_NMS_Changed
+</script>
+
+<script sc_NMS_Changed>    
+    RUNIF vActualField "1" 'vTmp.set dyn_NMR1'
+    ELSE_RUNIF vActualField "2" 'vTmp.set dyn_NMR2'
+    ELSE_RUNIF vActualField "3" 'vTmp.set dyn_NMR3'
+    
+    RUNIF vActualFieldValue      "1" 'CALL vTmp "element_template" "et_NavInfoDistanceToDestination"'
+    ELSE_RUNIF vActualFieldValue "5" 'CALL vTmp "element_template" "et_NavInfoDistanceToWaypoint"'
+    ELSE_RUNIF vActualFieldValue "8" 'CALL vTmp "element_template" "et_NavInfoSpeed"'
+    ELSE_RUNIF vActualFieldValue "9" 'CALL vTmp "element_template" "et_NavInfoSpeedLimit"'
+    ELSE_RUNIF vActualFieldValue "2" 'CALL vTmp "element_template" "et_NavInfoTimeToDestination"'
+    ELSE_RUNIF vActualFieldValue "4" 'CALL vTmp "element_template" "et_NavInfoTimeToWaypoint"'
+    ELSE_RUNIF vActualFieldValue "7" 'CALL vTmp "element_template" "et_NavInfoTimeToManeuver"'
+    ELSE_RUNIF vActualFieldValue "3" 'CALL vTmp "element_template" "et_NavInfoTimeETAAtDestination"'
+    ELSE_RUNIF vActualFieldValue "6" 'CALL vTmp "element_template" "et_NavInfoTimeETAAtWaypoint"'
+    ELSE_RUNIF vActualFieldValue "10" 'CALL vTmp "element_template" "et_NavInfoCurrentTime"'
+    ELSE_RUNIF vActualFieldValue "11" 'CALL vTmp "element_template" "et_NavInfoAltitude"'
+    ELSE_RUNIF vActualFieldValue "12" 'CALL vTmp "element_template" "et_NavInfoCompass"'
+    ELSE_RUNIF vActualFieldValue "" 'call vTmp "element_template" ""'
+</script>
+
+
+;****************************************************************************************************************
+
+<script sc_OverviewModeChanged>
+	runif vOverviewMode 1 'run sc_EnterOverview'
+	else_run 'run sc_ExitOverview'
+</script>
+
+<script sc_EnterOverview>
+	vZoomLevelBeforeOverview.set %map.zoom_level
+	map.getmapstate vTmp
+	runif vTmp 3 'map.setmapstate 5'
+	run sc_2DMode
+
+	map.GET_MAPSTATE_BEFORE_OVERVIEW vTmp
+	btnNMB_Nav2D.hide
+	btnNMB_Nav2DN.hide
+	btnNMB_Nav3D.hide
+	runif v2dheadup 1 'run sc_EnterOverviewWITH2DHeadUp'
+	else_run 'run sc_EnterOverviewWITHOUT2DHeadUp'
+</script>
+
+<script sc_EnterOverviewWITH2DHeadUp>
+	runif vTmp 0 'btnNMB_Nav3D.show'
+	runif vTmp 3 'btnNMB_Nav2D.show'
+	runif vTmp 4 'btnNMB_Nav2DN.show'
+</script>
+
+<script sc_EnterOverviewWITHOUT2DHeadUp>
+	runif vTmp 0 'btnNMB_Nav3D.show'
+	runif vTmp 4 'btnNMB_Nav2D.show'
+</script>
+
+<script sc_ExitOverviewTo2D>
+	runif v2DHeadUp 1 'map.setmapstate vMapState'
+	else_run 'map.setmapstate 4'
+	run sc_2DMode
+
+	map.ZOOMCONTROL_SHOW 1
+</script>
+
+<script sc_ExitOverviewTo3D>
+	run sc_3DMode
+</script>
+
+<script sc_ExitOverview>
+	map.GET_MAPSTATE_BEFORE_OVERVIEW vMapState
+	runif vMapState 0 sc_ExitOverviewTo3D
+	else_run sc_ExitOverviewTo2D
+</script>
+
+;*****************************************************************************************************************
+<script sc_ShowNavigateMapSettingsDestination>
+	ui_NavigateMapSettingsVia.hide
+	ui_NavigateMapSettingsDestination.show
+	ui_NavigateMapSettingsDir.show
+	
+	btnNSM_1d.show
+	btnNSM_2d.show
+	btnNSM_3d.show
+
+	btnNSM_1v.hide
+	btnNSM_2v.hide
+	btnNSM_3v.hide
+</script>
+
+<script sc_ShowNavigateMapSettingsVia>
+	ui_NavigateMapSettingsDestination.hide
+	ui_NavigateMapSettingsVia.show
+	ui_NavigateMapSettingsDir.show
+	
+	btnNSM_1d.hide
+	btnNSM_2d.hide
+	btnNSM_3d.hide
+
+	btnNSM_1v.show
+	btnNSM_2v.show
+	btnNSM_3v.show
+</script>
+
+<script sc_ShowNavigateMapSettingsCruise>
+	btnNSM_1d.show
+	btnNSM_2d.show
+	btnNSM_3d.show
+	
+	btnNSM_1v.hide
+	btnNSM_2v.hide
+	btnNSM_3v.hide
+	ui_NavigateMapSettingsDestination.show
+	ui_NavigateMapSettingsVia.hide
+	ui_NavigateMapSettingsDir.hide
+</script>
+
+<script sc_HideNavigateMapSettings>
+	ui_NavigateMapSettingsDestination.hide
+	ui_NavigateMapSettingsVia.hide
+</script>
+
+<script sc_SetZoomControlLayer>
+    runif vMapmode L"2D" 'run sc_Show2DZoomControls'
+    else_runif vMapmode L"3D" 'run sc_Show3DZoomControls'
+</script>
+
+<script sc_ModifyPreset>
+	map.GetMapState vMapState
+	;runif vMapState 5 'run sc_Back_From_Overview'
+	runif %map.flyover 0 'ui_ModifyPreset.show'
+	vTmp.set $1
+</script>
+
+<script sc_SavePreset>
+	exec "map.carviewpresetsave" $1
+</script>
+
+<script sc_ResetPreset>
+	exec "map.carviewpresetreset" $1
+</script>
+
+<script sc_route_planning_start>
+	vRouteCalculation.set 1
+	spr_RecalcAnim.show
+	spr_RecalcAnim.animate "recalcanim"
+</script>
+
+<script sc_route_planning_stop>
+	vRouteCalculation.set 0
+	spr_RecalcAnim.hide
+	spr_RecalcAnim.stopanim "recalcanim"
+	txt_route_planning_progress.hide
+	runif vActiveState "st_routeitinerarymap" sc_GotoCurrentItinerPosition
+</script>
+
+<script sc_check_cursor>
+	runif bNavMapFollow 1 'map.showcursor 0'
+</script>
+
+<script sc_chk_quick3d_onrelease>
+	runif %map.3d_buildings 1 sc_chk_quick3d_check 
+</script>
+
+<script sc_chk_quick3d_check>
+	runif nBuildingDistance 0 'nBuildingDistance.set 2'
+</script>
+
+<script sc_lock_point_on_map>
+	map.onmapclick sc_point_on_map_click 1
+	runif vUIres "800_480" 'map.select_cursor "cursor_places_big"'
+	else_runif vUIres "480_800" 'map.select_cursor "cursor_places_big"'
+	else_run 'map.select_cursor "cursor_places"'
+	
+    .map.restore_cursor_pos 
+</script>
+
+<script sc_point_on_map_click>
+	runif vUIRes "800_480" 'map.select_cursor "cursor_big"'
+	else_runif vUIRes "480_800" 'map.select_cursor "cursor_big"'
+	else_run 'map.select_cursor "cursor"'
+    map.onmapclick
+</script>
+
+<script sc_TimeredPrevState>
+	ui_DisableLayer2.show
+	10 PREVSTATE
+</script>
+ 
+ <script sc_ZoomLevel2D>
+	runif bLaneinfoSignpostValid 1 'map.SETCARPOSITION 50 75'
+	else_run 'map.SETCARPOSITION 50 50'
+ </script>
+ 
+<script sc_ZoomLevel>
+    runif %map.globe_mode 1 'map.SETCARPOSITION 50 50'
+    else_runif vMapState 4 'run sc_ZoomLevel2D'
+    else_runif vMapState 5 'run sc_ZoomLevel2D'
+    else_run 'map.SETCARPOSITION 50 75'
+</script> 
+<observer obs_Zoomlevel model="map.globe_mode" onchange='run sc_ZoomLevel'>

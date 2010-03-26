@@ -1,0 +1,33 @@
+<TEMPLATE btn_plan       y=0 w=140 fonttype=bw  bmp="btn_plan_cursor.bmp#3" clicked_coloring=1 font="tahomabd" fontsize=16 valign="BOTTOM-9" align="CENTER"  iconvalign="TOP+2" iconalign="CENTER" padding=10>
+
+;****************************************************************************************************************
+<header>
+	<var vBrowseMapZoomPosMin=35>
+	<var vBrowseMapZoomPosMax=201>
+</header>
+
+<layer ui_PlanMode z=50>
+	<BUTTON xxx template=backa   z=12 onrelease='PREVSTATE'>
+
+	<BUTTON btnPM_StartNav  template=footer2_2a  text="Start Nav" onrelease='run sc_btnPM_StartNavigation' enabledmodel="navigation.has_route">
+
+	<BUTTON xxx  template=footer2_1a  text="Fit to screen"       onrelease='run sc_FitToScreen_PlanMode'>
+
+	<SPRITE xxx  bmp="blackstripe.bmp" x=0 y=378 z=0>
+	<TEXT xxx template=txt_map x=0 y=378 w=800 align="CENTER" textmodel_wstr="map.cursorpos.posinfotext">
+</layer>
+
+<layer ui_PlanModeOpenCloseButtons z=50>
+	<BUTTON btnStartPoint    template=btn_plan x=45  text="Add Start" iconspr="ico_start_pl.bmp"    onrelease='run sc_btnPM_AddStart_OnRelease'>
+	<BUTTON btnRemStartPoint template=btn_plan x=45  text="Rem Start" iconspr="ico_remstart_pl.bmp" onrelease='run sc_btnPM_RemoveStart_OnRelease'>
+	<BUTTON btnAddViaPoint   template=btn_plan x=235 text="Add Via"   iconspr="ico_via_pl.bmp"      onrelease='run sc_btnPM_AddVia_OnRelease'>
+	<BUTTON btnRemViaPoint   template=btn_plan x=235 text="Rem Via"   iconspr="ico_remvia_pl.bmp"   onrelease='run sc_btnPM_RemoveVia_OnRelease'>
+	<BUTTON btnDestPoint     template=btn_plan x=425 text="Add Dest"  iconspr="ico_dest_pl.bmp"     onrelease='run sc_btnPM_AddDest_OnRelease'>
+	<BUTTON btnRemDestPoint  template=btn_plan x=425 text="Rem Dest"  iconspr="ico_remdest_pl.bmp"  onrelease='run sc_btnPM_RemoveDest_OnRelease'>
+	<BUTTON btnContinue      template=btn_plan x=615 text="Continue " iconspr="ico_dest_pl.bmp"     onrelease='run sc_btnPM_Continue_OnRelease' >
+</layer>
+
+<layer ui_PlanModeControls2D z=60>
+	<BUTTON xxx  x=4 y=100  z=0 bmp="map_zoomin.bmp#2"     onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0'>  
+	<BUTTON xxx  x=4 y=230 z=0 bmp="map_zoomout.bmp#2" onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0' > 
+</layer>

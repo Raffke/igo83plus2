@@ -1,0 +1,81 @@
+<layer ui_AdvMenu z=30>
+	<BUTTON xxx           template=menu4_1  fxshowdelay=0   text="Find"     iconspr="$ico_findplace.bmp"  onrelease='NEXTSTATE st_AdvFindMenu'> 
+	<BUTTON btnAM_Route   template=menu4_3  fxshowdelay=22  text="Route"    iconspr="$ico_route.bmp"      onrelease='NEXTSTATE st_AdvRouteMenu'>
+	<BUTTON btnAM_Button3 template=menu4_2  fxshowdelay=6   text="Manage"   iconspr="$ico_mydata.bmp"     onrelease='NEXTSTATE st_AdvMyDataMenu'>
+	<BUTTON btnAM_Button4 template=menu4_4  fxshowdelay=12  text="Settings" iconspr="$ico_settings.bmp"   onrelease='vSettingsActPage.set 0, NEXTSTATE st_AdvSettingsMenu'>
+
+	<BUTTON ui_AdvMenu_Map      template=footerm3_1          iconspr="icof_map.bmp"  onlongclick='run sc_show_btn_help "Map"'  onrelease='STATE st_NavigateMap'>
+	<BUTTON ui_AdvMenu_Exit     template=footerm3_3 text=""  iconspr="icof_exit.bmp" onlongclick='run sc_show_btn_help "Exit"' onrelease='run sc_Exit' z=1 visiblemodel="interface.show_exit" nostress rawkey=27>
+	<BUTTON ui_AdvMenu_Settings template=footerm3_2 text="Settings"                  onrelease='vSettingsActPage.set 0, NEXTSTATE st_AdvSettingsMenu' hide>
+
+	<BUTTON btn_demo template=footerm3_2 ICONALIGN="CENTER"  ICONVALIGN="TOP+15" iconphasesync=1 color=#FFFFFF clicked_dy=1 glowtype=1 glowsize=3 text="Demo" onrelease='run sc_AdvDemoRoute' HIDE>
+	<BUTTON btnAM_back template=back onrelease='PREVSTATE' rawkey=27 hide>
+
+</layer>
+
+<layer ui_AdvMenuMsnd z=30>
+	<BUTTON xxx         template=menu4_1  fxshowdelay=0    text="Find"       iconspr="$ico_findplace.bmp"  onrelease='NEXTSTATE st_AdvFindMenu'> 
+	<BUTTON btnAMM_Route template=menu4_2  fxshowdelay=5   text="Route"      iconspr="$ico_route.bmp"      onrelease='NEXTSTATE st_AdvRouteMenu'>
+	
+	<BUTTON xxx         template=menu6_4  fxshowdelay=20   text="Manage"     align="LEFT+70" iconspr="$ico_mydata.bmp"     onrelease='NEXTSTATE st_AdvMyDataMenu'>
+	<BUTTON btnAMM_Msnd  template=menu6_5  fxshowdelay=15  text="MSN Direct" align="LEFT+70" iconspr="$ico_msnd.bmp">	
+	;<BUTTON btnAMM_Msnd  template=menu6_5  fxshowdelay=15  text="MSN Direct" align="LEFT+70" iconspr="$ico_msnd.bmp">	
+	
+	<BUTTON xxx         template=menu6_6  fxshowdelay=10   text="Settings"   align="LEFT+70" iconspr="$ico_settings.bmp"   onrelease='vSettingsActPage.set 0, NEXTSTATE st_AdvSettingsMenu'>
+
+	; <BUTTON xxx template=footer3_3 fxshowdelay=5  text="MSND Status">    
+	<BUTTON btnAMM_MsndStatus template=footer3_3 fxshowdelay=5  text="MSND Status" onlongclick='run sc_show_btn_help "MSND Status"'> 
+	<BUTTON xxx template=footer3_1 fxshowdelay=10 text="" iconspr="icof_map.bmp" iconalign="center" iconvalign="center+5"   onlongclick='run sc_show_btn_help "Map"'            onrelease='STATE st_NavigateMap'>	
+	<BUTTON xxx template=footer3_3 fxshowdelay=20 text="Exit"   onlongclick='run sc_show_btn_help "Exit"'            onrelease='run sc_Exit' z=1 color=#ff0000 visiblemodel="interface.show_exit" nostress>	
+
+</layer>
+
+<layer ui_BasMenu z=30>
+	<BUTTON xxx x=6  y=57  bmp="6_1_tip.bmp">
+	<TEXT   xxx x=47 y=57 w=175 h=100 text="Select from the following possibilties\nto find a place you want to navigate to." font="tahoma" color=#ffffff fontsize=13 valign="CENTER" align="LEFT">
+
+	<BUTTON xxx  template=menu6_2 iconspr="$ico_findaddress.bmp" iconvalign="TOP+14"  fxshowdelay=0  text="Find Address"    onrelease='NEXTSTATE st_FindAddress'> 
+	<BUTTON xxx  template=menu6_5 iconspr="$ico_findhistory.bmp" iconvalign="TOP+14"  fxshowdelay=15  text="Recent\nPlaces"    onrelease='run sc_FindHistory' enabledmodel="!mydata.history.list.isempty">
+	<BUTTON xxx  template=menu6_3 iconspr="ico_f002a.bmp"          fxshowdelay=3 text="Find POI"        onrelease='run sc_FindPOI'>
+	<BUTTON xxx  template=menu6_6 iconspr="$ico_findfav.bmp"       fxshowdelay=6  text="My\nFavorites" onrelease='run sc_FindFavorite' enabledmodel="!mydata.favorites.isempty">
+
+	<BUTTON ui_BasMenu_Map       template=footerm3_1 iconspr="icof_map.bmp"      onlongclick='run sc_show_btn_help "Map"'      onrelease='STATE st_NavigateMap'>
+	<BUTTON ui_BasMenu_Exit      template=footerm3_3 iconspr="icof_exit.bmp"     onlongclick='run sc_show_btn_help "Exit"'     onrelease='run sc_Exit' z=1 visiblemodel="interface.show_exit" nostress rawkey=27>
+	<BUTTON ui_BasMenu_Settings  template=footerm3_2 iconspr="icof_settings.bmp" onlongclick='run sc_show_btn_help "Settings"' onrelease='NEXTSTATE st_BasSettings'>
+
+ 	<BUTTON btnBM_Map2 template=footer2_2 text="Map"  onrelease='STATE st_NavigateMap' hide>
+	<BUTTON btnBM_back template=back onrelease='PREVSTATE' rawkey=27 hide>
+</layer>
+
+<script sc_OasisInitNavMenu>
+  ui_AdvMenu_Settings.show
+  btnAM_Button4.text "Extras"
+  btnAM_Button4.iconspr "ico_entertainment.bmp"
+  btnAM_Button4.onrelease 'NEXTSTATE st_OasisExtras'
+</script>
+
+<script sc_LauncherInitAdvMenu>
+  ui_AdvMenu_Map.hide
+  ui_AdvMenu_Exit.hide
+  ui_AdvMenu_Exit.x -1000
+  ui_AdvMenu_Settings.hide
+  btnAM_back.show
+  
+  btnAM_Button3.text "Map"
+  btnAM_Button3.iconspr "ico_map.bmp"
+  btnAM_Button3.iconvalign "CENTER-16"
+  btnAM_Button3.onrelease 'STATE st_NavigateMap'
+
+  btnAM_Button4.text "Manage"
+  btnAM_Button4.iconspr "$ico_mydata.bmp"
+  btnAM_Button4.onrelease 'NEXTSTATE st_AdvMyDataMenu'
+</script>
+  
+<script sc_LauncherInitBasMenu>
+  ui_BasMenu_Map.hide
+  ui_BasMenu_Exit.hide
+  ui_BasMenu_Exit.x -1000
+  ui_BasMenu_Settings.hide
+  btnBM_back.show
+  btnBM_Map2.show
+</script>

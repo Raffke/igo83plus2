@@ -1,0 +1,141 @@
+;****************************************************************************************************************
+
+<header>
+	<var vLongitudeText=L"">
+	<var vLatitudeText=L"">
+</header>
+
+;****************************************************************************************************************
+
+<script sc_FindCoord>
+    vGeoInputState.set 0
+	SET_LATITUDE_LONGITUDE_BYCURSOR "vLatitudeText" "vLongitudeText"
+	.map.store_cursor_pos
+	GET_CURSOR_POS vGeoInputLongitude vGeoInputLatitude
+	NEXTSTATE st_FindCoord
+</script>
+
+;****************************************************************************************************************
+
+<state st_FindCoord>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindCoord/>
+
+	<script init>
+	    Title.SET "GEO coordinate"
+
+		btnFC_Ok.enable
+		runif vGeoInputLongitude L"" 'btnFC_Ok.disable'
+		runif vLatitudeText L"" 'btnFC_Ok.disable'
+	</script>
+</state>
+
+<script sc_FindCoordFormatChanged>
+	FORMAT_LATITUDE_LONGITUDE "vLatitudeText" "vLongitudeText"
+	btnFC_Longitude.redraw
+	btnFC_Latitude.redraw
+</script>
+
+;****************************************************************************************************************
+
+<state st_FindCoordLongitude>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindCoordLongitude/>
+
+	<script init>
+		Title.SET "Longitude Coordinate"
+		LOADPANELTYPE 256
+
+		kb_plus.TEXT "E/W"
+		inpFC_Longitude.EMPTYTITLE "<Longitude>"
+		CONVERT_GCOOR_UI_TOINTERNAL vLongitudeText
+		runif vLongitudeText L"" 'inpFC_Longitude.VALUE L"E"'
+		else_run 'inpFC_Longitude.VALUE vLongitudeText'
+		KEYB_GEO_HACK inpFC_Longitude kb_grad
+
+		vKeyTableDone.SET sc_FindCoordLongitudeOK
+		inpFC_Longitude.SETFOCUS
+	</script>
+	
+	<script done>
+		kb_plus.TEXT "+/-"
+	    kb_grad.TEXT "'/''"
+	    local.keyboard.on_close_panel
+		CONVERT_GCOOR_INTERNAL_TOUI vLongitudeText
+	</script>
+</state>
+
+<script sc_FindCoordLongitudeOK>
+	inpFC_Longitude.GET "vTmp"
+	SAVE_GEO_INPUT "vTmp" "vGeoInputLongitude" "vGeoInputState" 2 "vTmp2"
+	vLongitudeText.SET vTmp2
+	PREVSTATE
+</script>
+
+<script sc_LongitudeKeyChanged>
+    KEYB_GEO_HACK inpFC_Longitude kb_grad
+</script>
+
+
+;****************************************************************************************************************
+
+<state st_FindCoordLatitude>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindCoordLatitude/>
+
+	<script init>
+		Title.SET "Latitude Coordinate"
+		LOADPANELTYPE 256
+
+		kb_plus.TEXT "N/S"
+		inpFC_Latitude.EMPTYTITLE "<Latitude>"
+		CONVERT_GCOOR_UI_TOINTERNAL vLatitudeText
+		runif vLatitudeText L"" 'inpFC_Latitude.VALUE L"N"'
+		else_run 'inpFC_Latitude.VALUE vLatitudeText'
+		
+		KEYB_GEO_HACK inpFC_Latitude kb_grad
+
+		vKeyTableDone.SET sc_FindCoordLatitudeOK
+	</script>
+	
+	<script done>
+		kb_plus.TEXT "+/-"
+	    kb_grad.TEXT "'/''"
+	    local.keyboard.on_close_panel
+		CONVERT_GCOOR_INTERNAL_TOUI vLatitudeText
+	</script>
+</state>
+
+<script sc_FindCoordLatitudeOK>
+	inpFC_Latitude.GET "vTmp"
+    SAVE_GEO_INPUT "vTmp" "vGeoInputLatitude" "vGeoInputState" 1 "vTmp2"
+	vLatitudeText.SET vTmp2
+	PREVSTATE
+</script>
+
+<script sc_LatitudeKeyChanged>
+    KEYB_GEO_HACK inpFC_Latitude kb_grad
+</script>
+
+;****************************************************************************************************************
+
+<script sc_SearchCoordAndGo>
+    SAVE_GEO_INPUT "vLongitudeText" "vGeoInputLongitude" "vGeoInputState" 2
+    SAVE_GEO_INPUT "vLatitudeText" "vGeoInputLatitude" "vGeoInputState" 1
+	SELECTGEOITEM 4 "vGeoInputLatitude" "vGeoInputLongitude"
+	map.MOVECURSORTOSELECTEDITEM
+
+	nPlaceStateMode.SET 0
+	NEXTSTATE st_Place
+</script>
+
+;****************************************************************************************************************

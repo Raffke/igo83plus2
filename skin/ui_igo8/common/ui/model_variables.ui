@@ -1,0 +1,22 @@
+<header>
+	<var vMapNorthUpOnAutoZoom>
+	<var vNorthUpAutoZoomValue>
+	<var vNorthUpAutoZoomDistance>
+	<var nBuildingDistance>
+	<var nTerrainDetail>
+	<var nDynamicVolumeType>
+	<var sGeoCodingStatus>
+	<var vOnBattery>
+	<var vShutdownInProgress>
+</header>
+
+<script sc_ModelVariablesInit>
+	vMapNorthUpOnAutoZoom.boolmodel "smartzoom.overview"
+	vNorthUpAutoZoomValue.valuemodel "smartzoom.overview_zoomlevel.value"
+	vNorthUpAutoZoomDistance.valuemodel "smartzoom.overview_distance.value"
+	nBuildingDistance.valuemodel "map.3d_buildings_distance"
+	nTerrainDetail.valuemodel "map.3d_dem_detail"
+	nDynamicVolumeType.valuemodel "sound.dynamic_volume_type"
+	vOnBattery.boolmodel "power.on_battery"
+	vShutdownInProgress.boolmodel "power.shutdown_in_progress"
+</script>

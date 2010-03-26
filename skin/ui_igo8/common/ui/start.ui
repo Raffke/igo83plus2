@@ -1,0 +1,535 @@
+;****************************************************************************************************************
+
+<header>
+	<layer map type="map" z=0 x=0 y=0>
+
+	<var vMapIsShowed=0>
+
+	<var vMSGBOXTXT="">
+	<var vMSGBOXTXT1="">
+	<var vMSGBOXTXT2="">
+	<var vMSGBOXTXT3="">
+	<var vMSGBOXTYPE=0>
+	<var vActionConfirmed>
+	<var vActionNotConfirmed>
+	<var vActionDone>
+	<var vKeyTableDone>
+	<var vRequiredField=0>
+	<var vInputDoneScriptSet=0>
+	<var vInputDoneScript>
+	<var vLastAutoTimeZoneError=0>
+	<var vMonkeyRestriction>
+	<var vfirst_start_default_settings=1 permanent>
+	<var vStartUp=1>
+	<var vMinimize registermodel>
+</header>
+;****************************************************************************************************************
+<script sc_first_start_default_settings>
+	vcf_nAutoFollowTime.set 30
+
+	vfirst_start_default_settings.set 0
+	vMapNorthUpOnAutoZoom.set 1
+</script>
+
+<script sc_first_start_map_settings>
+	map.CENTERCURSOR
+	saved_vGPSPositionToRoad.SET vGPSPositionToRoad
+
+	run sc_SaveZoomAndTilt
+</script>
+
+<script sc_set_zoom_and_tilt_settings>
+	.map.zoom_level_in_navigate vZoomLevelInNavigate
+	.map.zoom_level_in_map vZoomLevelInMap
+	.map.tilt_in_navigate vTiltInNavigate
+	.map.zoom_level vZoomLevel
+	.map.rotation_angle vRotationAngleNavMap
+</script>
+;****************************************************************************************************************
+
+<script sc_SetTmcRecalcOptionFromVar>
+	runif vTmcReplanMode "ASK" sc_SetTmcRecalcOptionAll 3
+	else_runif vTmcReplanMode "OFF" sc_SetTmcRecalcOptionAll 2
+	else_run sc_SetTmcRecalcOptionAll 0
+</script>
+
+<script sc_SetTmcRecalcOptionAll>
+	.tmc.settings.accident_recalc $1
+	.tmc.settings.closed_recalc $1
+	.tmc.settings.heavy_recalc $1
+	.tmc.settings.congestion_recalc $1
+	.tmc.settings.roadworks_recalc $1
+	.tmc.settings.closures_recalc $1
+	.tmc.settings.danger_recalc $1
+	.tmc.settings.weather_recalc $1
+	.tmc.settings.police_recalc $1
+	.tmc.settings.invalid_recalc $1
+</script>
+
+<script sc_SetShowTmcDetour>
+	runifnot vTmcReplanMode "OFF" 'vShowTmcDetour.set 1'
+	else_run 'vShowTmcDetour.set 0'
+</script>
+
+<state st_Start>
+	<script init>
+		phonekeyinput 2
+		run sc_set_UIresolution
+		run sc_start_pre_customize
+		
+		runif nUserMode 3 'GETSYSENTRY "usermode" "loading" 3 nUserMode'
+		run sc_SelectKeyPanel
+
+		map.PROGRESS_CONTROL txt_route_planning_progress
+
+		run sc_legacy_init_variables
+		SETBACKGROUNDFILE vBackgroundFile
+		sprH_Background.BMP vBackgroundFile
+		spr_msg_bg.BMP vBackgroundFile
+		spr_emsg_bg.BMP vBackgroundFile
+		spr_sdtmsg_bg.BMP vBackgroundFile
+		spr_dc_bg.BMP vBackgroundFile
+		spr_MP_bg.BMP vBackgroundFile
+
+		run sc_SetTmcRecalcOptionFromVar
+		run sc_SetShowTmcDetour
+
+		.route.allow_uturn 0
+		.map.force_3d_after_overview 0
+		.map.change_zoom_on_manual_overview 0
+		.map.switch_overview_on_manual_zoom 0
+
+		map.SETMINISTATUS "" "" "btn_record_sprite" "btn_record_sprite2" "sprNM_TMCStatus"
+		map.ZOOMCONTROL_ENABLED 0
+
+		GPS_START
+		SELECTGEOITEM 12
+		runif vfirst_start_default_settings 1 'run sc_first_start_map_settings'
+		else_run 'run sc_set_zoom_and_tilt_settings'
+
+		FILTERPANELS "tahoma"
+		FILTERPANELS_DB
+
+		runif bNavMapFollow 0 sc_FollowOff
+		else_run sc_FollowOn
+
+		run sc_enable_offroute_recalc
+
+		; Layers are shown by default, this causes a problem when going to the places state (see sc_next_find_done)
+		; [12/7/2007] bug fixed on MxxMERGE, hack stays here to avoid merging and removal from other branches
+		ui_FindAddressHouseNumber.HIDE 
+
+		EXEC_STARTUP_PARAMS
+
+		;vAskForReplanScript.set sc_OffRoute
+
+		; default setting a két mode-hoz
+		runif nUserMode	0 sc_SetAdvancedMode
+		else_runif nUserMode 1 sc_SetBasicMode
+
+		run sc_UseGestures
+
+		; e  s
+		; |  |
+		; |__|
+		; old gesture was triggered by normal scrollbar use
+		GESTURE "CA064" 'run sc_demo_mode'
+		runif %other.demo_mode 1 sc_demo_mode_on
+
+		runif vHideZoomControls 0 'btn_NMPC_OpenClose.press'
+		else_run 'btn_NMPC_OpenClose.unpress'
+		v3dzoomcontrol.set 0
+
+		; Check if Oasis model has any submodels
+		MODEL_EXISTS "oasis.*" "vTmp"
+		
+		; Run Oasis init script only if script exists
+		runif vTmp 1 'runvar "sc_Oasis_Init"'
+		
+		;GESTURE "igo8menu" 'run sc_ReturnToMainMenu'
+		;bAutoNightMode.SET 0
+
+		GETSYSENTRY "monkey_restriction" "debug" "no" vMonkeyRestriction
+		GETSYSENTRY "2dheadup" "map" 0 v2DHeadUp
+		GETSYSENTRY "getupdates" "debug" 0 vGetUpdates
+		GETSYSENTRY "minimize_button" "debug" 0 vMinimize
+
+		bMapTextureFill.set 1
+		bUTurn.set 1
+
+		tmc_announce_obs.start
+
+		run sc_start_customize
+
+		run sc_SettingsInit
+
+;!Raffke_jr - "Smart" start state: "1"=always, "0"=never, default "2"=if_route_set
+		GETSYSENTRY "smart_start" "plusplus" 2 vTmp
+		     runif vTmp 1 'vTmp.SET 1'
+		else_runif vTmp 2 'GETADDVIAAVAILABILITY vTmp'
+		else_run 'vTmp.SET 0'
+
+		runifnot vMonkeyRestriction "no" 'run sc_monkey_test'
+		else_runif vfirst_start_default_settings 1 'runif nusermode 0 sc_AdvMode 
+		                                            else_runif nusermode 1 sc_BasicMode
+		                                            else_run sc_UserModeSelectMessage'
+;!Raffke_jr - "Smart" start state - Main Menu or Map
+		else_runif vTmp 1 'run sc_GoToStartState, 1 NEXTSTATE st_NavigateMap'
+		else_run 'run sc_GoToStartState'
+
+		; does this ever run at all?
+		runif vfirst_start_default_settings 1 sc_first_start_default_settings
+		runif v2DHeadUp 0 sc_2DHeadUpCheck
+	</script>
+</state>
+
+<script sc_UserModeSelectMessage>
+    INITMESSAGEBOX 2 "Select Program Mode" sc_BasicMode sc_AdvMode "Basic" "Advanced"
+</script>
+
+<script sc_GoToStartState>
+	GETSYSENTRY "start_state" "interface" "" vTmp
+	runifnot vTmp "" 'STATE vTmp'
+	else_runif nUserMode 0 'STATE st_AdvMenu'
+	else_run 'STATE st_BasMenu'
+</script>
+
+<script sc_EmptyStateQueue>
+	EMPTYSTATEQUEUE
+	GETSYSENTRY "start_state" "interface" "" vTmp
+	runifnot vTmp "" 'STATE vTmp, NEXTSTATE $1' $1
+	else_run 'STATE $1' $1
+</script>
+
+<script sc_loading_finished>
+	vLastAutoTimeZoneError.onchange "sc_OnAutoTimeZoneErrorChanged"
+	vLastAutoTimeZoneError.valuemodel "local.timezone.last_error"
+	.other.loading_finished 1
+
+	; show alarms triggered while the program was not running
+	exec "oasis.reminders.check_for_reminders"
+
+	vStartUp.set 0
+
+	vOnBattery.onchange "sc_BatteryOnChange"
+	vShutdownInProgress.onchange "sc_ShutdownInProgressChange"
+</script>
+<script sc_SelectKeyPanel>
+		runif %local.keyboard.name "BoPoMoFo" 'local.keyboard.candidate_layer "ui_key_candidates"' 
+		else_run 'local.keyboard.candidate_layer "ui_key_candidates_long"'
+</script>
+
+
+<script sc_demo_mode>
+	runif %other.demo_mode 1 sc_demo_mode_off
+	else_run sc_demo_mode_on
+</script>
+
+<script sc_demo_mode_on>
+	LOOP_SIM 1
+	.other.demo_mode 1
+	btn_demo.SHOW
+</script>
+
+<script sc_demo_mode_off>
+	LOOP_SIM 0
+	.other.demo_mode 0
+	btn_demo.HIDE
+</script>
+
+<script sc_enable_offroute_recalc>
+	runif %navigation.waypoints.list.isempty 1 sc_just_if_noroute
+</script>
+
+<script sc_just_if_noroute>
+	runif vRecalcOffByStartPoint 1 'vAutoReplan.set 1'
+	vRecalcOffByStartPoint.set 0
+</script>
+
+<script sc_map_mode_to_bool>
+   runif %map.map_mode L"2D" 'vMapModeBool.set 0'
+   else_runif %map.map_mode L"3D" 'vMapModeBool.set 1'
+</script>
+
+<observer use_tmc_obs model="tmc.ignore_all_events" onchange='ADVNAV_RECALC' start>
+<observer no_route model="navigation.waypoints.list.isempty" onchange='run sc_enable_offroute_recalc' start>
+<observer map_modetobool model="map.map_mode" onchange='run sc_map_mode_to_bool' start>
+
+<script sc_BasicMode>
+	nUserMode.set 1
+	run sc_SetBasicMode
+	.other.loading_finished 1
+	run sc_GoToStartState
+</script>
+
+<script sc_AdvMode>
+	nUserMode.set 0
+	run sc_SetAdvancedMode
+	.other.loading_finished 1
+	run sc_GoToStartState
+</script>
+
+
+<script sc_GoTo_MainMenu>
+	TERM sc_TimeredPrevState
+	EMPTYSTATEQUEUE
+	run sc_LauncherMainPage
+	run sc_GoToStartState
+</script>
+
+<script sc_set_UIresolution>
+	vUIRes.set ""
+</script>  
+
+<script sc_SetBasicMode>
+	.warning.speedcam_enabled 0
+	EXEC "warning.check_speedcam_functions" 1
+	map.REDRAW_POI
+	runif %navigation.waypoints.list.size > 2 'SELECTWAYPOINT 1,
+                                               DELETEROUTE,
+                                               map.MOVECURSORTOSELECTEDITEM,
+                                               FINDPATH_TO'
+	vAutoReplan.SET 1
+
+	btn_CSTMC.y 1600
+	.tmc.auto_tuning 1
+	.tmc.ignore_all_events 0
+	vTmcReplanMode.set L"AUTO"
+
+	.gps.logging 0
+	vRecordTrack.set 0
+
+	run sc_SetPedestrianWarning
+
+	vMapNorthUpOnAutoZoom.set 0
+	vcf_nAutoFollowTime.set 30
+
+	vGPSPositionToRoad.set 1
+
+
+	.smartzoom.enabled2d 1
+	.smartzoom.enabled 1
+	.smartzoom.restore_smartzoom_on 1
+	.smartzoom.auto_smartzoom_time 30
+
+	runif vUIRes "480_272" '.smartzoom.minzoom2d 200, .smartzoom.maxzoom2d 1500, .smartzoom.maxzoom 170, .smartzoom.minzoom 80'
+	else_run '.smartzoom.minzoom2d 200, .smartzoom.maxzoom2d 1500, .smartzoom.maxzoom 150, .smartzoom.minzoom 80'
+
+	ui_NavigateMapPresetControls2D.y 150
+	ui_NavigateMapPresetControls3D.y 150
+</script>
+
+<script sc_SetAdvancedMode>
+	.warning.speedcam_enabled 1
+;!Raffke_jr - copied from BasicMode to enable speedcam functions without satfix
+	EXEC "warning.check_speedcam_functions" 1
+	map.REDRAW_POI
+	
+	runif vUIRes "240_240" 'btn_CSTMC.y 205'
+	runif vUIRes "320_240" 'btn_CSTMC.y 205'
+	runif vUIRes "240_320" 'btn_CSTMC.y 279'
+	runif vUIRes "480_272" 'btn_CSTMC.y 239'
+	runif vUIRes "400_240" 'btn_CSTMC.y 207'
+	runif vUIRes "480_234" 'btn_CSTMC.y 201'
+	runif vUIRes "320_320" 'btn_CSTMC.y 285'
+	runif vUIRes "320_320" 'btn_CSTMC.y 279'
+	runif vUIRes "800_480" 'btn_CSTMC.y 414'
+	runif vUIRes "480_800" 'btn_CSTMC.y 718'
+
+
+	ui_NavigateMapPresetControls3D.y 0
+	ui_NavigateMapPresetControls2D.y 0
+
+	.smartzoom.restore_smartzoom_on 0
+</script>
+
+
+;****************************************************************************************************************
+
+<state st_AdvMenu>
+	<uselayer ui_Header/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_AdvMenu/>
+	
+	<script init>
+		runif vDriveCarefully_show 1 'runifnot vDriveCarefully 0 sc_drive_carefully_init'
+
+		vMoveCursorToSelectedItem.set 1
+		Title.SET "Navigation Menu"
+
+		runif bMsndValid 0 sc_AdvMenuInit
+		else_run sc_AdvMenuMsndInit
+
+		SETMARKER vFindStateMarker
+		run sc_AdvMenuUpdateRouteButton
+		vRouteCalcFinishedCallback.set sc_AdvMenuUpdateRouteButton
+		run sc_OnAutoTimeZoneErrorChanged
+
+		GETSYSENTRY "start_state" "interface" "" vTmp
+		runifnot vTmp "" 'run sc_LauncherInitAdvMenu'	
+
+		runif vStartUp 1 'run sc_loading_finished'
+
+		runif vMonkeyRestriction "oasis" 'NEXTSTATE st_OasisMain'
+	</script>
+
+	<script done>
+		vRouteCalcFinishedCallback.clear
+
+		run sc_SaveZoomAndTilt
+	</script>
+</state>
+
+<script sc_AdvMenuUpdateRouteButton>
+	vtmp.set 0
+	map.ISROUTEVALID vValidRoute vDeletableRoute
+	runifnot vValidRoute 0 'INCVAL "vTmp" 1'
+	ntmp.boolmodel "!mydata.routes.isempty"
+	ntmp.dropmodel
+	runifnot ntmp 0 'INCVAL "vTmp" 1'
+	runif vtmp 0 'btnAM_Route.disable'
+	else_run 'btnAM_Route.enable'
+</script>
+
+<script sc_AdvMenuInit>
+	ui_AdvMenu.show
+	ui_AdvMenuMsnd.hide
+</script>
+
+<script sc_AdvMenuMsndInit>
+	btnAMM_Msnd.onrelease 'vMsndMainMenu.set 1, NEXTSTATE st_MsndMain'
+    
+	ui_AdvMenu.hide
+	ui_AdvMenuMsnd.show
+</script>
+
+
+;****************************************************************************************************************
+
+<state st_BasMenu>
+	<uselayer ui_Header/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_BasMenu/>
+	
+	<script init>
+		Title.SET "Navigation Menu"
+		runif vDriveCarefully_show 1 'runifnot vDriveCarefully 0 sc_drive_carefully_init'
+
+		;map.ISROUTEVALID vValidRoute vDeletableRoute
+		;runif vValidRoute 1 'btnBM_RouteInfo.ENABLE,  btnBM_RemoveRoute.ENABLE'
+		;runif vValidRoute 0 'btnBM_RouteInfo.DISABLE, btnBM_RemoveRoute.DISABLE'
+
+		SETMARKER vFindStateMarker
+		run sc_OnAutoTimeZoneErrorChanged
+
+		GETSYSENTRY "start_state" "interface" "" vTmp
+		runifnot vTmp "" 'run sc_LauncherInitBasMenu'	
+
+		runif vStartUp 1 'run sc_loading_finished'
+
+		runif vMonkeyRestriction "oasis" 'NEXTSTATE st_OasisMain'
+	</script>
+
+	<script done>
+		run sc_SaveZoomAndTilt
+	</script>
+</state>
+
+
+;**********************************
+
+<script sc_ReturnToMap>
+	runifnot vActiveState "st_navigatemap" 'TERM sc_TimeredPrevState, run sc_EmptyStateQueue st_NavigateMap'
+</script>
+
+<script sc_ReturnToMainMenu>
+	runif vActiveState "st_AdvMenu" 'TERM sc_ReturnToMainMenu'
+	else_runif vActiveState "st_BasMenu" 'TERM sc_ReturnToMainMenu'
+	runif nUserMode 0 'run sc_EmptyStateQueue st_AdvMenu'
+	else_run 'run sc_EmptyStateQueue st_BasMenu'
+</script>
+
+<script sc_Exit>
+	ui_Exit_MessageBox.show
+	vtmp.boolexpr "interface.show_minimize|ui.vMinimize"
+	vtmp.dropmodel
+	runif vtmp 0 sc_Exit_pna
+	else_run sc_Exit_pda
+</script>
+
+<script sc_Exit_pna>
+	txtEMB_Msg.text "Are you sure\nyou want exit the program?"
+	btnEMB_Exit_pda.hide
+	btnEMB_minimize_pda.hide
+	btnEMB_Cancel_pda.hide
+	runif vUIres "800_480" 'sprEMB_Icon.bmp "dialog_qm.spr"'
+	else_runif vUIres "480_800" 'sprEMB_Icon.bmp "dialog_qm.spr"'
+	else_run 'sprEMB_Icon.bmp "ui_igo8/common/dialog_qm.spr"'
+</script>
+
+<script sc_Exit_pda>
+	txtEMB_Msg.text "Are you sure\nyou want exit the program?"
+	btnEMB_Exit.hide
+	btnEMB_Cancel.hide
+	runif vUIres "800_480" 'sprEMB_Icon.bmp "dialog_qm.spr"'
+	else_runif vUIres "480_800" 'sprEMB_Icon.bmp "dialog_qm.spr"'
+	else_run 'sprEMB_Icon.bmp "ui_igo8/common/dialog_qm.spr"'
+</script>
+
+<script sc_hideExitMessage>
+	ui_Exit_MessageBox.hide
+</script>
+
+<script sc_AdvDemoRoute>
+	LOAD_RANDOM_ROUTE vTmp	
+	runifnot vTmp 0 'INITMESSAGEBOX 0 vTmp'
+	else_run 'vLoadingDemoRoute.set 1'
+
+</script>
+
+<state ExitState>
+	<uselayer ui_Exiting/>
+	<script init>
+		;TODO - why?
+		;GETADDVIAAVAILABILITY vTmp
+		;runif vTmp 0 'vAutoReplan.SET L"AUTO"'
+		1 EXIT
+	</script>
+</state>
+
+<script sc_CancelShutdown>
+	.power.cancel_shutdown
+	ui_ShutdownTimer.hide
+</script>
+
+<script sc_BatteryOnChange>	
+	DEBUG "sc_BatteryOnChange"
+	GETSYSENTRY "shutdown_time" "interface" 10 vTmp
+	runifnot vTmp 0 sc_shutdown_timer 
+</script>
+
+<script sc_shutdown_timer>
+	runif vOnBattery 1 '.power.set_shutdown_timer vTmp, ui_ShutdownTimer.show'
+	else_run sc_CancelShutdown
+</script>
+
+<script sc_ShutdownInProgressChange>
+	DEBUG "sc_ShutdownInProgressChange"
+	runif vShutdownInProgress 0 'ui_ShutdownTimer.hide'
+</script>
+
+<script sc_SaveZoomAndTilt>
+	vZoomLevelInNavigate.SET %map.zoom_level_in_navigate
+	vZoomLevelInMap.SET %map.zoom_level_in_map
+	vTiltInNavigate.SET %map.tilt_in_navigate
+	vZoomLevel.SET %map.zoom_level
+	runifnot vMapState 5 'vRotationAngleNavMap.set %map.rotation_angle'
+</script>
+
+<script sc_SelectDestination>
+	vTmp.set %navigation.waypoints.list.size
+    DECVAL "vTmp" 1
+    SELECTWAYPOINT vTmp
+</script>

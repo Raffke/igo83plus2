@@ -1,0 +1,21 @@
+
+<FONTTYPE headerfont color=#ffffff font="tahomabd" >
+<FONTTYPE buttonlabel1 color=#000000 font="tahoma" fontsize=34 color2=#a00000>
+<FONTTYPE buttonlabel2 color=#0000CC font="tahoma" fontsize=34 color2=#0000CC>
+<FONTTYPE buttonlabel_menu color=#000000 font="tahoma" fontsize=12 color2=#000000>
+<FONTTYPE buttonlabel_menu2 color=#FFFFFF font="tahomabd" fontsize=10 color2=#FFFFFF>
+<FONTTYPE font1 color=#000000 valuecolor=#000000 emptycolor=#5B6B50 color2=#000000>
+<FONTTYPE font_speedlimit_below color=#007000 font="tahoma" fontsize=16 valuecolor=#000000 emptycolor=#5B6B50 color2=#a00000>
+<FONTTYPE font_speedlimit_above color=#700000 font="tahomabd" fontsize=16 valuecolor=#000000 emptycolor=#5B6B50 color2=#a00000>
+<FONTTYPE keyfont  color=#000000  color2=#a00000>
+<FONTTYPE keyfont1 color=#000000  color2=#a00000>
+<FONTTYPE keyfont2 color=#000000  color2=#a00000>
+<FONTTYPE keysmallfont color=#000000 color2=#a00000>
+<FONTTYPE font2 color=#5B6B50 font="tahoma" fontsize=16 valuecolor=#000000 emptycolor=#5B6B50 color2=#000000>
+
+<FONTTYPE xhtml_ft font="tahomabd" fontsize=12 color=#000000 color2=#000000 color3=#000000>
+
+<FONTTYPE bw color=#000000 color2=#FFFFFF color3=#AA0000>
+<fonttype wb color=#FFFFFF color2=#000000 color3=#000000>
+<fonttype bb color=#000000 color2=#FFFFFF color3=#AA0000>
+<fonttype ww color=#FFFFFF color2=#000000 color3=#000000>

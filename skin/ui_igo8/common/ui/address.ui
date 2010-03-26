@@ -1,0 +1,847 @@
+<header>
+	<var vCityRuleOk=0>
+	<var bFindDelayed=0>
+	<var vCursorX>
+	<var vCursorY>
+	<var vLastCursorX=0>
+	<var vLastCursorY=0>
+	<var vSelectedAdvUID2=0>
+	<var vHouseNumberByRange=0>
+</header>
+
+;****************************************************************************************************************
+<state st_FindAddress>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindAddress/>
+	
+	<script enter>
+		.map.store_cursor_pos
+		run sc_FindAddressUpdateSelectionFromCursor
+	</script>
+	
+	<script init>
+        runif vSelectedStreet L"" 'vIntersectionCount.SET 0'
+        else_run 'map.COUNTJUNCTIONS vSelectedAdvUID2 vSelectedUID vSelectedUID2 vSelectedAdvUID vIntersectionCount'  
+		
+        Title.SET "Find Address"
+		vAddressFindMode.set 0
+		vMoveCursorToSelectedItem.set 1
+
+		run sc_FindAddressInit
+	</script>
+
+	<script exit>
+		lbFASR_StreetResult.dropmodel
+		GET_CURSOR_POS vLastCursorX vLastCursorY
+	</script>
+
+;override - old scriptek !!!
+<script sc_FindAddress_positions_nostate>
+</script>
+<script sc_FindAddress_positions_state>
+</script>
+  
+</state>
+
+<script sc_FindAddressUpdateSelectionFromCursor>
+	GET_CURSOR_POS vCursorX vCursorY
+
+	runifnot vCursorX vLastCursorX sc_FindAddressInitSelectionFromCursor
+	else_runifnot vCursorY vLastCursorY sc_FindAddressInitSelectionFromCursor
+
+	vLastCursorX.SET vCursorX
+	vLastCursorY.SET vCursorY
+</script>
+
+<script sc_FindAddressInitSelectionFromCursor>
+	map.GETLASTCITY vSelectedItem2 vSelectedUID vSelectedAdvUID vSelectedCity vTmp 0 1
+	vSelectedStreet.SET L""
+</script>
+
+<script sc_FindAddressInit>
+	
+	; vSelectedUID-ot a cimkereses hasznalja, erzekenyen rea
+	runif vSelectedUID 0 sc_FindAddressInitSelectionFromCursor
+	else_runif vSelectedCountryCode "" sc_FindAddressInitSelectionFromCursor
+
+	;3rd param indicates whether to include state code before country code
+	GETCOUNTRYTEXT vSelectedCountryCode vTmp 0
+	btnFA_Country.TEXT vTmp
+	
+	vTmp.set vSelectedCity
+	RUNIF vTmp L"" 'vTmp.set "<enter cityname filter>"'
+	btnFA_City.Text vTmp
+
+	vTmp.set vSelectedStreet
+	runif vTmp L"" 'vTmp.set "<Street Name>"'
+	btnFA_Street.ENABLE
+	map.CITYSELECTED vSelectedUID "vIsCOS" "vIsHaveCOS" vSelectedAdvUID
+	runif vSelectedCity L"" 'btnFA_Street.DISABLE'
+	runif vIsCOS 1 'btnFA_Street.DISABLE'
+	runif vIsCOS 2 'btnFA_Street.DISABLE'
+	btnFA_Street.TEXT vTmp
+	
+	btnFA_House.ENABLE
+	runif vSelectedStreet L"" 'btnFA_House.DISABLE'
+	else_run sc_CheckHouseNumber
+	runif vIsCOS 1 'btnFA_House.DISABLE'
+	runif vIsCOS 2 'btnFA_House.ENABLE'
+	
+	btnFA_CityCenter.ENABLE
+	runif vSelectedCity L"" 'btnFA_CityCenter.HIDE, btnFA_CountryCenter.SHOW, btnFA_StateCenter.SHOW'
+	else_run               'btnFA_CityCenter.SHOW, btnFA_CountryCenter.HIDE, btnFA_StateCenter.HIDE'
+	runif vIsHaveCOS 0 'btnFA_CityCenter.DISABLE'
+	ISCOUNTRYSTATE vSelectedCountryCode vTmp
+	runif vTmp 1 'btnFA_CountryCenter.HIDE'
+	else_run 'btnFA_StateCenter.HIDE'
+
+	btnFA_StreetCenter.ENABLE
+	runif vSelectedStreet L"" 'btnFA_StreetCenter.DISABLE'
+		
+	btnFA_Intersection.ENABLE
+	runif vSelectedStreet L"" 'btnFA_Intersection.DISABLE'
+    runif vIntersectionCount 0 'btnFA_Intersection.DISABLE'    
+	
+	map.ANALIZE_SELECTED_COUNTRY vTmp
+	
+	runif vtmp 1 'run sc_FindAddress_positions_state, btnFA_State.show'
+	else_run 'run sc_FindAddress_positions_nostate, btnFA_State.hide'
+	
+	;2nd parameter indicates the text format (5: default, 8: without "In" word and <all states> instead of country name)
+	GETFINDMENUBUTTONTEXT 8 vSelectedCountryCode vTmp
+	btnFA_State.text vtmp
+	
+	map.ATTACHCITYHISTMODEL lbH_History
+	btnFA_history.ENABLE
+	lbH_History.GETCOUNT vtmp
+	runif vtmp 0 'btnFA_history.DISABLE'
+	lbH_History.DROPMODEL
+	
+</script>
+
+<script sc_CheckHouseNumber>
+	CHECK_HASHOUSENUMBER vSelectedAdvUID vSelectedUID2 vTmp vSelectedUID vSelectedAdvUID2
+	RUNIF vTmp 0 'btnFA_HOUSE.DISABLE'
+</script>
+
+<script sc_GetCityMain>
+	inpFACi_City.VALUE ""
+	NEXTSTATE st_FindAddressCity
+</script>
+
+<script sc_GetStreetMain>
+		LOADPANELTYPE 1 0
+		inpFAS_Street.VALUE ""
+
+		lbFASR_StreetResult.DROPMODEL
+		map.ATTACHFINDADDRESSMODELSTREET lbFASR_StreetResult Title 0
+
+		map.ADDRESSCHANGESTREET inpFAS_Street lbFASR_StreetResult
+		CHECKFINDRESULTCOUNT lbFASR_StreetResult vResultReady vResultCount vResultCountNum
+		CHECKFINDFILTER inpFAS_Street vResultReady
+		runif    vResultCountNum 0 'txtFAS_NumberOf.SET ""'
+		runifnot vResultCountNum 0 'txtFAS_NumberOF.SET vResultCount'
+
+		inpFAS_Street.SYNCKBPANEL
+		inpFAS_Street.GET "vTmp"
+
+		vStreetEntrySkipped.SET 1
+		runifnot vResultReady 1 'vStreetEntrySkipped.SET 0'
+		runifnot vTmp L"" 'vStreetEntrySkipped.SET 0'
+		
+		runif vStreetEntrySkipped 0 'NEXTSTATE st_FindAddressStreet'
+		else_run 'NEXTSTATE st_FindAddressStreetResult'
+</script>
+
+<script sc_GoCountryCenterMain>
+	vSelectedCity.SET L""
+    vSelectedItem.SET L""
+    vSelectedStreet.SET L""
+
+    SELECTGEOITEM 13 vSelectedCountryCode
+	vStateMode.SET ""
+    vZoomAfterFind.SET 0
+    runif vAddressFindMode 0 'run sc_GoCountryCenterShowMap'
+	else_runif vAddressFindMode 1 'run sc_StartPOISearchAroundCursor'
+	vZoomAfterFind.SET 1
+</script>
+
+<script sc_GoCountryCenterShowMap>
+	vMapState.set 4
+    map.setmapstate 4
+
+	vCarWasLockedWhenExitedNavigateMap.set 0
+	run sc_FollowOff
+	run sc_P_return_to_map 0
+
+	map.MOVECURSORTOSELECTEDITEM
+</script>
+
+<script sc_GoCityCenterMain>
+    vSelectedItem.SET L""
+    vSelectedStreet.SET L""
+	run sc_SearchCityCenterAndGo
+</script>
+
+<script sc_GoStreetCenterMain>
+    vSelectedItem.SET L""
+	RESOLVE_DUPLICATE_HOUSE vSelectedAdvUID vSelectedUID vSelectedUID2 vSelectedItem lbFADH_Duplicated vSelectedAdvUID2   
+</script>
+
+<script sc_GoIntersectionMain>
+	inpI_Street.VALUE ""
+	NEXTSTATE st_Intersection
+</script>
+
+;****************************************************************************************************************
+
+<state st_FindAddressCountry>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindAddressCountry/>
+	
+	<script init>
+		Title.SET "Select Country"
+		lbFAC_CountryList.SETCONTROLS "btnFAC_NextPage" "btnFAC_PrevPage"
+		ATTACHCOUNTRYMODEL lbFAC_CountryList
+		lbFAC_CountryList.SETSELECTION -1
+	</script>
+	
+	<script done>
+		DROPCOUNTRYMODEL lbFAC_CountryList
+	</script>
+</state>
+
+<script sc_lbFAC_CountryList_OnItemSelected>
+	STORE_COUNTRYCODE_SELECTED lbFAC_CountryList vTmp
+
+	vSelectedCity.SET L""
+	vSelectedStreet.SET L""
+	vSelectedItem.SET L""
+
+	;default: show state selection immediately
+	;RUNIF vTmp 1 'NEXTSTATE st_FindAddressState'
+	;ELSE_RUN 'PREVSTATE'
+
+	;use this if you don't want to show state selection immediately
+	RUN 'PREVSTATE'
+</script>
+
+;****************************************************************************************************************
+
+<state st_FindAddressState>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindAddressState/>
+	
+	<script init>
+		Title.SET "Select State"
+		lbFAS_StateList.SETCONTROLS "btnFAS_NextPage" "btnFAS_PrevPage" 
+		ATTACHSTATEMODEL lbFAS_StateList
+	</script>
+	
+	<script done>
+		DROPSTATEMODEL lbFAS_StateList
+	</script>
+</state>
+
+<script sc_lbFAS_StateList_OnItemSelected>
+    vSelectedCity.set L""
+	vSelectedStreet.SET L""
+	vSelectedItem.SET L""
+	STORE_STATECODE_SELECTED lbFAS_StateList
+	PREVSTATE
+</script>
+
+;****************************************************************************************************************
+
+<state st_FindAddressCity>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindAddressCity/>
+	<uselayer ui_FindAddressCityAustralia/>
+	
+	<script init>
+		KEY "RETURN" 'RUN sc_FindAddressCityOKNoDelay'
+		vKeyTableDone.SET sc_FindAddressCityOKNoDelay
+		LOADPANELTYPE 1
+		lbFACR_CityResult.DROPMODEL
+
+		btnFACi_AllCity.HIDE
+		inpFACi_City.GET "vTmp"
+		runif vTmp L"" sc_ShowAllCityButton
+
+		map.ATTACHFINDADDRESSMODELCITYZIP lbFACR_CityResult Title
+		map.ADDRESSCHANGECITYZIP inpFACi_City lbFACR_CityResult
+		CHECKFINDRESULTCOUNT lbFACR_CityResult vResultReady vResultCount vResultCountNum
+		CHECKFINDFILTER inpFACi_City vResultReady
+		runif    vResultCountNum 0 'txtFACi_NumberOf.SET ""'
+		runifnot vResultCountNum 0 'txtFACi_NumberOf.SET vResultCount'
+
+		inpFACi_City.SYNCKBPANEL
+	</script>
+
+	<script done>
+        KEY "RETURN"
+		local.keyboard.on_close_panel
+	</script>
+</state>
+
+<script sc_ShowAllCityButton>
+	ISAUSTRALIANSTATE vSelectedCountryCode vTmp
+	runif vTmp 1 'btnFACi_AllCity.SHOW'
+</script>
+
+<script sc_FindAddressCityOKNoDelay>
+	run sc_FindAddressCityOK 0
+</script>
+
+<script sc_FindAddressCityOKDelay>
+	run sc_FindAddressCityOK 1
+</script>
+
+<script sc_FindAddressCityOK>
+	KEY "RETURN"
+	PLAYSOUND "!success"
+	runif $1 1 sc_DelayResult
+
+	vSelectedStreet.SET L""
+	vSelectedItem.SET L""
+
+	NEXTSTATE st_FindAddressCityResult
+</script>
+
+<script sc_inpFACi_City_OnChange>
+	btnFACi_AllCity.HIDE
+	inpFACi_City.GET "vTmp"
+	runif vTmp L"" sc_ShowAllCityButton
+	map.ADDRESSCHANGECITYZIP inpFACi_City lbFACR_CityResult
+	run sc_CheckCityResult
+	CHECKFINDFILTER inpFACi_City vResultReady
+	RUNIF    vResultCountNum 0 'txtFACi_NumberOf.SET ""'
+	RUNIFNOT vResultCountNum 0 'txtFACi_NumberOf.SET vResultCount'
+</script>
+
+; !!! Call these commands in separated script, because when CHECKFINDRESULTCOUNT delete last character, it automaticly call the OnChange script
+<script sc_CheckCityResult>
+	CHECKFINDRESULTCOUNT lbFACR_CityResult vResultReady vResultCount vResultCountNum
+	inpFACi_City.GET "vTmp"
+	RUNIF vResultReady 1 'runifnot vTmp L"" sc_FindAddressCityOKDelay'
+</script>
+
+<script sc_SelectAllCityInState>
+	inpFACi_City.GET "vTmp"
+	ABC_CITYRULE_CHECK vTmp vCityRuleOk lbFACR_CityResult
+
+	vSelectedStreet.SET L""
+	vSelectedItem.SET L""
+
+	runif vCityRuleOk 1 'run sc_FindAddressCityResultOK 0'
+	runif vCityRuleOk 0 'NEXTSTATE st_FindAddressCityResult'
+</script>
+
+;****************************************************************************************************************
+
+<state st_FindAddressCityResult>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindAddressCityResult/>
+	
+	<script init>
+		Title.SET "Select City"
+		map.SHOWMUNICIPAL lbFACR_CityResult 0
+        lbFACR_CityResult.SETCONTROLS "btnFACR_NextPage" "btnFACR_PrevPage" 
+        
+		run sc_hide_municipal
+		
+		CHECKFINDRESULTCOUNT lbFACR_CityResult vResultReady vResultCount vResultCountNum
+		runif vResultCountNum 0 'playsound "!invalid", PREVSTATE'
+	</script>
+</state>
+
+<script sc_FindAddressCityResultOK>
+	lbFACR_CityResult.GETITEMLABEL "vSelectedCity" 
+	lbFACR_CityResult.GETITEMLABEL "vSelectedItem2" 
+	lbFACR_CityResult.GETUID "vSelectedUID" 
+	lbFACR_CityResult.GETADVUID "vSelectedAdvUID"
+	
+	vTmp.SET $1
+	RUNIF vTmp 0 'vSelectedCity.SET L"All", vSelectedItem2.SET L"All"'
+	RUNIF bFindDelayed 0 'run sc_StoreSelectedCity vTmp'
+</script>
+
+<script sc_lbFACR_CityResult_OnClick>
+	runif bFindDelayed 1 'lbFACR_CityResult.SETSELECTION -1'
+	else_run 'run sc_FindAddressCityResultOK 1'
+</script>
+
+<script sc_StoreSelectedCity>
+	FINDCITY_SAVE_CITYDATA vSelectedAdvUID vSelectedUID vSelectedItem2 
+    map.CITYSELECTED vSelectedUID "vIsCOS" "vIsHaveCOS" vSelectedAdvUID
+    PREVSTATE
+	runif $1 1 'PREVSTATE'
+    RUNIF vIsCOS 1 sc_SearchCityCOSAndGo
+	ELSE_RUNIF vIsCOS 2 sc_CityHaveOnlyHousenumber
+</script>
+
+<script sc_hide_municipal>
+	btn_show_municipal.show
+	btn_hide_municipal.hide
+	map.SHOWMUNICIPAL lbFACR_CityResult 0
+	lbFACR_CityResult.redraw
+</script>
+
+<script sc_show_municipal>
+	btn_hide_municipal.show
+	btn_show_municipal.hide
+	map.SHOWMUNICIPAL lbFACR_CityResult 1
+	lbFACR_CityResult.redraw
+</script>
+
+;****************************************************************************************************************
+
+<state st_FindAddressStreet>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindAddressStreet/>
+	
+	<script init>
+		map.ATTACHFINDADDRESSMODELSTREET lbFASR_StreetResult Title 0
+        KEY "RETURN" 'run sc_FindAddressStreetOKNoDelay'
+		vKeyTableDone.SET sc_FindAddressStreetOKNoDelay
+		LOADPANELTYPE 1 0
+
+		map.ADDRESSCHANGESTREET inpFAS_Street lbFASR_StreetResult
+		CHECKFINDFILTER inpFAS_Street vResultReady
+		runif    vResultCountNum 0 'txtFAS_NumberOf.set ""'
+		runifnot vResultCountNum 0 'txtFAS_NumberOf.set vResultCount'
+
+		inpFAS_Street.SYNCKBPANEL
+	</script>
+
+	<script done>
+		KEY "RETURN"
+		local.keyboard.on_close_panel
+	</script>
+</state>
+
+<script sc_FindAddressStreetOKNoDelay>
+	run sc_FindAddressStreetOK 0
+</script>
+
+<script sc_FindAddressStreetOKDelay>
+	run sc_FindAddressStreetOK 1
+</script>
+
+<script sc_FindAddressStreetOK>
+	KEY "RETURN"
+	PLAYSOUND "!success"
+	runif $1 1 sc_DelayResult
+
+	vSelectedItem.SET L""
+
+	NEXTSTATE st_FindAddressStreetResult
+</script>
+
+<script sc_inpFAS_Street_OnChange>
+	map.ADDRESSCHANGESTREET inpFAS_Street lbFASR_StreetResult
+	run sc_CheckStreetResult
+	CHECKFINDFILTER inpFAS_Street vResultReady
+	runif    vResultCountNum 0 'txtFAS_NumberOf.set ""'
+	runifnot vResultCountNum 0 'txtFAS_NumberOf.set vResultCount'
+</script>
+
+<script sc_inpFAH_Housenumber_OnChange>
+	runif vHouseNumberByRange 0 'inpFAH_Housenumber.GET "vTmp",UPDATE_HOUSENUMBER_SMARTKEYBOARD vSelectedAdvUID vSelectedUID vSelectedUID2 vSelectedAdvUID2 vTmp'
+</script>
+
+; !!! Call these commands in separated script, because when CHECKFINDRESULTCOUNT delete last character, it automaticly call the OnChange script
+<script sc_CheckStreetResult>
+	CHECKFINDRESULTCOUNT lbFASR_StreetResult vResultReady vResultCount vResultCountNum
+	inpFAS_Street.GET "vTmp"
+	runif vResultReady 1 'runifnot vTmp "" sc_FindAddressStreetOKDelay'
+</script>
+
+;****************************************************************************************************************
+
+<state st_FindAddressStreetResult>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindAddressStreetResult/>
+	
+	<script init>
+		Title.SET "Select Street"
+		
+		lbFASR_StreetResult.SETCONTROLS "btnFASR_StreetNextPage" "btnFASR_StreetPrevPage"
+		CHECKFINDRESULTCOUNT lbFASR_StreetResult vResultReady vResultCount vResultCountNum
+		runif vResultCountNum 0 'playsound "!invalid", PREVSTATE'
+	</script>
+  
+</state>
+
+<script sc_lbFASR_StreetResult_OnClick>
+	runif bFindDelayed 1 'lbFASR_StreetResult.SETSELECTION -1'
+	else_run sc_FindAddressStreetResultOK
+</script>
+
+<script sc_FindAddressStreetResultOK>
+	lbFASR_StreetResult.GETITEMLABEL "vSelectedStreet"
+	lbFASR_StreetResult.GETUID "vSelectedUID2"
+	lbFASR_StreetResult.GETADVUID "vSelectedAdvUID2"
+    RUNIF bFindDelayed 0 'PREVSTATE, run sc_FindAddressStreetResultsOK2'
+</script>
+
+<script sc_FindAddressStreetResultsOK2>
+  runif vStreetEntrySkipped 0 'PREVSTATE'
+</script>
+
+;****************************************************************************************************************
+
+<state st_FindAddressHousenumber>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindAddressHousenumber/>
+	
+	<script init>
+		Title.SET vSelectedStreet
+		
+		KEY "RETURN" 'run sc_FindAddressHousenumberOK'
+		vKeyTableDone.SET sc_FindAddressHousenumberOK
+		LOADPANELTYPE 2 0 0
+		FILL_FINDHOUSENUMBER_FIELDS vSelectedAdvUID vSelectedUID2 vAddressRange vSelectedUID vSelectedAdvUID2 inpFAH_Housenumber 1 vTmp vHouseNumberByRange
+		inpFAH_Housenumber.EMPTYTITLE vAddressRange
+		inpFAH_Housenumber.SETFOCUS
+		inpFAH_Housenumber.SYNCKBPANEL
+		inpFAH_Housenumber.onchange 'run sc_inpFAH_Housenumber_OnChange'
+		run sc_inpFAH_Housenumber_OnChange
+	</script>
+	<script enter>
+		inpFAH_Housenumber.VALUE ""
+	</script>
+	<script done>
+		KEY "RETURN"
+		local.keyboard.on_close_panel
+	</script>
+</state>
+
+<script sc_FindAddressHousenumberOK>
+	KEY "RETURN"
+	PLAYSOUND "!mapclick"
+	inpFAH_Housenumber.GET "vSelectedItem"
+    RESOLVE_DUPLICATE_HOUSE vSelectedAdvUID vSelectedUID vSelectedUID2 vSelectedItem lbFADH_Duplicated vSelectedAdvUID2 vSelectedCity vSelectedStreet
+</script>
+
+<script sc_FindAddressHousenumberOK_ext>
+	KEY "RETURN"
+	PLAYSOUND "!mapclick"
+	inpFAH_Housenumber.GET "vSelectedItem"
+    RESOLVE_DUPLICATE_HOUSE_EXT vSelectedAdvUID vSelectedUID lbFASR_StreetResult lbFADH_Duplicated vSelectedItem     
+	runif vResolveHouseListExtState 0 'RESOLVE_DUPLICATE_HOUSE vSelectedAdvUID vSelectedUID vSelectedUID2 vSelectedItem lbFADH_Duplicated vSelectedAdvUID2'
+	runif vResolveHouseListExtState 1 'NEXTSTATE ST_FINDHOUSENUMBER_LIST'
+    runif vResolveHouseListExtState 2 'INITMESSAGEBOX 0 "House number not found!"'         
+</script>
+
+<state st_FindAddressHousenumber_ext>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindAddressHousenumber/>
+	
+	<script init>
+		Title.SET "Search in all"
+		
+		KEY "RETURN" 'run sc_FindAddressHousenumberOK_ext'
+		vKeyTableDone.SET sc_FindAddressHousenumberOK_ext
+		LOADPANELTYPE 2 0 1
+		inpFAH_Housenumber.VALUE ""
+		FILL_FINDHOUSENUMBER_FIELDS vSelectedAdvUID vSelectedUID2 vAddressRange vSelectedUID 0 inpFAH_Housenumber
+		inpFAH_Housenumber.EMPTYTITLE vAddressRange
+		inpFAH_Housenumber.onchange ''		
+		inpFAH_Housenumber.SETFOCUS
+		inpFAH_Housenumber.SYNCKBPANEL
+	</script>
+	<script done>
+		KEY "RETURN"
+		local.keyboard.on_close_panel
+	</script>
+</state>
+
+<state ST_FINDHOUSENUMBER_LIST>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_findhouse_list/>
+
+	<script init>
+		title.set "Find result"
+		lb_findhouse.setcontrols "lb_findhouse_nextpage" "lb_findhouse_prevpage"
+		HOUSELISTMODEL_ATTACHMODEL vSelectedAdvUID vSelectedUID lbFASR_StreetResult lb_findhouse vSelectedItem 
+	</script>
+
+<script sc_findhouse_list_selected>
+	;lb_findhouse.getitemlabel "vSelectedStreet" - a back gomb miatt ez nem jó. helyette:
+	vSelectedStreet.SET L""
+	vSelectedUID2.SET ""
+	vSelectedAdvUID2.SET 0
+	SELECTGEOITEM 11 lb_findhouse
+</script>
+
+</state>
+
+
+;****************************************************************************************************************
+
+<state st_FindAddressDuplicatedHouseNumber>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindAddressDuplicatedHouseNumber/>
+
+	<script init>
+	lbFADH_Duplicated.SETCONTROLS "btnFADH_NextPage" "btnFADH_PrevPage" 
+	</script>
+</state>
+
+<script sc_lbFADH_Duplicated_OnItemSelected>
+	PREVSTATE
+	PREVSTATE
+	SELECTGEOITEM 10 lbFADH_Duplicated 
+	lbFADH_Duplicated.DROPMODEL
+</script>
+
+;****************************************************************************************************************
+
+<state st_History>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_History/>
+
+	<script init>
+		Title.SET "Select City"
+		lbH_History.SETCONTROLS "btnH_NextPage" "btnH_PrevPage" 
+		map.ATTACHCITYHISTMODEL lbH_History
+    btnH_CityCenter.ENABLE
+    txt_cleared_history.HIDE
+    spr_cleared_history.HIDE
+    
+	</script>
+
+	<script done>
+		lbH_History.DROPMODEL
+	</script>
+</state>
+
+<script sc_lbH_History_OnItemSelected>
+	lbH_History.GETITEMLABEL "vSelectedItem2" 
+	lbH_History.GETUID "vSelectedUID"
+	lbH_History.GETADVUID "vSelectedAdvUID"
+	lbH_History.GETITEMLABEL "vSelectedCity" 
+	GETCOUNTRYCODEANDCITY vSelectedAdvUID vSelectedUID vSelectedCountryCode vSelectedCity
+	
+	vSelectedStreet.SET L""
+	vSelectedItem.SET L""
+	
+	PREVSTATE
+	
+	map.CITYSELECTED vSelectedUID "vIsCOS" "vIsHaveCOS" vSelectedAdvUID
+	RUNIF vIsCOS 1 sc_SearchCityCOSAndGo
+	ELSE_RUNIF vIsCOS 2 sc_CityHaveOnlyHousenumber
+</script>
+
+<script sc_btnH_CityCenter_OnRelese>
+	INITMESSAGEBOX 1 "Deleting recent city entries." sc_ClearCityHistory
+</script>
+
+<script sc_ClearCityHistory>
+	CLEARCITYHISTORY
+	lbH_History.DROPMODEL
+	map.ATTACHCITYHISTMODEL lbH_History
+    btnH_CityCenter.DISABLE
+    txt_cleared_history.SHOW
+    spr_cleared_history.SHOW
+
+</script>
+
+;****************************************************************************************************************
+
+<state st_Intersection>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_Intersection/>
+
+	<script init>
+		KEY "RETURN" 'run sc_IntersectionOKNoDelay'
+		vKeyTableDone.SET sc_IntersectionOKNoDelay
+		LOADPANELTYPE 1
+		lbIR_Intersections.DROPMODEL
+		
+		map.ATTACHJUNCTIONMODEL lbIR_Intersections Title vSelectedAdvUID2 vSelectedUID vSelectedUID2 vSelectedAdvUID
+		map.ADDRESSCHANGEJUNCTION inpI_Street lbIR_Intersections
+		CHECKFINDRESULTCOUNT lbIR_Intersections vResultReady vResultCount vResultCountNum
+		CHECKFINDFILTER inpI_Street vResultReady
+		runif    vResultCountNum 0 'txtI_NumberOf.SET ""'
+		runifnot vResultCountNum 0 'txtI_NumberOf.SET vResultCount'
+		inpI_Street.SYNCKBPANEL
+		inpI_Street.GET "vTmp"
+		runif vTmp L"" 'runif vResultReady 1 sc_IntersectionSwitchToResult'
+  </script>
+	<script done>
+        KEY "RETURN"   
+		local.keyboard.on_close_panel
+	</script>
+</state>
+
+<script sc_IntersectionSwitchToResult>
+	STATE st_IntersectionResult
+</script>
+
+<script sc_IntersectionOKNoDelay>
+	run sc_IntersectionOK 0
+</script>
+
+<script sc_IntersectionOKDelay>
+	run sc_IntersectionOK 1
+</script>
+
+<script sc_IntersectionOK>
+	KEY "RETURN"
+	PLAYSOUND "!success"
+	runif $1 1 sc_DelayResult
+	NEXTSTATE st_IntersectionResult
+</script>
+
+<script sc_inpI_Street_OnChange>
+	map.ADDRESSCHANGEJUNCTION inpI_Street lbIR_Intersections
+	run sc_CheckIntersectionStreetResult
+	CHECKFINDFILTER inpI_Street vResultReady
+	runif    vResultCountNum 0 'txtI_NumberOf.SET ""'
+	runifnot vResultCountNum 0 'txtI_NumberOf.SET vResultCount'
+</script>
+
+; !!! Call these commands in separated script, because when CHECKFINDRESULTCOUNT delete last character, it automaticly call the OnChange script
+<script sc_CheckIntersectionStreetResult>
+	CHECKFINDRESULTCOUNT lbIR_Intersections vResultReady vResultCount vResultCountNum
+	inpI_Street.GET "vTmp"
+	runif vResultReady 1 'runifnot vTmp "" sc_IntersectionOKDelay'
+</script>
+
+;****************************************************************************************************************
+
+<state st_IntersectionResult>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_IntersectionResult/>
+
+	<script init>
+		Title.SET "Select junction"
+		lbIR_Intersections.SETCONTROLS "btnIR_NextPage" "btnIR_PrevPage" 
+		CHECKFINDRESULTCOUNT lbIR_Intersections vResultReady vResultCount vResultCountNum
+		runif vResultCountNum 0 'playsound "!invalid", PREVSTATE'
+	</script>
+	
+	<script exit>
+		lbIR_Intersections.DROPMODEL
+	</script>
+</state>
+
+<script sc_lbIR_Intersections_OnItemSelected>
+    vSelectedItem.SET L""
+    RUNIF bFindDelayed 1 'lbIR_Intersections.SETSELECTION -1'
+	ELSE_RUN 'run sc_SearchIntersectionAndGo'
+</script>
+
+;****************************************************************************************************************
+
+<script sc_DelayResult>
+	bFindDelayed.set 1
+	40 bFindDelayed.set 0
+</script>
+
+<script sc_SearchCityCOSAndGo>
+	SELECTGEOITEM 7 vSelectedUID vSelectedAdvUID
+	map.MOVECURSORTOSELECTEDITEM
+	run sc_next_find_done
+</script>
+
+<script sc_SearchCityCenterAndGo>
+	SELECTGEOITEM 8 vSelectedUID vSelectedAdvUID
+	map.MOVECURSORTOSELECTEDITEM
+	run sc_next_find_done
+</script>
+
+<script sc_SearchIntersectionAndGo>
+	SELECTGEOITEM 9 lbIR_Intersections 
+	map.MOVECURSORTOSELECTEDITEM
+	run sc_next_find_done
+</script>
+
+<script sc_CityHaveOnlyHousenumber>
+	FORMAT_HOUSENRLIST_HEADER vSelectedAdvUID vSelectedUID vSelectedStreet	
+	vSelectedUID2.set ""
+</script>
+
+; !!! It is called from code automaticly by these script commands: SELECTGEOITEM, RESOLVE_DUPLICATE_HOUSE
+<script sc_next_find_done>
+	FINDCITY_SAVE_CITYDATA vSelectedAdvUID vSelectedUID vSelectedItem2 
+    map.CITYSELECTED vSelectedUID "vIsCOS" "vIsHaveCOS" vSelectedAdvUID
+    
+	runif vAddressFindMode 0 'map.MOVECURSORTOSELECTEDITEM,nPlaceStateMode.SET 0, NEXTSTATE st_Place'
+	else_runif vAddressFindMode 1 'map.MOVECURSORTOSELECTEDITEM, run sc_StartPOISearchAroundCursor'
+</script>
+
+; !!! It is called from code automaticly by these script commands: SELECTGEOITEM, RESOLVE_DUPLICATE_HOUSE
+<script sc_no_house_number_selected_msgbox>
+	INITMESSAGEBOX 0 "House number not found!" sc_next_find_done
+</script>
+
+; !!! It is called from code automaticly by these script commands: RESOLVE_DUPLICATE_HOUSE
+<script sc_nextresolve_duplicate_house>
+	NEXTSTATE st_FindAddressDuplicatedHouseNumber
+</script>
+
+; !!! It is called from code automaticly by these script commands: SETUPFOLLOWMODE, MOVECURSORTOSELECTEDITEM, etc.
+<script cb_navigate_mapfollow>
+	runif vActiveState "st_navigatemap" 'runif vOnFlyOver 0 sc_RefreshNavigateMapScreenAfterViewPreset'
+</script>
+
+; !!! It is called from code automaticly by these script commands: SETUPFOLLOWMODE, MOVECURSORTOSELECTEDITEM, etc.
+<script cb_browse_mapfollow>
+</script>
+
+; !!! It is called from code automaticly by these script commands: SETUPFOLLOWMODE, MOVECURSORTOSELECTEDITEM, etc.
+<script cb_navigate_mapgrabbed>
+	;btnNMB_Pos.HIDE
+	;btnNMB_Cursor.SHOW
+</script>
+
+; !!! It is called from code automaticly by these script commands: SETUPFOLLOWMODE, MOVECURSORTOSELECTEDITEM, etc.
+<script cb_browse_mapgrabbed>
+	;btnNMB_Pos.HIDE
+	;btnNMB_Cursor.SHOW
+</script>

@@ -1,0 +1,40 @@
+;****************************************************************************************************************
+; Overriden scripts
+;****************************************************************************************************************
+<script sc_set_UIresolution override>
+    vUIRes.set "800_480"
+	map.select_cursor "cursor_big"
+	vQuickMasterVolMax.set 232
+	vQuickMasterVolNStep.set 30
+	ui_route.zoom 2048
+	vSchemetypePath.set "schemetype.bmp#3"
+</script>  
+  
+<script sc_FindAddress_positions_nostate override>
+	btnFA_Country.y 42
+	btnFA_City.y 114
+	btnFA_Street.y 186
+	btnFA_House.y 258
+	btnFA_history.y 114
+</script>
+
+<script sc_FindAddress_positions_state override>
+	btnFA_Country.y 42
+	btnFA_City.y 186
+	btnFA_Street.y 258
+	btnFA_House.y 330
+	btnFA_history.y 186
+</script>  
+
+<script sc_sprRI_Info_OnClick override>
+    ui_Route.GET_ICON_HINT $1 vTmp
+    runif vTmp 1 'ui_Route.SHOW_ICONS sprRI_Info1 sprRI_Info2 sprRI_Info3 sprRI_Info4 sprRI_Info5 sprRI_Info6'
+	else_runif vTmp 2 'playsound "!invalid"'
+	else_run 'INITMESSAGEBOX 0 vTmp'
+</script>
+
+
+<script sc_ScreenCalibrate override>
+  runif %power.backlight_supported 1 'btn_screen_calibtare.y 129'
+  else_run 'btn_screen_calibtare.y 57'
+</script>
