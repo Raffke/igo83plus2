@@ -15,6 +15,8 @@
 	<uselayer ui_Footer2/>
 	<uselayer ui_RouteInfo/>
 	<uselayer ui_Route/>
+;!Matze - Night color filter
+	<uselayer ui_NavigateMapnight/>
 
 	<script init>
 		vRouteCalcFinishedCallback.set sc_RefreshRouteInfo		
@@ -129,9 +131,8 @@
 ;	runif %ui.is_in_simulation 1 'btnRI_Fit.disable, btn_RI_DelRoute.DISABLE, btnRI_Settings.DISABLE, btn_RI_SkipNextVia.DISABLE'
 
 ;!Raffke_jr - changed to new buttons & enabled again
-	runif vOnFlyover 1 'btnRI_Fit.disable, btnRI_EditRoute.disable, btnRI_RouteMenu.disable, btn_RI_Method.disable'
-;!Raffke_jr - TODO: 8.3.2 still needs enabling?
-;	else_run           'btnRI_Fit.enable,  btnRI_EditRoute.enable,  btnRI_RouteMenu.enable,  btn_RI_Method.enable'
+	runif vOnFlyover 1 'btnRI_Fit.disable, btnRI_MultiplanDest.disable, btnRI_RouteMenu.disable, btn_RI_Method.disable'
+	else_run           'btnRI_Fit.enable,  btnRI_MultiplanDest.enable,  btnRI_RouteMenu.enable,  btn_RI_Method.enable'
 </script>
 
 <script sc_ShowNextRoutePartInfo>
@@ -139,6 +140,14 @@
 	run sc_RefreshRouteInfo
 </script>
 
+;****************************************************************************************************************
+;!Matze - added script for multiplan button
+<script btnPMP_MultiplanRoute_OnRelease>
+	FINDPATH_MULTIPLAN_CANCEL
+	FINDPATH_SET_MULTIPLAN_METHODS L"FAST" L"SHORT"  L"ECO" L"SIMPLE" L"SCENIC"
+	FINDPATH_MULTIPLAN_RECALC
+	NEXTSTATE st_MultiRoute
+</script>
 
 ;****************************************************************************************************************
 ; NEW ITINER
@@ -149,6 +158,8 @@
 	<uselayer ui_Background/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_RouteItinerary/>
+;!Matze - Night color filter
+	<uselayer ui_NavigateMapnight/>
 
 	<script init>
 		EXEC "route.itiner.setdetailmode" vSavedItinerMode

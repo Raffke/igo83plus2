@@ -52,11 +52,18 @@ import "ui_igo8/240_320/ui/navigate_speed_240_320.ui"
 
 ;!TB, di/\/\ka
 <layer ui_NavigateMapCompass z=3000 hide>
-	<VSPRITE vspr_compass3d_on_map  vec="$compass3d.vpr"   x=196 y=97  z=40 rotatemodel="map.rotation_angle">
-	<VSPRITE vspr_compass2d_on_map  vec="$compass2d.vpr"   x=196 y=97  z=40 rotatemodel="map.rotation_angle" hide>
-	<SPRITE  vspr_compass2dn_on_map bmp="$northlock.spr#2" x=207 y=106 z=40 phase=0 hide>
+;!Matze - changed z and rotatemodel, added visiblemodel
+	<VSPRITE vspr_compass2d_on_map  vec="$compass2d.vpr"   x=196 y=97  z=42 rotatemodel="navigation.car_heading" visiblemodel="gps.position_valid" hide>
+	<VSPRITE vspr_compass3d_on_map  vec="$compass3d.vpr"   x=196 y=97  z=42 rotatemodel="navigation.car_heading" visiblemodel="gps.position_valid">
+;!Matze - changed y/z
+	<SPRITE  spr_compass2dn_on_map bmp="$northlock.spr#2"		x=207 y=103 z=41	phase=0 hide>
 ;!Raffke_jr - changed onlongclick for OverviewMode
-	<BUTTON  sprNMB_Compass  template=btn_map  bmp="$4scr_empty.bmp#2" y=96  onrelease='run sc_btnBMC_Compass_OnRelease' onlongclick='run sc_FitToScreen_Cockpit'>
+	<BUTTON  sprNMB_Compass  template=btn_map  bmp="$4scr_empty.bmp#2"	y=96		onrelease='run sc_btnBMC_Compass_OnRelease' onlongclick='run sc_FitToScreen_Cockpit'>
+;!Matze - added background, scale, direction- and destinationarrow for compass
+	<SPRITE xxx  bmp="$compass_bg.bmp"				x=204 y=105  z=39	alpha=20>
+	<VSPRITE vspr_compass_scale_on_map vec="$compass_scale.vpr"	x=196 y=97  z=40	rotatemodel="map.rotation_angle">
+	<VSPRITE vspr_dest_arrow_on_map vec="$dest_arrow.vpr"		x=196 y=97  z=44	rotatemodel="navigation.destination_angle" visiblemodel="gps.position_valid&navigation.has_route">
+	<VSPRITE vspr_dir_arrow_on_map vec="$dir_arrow.vpr"		x=196 y=97  z=45>
 </layer>
 
 ;!TB, di/\/\ka - new layer
@@ -155,17 +162,15 @@ import "ui_igo8/240_320/ui/navigate_speed_240_320.ui"
 </layer>
 
 <layer ui_NavigateMapCursorPosInfos z=51>
-;!TB - Added onclick handler to say the next voice guidance
-;!Raffke_jr - added name, moved left by 70
-	<SPRITE sprNMCPINextStreetBG bmp="blackstripe.bmp" x=0 y=-3 z=0 onclick='SAYNEXTCOMMAND'>
+;!Raffke_jr - added name, onrelease and onlongclick
+	<SPRITE sprNMCPINextStreetBG bmp="blackstripe.bmp" x=0 y=-3 z=0 onrelease='SAYNEXTCOMMAND' onlongclick='run sc_ToggleMute'>
 	<ROADSHIELDEDTEXT sprNMCPINextStreetName template=txt_map       textmodel_wstr="navigation.next_street_enc" visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|ui.vPresetOn">
 	<TEXT txtNMCPIStreetName                 template=txt_map y=300 textmodel_wstr="map.cursorpos.posinfotext" visiblemodel="!map.follow">
 </layer>
 
 <layer ui_NavigateMapGPSPosInfos z=50001>
-;!TB - Added onclick handler to say the next voice guidance
-;!Raffke_jr - added name, moved left by 70
-	<SPRITE sprNMINextStreetBG   bmp="blackstripe.bmp" x=0 y=-1 z=0 visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|!navigation.car_pos_valid|ui.vPresetOn" onclick='SAYNEXTCOMMAND'>
+;!Raffke_jr - added name, onrelease and onlongclick
+	<SPRITE sprNMINextStreetBG   bmp="blackstripe.bmp" x=0 y=-1 z=0 visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|!navigation.car_pos_valid|ui.vPresetOn" onrelease='SAYNEXTCOMMAND' onlongclick='run sc_ToggleMute'>
 	<ROADSHIELDEDTEXT sprNMINextStreetName   template=txt_map textmodel_wstr="navigation.next_street_enc"         visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|ui.vPresetOn">
 
 ;!Raffke_jr - added x/w to insert HouseNum
@@ -201,29 +206,32 @@ import "ui_igo8/240_320/ui/navigate_speed_240_320.ui"
 
 	<SPRITE sprNMRDiricon x=0  y=37  z=10 iconmodel="navigation.direction_icon" iconindex=2 visiblemodel="navigation.direction_icon.valid&navigation.distance_to_manuver.valid&!ui.vRouteCalculation&navigation.car_on_planned_route">
 	<SPRITE sprNMRExitNum x=18 y=55  z=10 iconmodel="navigation.exit_icon"      iconindex=1 visiblemodel="navigation.exit_icon.valid&navigation.distance_to_manuver.valid&!ui.vRouteCalculation">
-;!Raffke_jr - visiblemodel for Flyover/Fullscreen/TMC/Speedcam
-	<SPRITE xxx           x=90 y=24  z=10 iconmodel="navigation.secondary_direction_icon" iconindex=2 visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&navigation.secondary_direction_icon.valid&!ui.vRouteCalculation&ui.bShowSecondaryDistance" zoom=512>
+;!TB - changed visiblemodel from "!ui.vOnFlyover" to "!ui.vFullScreenCockpit"
+	<SPRITE xxx           x=90 y=24  z=10 iconmodel="navigation.secondary_direction_icon" iconindex=2 visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&navigation.secondary_direction_icon.valid&!ui.vRouteCalculation&!ui.vFullScreenCockpit" zoom=512>
 	
 ;!TB - moved to a separate layer
 ;	<SPRITE sprLaneInfo x=30 y=279 w=176 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.bLaneinfoSignpostValid&!ui.vPresetOn">
 
-	<TEXT sprNMRDiriconDist template=xtxt x=3  y=15  z=10 w=50 h=30 font="tahomabd" glowsize=1 fontsize=22 color=#FFFFFF color2=#000000 align="CENTER" fixedwidthnumbers=1 textmodel_wstr="navigation.distance_to_manuver.number_text" visiblemodel="navigation.distance_to_manuver.valid&!ui.vRouteCalculation&navigation.car_on_planned_route">
+;!Raffke_jr - 2x removed x/w/align to support ALIGNER and replaced DIRDISTALIGNER
+	<TEXT sprNMRDiriconDist template=xtxt  y=15  z=10  h=30 font="tahomabd" glowsize=1 fontsize=22 color=#FFFFFF color2=#000000  fixedwidthnumbers=1 textmodel_wstr="navigation.distance_to_manuver.number_text" visiblemodel="navigation.distance_to_manuver.valid&!ui.vRouteCalculation&navigation.car_on_planned_route">
 ;!Raffke_jr - added glowsize, color2
-	<TEXT sprNMRDiriconUnit template=xtxt x=3 y=19  z=10 w=17 h=30 font="tahomabd" glowsize=1 fontsize=10 color=#bbbbbb color2=#000000 align="LEFT" textmodel_wstr="navigation.distance_to_manuver.unit_text" visiblemodel="navigation.distance_to_manuver.valid&!ui.vRouteCalculation&navigation.car_on_planned_route">
-	<DIRDISTALIGNER xxx x=3 w=65 align="CENTER" control=sprNMRDiriconDist padding=4 control=sprNMRDiriconUnit>
+	<TEXT sprNMRDiriconUnit template=xtxt  y=19  z=10  h=30 font="tahomabd" glowsize=1 fontsize=10 color=#bbbbbb color2=#000000  textmodel_wstr="navigation.distance_to_manuver.unit_text" visiblemodel="navigation.distance_to_manuver.valid&!ui.vRouteCalculation&navigation.car_on_planned_route">
+	<ALIGNER xxx x=3 w=65 align="CENTER" control=sprNMRDiriconDist padding=4 control=sprNMRDiriconUnit>
 
-;!Raffke_jr - 2x visiblemodel for Flyover/Fullscreen/TMC/Speedcam: changed "!ui.vOnFlyover" to "ui.bShowSecondaryDistance"
-	<TEXT DistanceToManuverDist template=txt_sec w=35 textmodel_wstr="navigation.secondary_distance_to_manuver_diff.number_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&ui.bShowSecondaryDistance">
-	<TEXT DistanceToManuverUnit template=txt_sec w=15 color=#bbbbbb align="LEFT" fontsize=10 textmodel_wstr="navigation.secondary_distance_to_manuver_diff.unit_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&ui.bShowSecondaryDistance">
-	<DIRDISTALIGNER xxx x=0 w=50 align="CENTER" control=DistanceToManuverDist padding=4 control=DistanceToManuverUnit>
+;!TB - 2x changed visiblemodel from "!ui.vOnFlyover" to "!ui.vFullScreenCockpit"
+;!Raffke_jr - 2x removed w/align to support ALIGNER and replaced DIRDISTALIGNER
+	<TEXT DistanceToManuverDist template=txt_sec  textmodel_wstr="navigation.secondary_distance_to_manuver_diff.number_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&!ui.vFullScreenCockpit">
+	<TEXT DistanceToManuverUnit template=txt_sec  color=#bbbbbb  fontsize=10 textmodel_wstr="navigation.secondary_distance_to_manuver_diff.unit_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&!ui.vFullScreenCockpit">
+	<ALIGNER xxx x=0 w=50 align="CENTER" control=DistanceToManuverDist padding=4 control=DistanceToManuverUnit>
 </layer>
 
 ;!TB - New layer for LaneInfo
 <layer ui_NavigateMapRouteLaneInfo z=52>
 ;!Raffke_jr - changed hiding by setting Y, expanded width to center on display
-	<SPRITE sprLaneInfo100 x=30 y=279 w=180 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.bLaneinfoSignpostValid&!ui.vPresetOn">
-	<SPRITE sprLaneInfo150 x=30 y=269 w=180 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.bLaneinfoSignpostValid&!ui.vPresetOn">
-	<SPRITE sprLaneInfo200 x=30 y=259 w=180 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.bLaneinfoSignpostValid&!ui.vPresetOn">
+;!Matze - removed visiblemodel &!ui.bLaneinfoSignpostValid, changed position
+	<SPRITE sprLaneInfo100 x=37 y=262 w=166 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.vPresetOn">
+	<SPRITE sprLaneInfo150 x=37 y=252 w=166 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.vPresetOn">
+	<SPRITE sprLaneInfo200 x=37 y=242 w=166 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.vPresetOn">
 </layer>
 
 ;!TB - added visiblemodel
@@ -437,11 +445,7 @@ import "ui_igo8/240_320/ui/navigate_speed_240_320.ui"
 
 <layer ui_NavigateMapCockpitelemets z=55>
 	<SPRITE spr_RecalcAnim             x=7   y=25      z=100  align="CENTER" valign="CENTER-5"   bmp="recalc_anim.spr"  font="tahoma" fontsize=12 visiblemodel="ui.vRouteCalculation"> 
-
-;!Raffke_jr - visiblemodel for Speedcam/TMC
-;	<TEXT txt_route_planning_progress  x=83  y=37 w=42 z=31 font="tahomabd" align="CENTER"  glowsize=1 fontsize=10 color=#78ff78 visiblemodel="ui.vRouteCalculation&ui.bShowSecondaryDistance">
-;!Raffke_jr - TODO: tried to display in full_screen
-	<TEXT txt_route_planning_progress  x=83  y=37 w=42 z=31 font="tahomabd" align="CENTER"  glowsize=1 fontsize=10 color=#78ff78 visiblemodel="ui.vRouteCalculation&!ui.bSpeedcamWarningVisible|ui.vFullScreenCockpit">
+	<TEXT txt_route_planning_progress  x=83  y=37 w=42 z=31 font="tahomabd" align="CENTER"  glowsize=1 fontsize=10 color=#78ff78 visiblemodel="ui.vRouteCalculation">
 </layer>
 
 <layer ui_QuickFind z=28000 visiblemodel="!navigation.calculation_todo&!navigation.has_route">
@@ -494,8 +498,8 @@ import "ui_igo8/240_320/ui/navigate_speed_240_320.ui"
 </layer>
 
 <layer ui_NavigateMapStatus z=20000>
-;!TB - removed enabledmodel, added onlongclick
-	<BUTTON xxx  x=209 y=20 z=30 bmp="dummy_kvikk.bmp" onrelease='nextstate st_CockpitStatus' onlongclick='run sc_ToggleMute' alpha=0>
+;!Raffke_jr - removed enabledmodel, added onlongclick
+	<BUTTON xxx  x=209 y=20 z=30 bmp="dummy_kvikk.bmp" onrelease='nextstate st_CockpitStatus' onlongclick='NEXTSTATE st_TmcEventsList' alpha=0>
 	<SPRITE sprNM_BatteryStatus x=228  y=21 z=20 bmp="status_minibattery.spr"   phasemodel="power.battery_phase">
 	<SPRITE sprNM_GPSStatus     x=215  y=21 z=21 bmp="status_minigps_onmap.spr" phasemodel="gps.connection_status">
 	<SPRITE sprNM_TMCStatus     x=515  y=54 z=22 bmp="$status_minitmc.spr">
@@ -503,10 +507,7 @@ import "ui_igo8/240_320/ui/navigate_speed_240_320.ui"
 	<SPRITE spr_TMC_Status       x=99  y=73 z=63 bmp="$tmc_events.spr" phasemodel="ui.vTmcCockpitStatus"  visiblemodel="!ui.nUserMode">
 	<SPRITE spr_TMC_Status_Basic x=99  y=73 z=63 bmp="$tmc_events.spr" phase=1 visiblemodel="ui.nUserMode&tmc.station_tuned">	
 	
-;!Raffke_jr - added TMC  station tuned and signal strength
-;!Raffke_jr - TODO: red bar when not tuned instead of additional icon?!
-;!Raffke_jr - TODO: TMC distance in size 10 normal/bold?
-; tmc.state: "No TMC","Testing..","TMC present","CA-TMC (No key)","CA-TMC (Key OK)" ("TMC State","N/A")
+;!Raffke_jr - TODO: add TMC station name
 ;	<TEXT   xxx  x=85  y=36  z=199 w=153 textmodel_wstr="tmc.current_station_frequency_short" visiblemodel="!ui.nUserMode&tmc.present" template=xtxt3 align="LEFT"  fontsize=10 fonttype=buttonlabel_menu  font="tahoma" glowsize=1 color=#FFFFFF color2=#000000>
 ;	<TEXT   xxx  x=85  y=49  z=199 w=153 textmodel_wstr="tmc.current_station_frequency" visiblemodel="!ui.nUserMode&tmc.present" template=xtxt3 align="LEFT"  fontsize=10 fonttype=buttonlabel_menu  font="tahoma" glowsize=1 color=#FFFFFF color2=#000000>
 ;	<TEXT   xxx  x=85  y=62  z=199 w=153 textmodel_wstr="tmc.current_station_name_short" visiblemodel="!ui.nUserMode&tmc.present" template=xtxt3 align="LEFT"  fontsize=10 fonttype=buttonlabel_menu  font="tahoma" glowsize=1 color=#FFFFFF color2=#000000>
@@ -684,14 +685,15 @@ import "ui_igo8/240_320/ui/navigate_speed_240_320.ui"
 
 
 ;****************************************************************************************************************
-;!TB - INFO PANEL LAYER
+;!Matze - INFO PANEL LAYER
 ;****************************************************************************************************************
 <element_template et_NearPoiList>
-	<BUTTON xxx bmp="$cockpit_infobg.spr" iconspr="$cockpit_infobg_i.spr" iconalign="right" iconvalign="center" padding=4 w=92 align="left" valign="center" fonttype=bw fontsize=12 textmodel_wstr="*.name" clickmodel="poi.near_cursor.list.setcurrent $i" onrelease='run sc_MiniPoiList_ShowInfo "poi.near_cursor"'>
+	<SPRITE xxx x=-1 y=-1 h=20 w=20 align="center" valign="center"  z=70 iconmodel="*.icon" iconindex=1 zoom=630  visiblemodel="ui.vPopUpShowMiniPoi">
+	<BUTTON xxx bmp="$cockpit_infobg.spr"  w=92 align="left+20" valign="center"  fonttype=ms1 fontsize=12 textmodel_wstr="*.name" clickmodel="poi.near_cursor.list.setcurrent $i" onrelease='run sc_MiniPoiList_ShowInfo "poi.near_cursor"'  visiblemodel="ui.vPopUpShowMiniPoi">
 </element_template>
 
-<layer ui_CockpitInfo type="VECTOR" orientation="L2R" font="tahoma" fontsize=16 z=30 x=0 y=0>
-	<SPRITE xxx bmp="$cockpit_infobg_big.spr">
-	<TEXT xxx x=4 y=2 w=112 h=31 textmodel_wstr="map.cursorpos.address.twoline_format" minaspect=75 fonttype=bw fontsize=12 align="left" twolinesmall=1>
+<layer ui_CockpitInfo type="VECTOR" font="tahoma" fontsize=16 z=30 x=0 y=0>
+	<BUTTON xxx bmp="$cockpit_infobg_big.spr" onrelease='run sc_CloseCockpitInfo' onlongclick='run sc_btnPA_Info_OnRelease'>
+	<TEXT xxx x=4 y=2 w=112 h=31 textmodel_wstr="map.cursorpos.address.twoline_format" minaspect=75 fonttype=ms1 fontsize=12 align="left" twolinesmall=1>
 	<LIST lst_NearPoiList x=0 y=35 row=4 col=1 cellw=120 cellh=20 listmodel="poi.near_cursor.list" element_template="et_NearPoiList">
 </layer>

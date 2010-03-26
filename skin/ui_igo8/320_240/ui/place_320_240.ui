@@ -85,84 +85,68 @@
 	<BUTTON	btnPM_POS_Favorite  template=btn_4c_icon_place  template=y_4c_3  text="Add to Favorites" iconspr="ico_fav_add.bmp"       onrelease='run sc_btnPM_Favorite_OnRelease'>
 </layer>
 
-;!Raffke_jr - TODO: new 1 page layout (with 5 row y-templates
+;!Matze - 1 page layout changed to 5 lines to add scenic routing
 <layer ui_MultiRoute z=30>
-	<BUTTON btnMR_fast    template=btn_4a          y=20      valign="TOP+6" font="tahomabd" text="Fast" fontsize=12 onrelease='run sc_SelectMultiplanRoute 0'>	
-	<SPRITE sprMPRoute1   template=spr_multi       y=40>
-	<TEXT txtMPDist1label template=txt_multi_label y=27 text="Distance:" watchstate=btnMR_fast>
-	<TEXT txtMPDist1      template=txt_multi_value y=27 textmodel_wstr="route.multiplan1.dist.number_text" watchstate=btnMR_fast visiblemodel="route.multiplan1.dist.valid">
-	<TEXT txtMPDist1Unit  template=txt_multi_unit  y=27 textmodel_wstr="route.multiplan1.dist.unit_text" visiblemodel="route.multiplan1.dist.valid">
+	<BUTTON btnMR_fast    template=btn_5a          template=y_1   z=0   valign="TOP+3" font="tahomabd" text="Fast" fontsize=12 onrelease='run sc_SelectMultiplanRoute 0'>	
+	<SPRITE sprMPRoute1   template=spr_multi       y=35>
+	<TEXT txtMPDist1label template=txt_multi_label y=25 text="Distance:" watchstate=btnMR_fast>
+	<TEXT txtMPDist1      template=txt_multi_value y=25 textmodel_wstr="route.multiplan1.dist.number_text" watchstate=btnMR_fast visiblemodel="route.multiplan1.dist.valid">
+	<TEXT txtMPDist1Unit  template=txt_multi_unit  y=25 textmodel_wstr="route.multiplan1.dist.unit_text" visiblemodel="route.multiplan1.dist.valid">
 	<ALIGNER xxx          template=aligner_multi   control=txtMPDist1label padding=5 control=txtMPDist1 padding=3 control=txtMPDist1Unit>
-	<TEXT txtMPTime1label template=txt_multi_label y=27 text="Time:" fontsize=10 watchstate=btnMR_fast>
-	<TEXT txtMPTime1      template=txt_multi_value y=27 textmodel_timespan="route.multiplan1.time" formatmodel=3 watchstate=btnMR_fast visiblemodel="route.multiplan1.time.valid">
-	<TEXT txtMPTime1Unit  template=txt_multi_unit  y=27 textmodel_timespan="route.multiplan1.time" formatmodel=4 watchstate=btnMR_fast visiblemodel="route.multiplan1.time.valid">
+	<TEXT txtMPTime1label template=txt_multi_label y=25 text="Time:" fontsize=10 watchstate=btnMR_fast>
+	<TEXT txtMPTime1      template=txt_multi_value y=25 textmodel_timespan="route.multiplan1.time" formatmodel=3 watchstate=btnMR_fast visiblemodel="route.multiplan1.time.valid">
+	<TEXT txtMPTime1Unit  template=txt_multi_unit  y=25 textmodel_timespan="route.multiplan1.time" formatmodel=4 watchstate=btnMR_fast visiblemodel="route.multiplan1.time.valid">
 	<ALIGNER xxx          template=aligner_multi   x=220 control=txtMPTime1label padding=5 control=txtMPTime1 padding=3 control=txtMPTime1Unit>
 	
-	<BUTTON btnMR_short   template=btn_4a          y=65      valign="TOP+6" font="tahomabd"  text="Short" fontsize=12 onrelease='run sc_SelectMultiplanRoute 1'>	
-	<SPRITE sprMPRoute2   template=spr_multi       y=85>
-	<TEXT txtMPDist2label template=txt_multi_label y=72 text="Distance:" watchstate=btnMR_short>
-	<TEXT txtMPDist2      template=txt_multi_value y=72 textmodel_wstr="route.multiplan2.dist.number_text" watchstate=btnMR_short visiblemodel="route.multiplan2.dist.valid">
-	<TEXT txtMPDist2Unit  template=txt_multi_unit  y=72 textmodel_wstr="route.multiplan2.dist.unit_text" watchstate=btnMR_short visiblemodel="route.multiplan2.dist.valid">
+	<BUTTON btnMR_short   template=btn_5a          template=y_2   z=0   valign="TOP+3" font="tahomabd"  text="Short" fontsize=12 onrelease='run sc_SelectMultiplanRoute 1'>	
+	<SPRITE sprMPRoute2   template=spr_multi       y=71>
+	<TEXT txtMPDist2label template=txt_multi_label y=61 text="Distance:" watchstate=btnMR_short>
+	<TEXT txtMPDist2      template=txt_multi_value y=61 textmodel_wstr="route.multiplan2.dist.number_text" watchstate=btnMR_short visiblemodel="route.multiplan2.dist.valid">
+	<TEXT txtMPDist2Unit  template=txt_multi_unit  y=61 textmodel_wstr="route.multiplan2.dist.unit_text" watchstate=btnMR_short visiblemodel="route.multiplan2.dist.valid">
 	<ALIGNER xxx          template=aligner_multi   control=txtMPDist2label padding=5 control=txtMPDist2 padding=3 control=txtMPDist2Unit>
-	<TEXT txtMPTime2label template=txt_multi_label y=72 text="Time:" fontsize=10  watchstate=btnMR_short>
-	<TEXT txtMPTime2      template=txt_multi_value y=72 textmodel_timespan="route.multiplan2.time" formatmodel=3 watchstate=btnMR_short visiblemodel="route.multiplan2.time.valid">
-	<TEXT txtMPTime2Unit  template=txt_multi_unit  y=72 textmodel_timespan="route.multiplan2.time" formatmodel=4 watchstate=btnMR_short visiblemodel="route.multiplan2.time.valid">
+	<TEXT txtMPTime2label template=txt_multi_label y=61 text="Time:" fontsize=10  watchstate=btnMR_short>
+	<TEXT txtMPTime2      template=txt_multi_value y=61 textmodel_timespan="route.multiplan2.time" formatmodel=3 watchstate=btnMR_short visiblemodel="route.multiplan2.time.valid">
+	<TEXT txtMPTime2Unit  template=txt_multi_unit  y=61 textmodel_timespan="route.multiplan2.time" formatmodel=4 watchstate=btnMR_short visiblemodel="route.multiplan2.time.valid">
 	<ALIGNER xxx          template=aligner_multi   x=220 control=txtMPTime2label padding=5 control=txtMPTime2 padding=3 control=txtMPTime2Unit>
 	
-	<BUTTON btnMR_econo   template=btn_4a          y=110 valign="TOP+6" font="tahomabd"  text="Economical" fontsize=12 onrelease='run sc_SelectMultiplanRoute 2'>	
-	<SPRITE sprMPRoute3   template=spr_multi       y=130>
-	<TEXT txtMPDist3label template=txt_multi_label y=117 text="Distance:" watchstate=btnMR_econo>
-	<TEXT txtMPDist3      template=txt_multi_value y=117 textmodel_wstr="route.multiplan3.dist.number_text" watchstate=btnMR_econo visiblemodel="route.multiplan3.dist.valid">
-	<TEXT txtMPDist3Unit  template=txt_multi_unit  y=117 textmodel_wstr="route.multiplan3.dist.unit_text" watchstate=btnMR_econo visiblemodel="route.multiplan3.dist.valid">
+	<BUTTON btnMR_econo   template=btn_5a          template=y_3   z=0   valign="TOP+3" font="tahomabd"  text="Economical" fontsize=12 onrelease='run sc_SelectMultiplanRoute 2'>	
+	<SPRITE sprMPRoute3   template=spr_multi       y=107>
+	<TEXT txtMPDist3label template=txt_multi_label y=97 text="Distance:" watchstate=btnMR_econo>
+	<TEXT txtMPDist3      template=txt_multi_value y=97 textmodel_wstr="route.multiplan3.dist.number_text" watchstate=btnMR_econo visiblemodel="route.multiplan3.dist.valid">
+	<TEXT txtMPDist3Unit  template=txt_multi_unit  y=97 textmodel_wstr="route.multiplan3.dist.unit_text" watchstate=btnMR_econo visiblemodel="route.multiplan3.dist.valid">
 	<ALIGNER xxx          template=aligner_multi   control=txtMPDist3label padding=5 control=txtMPDist3 padding=3 control=txtMPDist3Unit>
-	<TEXT txtMPTime3label template=txt_multi_label y=117 text="Time:" watchstate=btnMR_econo>
-	<TEXT txtMPTime3      template=txt_multi_value y=117 textmodel_timespan="route.multiplan3.time" formatmodel=3 watchstate=btnMR_econo visiblemodel="route.multiplan3.time.valid">
-	<TEXT txtMPTime3Unit  template=txt_multi_unit  y=117 textmodel_timespan="route.multiplan3.time" formatmodel=4 watchstate=btnMR_econo visiblemodel="route.multiplan3.time.valid">
+	<TEXT txtMPTime3label template=txt_multi_label y=97 text="Time:" watchstate=btnMR_econo>
+	<TEXT txtMPTime3      template=txt_multi_value y=97 textmodel_timespan="route.multiplan3.time" formatmodel=3 watchstate=btnMR_econo visiblemodel="route.multiplan3.time.valid">
+	<TEXT txtMPTime3Unit  template=txt_multi_unit  y=97 textmodel_timespan="route.multiplan3.time" formatmodel=4 watchstate=btnMR_econo visiblemodel="route.multiplan3.time.valid">
 	<ALIGNER xxx          template=aligner_multi   x=220 control=txtMPTime3label padding=5 control=txtMPTime3 padding=3 control=txtMPTime3Unit>
 	
-	<BUTTON btnMR_easy    template=btn_4a          y=155 valign="TOP+6" font="tahomabd"  text="Easy" fontsize=12 onrelease='run sc_SelectMultiplanRoute 3'>
-	<SPRITE sprMPRoute4   template=spr_multi       y=175>
-	<TEXT txtMPDist4label template=txt_multi_label y=162 text="Distance:" fontsize=10 align="LEFT" watchstate=btnMR_easy>
-	<TEXT txtMPDist4      template=txt_multi_value y=162 textmodel_wstr="route.multiplan4.dist.number_text" watchstate=btnMR_easy visiblemodel="route.multiplan4.dist.valid">
-	<TEXT txtMPDist4Unit  template=txt_multi_unit  y=162 textmodel_wstr="route.multiplan4.dist.unit_text" watchstate=btnMR_easy visiblemodel="route.multiplan4.dist.valid">
+	<BUTTON btnMR_easy    template=btn_5a          template=y_4   z=0   valign="TOP+3" font="tahomabd"  text="Easy" fontsize=12 onrelease='run sc_SelectMultiplanRoute 3'>
+	<SPRITE sprMPRoute4   template=spr_multi       y=143>
+	<TEXT txtMPDist4label template=txt_multi_label y=133 text="Distance:" fontsize=10 align="LEFT" watchstate=btnMR_easy>
+	<TEXT txtMPDist4      template=txt_multi_value y=133 textmodel_wstr="route.multiplan4.dist.number_text" watchstate=btnMR_easy visiblemodel="route.multiplan4.dist.valid">
+	<TEXT txtMPDist4Unit  template=txt_multi_unit  y=133 textmodel_wstr="route.multiplan4.dist.unit_text" watchstate=btnMR_easy visiblemodel="route.multiplan4.dist.valid">
 	<ALIGNER xxx          template=aligner_multi   control=txtMPDist4label padding=5 control=txtMPDist4 padding=3 control=txtMPDist4Unit>
-	<TEXT txtMPTime4label template=txt_multi_label y=162 text="Time:" fontsize=10  align="LEFT" watchstate=btnMR_easy>
-	<TEXT txtMPTime4      template=txt_multi_value y=162 textmodel_timespan="route.multiplan4.time" formatmodel=3 font="tahomabd" watchstate=btnMR_easy visiblemodel="route.multiplan4.time.valid">
-	<TEXT txtMPTime4Unit  template=txt_multi_unit  y=162 textmodel_timespan="route.multiplan4.time" formatmodel=4 visiblemodel="route.multiplan4.time.valid">
+	<TEXT txtMPTime4label template=txt_multi_label y=133 text="Time:" fontsize=10  align="LEFT" watchstate=btnMR_easy>
+	<TEXT txtMPTime4      template=txt_multi_value y=133 textmodel_timespan="route.multiplan4.time" formatmodel=3 font="tahomabd" watchstate=btnMR_easy visiblemodel="route.multiplan4.time.valid">
+	<TEXT txtMPTime4Unit  template=txt_multi_unit  y=133 textmodel_timespan="route.multiplan4.time" formatmodel=4 visiblemodel="route.multiplan4.time.valid">
 	<ALIGNER xxx          template=aligner_multi   x=220 control=txtMPTime4label padding=5 control=txtMPTime4 padding=3 control=txtMPTime4Unit>
-		
-;!TB - Buttons moved to the new common layer
-;	<BUTTON btnMR_vehicle template=footer2_1a y=205 text="Vehicle" onrelease='run sc_MultiRouteVehicle'>
-;	<BUTTON xxx template=footer2_2a y=205 text="Route Types" onrelease='run sc_MultiRouteRouteTypes'>
-;!TB - New buttons for pages and Page Index
-	<BUTTON xxx  template=prevpage  onrelease='' DISABLE>
-	<BUTTON xxx  template=nextpage  onrelease='ui_MultiRoute.HIDE, ui_MultiRoute2.SHOW, vMultiRouteActPage.SET 1'>
-	<TEXT   xxx  template=pageindex text="1/2">
-</layer>
 
-
-;!TB - 2nd page of Multi Route screen
-<layer ui_MultiRoute2 z=30>
-	<BUTTON btnMR_scen    template=btn_4a          y=20      valign="TOP+6" font="tahomabd" text="Scenic/Panoramic_View" fontsize=12 onrelease='run sc_SelectMultiplanRoute 4'>	
-	<SPRITE sprMPRoute5   template=spr_multi       y=40>
-	<TEXT txtMPDist5label template=txt_multi_label y=27 text="Distance:" watchstate=btnMR_scen>
-	<TEXT txtMPDist5      template=txt_multi_value y=27 textmodel_wstr="route.multiplan5.dist.number_text" watchstate=btnMR_scen visiblemodel="route.multiplan5.dist.valid">
-	<TEXT txtMPDist5Unit  template=txt_multi_unit  y=27 textmodel_wstr="route.multiplan5.dist.unit_text" visiblemodel="route.multiplan5.dist.valid">
+	<BUTTON btnMR_scen    template=btn_5a          template=y_5   z=0   valign="TOP+3" font="tahomabd" text="Scenic/Panoramic_View" fontsize=12 onrelease='run sc_SelectMultiplanRoute 4'>	
+	<SPRITE sprMPRoute5   template=spr_multi       y=179>
+	<TEXT txtMPDist5label template=txt_multi_label y=169 text="Distance:" watchstate=btnMR_scen>
+	<TEXT txtMPDist5      template=txt_multi_value y=169 textmodel_wstr="route.multiplan5.dist.number_text" watchstate=btnMR_scen visiblemodel="route.multiplan5.dist.valid">
+	<TEXT txtMPDist5Unit  template=txt_multi_unit  y=169 textmodel_wstr="route.multiplan5.dist.unit_text" visiblemodel="route.multiplan5.dist.valid">
 	<ALIGNER xxx          template=aligner_multi   control=txtMPDist5label padding=5 control=txtMPDist5 padding=3 control=txtMPDist5Unit>
-	<TEXT txtMPTime5label template=txt_multi_label y=27 text="Time:" fontsize=10 watchstate=btnMR_scen>
-	<TEXT txtMPTime5      template=txt_multi_value y=27 textmodel_timespan="route.multiplan5.time" formatmodel=3 watchstate=btnMR_scen visiblemodel="route.multiplan5.time.valid">
-	<TEXT txtMPTime5Unit  template=txt_multi_unit  y=27 textmodel_timespan="route.multiplan5.time" formatmodel=4 watchstate=btnMR_scen visiblemodel="route.multiplan5.time.valid">
+	<TEXT txtMPTime5label template=txt_multi_label y=169 text="Time:" fontsize=10 watchstate=btnMR_scen>
+	<TEXT txtMPTime5      template=txt_multi_value y=169 textmodel_timespan="route.multiplan5.time" formatmodel=3 watchstate=btnMR_scen visiblemodel="route.multiplan5.time.valid">
+	<TEXT txtMPTime5Unit  template=txt_multi_unit  y=169 textmodel_timespan="route.multiplan5.time" formatmodel=4 watchstate=btnMR_scen visiblemodel="route.multiplan5.time.valid">
 	<ALIGNER xxx          template=aligner_multi   x=220 control=txtMPTime5label padding=5 control=txtMPTime5 padding=3 control=txtMPTime5Unit>
 
-	<BUTTON xxx  template=prevpage  onrelease='ui_MultiRoute.SHOW, ui_MultiRoute2.HIDE, vMultiRouteActPage.SET 0'>
-	<BUTTON xxx  template=nextpage  onrelease='' DISABLE>
-	<TEXT   xxx  template=pageindex text="2/2">
-</layer>
+;!Matze - added button to show multiroute on map
+	<BUTTON xxx  template=footer2_1a    text="Show on Map" onrelease='run sc_MultiRouteMap'>
 
-;!TB - Multi Route Common Layer
-<layer ui_MultiRouteCommon z=30>
-	<BUTTON btnMR_vehicle template=footer4_1a text="Vehicle" onrelease='run sc_MultiRouteVehicle'>
-	<BUTTON xxx template=footer4_2a text="Route Types" onrelease='run sc_MultiRouteRouteTypes'>
+	<BUTTON btnMR_vehicle template=footer4_1a x=200 text="Vehicle" onrelease='run sc_MultiRouteVehicle'>
+	<BUTTON xxx template=footer4_2a x=260 text="Route Types" onrelease='run sc_MultiRouteRouteTypes'>
 </layer>
 
 ;!Raffke_jr - applied new templates
@@ -190,8 +174,10 @@
 	<BUTTON btnPMO_EditCam       template=btn_4c_icon_place  template=x_4c_2 template=y_4c_4  text="Edit SpeedCam"      iconspr="ico_speedcam_edit.bmp" onrelease='run sc_btnPM_EditCam_OnRelease' enabledmodel="warning.speedcams_allowed">
 	<BUTTON	btnPMO_Favorite      template=btn_4c_icon_place  template=x_4c_2 template=y_4c_3  text="Add to Favorites"   iconspr="ico_fav_add.bmp"       onrelease='run sc_btnPM_Favorite_OnRelease'>
 
-;!TB - Moved Routing methods button button from the top
-	<BUTTON btnPMP_MultiplanDest template=footer1_1a z=30  text="Routing Methods" onrelease='run btnPMP_MultiplanDest_OnRelease'>
+;!Matze - new Routing Methods button
+	<BUTTON btnPMP_MultiplanDest template=footer2_1a z=30  text="Routing Methods" onrelease='saved_RouteCorrectness.set %route.correctness, ui_MultiplanDest_MessageBox.show'>
+;!Matze - added button
+	<BUTTON btnPMP_PlanMap template=footer2_2a z=30  text="Plan Mode" onrelease='run sc_btnPA_PlanMode_OnRelease'>
 </layer>
 
 <element_template et_POIItemAroundCursorList>
@@ -225,3 +211,15 @@
 	<BUTTON xxx template=backa onrelease='run sc_PlaceMenuBack'>
 </layer>
 
+;!Matze - added for multiplan messagebox
+<layer ui_MultiplanDest_MessageBox z=100003  modal>
+	<SPRITE sprMPD_Dialog	 x=0   y=0	 z=5	bmp="dialog_2_bg.bmp" >
+	<SPRITE sprMPD_Icon	 x=35	y=65  z=10	bmp="$dialog_qm.bmp">
+	<SPRITE spr_MPD_bg	 x=0 y=0 z=1		bmp="default.bmp">	
+
+	<TEXT   txtMPD_Msg      x=85  y=30  z=31  w=150 h=120 text="Calculation method for route options" valign="CENTER" align="LEFT" FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=18 wordwrap=3>
+
+	<BUTTON btnMPD_Fast    template=dialog3_1    text="Fast"   onrelease='.route.correctness 30, run btnPMP_MultiplanDest_OnRelease, ui_MultiplanDest_MessageBox.hide'> 
+	<BUTTON btnMPD_Default  template=dialog3_2    text="Default" onrelease='run btnPMP_MultiplanDest_OnRelease, ui_MultiplanDest_MessageBox.hide'>
+	<BUTTON btnMPD_Correct   template=dialog3_3    text="Correct"  onrelease='.route.correctness 100, run btnPMP_MultiplanDest_OnRelease, ui_MultiplanDest_MessageBox.hide'>
+</layer>

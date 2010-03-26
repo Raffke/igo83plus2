@@ -275,8 +275,6 @@
 	ui_NavigateMapZoomControls2D.y 0
 	ui_NavigateMapSpeedLimit.x 0
 	ui_NavigateMapSpeedLimit.y 0
-	ui_SpeedCamWarningLayer2.x 0
-	ui_SpeedCamWarningLayer2.y 0
 	ui_SpeedCamWarningLayer.y 0
 	ui_NavigateMapRouteLaneInfo.x 0
 	ui_NavigateMapRouteLaneInfo.y 0
@@ -303,7 +301,6 @@
 <script sc_RD_ChangeFullScreenMode>
 	ui_NavigateMapSpeedLimit.x -77
 	ui_NavigateMapSpeedLimit.y 0
-	ui_SpeedCamWarningLayer2.x -77
 	ui_SpeedCamWarningLayer.y 3
 	sprNMIActualStreetBG.x 0
 	sprNMIActualStreetName.x 99
@@ -394,7 +391,7 @@
 	ui_NavigateMapPresetControls2D.y 20
 	ui_NavigateMapPresetControls3D.y 20
 	ui_Lock_Onmap.y 20
-	runif vFullScreenStatus 0 'ui_NavigateMapSpeedLimit.y 20, ui_SpeedCamWarningLayer2.y 20'
+	runif vFullScreenStatus 0 'ui_NavigateMapSpeedLimit.y 20'
 </script>
 
 ;!TB - Fullscreen Cockpit
@@ -403,7 +400,7 @@
 	sprNM_BatteryStatus.y 300
 	sprNM_GPSStatus.y 300
 	vehicle_icon.y 300
-	runif vFullScreenActualStreet 0 'ui_NavigateMapSpeedLimit.y 20, ui_SpeedCamWarningLayer2.y 20'
+	runif vFullScreenActualStreet 0 'ui_NavigateMapSpeedLimit.y 20'
 
 	sprNMIActualStreetName.x 30
 ;8.3:	sprNMIActualStreetName.x 2
@@ -414,4 +411,14 @@
 ;8.3:	sprNMIActualHouseNumBG1.x 52
 	txtNMCPIStreetName.x 0
 	txtNMCPIStreetName.w 320
+</script>
+
+;!Matze - added scripts to set car position
+<script sc_Car_Pos1>
+	runif vFullScreenCockpit 0 'map.SETCARPOSITION 60 75'
+	else_run 'map.SETCARPOSITION 50 75'
+</script>
+<script sc_Car_Pos2>
+	runif vFullScreenCockpit 0 'map.SETCARPOSITION 60 50'
+	else_run 'map.SETCARPOSITION 50 50'
 </script>

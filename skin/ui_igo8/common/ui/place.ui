@@ -19,9 +19,14 @@
 	<uselayer ui_PlacePOIText/>
 	<uselayer ui_PlaceMenuPlan/>
 	<uselayer ui_PlaceMenuBack/>
+;!Matze - added to show button helptext
+	<uselayer ui_Title/>
 	<uselayer map/>
 	
 	<script init>
+;!Matze - fix  
+		title.set ""
+
 		vcf_bAutoFollowModeOn.SET 0
 		run sc_PlaceStateInit
 		btnPA_Map.SHOW
@@ -274,10 +279,9 @@
 ;!TB - added SCENIC route type
 	FINDPATH_SET_MULTIPLAN_METHODS L"FAST" L"SHORT" L"ECO" L"SIMPLE" L"SCENIC"
 	FINDPATH_MULTIPLAN_TO 0 "vTmp"
-;!TB - reset current page for MultiRoute screen
-	vMultiRouteActPage.SET 0
 	runifnot vTmp 0 'NEXTSTATE st_MultiRoute'
-	else_run 'FINDPATH_MULTIPLAN_CANCEL, run sc_P_return_to_map 0'
+;!Matze - added .route.correctness saved_RouteCorrectness (restore RouteCorrectness)
+	else_run 'FINDPATH_MULTIPLAN_CANCEL, .route.correctness saved_RouteCorrectness, run sc_P_return_to_map 0'
 </script>
 
 <script sc_SelectMultiplanRoute>
@@ -425,9 +429,14 @@
 	<uselayer ui_PlaceZoomControls/>
 	<uselayer ui_PlaceAddressText/>
 	<uselayer ui_PlacePOIText/>
+;!Matze - added to show button helptext
+	<uselayer ui_Title/>
 	<uselayer map/>
 	
 	<script init>
+;!Matze - fix  
+		title.set ""
+
 		run sc_PlaceStateInit
 		btnPA_Map.HIDE
 		btnPB_Map.HIDE

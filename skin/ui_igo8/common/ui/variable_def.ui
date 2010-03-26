@@ -204,7 +204,14 @@
  	<var vDiriconVisible=0 registermodel>
 
 ;!Raffke_jr - TODO: are these really used???
-	<var vZoomLevelInNavigate=-1 permanent>
-	<var vZoomLevelInMap=-1 permanent>
-	<var vTiltInNavigate=-1 permanent>
+;	<var vZoomLevelInNavigate=-1 permanent>
+;	<var vZoomLevelInMap=-1 permanent>
+;	<var vTiltInNavigate=-1 permanent>
+;!Matze - multiroute
+	<var nRMTmp>
+	<var vMRDraw1=1 registermodel permanent>
+	<var vMRDraw2=1 registermodel permanent>
+	<var vMRDraw3=1 registermodel permanent>
+	<var vMRDraw4=1 registermodel permanent>
+	<var vMRDraw5=1 registermodel permanent> 
 </header>

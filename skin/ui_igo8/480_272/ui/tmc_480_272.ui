@@ -16,23 +16,22 @@
 
 
 	<SPRITE xxx x=419 y=8 z=1 bmp="$tmc_event_onroute.spr" phasemodel="*.on_route">	
-	<SPRITE xxx x=419 y=8 z=1 bmp="$tmc_event_cant_avoided.bmp" visiblemodel="*.cant_avoided">
-     
+;!Raffke_jr - moved down by 18 because possibly on_route&cant_avoided
+	<SPRITE xxx x=419 y=26 z=1 bmp="$tmc_event_cant_avoided.bmp" visiblemodel="*.cant_avoided">
+;!Raffke_jr - added avoided icon
+	<SPRITE xxx x=419 y=8 z=1 bmp="$tmc_event_avoided.bmp" visiblemodel="*.filter_option=1">
+
 	<BUTTON et_TmcEvent_btn%ID% template=btn_4a SELECTABLE onRelease='run sc_TMCListEventOnRelease' clickmodel="tmc.events.list.setcurrent $i">
      
 	<ROADSHIELDEDTEXT   et_TmcEvent_txt1%ID%  USE_BRACKETS=0 watchstate=et_TmcEvent_btn%ID% x=100 y=8  w=40  z=1 textmodel_wstr="*.roadnumber_enc" template=xtxt4 font="tahomabd" fontsize=14 align="LEFT" visiblemodel="!*.long_roadnumber">
 	<TEXT  et_TmcEvent_txt2%ID%  watchstate=et_TmcEvent_btn%ID% x=360 y=7  w=50   z=1 template=xtxt4 font="tahomabd" align="RIGHT" textmodel_wstr="*.distance.full_text" visiblemodel="*.distance.valid">
 	<TEXT  et_TmcEvent_txt4%ID%  watchstate=et_TmcEvent_btn%ID% x=140 y=9 w=210  z=1 textmodel_wstr="*.description" template=xtxt4 fontsize=12 align="LEFT">
 	<TEXT  et_TmcEvent_txt3%ID%  watchstate=et_TmcEvent_btn%ID% x=100 y=28  w=340 z=1 textmodel_wstr="*.location" template=xtxt4 fontsize=12 align="LEFT">
-
-;!Raffke_jr - TODO: TMC try to display additional time, if valid
-;8.0.0: additional_time, additional_time_in_seconds, additional_distance
-;8.3.1: spare_time, spare_time_in_seconds, spare_distance
-;	<TEXT  et_TmcEvent_txt5%ID%  watchstate=et_TmcEvent_btn%ID% x=360 y=27 w=50   z=2 template=xtxt4 font="tahomabd" align="RIGHT" textmodel_timespan="*.spare_time" formatmodel="local.short_timeformat" visiblemodel="*.spare_time.valid">
-;	<TEXT  et_TmcEvent_txt6%ID%  watchstate=et_TmcEvent_btn%ID% x=410 y=27 w=50   z=2 template=xtxt4 font="tahomabd" align="RIGHT" textmodel_wstr="*.spare_distance.full_text" visiblemodel="*.spare_distance.valid">
 </element_template>
 
 <layer ui_TmcEventsList z=35>
+;!Raffke_jr - add total event counter
+	<TEXT xxx   template=pageindex x=5 textmodel_wstr="tmc.events.list.size">
 	<LIST   lstTEL_Events template=tlist element_template="et_TmcEvent" listmodel="tmc.events.list">
 	<TEXT xxx   template=pageindex textmodel_wstr="ui.lstTEL_Events.page_counter">
 
@@ -65,20 +64,42 @@
 	<BUTTON xxx template=btn_5a   y=149 text="Exclude this station"    clickmodel="tmc.deny_current_station" enabledmodel="tmc.station_tuned">
 	<BUTTON xxx template=btn_5a   y=192 text="Show Excluded stations" onrelease='NEXTSTATE st_TmcTiltStations' enabledmodel="!tmc.denied_stations_list.isempty" >
 
-	<BUTTON xxx  template=footer4_3a text="Subscription" onrelease='NEXTSTATE STF_TMC_SUBSCRIBE' visiblemodel="tmc.enable_subscription"> 
-	<BUTTON xxx  template=footer4_4a text="Help"       onrelease='NEXTSTATE st_HelpTmcParams'> 
+;!Matze - changed template
+	<BUTTON xxx	template=footer3_1a text="Subscription"	onrelease='NEXTSTATE STF_TMC_SUBSCRIBE' visiblemodel="tmc.enable_subscription"> 
+;!Matze - buttons added
+	<BUTTON xxx	template=footer3_2a text="Settings"	onrelease='NEXTSTATE st_NoTmcHardware' visiblemodel="tmc.enable_subscription">
+	<BUTTON xxx	template=footer4_1a text="Settings"	bmp="foot_1_1a.bmp" onrelease='NEXTSTATE st_NoTmcHardware' visiblemodel="!tmc.enable_subscription">
+	<BUTTON xxx	template=footer3_3a text="Help"		onrelease='NEXTSTATE st_HelpTmcParams' visiblemodel="tmc.enable_subscription">	
+	<BUTTON xxx	template=footer4_4a text="Help"		onrelease='NEXTSTATE st_HelpTmcParams' visiblemodel="!tmc.enable_subscription">
 </layer>
 
 <layer ui_TmcSettings z=35>
-	<SLIDER sld_tmc_sortevents  template=sld_5a       y=20 z=10   var=vTmcSortMode   value="Distance|0|Type|1|Road name|2" onselect=''>	
-	<TEXT   xxx  template=txt_sld                     y=20 w=230 text="Sort events by:" watchstate=sld_tmc_sortevents>
-	<SLIDER sld_tmc_eventlist  template=sld_5a        y=63 z=10   var=vTmcShowOnRoute value="All Events|0|On Route|1">
-	<TEXT   xxx  template=txt_sld                     y=63 w=230 text="Event list:" watchstate=sld_tmc_eventlist>
+;!Matze - slider added (copied from ui_SettingRoute)
+	<SLIDER sldTMCS_RecalcToAvoid  template=sld_5a   template=y_1  var=vTmcReplanMode value="Auto replan|AUTO|Manual|ASK|No replan|OFF" onselect='run sc_TmcReplanChanged, run sc_check_warning'>
+	<TEXT   xxx                    template=txt_sld  template=y_1  text="Recalculate to avoid traffic:" watchstate=sldTMCS_RecalcToAvoid >  
+	<SLIDER sld_tmc_eventlist  template=sld_5a       template=y_2 var=vTmcShowOnRoute value="All Events|0|On Route|1">
+	<TEXT   xxx  template=txt_sld                    template=y_2 text="Event list:" watchstate=sld_tmc_eventlist>
+
+;!Matze - changed position and template (text)
+	<SLIDER sld_tmc_sortevents  template=sld_5a      template=y_3 var=vTmcSortMode   value="Distance|0|Type|1|Road name|2" onselect=''>	
+	<TEXT   xxx  template=txt_sld                    template=y_3 text="Sort events by:" watchstate=sld_tmc_sortevents>
+
+;!Raffke_jr - removed: !Matze - added for visual announcement
+; (only uncommented to implement "cycling" later)
+	<CHECKBOX chk_VisualWarning  template=chk_5a  template=y_4  text="Visual warning:" boolmodel="ui.vTMCVisualWarning">
+;	<SLIDER sld_tmc_VisualWarn	template=sld_5a 	template=y_4	var=vTMCVisualWarning	value="Off|0|Nearest Event|1|Latest Event|2">
+;	<TEXT   txt_tmc_VisualWarn	template=txt_sld	template=y_4	text="Visual warning:"	watchstate=sld_tmc_VisualWarn>
 
 ;!TB - voice announcement
-	<CHECKBOX xxx template=chk_5a y=105 text="Voice warning" boolmodel="ui.vTMCVoiceWarning">
+;!Matze - replaced chk by a slider for more options
+;	<CHECKBOX xxx template=chk_5a y=105 text="Voice warning" boolmodel="ui.vTMCVoiceWarning">
+	<SLIDER sld_tmc_voicewarn  template=sld_5a      template=y_5 var=vTMCVoiceWarning   value="Off|0|Warning sound|1|Voice warning|2" onselect=''>	
+	<TEXT   txt_tmc_voicewarn  template=txt_sld	template=y_5 text="Sound warning" watchstate=sld_tmc_voicewarn>
 
-	<BUTTON xxx               template=footer4_4a text="Help"   onrelease='NEXTSTATE st_HelpTmcSettings'> 
+;!Matze - button added
+	<BUTTON xxx	template=footer4_1a    bmp="foot_1_1a.bmp" text="Stations" onrelease='NEXTSTATE st_TmcParams'>
+;!Matze - changed template
+	<BUTTON xxx  template=footer4_4a text="Help"       onrelease='NEXTSTATE st_HelpTmcSettings'> 
 </layer>
 
 <element_template et_TmcDeniedStation>
@@ -101,19 +122,25 @@
 
 <layer ui_NoTmcHardware z=35>
 	<SPRITE xxx x=34   y=21 z=0 bmp="poti_bg_1line.bmp" >
-	<TEXT xxx  template=btntext x=35 y=32 w=410  text="No TMC Hardware Found!" align="CENTER" color=#FFFFFF fontsize=14>
+;!Matze - added visiblemodel
+	<TEXT xxx  template=btntext x=35 y=32 w=410  text="No TMC Hardware Found!" align="CENTER" color=#FFFFFF fontsize=14 visiblemodel="!tmc.present">
+;!Matze - added
+	<TEXT   xxx template=btntext x=35  y=32 w=410 text="TMC Hardware detected!" align="CENTER" color=#FFFFFF fontsize=14 visiblemodel="tmc.present">
 
-	<SLIDER  sldNTHprotocol template=sld_5a y=63 value="AUTO|-1|AVANTEQ|10|Fx|9|Samsung|8|Ngai Lik|7|Open TMC v2|6|Open TMC v1|5|Amaryllo|4|Eten|3|Royaltek|2|GNS|1" var=vTmcReceiverType enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress">
-	<TEXT   xxx template=btntext   y=75 text="Protocol" enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress" watchstate=sldNTHprotocol>
+;!Matze - added enabledmodel &!tmc.present (all controls below)
+	<SLIDER  sldNTHprotocol template=sld_5a y=63 value="AUTO|-1|AVANTEQ|10|Fx|9|Samsung|8|Ngai Lik|7|Open TMC v2|6|Open TMC v1|5|Amaryllo|4|Eten|3|Royaltek|2|GNS|1" var=vTmcReceiverType enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress&!tmc.present">
+	<TEXT   xxx template=btntext   y=75 text="Protocol" enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress&!tmc.present" watchstate=sldNTHprotocol>
    
-	<SLIDER sldNTHPort template=sld_5a      y=105 value="AUTO|-1|9|9|8|8|7|7|6|6|5|5|4|4|3|3|2|2|1|1" var=vTmcPort enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress">
-	<TEXT   xxx template=btntext      y=117 text="Port" enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress" watchstate=sldNTHPort>
+	<SLIDER sldNTHPort template=sld_5a      y=105 value="AUTO|-1|9|9|8|8|7|7|6|6|5|5|4|4|3|3|2|2|1|1" var=vTmcPort enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress&!tmc.present">
+	<TEXT   xxx template=btntext      y=117 text="Port" enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress&!tmc.present" watchstate=sldNTHPort>
 	
-	<SLIDER sldNTHBaudR template=sld_5a     y=147 value="AUTO|-1|4800|4800|9600|9600|19200|19200|38400|38400|57600|57600" var=vTmcBaud enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress">
-	<TEXT   xxx template=btntext      y=159 text="Baud rate:" enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress" watchstate=sldNTHBaudR>
-	  
-	<BUTTON xxx template=footer3_2a text="Start autodetect" enabledmodel="!tmc.autodetection_in_progress" onrelease='EXEC "tmc.start_autodetect", STATE st_TMCAutoDetect'>
-	<BUTTON xxx template=footer3_3a text="Help" onrelease='NEXTSTATE st_HelpNoTmcHardware'>
+	<SLIDER sldNTHBaudR template=sld_5a     y=147 value="AUTO|-1|4800|4800|9600|9600|19200|19200|38400|38400|57600|57600" var=vTmcBaud enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress&!tmc.present">
+	<TEXT   xxx template=btntext      y=159 text="Baud rate:" enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress&!tmc.present" watchstate=sldNTHBaudR>
+
+;!Raffke_jr - changed template and bmp to move right
+	<BUTTON xxx template=footer4_1a bmp="foot_1_1a.bmp" text="Start autodetect" enabledmodel="!tmc.autodetection_in_progress&!tmc.present" onrelease='EXEC "tmc.start_autodetect", STATE st_TMCAutoDetect'>
+;!Matze - changed template
+	<BUTTON xxx template=footer4_4a text="Help" onrelease='NEXTSTATE st_HelpNoTmcHardware'>
 </layer>
 
 
@@ -132,66 +159,64 @@
 	<BUTTON xxx template=footer3_3a text="Stop" enabledmodel="tmc.autodetection_in_progress" onrelease='exec "tmc.stop_autodetect",STATE st_NoTmcHardware'>
 </layer>
 
-  
-
-;==============================
-; TMC announcement add by WP
-
-<element_template et_TmcEvent_Announce_wp>
-	<SPRITE xxx x=110 y=15  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="*.single_icon&!ui.vOnFlyover">
-	<SPRITE xxx x=130 y=15  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="!*.single_icon&!ui.vOnFlyover">
-	<SPRITE xxx x=170 y=15  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase2" visiblemodel="!*.single_icon&!ui.vOnFlyover">
-
-	<TEXT   xxx x=90  y=30 w=42  z=1 textmodel_wstr="*.roadnumber" template=xtxt3 fontsize=15 fonttype=bw  font="tahoma" glowsize=1 color2=#ffffff color1=#0000b0  visiblemodel="!*.long_roadnumber&!ui.vOnFlyover" align="CENTER">
-
-;!Raffke_jr - added to show distance
-;!Raffke_jr - TODO: keep it updated...
-	<TEXT   xxx x=135  y=30  w=143  z=1 textmodel_wstr="*.distance.full_text" visiblemodel="*.distance.valid&!ui.vOnFlyover" template=xtxt3 align="LEFT"  fontsize=15 fonttype=bw  font="tahoma" glowsize=1 color2=#ffffff color1=#ff0000>
-</element_template>
-
-<layer ui_TmcAnnounce_wp w=480 h=183 z=5100 hide>
-	<SPRITE xxx x=260 y=98 z=0 bmp="wp_warn_tmc.bmp" visiblemodel="!ui.vOnFlyover">
-	<LIST lstTMC_EventsOnRoute_wp template=glist_TMC x=172 y=107 z=10 row=1 element_template="et_TmcEvent_Announce_wp" listmodel="tmc.events.announced_events" showselection=0>
-	<BUTTON xxx x=260 y=98 w=65 z=15 bmp="wp_warn_tmc.bmp" onrelease='run sc_TmcAnnounceClicked' alpha=0 clickmodel="tmc.events.announced_events.setcurrent 0" visiblemodel="!ui.vOnFlyover">
-</layer>
 
 ;==============================
 ; TMC announcement
 
-;!Raffke_jr - visiblemodels for Speedcam
 <element_template et_TmcEvent_Announce>
-	<SPRITE xxx x=19 y=0  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="*.single_icon&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible">
-	<SPRITE xxx x=4  y=0  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="!*.single_icon&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible">
-	<SPRITE xxx x=34 y=0  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase2" visiblemodel="!*.single_icon&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible">
+;!Matze - changed position
+	<SPRITE xxx x=26 y=14  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="*.single_icon&!ui.vOnFlyover" >
+	<SPRITE xxx x=15 y=14  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="!*.single_icon&!ui.vOnFlyover" >
+	<SPRITE xxx x=37 y=14  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase2" visiblemodel="!*.single_icon&!ui.vOnFlyover" >
+;!Matze - added icon
+	<SPRITE xxx x=0 y=0 z=1 bmp="$tmc_event_new.spr" phase=1 visiblemodel="*.is_new&!ui.vOnFlyover">
 
-	<TEXT   xxx x=-8  y=21 w=52  z=1 textmodel_wstr="*.roadnumber"                                         template=xtxt3 fontsize=12 fonttype=buttonlabel_menu  font="tahomabd" color=#FFFFFF  visiblemodel="!*.long_roadnumber&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible" align="CENTER">
+;!Matze - changed position, fontsize, fonttype and textmodel, added glowsize 
+	<TEXT	xxx x=3  y=28 w=46 h=12  z=1 textmodel_wstr="*.roadnumber" template=xtxt3 fontsize=10 fonttype=ms font="tahomabd" Glowsize=1 visiblemodel="!*.long_roadnumber&!ui.vOnFlyover">
 
 ;!Raffke_jr - added to show distance
-;!Raffke_jr - TODO: keep it updated...
-	<TEXT   xxx x=73  y=4  w=153  z=1 textmodel_wstr="*.distance.full_text" visiblemodel="*.distance.valid&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible" template=xtxt3 align="LEFT"  fontsize=12 fonttype=buttonlabel_menu  font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000>
+;!Matze - changed position, fontsize, fonttype, added glowsize 
+	<TEXT   xxx x=3  y=39  w=46 h=12 z=1 textmodel_wstr="*.distance.full_text" template=xtxt3 fontsize=10 fonttype=ms font="tahomabd" Glowsize=1 visiblemodel="*.distance.valid&!ui.vOnFlyover">
 </element_template>
 
-<layer ui_TmcAnnounce w=480 h=183 z=5100 hide>
-;!Raffke_jr - removed for transparent Cockpit style
-;	<SPRITE xxx x=0 y=81 w=65 z=1 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol&!ui.vOnFlyover">
-	<LIST lstTMC_EventsOnRoute template=glist_TMC x=12 y=107 z=10 row=1 element_template="et_TmcEvent_Announce" listmodel="tmc.events.announced_events" showselection=0>
-;!Raffke_jr - visiblemodel for Speedcam
-	<BUTTON xxx x=0 y=81 w=65 z=15 bmp="cock_infobg2.bmp" onrelease='run sc_TmcAnnounceClicked' alpha=0 clickmodel="tmc.events.announced_events.setcurrent 0" visiblemodel="!ui.vOnFlyover&!ui.bSpeedcamWarningVisible">
+;!Raffke_jr - repositioned
+;!Raffke_jr - TODO: add counter "tmc.events.announced_events.list"
+<layer ui_TmcAnnounce x=375 y=192 z=5100 hide>
+;!Matze - changed for TMC announcement on map
+	<SPRITE sprTMCBG x=0 y=0 w=52 z=1 bmp="$map_bg_big.bmp" visiblemodel="!ui.vOnFlyover">
+;!Matze - changed position
+	<LIST lstTMC_EventsOnRoute template=glist_TMC x=0 y=0 z=10 row=1 element_template="et_TmcEvent_Announce" listmodel="tmc.events.announced_events" showselection=0>
+;!Matze - changed for TMC announcement on map
+	<BUTTON xxx x=0 y=0 w=52 z=15 bmp="$map_bg_big.bmp" alpha=0 onrelease='run sc_TmcAnnounceClicked' clickmodel="tmc.events.announced_events.setcurrent 0"	onlongclick='NEXTSTATE st_TmcEventsList' visiblemodel="!ui.vOnFlyover">
 </layer>
 
 
 ;==============================
 <element_template et_TmcEvent_map>
-	<SPRITE xxx x=55 y=25  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase" visiblemodel="*.single_icon">
-	<SPRITE xxx x=40 y=25  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase" visiblemodel="!*.single_icon">
-	<SPRITE xxx x=67 y=25  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase2" visiblemodel="!*.single_icon">
+;!Matze - changed position (all controls below)
+	<SPRITE xxx x=56 y=24  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase" visiblemodel="*.single_icon">
+	<SPRITE xxx x=40 y=24  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase" visiblemodel="!*.single_icon">
+	<SPRITE xxx x=72 y=24  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase2" visiblemodel="!*.single_icon">
 
-	<ROADSHIELDEDTEXT	xxx USE_BRACKETS=0 x=15 y=47  w=80  z=20 template=xtxt4 fontsize=14 font="tahomabd" align="CENTER" textmodel_wstr="*.roadnumber_enc" visiblemodel="!*.long_roadnumber">
-	<TEXT	xxx x=15 y=70  w=80 z=1 textmodel_wstr="*.distance.full_text" visiblemodel="*.distance.valid" template=xtxt align="CENTER" fonttype=bw font="tahomabd" fontsize=14>
+	<ROADSHIELDEDTEXT	xxx USE_BRACKETS=0 x=16 y=46  w=80  z=20 template=xtxt4 fontsize=14 font="tahomabd" align="CENTER" textmodel_wstr="*.roadnumber_enc" visiblemodel="!*.long_roadnumber">
+	<TEXT	xxx x=16 y=69  w=80 z=1 textmodel_wstr="*.distance.full_text" visiblemodel="*.distance.valid" template=xtxt align="CENTER" fonttype=bw font="tahomabd" fontsize=14>
 
-	<TEXT	xxx x=100 y=14 w=320  z=1 textmodel_wstr="*.description" template=xtxt align="LEFT" fonttype=bw fontsize=14>
-	<TEXT	xxx x=100 y=33 w=360  z=1 textmodel_wstr="*.location" template=xtxt font="tahomabd" align="LEFT" fonttype=bw fontsize=14 twolineoffset=-10>
-	<TEXT	xxx x=100 y=61 w=360  z=1 textmodel_wstr="*.location2" template=xtxt align="LEFT" visiblemodel="!*.single_location" fonttype=bw fontsize=14>
+	<TEXT	xxx x=105 y=22 w=360  z=1 textmodel_wstr="*.description" template=xtxt align="LEFT" valign="TOP" fonttype=bw fontsize=12>
+;!Matze - removed twolineoffset=-10, 2x added valign
+	<TEXT	xxx x=105 y=43 h=18 w=360  z=1 textmodel_wstr="*.location" template=xtxt font="tahomabd" align="LEFT" valign="center" fonttype=bw fontsize=12>
+	<TEXT	xxx x=105 y=63 h=32 w=360  z=1 textmodel_wstr="*.location2" template=xtxt align="LEFT" visiblemodel="!*.single_location" valign="TOP" fonttype=bw fontsize=12>
+;!Matze - added icons
+	<SPRITE xxx x=105 y=9 z=1 bmp="$tmc_event_onroute.spr" phasemodel="*.on_route">	
+;!Raffke_jr - moved right by 22 because possibly on_route&cant_avoided
+	<SPRITE xxx x=127 y=9 z=1 bmp="$tmc_event_cant_avoided.bmp" visiblemodel="*.cant_avoided">
+;!Raffke_jr - added avoided icon (TODO: correct model?)
+	<SPRITE xxx x=105 y=9 z=1 bmp="$tmc_event_avoided.bmp" visiblemodel="*.filter_option=1">
+
+;!Raffke_jr - TODO: TMC try to display additional time (currently always invalid)
+;8.0.0: additional_time, additional_time_in_seconds, additional_distance
+;8.3.1: spare_time, spare_time_in_seconds, spare_distance
+	<TEXT	xxx x=250 y=9      w=70  z=1 textmodel_timespan="*.spare_time"           template=xtxt align="RIGHT" fonttype=bw fontsize=12 visiblemodel="*.spare_time.valid">
+	<TEXT	xxx x=325 y=9      w=70  z=1 textmodel_wstr="*.spare_distance.full_text" template=xtxt align="RIGHT" fonttype=bw fontsize=12 visiblemodel="*.spare_distance.valid">
 </element_template>
 
 <layer ui_TMCMap z=3000>
@@ -199,24 +224,35 @@
 	<LIST list_tmc_1line template=tlist y=2 row=1 element_template="et_TmcEvent_map" listmodel="tmc.events.list"  SHOWSELECTION=1 KEEPSELECTIONONSCREEN=1>
 	<TEXT xxx   x=420 y=10 w=40 z=99 align="RIGHT" fontsize=12 font="tahomabd" fixedwidthnumbers=1 fonttype=bw textmodel_wstr="ui.list_tmc_1line.page_counter">
   
-	<BUTTON xxx          template=prevpage clickmodel="ui.list_tmc_1line.prevpage" enabledmodel="ui.list_tmc_1line.prevpage.valid" onrelease='run sc_TMC_go_to_current_loc' visiblemodel="!ui.vTMCMapFromAnnounce">
-	<BUTTON xxx          template=nextpage clickmodel="ui.list_tmc_1line.nextpage" enabledmodel="ui.list_tmc_1line.nextpage.valid" onrelease='run sc_TMC_go_to_current_loc' visiblemodel="!ui.vTMCMapFromAnnounce">
-	
-	<BUTTON xxx          template=footer2_1a text="Avoid" onrelease='run sc_TmcAvoid' visiblemodel="tmc.events.list.current.filter_option!=1&!tmc.ignore_all_events&!ui.vTMCMapFromAnnounce">
-	<BUTTON xxx          template=footer2_1a text="Unavoid" onrelease='run sc_TmcUnavoid' visiblemodel="tmc.events.list.current.filter_option=1&!tmc.ignore_all_events&!ui.vTMCMapFromAnnounce">
-	
-	<BUTTON xxx          template=footer2_1a text="Avoid" onrelease='run sc_TmcAvoidAnn' visiblemodel="!tmc.ignore_all_events&ui.vTMCMapFromAnnounce">
-	<BUTTON xxx          template=footer2_2a text="Unavoid" onrelease='run sc_TmcUnavoidAnn' visiblemodel="!tmc.ignore_all_events&ui.vTMCMapFromAnnounce">
+;!Raffke_jr - removed visiblemodel "!ui.vTMCMapFromAnnounce"
+	<BUTTON xxx          template=prevpage clickmodel="ui.list_tmc_1line.prevpage" enabledmodel="ui.list_tmc_1line.prevpage.valid" onrelease='run sc_TMC_go_to_current_loc'>
+	<BUTTON xxx          template=nextpage clickmodel="ui.list_tmc_1line.nextpage" enabledmodel="ui.list_tmc_1line.nextpage.valid" onrelease='run sc_TMC_go_to_current_loc'>
+
+;!Raffke_jr - added enabledmodel "tmc.events.list.index>=0" to all buttons (in case of recalculation)
+;!Raffke_jr - replaced visiblemodel "!ui.vTMCMapFromAnnounce" by "tmc.events.filter_offroute!=1"
+	<BUTTON xxx          template=footer2_1a text="Avoid" onrelease='run sc_TmcAvoid' visiblemodel="tmc.events.list.current.filter_option!=1&!tmc.ignore_all_events&tmc.events.filter_offroute!=1" enabledmodel="tmc.events.list.index>=0">
+;!Raffke_jr - removed visiblemodel "!ui.vTMCMapFromAnnounce" (always show unavoid, if already avoided)
+	<BUTTON xxx          template=footer2_1a text="Unavoid" onrelease='run sc_TmcUnavoid' visiblemodel="tmc.events.list.current.filter_option=1&!tmc.ignore_all_events" enabledmodel="tmc.events.list.index>=0">
+
+;!Raffke_jr - we can only ignore events, that are in announced_events; but how to find out? (Workaround: if only events on route or called from announce)
+;!Raffke_jr - TODO: find out, whether already ignored (still in announced_events)
+;!Raffke_jr - changed template from footer2_1a and replaced visiblemodel "ui.vTMCMapFromAnnounce" by "tmc.events.filter_offroute=1&tmc.events.list.current.filter_option!=1"
+	<BUTTON xxx          template=footer4_1a text="Avoid" onrelease='run sc_TmcAvoidAnn' visiblemodel="tmc.events.list.current.filter_option!=1&!tmc.ignore_all_events&tmc.events.filter_offroute=1" enabledmodel="tmc.events.list.index>=0">
+;!Matze - changed buttontext
+;!Raffke_jr - changed template from footer2_2a and replaced visiblemodel "ui.vTMCMapFromAnnounce" by "tmc.events.filter_offroute=1&tmc.events.list.current.filter_option!=1"
+	<BUTTON xxx          template=footer4_2a text="Ignore" onrelease='run sc_TmcUnavoidAnn' visiblemodel="tmc.events.list.current.filter_option!=1&!tmc.ignore_all_events&tmc.events.filter_offroute=1" enabledmodel="tmc.events.list.index>=0">
 
 	<BUTTON xxx  x=10 y=105   z=0 bmp="map_zoomin.bmp#2"  onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0'>  
 	<BUTTON xxx  x=10 y=167  z=0 bmp="map_zoomout.bmp#2" onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0'> 
-
-	<BUTTON xxx x=10 y=5 z=40  bmp="btn_lb_4a_tmcevent.bmp" onrelease='' alpha=0  DISABLE>
 </layer>
 
 <LAYER ui_TMCMapBack z=1001>
-	<SPRITE xxx x=80 y=237 z=1 bmp="main_bg3.bmp" alpha=16>
-	<BUTTON xxx template=backa onrelease='PREVSTATE' onlongclick='run sc_GoTo_MainMenu'>
+;!Matze - removed
+;	<SPRITE xxx x=80 y=237 z=1 bmp="main_bg3.bmp" alpha=16>
+;!Matze - added visiblemodel
+	<BUTTON xxx template=backa onrelease='PREVSTATE' onlongclick='run sc_GoTo_MainMenu' visiblemodel="ui.vTMCMapFromAnnounce">
+;!Matze - added button
+	<BUTTON xxx template=backa onrelease='PREVSTATE' clickmodel="tmc.events.list.setcurrent 0" onlongclick='run sc_GoTo_MainMenu' visiblemodel="!ui.vTMCMapFromAnnounce">
 </layer>
 
 ; **** Clear Channel ****

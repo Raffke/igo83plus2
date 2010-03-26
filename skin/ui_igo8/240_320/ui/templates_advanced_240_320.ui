@@ -23,11 +23,17 @@
 ;***********************  SPRITE  ******************************
 <TEMPLATE spr_st1a                  x=3 bmp="poti_bg.bmp">
 
+;!Sib - for Advanced Route settings
+<TEMPLATE spr_5a_big     bmp="btn_lb_4a.bmp#2" x=4  z=0 >
+
+;!Sib - for 3D Settings
+<TEMPLATE spr_poti_small x=1 y=0 z=0 bmp="poti_bg_small.bmp">
 
 
 ;***********************  SLIDERS  ******************************
 ;!Raffke_jr - TODO: Fit to new templates
 <TEMPLATE sld_lb5e       bmp="btn_lb_5e.bmp#3"           align="center" valign="center" fonttype=bw fontsize=14>
+<TEMPLATE sld_lb5d       bmp="btn_lb_5e_long.bmp#3">
 
 ;***********************  BUTTONS  ******************************
 ;!Raffke_jr - renamed to add x values, added z & iconspr, inherited template=btn_lb5e
@@ -43,28 +49,29 @@
 
 ;!Sib new templates for positions
 <TEMPLATE y_1  y=19>
+<TEMPLATE y_1a y=39>
 <TEMPLATE y_1b y=51>
 <TEMPLATE y_2  y=56>
+<TEMPLATE y_2a y=76>
 <TEMPLATE y_2b y=88>
 <TEMPLATE y_3  y=93>
+<TEMPLATE y_3a y=113>
 <TEMPLATE y_3b y=125>
 <TEMPLATE y_4  y=130>
+<TEMPLATE y_4a y=133>
 <TEMPLATE y_4b y=162>
 <TEMPLATE y_5  y=167>
+<TEMPLATE y_5a y=187>
 <TEMPLATE y_5b y=199>
 <TEMPLATE y_6  y=204>
+<TEMPLATE y_6a y=224>
 <TEMPLATE y_6b y=236>
 <TEMPLATE y_7  y=241>
-;Raffke_jr - no more space in 240x320
-;<TEMPLATE y_7b y=273>
-;<TEMPLATE y_8  y=278>
-;<TEMPLATE y_8b y=310>
-;<TEMPLATE y_9  y=315>
-;<TEMPLATE y_9b y=347>
+<TEMPLATE y_7a y=244>
 
 ;!Raffke_jr - new templates for scrollbar with 2 text legends (org: txt_csu_legend x=14 w=118 - txt_csu_valunit x=134 w=54 - csuszka_small x=190)
 <TEMPLATE txt_csu2_legend  template=txt_csu_legend          w=60  z=1>
-<TEMPLATE csuszka_2txt     template=csuszka_small    x=133        z=1>
+<TEMPLATE csuszka_2txt     template=csuszka_small    x=55         z=1>
 <TEMPLATE txt_csu2_left    template=txt_csu_legend   x=80   w=50  z=1 align="RIGHT">
 <TEMPLATE txt_csu2_right   template=txt_csu_legend   x=259  w=50  z=1 align="LEFT">
 

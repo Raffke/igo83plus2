@@ -34,6 +34,7 @@
 </script>
 
 <script sc_PanicButton_Execute>
+	ui_Panic_MessageBox.hide
 	run sc_SpeedcamWarningDisabled
 	GETSYSENTRY "utilitypath" "utility" "\SDMMC\IGO8\utility\utility.exe" vTmp
 	GETSYSENTRY "utilitypanic" "utility" "\SDMMC\IGO8\utility\utility.nfRun,3,\SDMMC\IGO8,\SDMMC\IGO8\igo8.exe" vTmp2
@@ -55,6 +56,8 @@
 	;<uselayer ui_Header2/>
 	<uselayer ui_footer2/>						 
 	<uselayer ui_pointonmap/>
+;!Matze - Night color filter
+	<uselayer ui_NavigateMapnight/>
 	<uselayer ui_title/>
 	
 	<script init>
@@ -113,6 +116,8 @@
 	<uselayer ui_Title/>
 	<uselayer ui_Background />
 	<uselayer ui_Footer2/>
+;!Matze - Night color filter
+	<uselayer ui_NavigateMapnight/>
 	<uselayer ui_CockpitStatus />
 
 	<script init>
@@ -181,7 +186,7 @@
 
 ;!Raffke_jr - Full Screen cockpit buttons
 	runif vUIRes "240_320" 'statusSound.x   7,                          btnMT_Record_Cockpit.x 122, btnMT_Stop_Cockpit.x 122'
-	runif vUIRes "320_240" 'statusSound.x 110, btnCS_Mode_Cockpit.x	 5, btnMT_Record_Cockpit.x 215, btnMT_Stop_Cockpit.x 215'
+	runif vUIRes "320_240" 'statusSound.x 110, btnCS_Mode_Cockpit.x  5, btnMT_Record_Cockpit.x 215, btnMT_Stop_Cockpit.x 215'
 	runif vUIRes "400_240" 'statusSound.x 150, btnCS_Mode_Cockpit.x 25, btnMT_Record_Cockpit.x 275, btnMT_Stop_Cockpit.x 275'
 	runif vUIRes "480_234" 'statusSound.x 175, btnCS_Mode_Cockpit.x 40, btnMT_Record_Cockpit.x 310, btnMT_Stop_Cockpit.x 310'
 	runif vUIRes "480_272" 'statusSound.x 175, btnCS_Mode_Cockpit.x 40, btnMT_Record_Cockpit.x 310, btnMT_Stop_Cockpit.x 310'
@@ -196,12 +201,10 @@
 	<uselayer ui_Background />
 	<uselayer ui_Footer2 />
 	<uselayer ui_MultiRoute />
-;!TB - 2nd page of Multi Route screen
-	<uselayer ui_MultiRoute2 />
-	<uselayer ui_MultiRouteCommon />
 
 	<script init>
-		FINDPATH_SELECT_MULTIPLAN_DRAW 0
+;!Matze - commented out
+;		FINDPATH_SELECT_MULTIPLAN_DRAW 0
 		Title.SET "Route Alternatives"
 		ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute1 1
 		ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute2 2
@@ -217,12 +220,12 @@
 		else_runif vUIRes "320_240" sc_change_vehicle_icon_on_footer
 		else_runif vUIRes "800_480" sc_change_vehicle_icon_on_big
 		else_runif vUIRes "480_800" sc_change_vehicle_icon_on_big
-
-;!TB - setup pages
-		runif vMultiRouteActPage 0 'ui_MultiRoute.SHOW, ui_MultiRoute2.HIDE'
-		runif vMultiRouteActPage 1 'ui_MultiRoute.HIDE, ui_MultiRoute2.SHOW'
+;!Matze - added for restore route correctness
+		.route.correctness saved_RouteCorrectness
 	</script>
 	<script exit>
+;!Matze - added for restore route correctness
+		.route.correctness saved_RouteCorrectness
 		vMultiRouteCalculate.set 0
 		FINDPATH_MULTIPLAN_CANCEL
 	</script>
@@ -242,7 +245,7 @@
 	else_runif nVehicle 4 'btnMR_vehicle.iconspr "$vhcl_emr_onbtn.bmp"'
 	else_runif nVehicle 5 'btnMR_vehicle.iconspr "$vhcl_ped_onbtn.bmp"'
 	else_runif nVehicle 6 'btnMR_vehicle.iconspr "$vhcl_bic_onbtn.bmp"'
-	</script>
+</script>
 
 <script sc_change_vehicle_icon_on_big>
 	runif nVehicle 0 'btnMR_vehicle.iconspr "vhcl_car.bmp"'
@@ -258,6 +261,23 @@
 <script sc_MultiRouteRouteTypes>
 	vMultiRouteCalculate.set 1
 	NEXTSTATE st_SettingRouteParam
+</script>
+
+;!Matze - added script for multiroute on map
+<script sc_MultiRouteMap>
+	vPlanModeFromMultiRoute.set 1
+	vMultiRouteCalculate.set 1
+	.route.multiplan_draw_all 1
+	NEXTSTATE st_PlanMode
+	run sc_setMultiroute
+
+	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute11 1
+	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute22 2
+	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute33 3
+	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute44 4
+	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute55 5
+
+	ui_MultiRouteDrawProgress_min.show
 </script>
 
 ;****************************************************************************************************************
@@ -356,8 +376,8 @@
 	<uselayer ui_NavigateMapCurrentSpeedH/>
 ;!TB - cruise mode display
 	<uselayer ui_NavigateMapCruiseInfos/>
-;!TB - fullscreen cockpit
-	<uselayer ui_SpeedCamWarningLayer2/>
+;!Matze - Night color filter
+	<uselayer ui_NavigateMapnight/>
 
 	<script init>
 ;		runifnot vFlyoverOrSimulate -1 'runif %map.flyover 0 \'FINDPATH_SIMULATE vFlyoverOrSimulate\''
@@ -451,10 +471,16 @@
 ;!TB, di/\/\ka
 		run sc_initspeedonmap
 		run sc_InitCompassOnMap
-;!TB - cleanup poi search for PopupInfo
-		poi.near_cursor.visible_only 1
-		poi.near_cursor.area 300
-		poi.near_cursor.sort "distance"
+
+;!Matze - popup info
+		runifnot vPopUpShowPanel 0 'run sc_ShowCockpitInfo'
+		else_run 'run sc_HideCockpitInfo'
+
+;!Matze - added for advanced overview settings
+		runif vMapNorthUpOnAutoZoom 1 sc_advanced_overview_start
+;!Matze - added for advanced laneinfo settings
+		runifnot vLaneInfo 0 'run sc_laneinfoshow'
+
 
 		1 vMapModeChange.set 0
 		1 run sc_CockpitReInit
@@ -465,8 +491,9 @@
 		else_run sc_2DNoHeadUpInit
 		runif vSetZoomSettings 1 sc_set_zoom_and_tilt_settings
 
-		runif vMapState 3 'map.SETCARPOSITION 50 75'
-		runif vMapState 4 'map.SETCARPOSITION 50 50'
+;!Matze - replaced map.SETCARPOSITION by call script
+		runif vMapState 3 'run sc_Car_Pos1'
+		runif vMapState 4 'run sc_Car_Pos2'
 		runif vMapState 0 'run sc_3dmode'
 		3 run sc_CheckMapState 
 
@@ -477,11 +504,26 @@
 		vModeTmp.set 0
 		runif %map.follow_gps 1 'SETGPSMODE 1 1'
 
+;!Matze 
+		runif bShowCompassOnMap 0 sc_north_lock
+		else_run sc_north_lock1
+;		btnNMB_Nav3D.isvisible vTmp
+;		runif vTmp  1 '.map.north_lock 1'
+;		else_run '.map.north_lock 0'
+
+		vDiriconVisible.BOOLEXPR "navigation.car_pos_valid&navigation.has_navigable_path&!ui.vRouteCalculation&!ui.vOnFlyover"
+	</script>
+
+;!Matze
+	<script sc_north_lock>
 		btnNMB_Nav3D.isvisible vTmp
 		runif vTmp  1 '.map.north_lock 1'
 		else_run '.map.north_lock 0'
-
-		vDiriconVisible.BOOLEXPR "navigation.car_pos_valid&navigation.has_navigable_path&!ui.vRouteCalculation&!ui.vOnFlyover"
+	</script>
+	<script sc_north_lock1>
+		spr_compass2dn_on_map.isvisible vTmp
+		runif vTmp  1 '.map.north_lock 1'
+		else_run '.map.north_lock 0'
 	</script>
 
 	<script sc_CheckMapState>
@@ -604,9 +646,9 @@
 		tmp_NearSpeedLimit.stop
 		tmp_SpeedCamValid.stop
 		tmp_SpeedCamWarning.stop
-;!TB - Popup Info
-		ui_CockpitInfo.h 0
-		ui_CockpitInfo.HIDE
+
+;!Matze - Popup Info
+		run sc_HideCockpitInfo
 
 		map.ZOOMCONTROL_SHOW 1
 		map.ONMAPCLICK
@@ -616,12 +658,17 @@
 		;vOverviewMode.ONCHANGE ""
 		obs_OverviewMode_Changed.stop
 
+;!Matze - laneinfo
+		run sc_laneinfoshow_stop
+
 		vShowNavCockpitControls.onchange
 		v3dzoomcontrol.set 0
 		vCarWasLockedWhenExitedNavigateMap.set bNavMapFollow
 		bLaneinfoSignpostValid.onchange
 		vSetZoomSettings.SET 1
 		run sc_SaveZoomAndTilt
+;!Matze - added for advanced overview settings
+		runif vMapNorthUpOnAutoZoom 1 sc_advanced_overview_stop
 	</script>
 </state>
 
@@ -632,14 +679,101 @@
 	else_run 'run sc_attach_lane_small'
 </script>
 
+;----------------------------------------------------------
+;!Matze - added scripts for advanced overview settings  
+
+<observer obs_OverviewMode_LeaveDistance boolmodel="navigation.distance_to_manuver.value<ui.vNorthUpAutoZoomLeaveDistance" onchange='run sc_dirdist_change'>
+<observer obs_OverviewMode_ZoomDistance boolmodel="navigation.distance_to_manuver.value>ui.vNorthUpAutoZoomDistance" onchange='run sc_dirdist_change'>
+  
+<observer obs_OverviewMode_SpeedOff boolmodel="navigation.current_speed.value<ui.vMinOverviewSpeed" onselect='run sc_OverviewMode_Speed_off'>
+<observer obs_OverviewMode_SpeedOn boolmodel="navigation.current_speed.value>ui.vMaxOverviewSpeed" onselect='run sc_OverviewMode_Speed_on'>
+
+	<script sc_advanced_overview_start>
+		obs_OverviewMode_ZoomDistance.start
+		obs_OverviewMode_LeaveDistance.start
+		25 runif vSaveOverviewMode1 0 'vSaveOverviewMode.SET 3'
+		else_runif vSaveOverviewMode1 1 'run sc_obs_speed_on, 25 run sc_check_speed'
+	</script>
+
+	<script sc_advanced_overview_stop>
+		obs_OverviewMode_LeaveDistance.stop
+		obs_OverviewMode_ZoomDistance.stop
+		obs_OverviewMode_SpeedOn.stop
+		obs_OverviewMode_SpeedOff.stop
+		runif vSaveOverviewMode1 1 'vSaveOverviewMode.SET 0'
+	</script>
+
+	<script sc_obs_speed_on>
+		obs_OverviewMode_SpeedOn.start
+		obs_OverviewMode_SpeedOff.start
+	</script>
+
+	<script sc_obs_speed_off>
+		obs_OverviewMode_SpeedOn.stop
+		obs_OverviewMode_SpeedOff.stop
+		vSaveOverviewModeSpeed.SET 0
+	</script>
+
+	<script sc_OverviewMode_on>
+		vSaveOverviewMode1.SET 1
+		run sc_obs_speed_on
+	</script>
+
+	<script sc_OverviewMode_off>
+		vSaveOverviewMode1.SET 0
+		run sc_obs_speed_off
+		run sc_quit_overview
+	</script>
+
+	<script sc_OverviewMode_Speed_on>
+		vSaveOverviewModeSpeed.SET 1
+		runif vSaveOverviewMode1 1 'runif vSaveOverviewMode 0 sc_enter_overview'
+	</script>
+
+	<script sc_OverviewMode_Speed_off>
+		vSaveOverviewModeSpeed.SET 0
+		runif vSaveOverviewMode1 1 'runif vSaveOverviewMode 1 sc_quit_overview'
+	</script>
+
+	<script sc_dirdist_change>
+		;vCurrentDistanceToEvent.valuemodel "navigation.distance_to_manuver.value"
+		;runif vCurrentDistanceToEvent < vNorthUpAutoZoomLeaveDistance 'run sc_OverviewMode_off'
+		;else_runif vCurrentDistanceToEvent > vNorthUpAutoZoomDistance 'run sc_OverviewMode_on'
+		runif %navigation.distance_to_manuver.value < vNorthUpAutoZoomLeaveDistance 'run sc_OverviewMode_off'
+		else_runif %navigation.distance_to_manuver.value > vNorthUpAutoZoomDistance 'run sc_OverviewMode_on'
+	</script>
+
+	<script sc_check_speed>
+		runif vSaveOverviewModeSpeed 0 'runif vSaveOverviewMode1 1 sc_quit_overview'
+		else_runif vSaveOverviewModeSpeed 1 'runif vSaveOverviewMode1 1 sc_enter_overview'
+	</script>
+
+	<script sc_quit_overview>
+		runif vSaveOverviewmode 1 'run sc_ExitOverview' 
+	</script>
+
+	<script sc_enter_overview>
+		runif vSaveOverviewmode 0 'vSaveOverviewMode.SET 2, run sc_EnterOverview, .map.overview 1' 
+	</script>
+;----------------------------------------------------------
 
 ;!TB, di/\/\ka
 <script sc_InitCompassOnMap>
 	runif bShowCompassOnMap 1 'ui_NavigateMapCompass.show, ui_NavigateMap3dButtons.hide'
-	else_run 'ui_NavigateMapCompass.hide, ui_NavigateMap3dButtons.show, vspr_compass2d_on_map.hide, vspr_compass3d_on_map.hide'
+;!Matze - added separate compasses for 2d and 2d-northlock
+	else_run 'ui_NavigateMapCompass.hide, ui_NavigateMap3dButtons.show'
 	termif bShowCompassOnMap 0 sc_InitCompassOnMap
-	runif vMapMode L"3D" 'vspr_compass2d_on_map.hide, vspr_compass3d_on_map.show'
-	else_run 'vspr_compass2d_on_map.show, vspr_compass3d_on_map.hide'
+	runif vMapMode L"3D" 'vspr_compass2d_on_map.hide, spr_compass2dn_on_map.hide, vspr_compass3d_on_map.show, vspr_dir_arrow_on_map.show, vspr_dest_arrow_on_map.show, vspr_dest_arrow_on_map.visiblemodel "gps.position_valid&navigation.has_route", vspr_compass3d_on_map.visiblemodel "gps.position_valid"'
+;!Matze - commented out, call script added
+;	else_run 'vspr_compass2d_on_map.show, vspr_compass3d_on_map.hide'
+	else_run sc_checkCompass2d
+</script>
+
+;!Matze - new script to show separate compasses for 2d and 2d-northlock
+<script sc_checkCompass2d>
+	map.GetMapState vTmp
+	runif vTmp 3 'vspr_compass2d_on_map.show, spr_compass2dn_on_map.hide, vspr_compass3d_on_map.hide, vspr_dir_arrow_on_map.show, vspr_dest_arrow_on_map.show, vspr_dest_arrow_on_map.visiblemodel "gps.position_valid&navigation.has_route", vspr_compass2d_on_map.visiblemodel "gps.position_valid"'
+	else_run 'spr_compass2dn_on_map.show, vspr_compass2d_on_map.hide, vspr_compass3d_on_map.hide, vspr_dir_arrow_on_map.hide, vspr_dest_arrow_on_map.hide'
 </script>
 
 <script sc_CockpitReInit>
@@ -655,10 +789,10 @@
 
 	run sc_NMS_Init
 
-;!TB - Popup Info
-	runif vOnFlyover 1 'ui_CockpitInfo.HIDE'
-	else_runifnot %map.popup_info 0 'ui_CockpitInfo.SHOW, ui_CockpitInfo.h 0'
-	else_run 'ui_CockpitInfo.HIDE'
+;!Matze - Popup info
+	runif vOnFlyover 1 'run sc_HideCockpitInfo'
+	else_runifnot vPopUpShowPanel 0 'run sc_ShowCockpitInfo'
+	else_run 'run sc_HideCockpitInfo'
 
 	map.ONMAPCLICK sc_NavigateMapClick
 	
@@ -666,6 +800,8 @@
 	runif vFullScreenCockpit 1 sc_ChangeFullScreenMode
 	else_run sc_ChangeNormalScreenMode
 
+;!Matze - added for advanced overview settings
+	runif vMapNorthUpOnAutoZoom 1	'25 runif vSaveOverviewMode1 1 sc_check_speed'
 ;!TB - reinitialize LaneInfo
 	run sc_LaneInfoReInit
 </script>
@@ -697,7 +833,7 @@
 	btnNMB_Stop.alpha vNaviMenuAlphaDown
 ;!TB - compass button
 	sprNMB_Compass.alpha vNaviMenuAlphaDown
-	vspr_compass2d_on_map.alpha vNaviMenuAlphaDown
+
 
 	map.onmapclick sc_NavigateMapClick
 	v3dzoomcontrol.set 0
@@ -722,7 +858,6 @@
 	btnNMB_Stop.alpha 32
 ;!TB - compass button
 	sprNMB_Compass.alpha 32
-	vspr_compass2d_on_map.alpha 32
 	
 	term sc_NaviMenuAlphaRe
 	1 run sc_NaviMenuAlphaRe
@@ -752,18 +887,25 @@
 	else_runif vPresetOn 1 'vTmp.set 1'
 	;else_runif %navigation.car_pos_valid 0 'vTmp.set 1'
 	;else_runif vLaneInfo 0 'vTmp.set 1'
+;!Matze - added for signpost settings
+	else_runif vSignpostShow 0  'vTmp.set 1'
 	else_runif bLaneinfoSignpostValid 0 'vTmp.set 1'
 	else_run 'vTmp.set 0'
 	
 	runif vTmp 1 'run sc_CarPos2D2dHeadUp,.smartzoom.percentage 100'
-	else_run 'map.SETCARPOSITION 50 75,.smartzoom.percentage 100'
-	runif %map.globe_mode 1 'map.SETCARPOSITION 50 50'
+
+;!Matze - replaced map.SETCARPOSITION by call script
+	else_run 'run sc_Car_Pos1,.smartzoom.percentage 100'
+	runif %map.globe_mode 1 'run sc_Car_Pos2'
 </script>
 
 <script sc_CarPos2D2dHeadUp>
-	runif vMapstate 3 'map.SETCARPOSITION 50 75'
-	runif vMapstate 4 'map.SETCARPOSITION 50 50'
-	runif vMapstate 5 'map.SETCARPOSITION 50 50'
+;!Matze - added for advanced overview settings
+	runif vSaveOverviewMode 2 'run sc_Car_Pos2'
+;!Matze - replaced map.SETCARPOSITION by call script
+	runif vMapstate 3 'run sc_Car_Pos1'
+	runif vMapstate 4 'run sc_Car_Pos2'
+	runif vMapstate 5 'run sc_Car_Pos2'
 </script>
 
 <script sc_SetCarPos3D>
@@ -772,6 +914,8 @@
 	else_runif vPresetOn 1 'vTmp.set 1'
 	;else_runif %navigation.car_pos_valid 0 'vTmp.set 1'
 	;else_runif vLaneInfo 0 'vTmp.set 1'
+;!Matze - added for signpost settings
+	else_runif vSignpostShow 0  'vTmp.set 1'
 	else_runif bLaneinfoSignpostValid 0 'vTmp.set 1'
 	else_run 'vTmp.set 0'
 	
@@ -940,7 +1084,9 @@
 	vMapSettings2d3d.SET "2D"
 	map.VIEW2D3D vMapSettings2d3d
 	vMapmode.set L"2D"
-	runif %navigation.waypoints.list.size > 1 'map.SETCARPOSITION 50 50, run sc_Fittoscreen_res'
+
+;!Matze - replaced map.SETCARPOSITION by call script
+	runif %navigation.waypoints.list.size > 1 'run sc_Car_Pos2, run sc_Fittoscreen_res'
 	else_run 'map.CENTERCURSOR'
 	ui_NavigateMapPresetControls2D.HIDE
 	ui_NavigateMapPresetControls3D.HIDE
@@ -994,6 +1140,9 @@
 	runif vFullScreenCockpit 1 'ui_NavigateMapRouteNavigationInfos.HIDE'
 	else_runif vValidRoute 1 'ui_NavigateMapRouteNavigationInfos.SHOW'
 	runifnot vValidRoute 1 'vNavMode.set "NOROUTE", ui_NavigateMapRouteNavigationInfos.HIDE'
+
+;!Matze - added
+	run sc_TmcUpdateCockpitStatus
 </script>
 
 
@@ -1021,6 +1170,9 @@
 	ui_NavigateMapZoomControls3D.isvisible vtmp
 	sprNMRCockpit.isvisible ntmp
 	runif vtmp ntmp 'ui_NavigateMapRouteNavigationInfos.HIDE,ui_NavigateMapRouteNavigation.hide'
+
+;!Matze - added
+	run sc_TmcUpdateCockpitStatus
 </script>
 
 <script sc_InitPresetMode>
@@ -1231,6 +1383,8 @@
 ;!TB - Cruise Mode settings
 	<uselayer ui_NavigateMapSettingsCruiseOffRoute/>
 	<uselayer ui_NavigateMapSettingsCruiseCommon/>
+;!Matze - Night color filter
+	<uselayer ui_NavigateMapnight/>
 
 	<script init>
 		Title.SET ""
@@ -1320,8 +1474,9 @@
 ;****************************************************************************************************************
 
 <script sc_OverviewModeChanged>
-	runif vOverviewMode 1 'run sc_EnterOverview'
-	else_run 'run sc_ExitOverview'
+;!Matze - added 'run sc_check_speed'
+	runif vOverviewMode 1 'run sc_EnterOverview, 25 run sc_check_speed'
+	else_run 'run sc_ExitOverview, 25 run sc_check_speed'
 
 ;!TB - reset saved mode variable
 	vSaveMapMode.set L""
@@ -1334,12 +1489,20 @@
 	map.getmapstate vTmp
 	runif vTmp 3 'map.setmapstate 5'
 	run sc_2DMode
+
+;!Matze - added for advanced overview settings
+	runif vSaveOverviewMode 2 'vSaveOverviewMode.Set 0, map.setmapstate 5'
+
 	map.GET_MAPSTATE_BEFORE_OVERVIEW vTmp
 	btnNMB_Nav2D.hide
 	btnNMB_Nav2DN.HIDE
 	btnNMB_Nav3D.hide
 	runif v2dheadup 1 'run sc_EnterOverviewWITH2dHeadup'
 	else_run 'run sc_EnterOverviewWITHOUT2dHeadup'
+
+;!Matze - added for advanced overview settings
+	vSaveOverviewMode.SET 1
+	run sc_OverviewLaneInfo_Check
 </script>
 
 <script sc_EnterOverviewWITH2dHeadup>
@@ -1368,6 +1531,11 @@
 	map.GET_MAPSTATE_BEFORE_OVERVIEW vMapState
 	runif vMapState 0 sc_ExitOverviewTo3D
 	else_run sc_ExitOverviewTo2D
+
+;!Matze - added for advanced overview settings
+	runif vSaveOverviewMode1 1 'vSaveOverviewMode.SET 0'
+	else_run 'vSaveOverviewMode.SET 3'
+	run sc_LaneInfoShow_Check
 </script>
 
 ;*****************************************************************************************************************
@@ -1511,22 +1679,24 @@
 </script>
 
 <script sc_ZoomLevel2D>
-	runif bLaneinfoSignpostValid 1 'map.SETCARPOSITION 50 75'
-	else_run 'map.SETCARPOSITION 50 50'
+;!Matze - replaced map.SETCARPOSITION by call script
+	runif bLaneinfoSignpostValid 1 'run sc_Car_Pos1'
+	else_run 'run sc_Car_Pos2'
 </script>
  
 <script sc_ZoomLevel>
-	runif %map.globe_mode 1 'map.SETCARPOSITION 50 50'
+;!Matze - replaced map.SETCARPOSITION by call script
+	runif %map.globe_mode 1 'run sc_Car_Pos2'
 	else_runif vMapState 4 'run sc_ZoomLevel2D'
 	else_runif vMapState 5 'run sc_ZoomLevel2D'
-	else_run 'map.SETCARPOSITION 50 75'
+	else_run 'run sc_Car_Pos1'
 </script> 
 <observer obs_Zoomlevel model="map.globe_mode" onchange='run sc_ZoomLevel'>
 
 
 ;****************************************************************************************************************
-
 ;!TB - Popup Info Scripts
+
 <script sc_MiniPoiList_ShowInfo>
 ;	SELECTPOIITEM $1 0
 	SELECTPOIITEM $1 1
@@ -1543,6 +1713,60 @@
 </script>
 
 ;****************************************************************************************************************
+;!Matze - Popup info
+
+<script sc_PopUpShowPanel_OnChange>
+	.map.popup_info vPopUpShowPanel
+</script>
+
+<script sc_ShowCockpitInfo>
+	poi.near_cursor.area vPopUpSearchRadius
+	poi.near_cursor.sort "distance"
+	ui_CockpitInfo.h 0
+	ui_CockpitInfo.SHOW
+</script>
+
+<script sc_CloseCockpitInfo>
+	term sc_StartHideCockpitInfo
+	ui_CockpitInfo.h 0
+</script>
+
+<script sc_HideCockpitInfo>
+	term sc_StartHideCockpitInfo
+	ui_CockpitInfo.h 0
+	ui_CockpitInfo.HIDE
+</script>
+
+;****************************************************************************************************************
+;!Matze - added script (show/hide laneinfo in overview-mode)
+<script sc_OverviewLaneInfo_Check>
+	runifnot vOverviewMode 1		'ui_NavigateMapRouteLaneInfo.show'
+	else_runif vOverviewLaneInfo 1		'ui_NavigateMapRouteLaneInfo.hide'
+	else_run				'run sc_LaneInfoShow_Check'
+</script>
+
+;!Matze - added script
+<script sc_LaneInfoShow_Check>
+	runifnot bLaneinfoSignpostValid 1 'ui_NavigateMapRouteLaneInfo.show'
+	else_runif vSignpostShow 0	'ui_NavigateMapRouteLaneInfo.show'
+	else_runif vLaneInfoShow 1	'ui_NavigateMapRouteLaneInfo.show'
+	else_run			'ui_NavigateMapRouteLaneInfo.hide'
+</script>
+
+;!Matze - laneinfo always show
+<script sc_laneinfoshow>
+	termif vSignpostShow 0
+	runif vLaneInfoShow 0 'obs_laneinfoshow.start'
+	else_run sc_laneinfoshow_stop
+</script>
+
+<script sc_laneinfoshow_stop>
+	obs_laneinfoshow.stop
+</script>
+
+<observer obs_laneinfoshow boolmodel="map.follow&navigation.car_pos_valid&!ui.vPresetOn&ui.bLaneinfoSignpostValid" onselect='ui_NavigateMapRouteLaneInfo.hide' ondeselect='run sc_OverviewLaneInfo_Check'>
+
+;****************************************************************************************************************
 ;!TB - New screens and scripts for displaying Map after Find via Menu
 ;****************************************************************************************************************
 
@@ -1552,6 +1776,8 @@
 	<uselayer ui_Header2/>
 	<uselayer ui_footer2/>
 	<uselayer ui_pointonmap2/>
+;!Matze - Night color filter
+	<uselayer ui_NavigateMapnight/>
 	<uselayer ui_title/>
 
 	<script init>

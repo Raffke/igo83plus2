@@ -28,9 +28,6 @@
 </layer>
 
 
-;!Raffke_jr - TODO: Fit to new templates
-<TEMPLATE sld_lb5d bmp="btn_lb_5e.bmp#3">
-
 ; New Layer for speedcam category settings
 <layer ui_SettingSpeedCamCategory z=35>
 	<SPRITE     xxx                  template=spr_st1a       x=3   y=19 z=0>

@@ -200,7 +200,7 @@
 		                                            else_runif nusermode 1 sc_BasicMode
 		                                            else_run sc_UserModeSelectMessage'
 ;!TB - "Smart" start state - Main Menu or Map
-		else_runif vTmp 1 'STATE st_NavigateMap'
+		else_runif vTmp 1 'run sc_GoToStartState, 1 NEXTSTATE st_NavigateMap'
 		else_run 'run sc_GoToStartState'
 
 		; does this ever run at all?

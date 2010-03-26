@@ -1,0 +1,11 @@
+sizex=100
+sizey=100
+center_x=50
+center_y=50
+tilt=100
+
+[polygona]
+color=10, 160, 0
+p= -4, 34
+p=  0, 42
+p=  4, 34

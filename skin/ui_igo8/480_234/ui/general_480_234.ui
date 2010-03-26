@@ -99,6 +99,10 @@
 	<BUTTON xxx     template=dialog3_2 text="Cancel"  FONTTYPE=bw clicked_dy=1 clicked_coloring=1 onrelease='run sc_CancelShutdown' rawkey=13> 
 </layer>
 
+;!Matze - additional dimming in night mode
+<layer ui_NavigateMapnight z=300000 onshow='run sc_hsr_colorFilter_change' visiblemodel="ui.bUseColorFilter&screen.nightmode">
+	<SPRITE spr_color_filter                   bmp="nightglass.bmp">
+</layer>
 
 ;****************************************************************************************************************
 

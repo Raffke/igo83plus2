@@ -73,12 +73,25 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 		     runif vMapSettingsActPage 0 'ui_SettingVisual.SHOW, ui_SettingsVisualAdvanced.HIDE, ui_SettingsVisualAdvanced2.HIDE'
 		else_runif vMapSettingsActPage 1 'ui_SettingVisual.HIDE, ui_SettingsVisualAdvanced.SHOW, ui_SettingsVisualAdvanced2.HIDE'
 		else_run                         'ui_SettingVisual.HIDE, ui_SettingsVisualAdvanced.HIDE, ui_SettingsVisualAdvanced2.SHOW'
+
+;!Raffke_jr - added
+		run hsc_cockTrans_OnChange
 	</script>
 </state>
 
 <script sc_btnSV_Overview_OnRelease>
 	runif vMapNorthUpOnAutoZoom 1 'btnSV_OverviewEx.ENABLE'
 	else_run 'btnSV_OverviewEx.DISABLE'
+</script>
+
+;!Raffke_jr - New script for Cockpit transparency
+<script hsc_cockTrans_OnChange>
+;	1 spr_bgtest.alpha vCockpitAlpha
+	hsc_cockTrans.GET "vTmp"
+	runif vTmp 0 'txt_cockTrans.SET "Default"'
+	else_runif vTmp 1 'txt_cockTrans.SET "Transparent"'
+	else_runif vTmp 2 'txt_cockTrans.SET "Empty"'
+	else_run 'txt_cockTrans.SET "Semi transparent", spr_bgtest.alpha vTmp'
 </script>
 
 ;****************************************************************************************************************
@@ -404,9 +417,15 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 		GET_POSSIBLE_VALUES_ZOOM vLastZoomLevels 3 vZoomOverviewUnit
 		GET_POSSIBLE_VALUES_ZOOM vTmp 3
 		hscSVO_Dist.POSSIBLEVALUES vTmp
+;!Matze - added for overview distance settings
+		hscSVO_Dist_leave.POSSIBLEVALUES vTmp
 		GET_CORRESPONDING_ZOOM vNorthUpAutoZoomDistance vLastZoomLevels vTmp
+;!Matze - added for overview distance settings
+		GET_CORRESPONDING_ZOOM vNorthUpAutoZoomLeaveDistance vLastZoomLevels vTmp
 		hscSVO_Dist.VALUE vNorthUpAutoZoomDistance
 
+;!Matze - added for overview distance settings
+		hscSVO_Dist_leave.VALUE vNorthUpAutoZoomLeaveDistance
 		GET_POSSIBLE_VALUES_ZOOM vLastZoomLevels 2 vZoomOverviewUnit
 		GET_POSSIBLE_VALUES_ZOOM vTmp 2
 		hscSVO_Level.POSSIBLEVALUES vTmp
@@ -414,18 +433,78 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 		hscSVO_Level.VALUE vNorthUpAutoZoomValue
 
 		vZoomOverviewUnit.SET bUnitType
+
+;!Matze - add for overview speed settings
+		run sc_hscSVO_Dist_leave_OnChange
+
+		GET_POSSIBLE_VALUES_SPEED vTmp
+		SPEEDUNIT_TO_USER_SETTINGS vMinOverviewSpeed vTmp
+
+		hscSSD_MinOVSpd.VALUE vTmp
+
+		SETFORMATTED_UNIT_TEXT txtSSD_MinOVSpdUnit "km/h"
+
+		GET_POSSIBLE_VALUES_SPEED vTmp
+		SPEEDUNIT_TO_USER_SETTINGS vMaxOverviewSpeed vTmp
+
+		hscSSD_MaxOVSpd.VALUE vTmp
+
+		SETFORMATTED_UNIT_TEXT txtSSD_MaxOVSpdUnit "km/h"	
 	</script>
 </state>
 
 <script sc_hscSVO_Dist_OnChange>
 	hscSVO_Dist.get "vNorthUpAutoZoomDistance"
 	DISTUNIT_TO_FORMATTEDSTR vNorthUpAutoZoomDistance txtSVO_Dist
+
+;!Matze - added for overview distance settings
+	runif vNorthUpAutoZoomDistance < vNorthUpAutoZoomLeaveDistance 'hscSVO_Dist_leave.SET vNorthUpAutoZoomDistance'
 </script>
+
+
+;!Matze - added script for overview distance settings
+<script sc_hscSVO_Dist_leave_OnChange>
+	hscSVO_Dist_leave.get "vNorthUpAutoZoomLeaveDistance"
+	DISTUNIT_TO_FORMATTEDSTR vNorthUpAutoZoomLeaveDistance txtSVO_Dist_leave
+	runif vNorthUpAutoZoomDistance < vNorthUpAutoZoomLeaveDistance 'hscSVO_Dist.SET vNorthUpAutoZoomLeaveDistance'
+</script>
+
 
 <script sc_hscSVO_Level_OnChange>
 	hscSVO_Level.get "vNorthUpAutoZoomValue"
 	DISTUNIT_TO_FORMATTEDSTR vNorthUpAutoZoomValue txtSVO_Level
 </script>
+
+
+;!Matze - added scripts for overview speed settings
+<script sc_hscSSD_MinOVSpd_OnChange>
+	hscSSD_MinOVSpd.GET "vTmp"
+	txtSSD_MinOVSpdValue.SET vTmp
+	SPEEDUNIT_FROM_USER_SETTINGS vTmp
+	vMinOverviewSpeed.SET vTmp
+	runif vMinOverviewSpeed > vMaxOverviewSpeed 'hscSSD_MaxOVSpd.SET vMinOverviewSpeed'
+</script>
+<script sc_hscSSD_MaxOVSpd_OnChange>
+	hscSSD_MaxOVSpd.GET "vTmp"
+	txtSSD_MaxOVSpdValue.SET vTmp
+	SPEEDUNIT_FROM_USER_SETTINGS vTmp
+    	vMaxOverviewSpeed.SET vTmp
+	runif vMinOverviewSpeed > vMaxOverviewSpeed 'hscSSD_MinOVSpd.SET vMaxOverviewSpeed'
+</script>
+;****************************************************************************************************************
+
+;!Matze - add state for pop-up info settings
+<state st_SettingPopUpInfo>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_SettingPopUpInfo/>
+
+	<script init>
+		Title.SET "Pop-Up Info Settings"
+	</script>
+</state>
 
 ;****************************************************************************************************************
 ; Sound *********************************************************************************************************
@@ -439,12 +518,23 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 	<uselayer ui_SettingSound/>
 
 	<script init>
-	Title.SET "Sound settings"
-		runif nDynamicVolumeType 0 'btnSS_DynAdv.DISABLE'
-		else_run 'btnSS_DynAdv.ENABLE'
+		Title.SET "Sound settings"
+;!Matze - commented out
+;		runif nDynamicVolumeType 0 'btnSS_DynAdv.DISABLE'
+;		else_run 'btnSS_DynAdv.ENABLE'
 		nDynamicVolumeType.onchange "sc_DynamicVolumeTypeChanged"
+;!Matze - added
+		run sc_CheckWarningVolume
 	</script>
 </state>
+
+;!Matze - added
+<script sc_CheckWarningVolume>
+	runif %sound.os_muted 1 'txt_WarningVolume.disable, spr_WarningVolume.disable, hsc_WarningVolume.disable'
+	else_run  'txt_WarningVolume.enabledmodel "ui.vSpeedcamSoundType!=0&warning.speedcam_warning&warning.speedcams_allowed|ui.vTMCVoiceWarning!=0",
+	           spr_WarningVolume.enabledmodel "ui.vSpeedcamSoundType!=0&warning.speedcam_warning&warning.speedcams_allowed|ui.vTMCVoiceWarning!=0",
+	           hsc_WarningVolume.enabledmodel "ui.vSpeedcamSoundType!=0&warning.speedcam_warning&warning.speedcams_allowed|ui.vTMCVoiceWarning!=0"'
+</script>
 
 ;****************************************************************************************************************
 
@@ -552,8 +642,9 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 <script sc_DynamicVolumeTypeChanged>
 	playsound "!button"
 	
-	runif nDynamicVolumeType 0 'btnSS_DynAdv.DISABLE'
-	else_run 'btnSS_DynAdv.ENABLE'
+;!Matze - commented out
+;	runif nDynamicVolumeType 0 'btnSS_DynAdv.DISABLE'
+;	else_run 'btnSS_DynAdv.ENABLE'
 	
 	runif nDynamicVolumeType 1 'EXEC "sound.dynamic_volume_autocalc_maxvoicespeed", vTmp.VALUEMODEL "sound.dynamic_volume_os_volume_max", vTmp.SET 255, vTmp.DROPMODEL, vTmp.VALUEMODEL "sound.dynamic_volume_voice_volume_max", vTmp.SET 63, vTmp.DROPMODEL'
 </script>
@@ -995,6 +1086,9 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 
 		runif %other.device.ispda 1 'sld_pwrMgmt.value "Keep backlight ON|0|Smart powersave|1|No power management|2"'
 		else_run 'sld_pwrMgmt.value "Keep backlight ON|0|Smart powersave|1"'
+
+;!Matze - added
+		run hscSPM_Time_OnChange
 	</script>
 </state>
 
@@ -1138,27 +1232,17 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 	; update warning.speedlimit_warning_visual
 	runif vSpeedLimitVisual 0 '.warning.speedlimit_warning_visual 0'
 	else_run '.warning.speedlimit_warning_visual 1'
-
-;!Raffke_jr - changed order to set visiblemodel for Speedcam
-	; now verify is there is a valid speed camera
-	runif %warning.speedcam_visualtype 0 'vTmp.set 0'
-	else_run 'vTmp.set %navigation.curr_speedcam.category.valid'
-	bSpeedcamWarningVisible.set vTmp
-;!Raffke_jr - minimize visiblemodel for secondary distance
-	runif vFullScreenCockpit 1 'bShowSecondaryDistance.set 0'
-	else_runif bTMCAnnouncementVisible 1 'bShowSecondaryDistance.set 0'
-	else_runif bSpeedcamWarningVisible 1 'bShowSecondaryDistance.set 0'
-	else_run 'bShowSecondaryDistance.set 1'
-
 	; now update bSpeedLimitVisible based on the valid speed limit
 	runif %navigation.near_speed_limit 1 'vTmp.set 1'
 	else_runif vSpeedLimitVisual 2 'vTmp.set %navigation.current_speed_limit.valid'
 	else_run 'vTmp.set 0'
-	runif vTmp 1 'bSpeedLimitVisible.set 1'
-	else_run 'bSpeedLimitVisible.set bSpeedcamWarningVisible'
-;!Raffke_jr - term is obsolete now
-;	runif vTmp 1 'bSpeedLimitVisible.set 1, term sc_SpeedLimitVisualChanged'
-;	bSpeedLimitVisible.set bSpeedcamWarningVisible
+	runif vTmp 1 'bSpeedLimitVisible.set 1, term sc_SpeedLimitVisualChanged'
+
+;!Raffke_jr - moved Speedcam Warning layer, so remove this part
+	; now verify is there is a valid speed camera
+;	runif %warning.speedcam_visualtype 0 'vTmp.set 0'
+;	else_run 'vTmp.set %navigation.curr_speedcam.category.valid'
+;	bSpeedLimitVisible.set vTmp
 </script>
 
 ;****************************************************************************************************************

@@ -26,38 +26,32 @@
 	<BUTTON	btnSCT_Type5  template=btntext   x=400  y=225  z=0   bmp="speedcamcell_bg.bmp#2" iconspr="kamerak.spr" iconphase=4 iconalign="CENTER" iconvalign="CENTER-6" onrelease='run sc_btnSCT_Type_OnClick 4'>
 </layer>
 
-;!TB - Layer splitted
 <layer ui_SpeedCamWarningLayer z=5000 visiblemodel="navigation.curr_speedcam.category.valid&warning.speedcam_visualtype!=0&!ui.vOnFlyover">
-;!Raffke_jr - removed for transparent Cockpit style
+;!Raffke_jr - replaced background for Speedcam Warning on map (thx Webpiratz), moved right by 164 and down by 30, removed visiblemodel
 ;	<SPRITE xxx x=0  y=144  z=0 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol">
+	<SPRITE xxx x=164 y=174 z=0 bmp="wp_warn_sc.bmp">
 
-;!TB - fullscreen cockpit
-;!Raffke_jr - TODO: remove for transparent Cockpit style?
-	<SPRITE xxx x=0  y=144 z=0 bmp="cock_infobg2full.bmp" visiblemodel="ui.vFullScreenCockpit&!ui.v3dzoomcontrol">
+;!Raffke_jr - replaced "$speed_cams.spr" by transparent version, moved right by 230 and down by 18
+	<SPRITE sprSCW_CamType       x=260 y=188 z=1  phasemodel="navigation.curr_speedcam.category" bmp="speed_cams_big.spr">
+;!Raffke_jr - repositioned to fit "$speed_cams_big.spr"
+	<SPRITE sprSCW_CamEnterExit  x=248 y=228 z=2  phasemodel="navigation.curr_speedcam.enterexit" bmp="speed_cam_enterexit.spr">
 
-;!Raffke_jr - replaced "$speed_cams.spr" by transparent version
-	<SPRITE sprSCW_CamType       x=30 y=170 z=1  phasemodel="navigation.curr_speedcam.category" bmp="speed_cams_transp.spr">
-	<SPRITE sprSCW_CamEnterExit  x=30 y=170 z=2  phasemodel="navigation.curr_speedcam.enterexit" bmp="speed_cam_enterexit.spr">
+;!Raffke_jr - moved right by 17 and up by 172
+	<SPRITE xxx x=180  y=188 z=50 bmp="speed_cam_speedlimit.bmp">
+	<TEXT   xxx x=192  y=188 w=56 h=80 z=51 textmodel_wstr="navigation.curr_speedcam.speed_limit.number_text" visiblemodel="navigation.curr_speedcam.speed_limit.valid"  align="CENTER" fontsize=36 font="tahomabd" color=#000000>
+	<TEXT   xxx x=192  y=188 w=56 h=80 z=51 text="!"                                                          visiblemodel="!navigation.curr_speedcam.speed_limit.valid" align="CENTER" fontsize=36 font="tahomabd" color=#000000>
 
-;!TB - Layer splitted - commented out
-;	<SPRITE xxx x=163  y=360 z=50 bmp="speed_cam_speedlimit.bmp">
-;	<TEXT   xxx x=175  y=368 w=54 h=60 z=51 textmodel_wstr="navigation.curr_speedcam.speed_limit.number_text" visiblemodel="navigation.curr_speedcam.speed_limit.valid"  align="CENTER" fontsize=28 font="tahomabd" color=#000000>
-;	<TEXT   xxx x=175  y=368 w=54 h=60 z=51 text="!"                                                          visiblemodel="!navigation.curr_speedcam.speed_limit.valid" align="CENTER" fontsize=28 font="tahomabd" color=#000000>
+;!Raffke_jr - moved down all text by 258
+	<TEXT    txtSCW_AvgSpeed     template=txt_sec  y=270  textmodel_wstr="navigation.curr_speedcam.avg_speed.number_text" visiblemodel="navigation.curr_speedcam.avg_speed.valid" >
+	<TEXT    txtSCW_AvgSpeedUnit template=txt_sec  y=270  textmodel_wstr="navigation.curr_speedcam.avg_speed.unit_text"   visiblemodel="navigation.curr_speedcam.avg_speed.valid" >
+;!Raffke_jr - increased width by 20 and moved right to match Distance
+	<ALIGNER xxx                 x=202 w=136 align="CENTER" control=txtSCW_AvgSpeed padding=10 control=txtSCW_AvgSpeedUnit>
+	<TEXT    txtSCW_Distance     template=txt_sec  y=270  textmodel_wstr="navigation.curr_speedcam.distance.number_text"  visiblemodel="navigation.curr_speedcam.distance.valid">
+	<TEXT    txtSCW_DistanceUnit template=txt_sec  y=270  textmodel_wstr="navigation.curr_speedcam.distance.unit_text"    visiblemodel="navigation.curr_speedcam.distance.valid">
+;!Raffke_jr - moved right by 207
+	<ALIGNER xxx                 x=212 w=96 align="CENTER" control=txtSCW_Distance padding=10 control=txtSCW_DistanceUnit>
 
-	<TEXT    txtSCW_AvgSpeed     template=txt_sec textmodel_wstr="navigation.curr_speedcam.avg_speed.number_text" visiblemodel="navigation.curr_speedcam.avg_speed.valid" >
-	<TEXT    txtSCW_AvgSpeedUnit template=txt_sec textmodel_wstr="navigation.curr_speedcam.avg_speed.unit_text"   visiblemodel="navigation.curr_speedcam.avg_speed.valid" >
-	<ALIGNER xxx                 x=5 w=105 align="CENTER" control=txtSCW_AvgSpeed padding=10 control=txtSCW_AvgSpeedUnit>
-
-	<TEXT    txtSCW_Distance     template=txt_sec textmodel_wstr="navigation.curr_speedcam.distance.number_text"  visiblemodel="navigation.curr_speedcam.distance.valid">
-	<TEXT    txtSCW_DistanceUnit template=txt_sec textmodel_wstr="navigation.curr_speedcam.distance.unit_text"    visiblemodel="navigation.curr_speedcam.distance.valid">
-	<ALIGNER xxx                 x=5 w=105 align="CENTER" control=txtSCW_Distance padding=10 control=txtSCW_DistanceUnit>
-
-	<SPRITE xxx x=0  y=144  z=100 bmp="cock_infobg2.bmp" alpha=0 onrelease='run sc_ToggleSpeedcamSound'>
-</layer>
-
-;!TB - Layer splitted
-<layer ui_SpeedCamWarningLayer2 z=5000 visiblemodel="navigation.curr_speedcam.category.valid&warning.speedcam_visualtype!=0&!ui.vOnFlyover">
-	<SPRITE xxx x=163  y=360 z=50 bmp="speed_cam_speedlimit.bmp">
-	<TEXT   xxx x=175  y=368 w=54 h=60 z=51 textmodel_wstr="navigation.curr_speedcam.speed_limit.number_text" visiblemodel="navigation.curr_speedcam.speed_limit.valid"  align="CENTER" fontsize=28 font="tahomabd" color=#000000>
-	<TEXT   xxx x=175  y=368 w=54 h=60 z=51 text="!"                                                          visiblemodel="!navigation.curr_speedcam.speed_limit.valid" align="CENTER" fontsize=28 font="tahomabd" color=#000000>
+;!Raffke_jr - replaced background for Speedcam Warning on map (thx Webpiratz), moved right by 164 and down by 30, removed visiblemodel
+;	<SPRITE xxx x=0  y=144  z=100 bmp="cock_infobg2.bmp" alpha=0 onrelease='run sc_ToggleSpeedcamSound'>
+	<SPRITE xxx x=164 y=174 z=0 bmp="wp_warn_sc.bmp" alpha=0 onrelease='run sc_ToggleSpeedcamSound'>
 </layer>

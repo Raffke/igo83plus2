@@ -2,16 +2,10 @@ sizex=50
 sizey=50
 center_x=25
 center_y=25
+tilt=100
 
 [polygona]
-color=255, 0, 0
-p= -9,  0
-p=  0, 18
-p= 9,  0
-
-
-[polygonb]
-color=255,255, 255
-p=  -9,  0
-p=  0, -18
-p=  9,0
+color=220, 0, 0
+p= -4, -3
+p=  0, 8
+p=  4, -3

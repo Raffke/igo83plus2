@@ -23,13 +23,13 @@
 	<TEXT txtRI_TimeLeft    template=xtxt3 x=61  y=331 w=160  font="tahomabd" color=#FFFFFF align="RIGHT">
 	<TEXT txtRI_Arrive      template=xtxt3 x=61  y=224 w=160  font="tahomabd" color=#FFFFFF align="RIGHT">
 	<TEXT txtRI_Method      template=xtxt3 x=255  y=331 w=160  font="tahomabd" color=#FFFFFF align="RIGHT">
-;!Raffke_jr - new invisible button, MultiplanDest on Longclick
-	<BUTTON btn_RI_Method x=255 y=280 z=100 alpha=0 text="" bmp="btn_route_method.bmp" onRelease='run sc_btn_RI_Method_OnRelease' onlongclick='run btnPMP_MultiplanDest_OnRelease' visiblemodel="!ui.vOnFlyover">
+;!Raffke_jr - new invisible button
+	<BUTTON btn_RI_Method x=255 y=280 z=100 alpha=0 text="" bmp="btn_route_method.bmp" onRelease='run sc_btn_RI_Method_OnRelease' visiblemodel="!ui.vOnFlyover">
 	<TEXT txtRI_Stops hide>
 
-;!Raffke_jr - replaced "Settings" by "Edit Route"
+;!Matze - replaced "Settings" by new button for multiroute
 ;	<BUTTON btnRI_Settings  template=footer3_1a text="Settings"  onrelease='NEXTSTATE st_SettingRoute' visiblemodel="!ui.nUserMode">
-	<BUTTON btnRI_EditRoute template=footer3_1a text="Edit Route" onrelease='NEXTSTATE st_RouteEdit' visiblemodel="!ui.nUserMode">
+	<BUTTON btnRI_MultiplanDest   template=footer3_1a text="Routing Methods"  onrelease='saved_RouteCorrectness.set %route.correctness, ui_MultiplanRoute_MessageBox.show' visiblemodel="!ui.nUserMode">
 
 	<BUTTON btnRI_Fit       template=footer3_2a text="Plan Mode"  onrelease='run sc_StartPlanMode'  visiblemodel="!ui.nUserMode"> 
 
@@ -38,8 +38,6 @@
 ;	<BUTTON btn_RI_DelRoute       template=footer3_3a text="Delete route"    onrelease='vNeedPrevState.set 1, run sc_btnARM_Delete_OnRelease' visiblemodel="!ui.nUserMode"> 
 	<BUTTON btnRI_RouteMenu       template=footer3_3a text="Route Menu"      onrelease='CLEARTOSTATE st_AdvRouteMenu, NEXTSTATE st_AdvRouteMenu' visiblemodel="!ui.nUserMode">
 
-;!TB - Added Recalc button
-;	<BUTTON btn_RI_Recalc   template=footer4_3a text="Recalc"  onrelease='FINDPATH_RECALC, run sc_RefreshRouteInfo, runif vPlanModeOn 1 sc_FitToScreen_PlanMode'  visiblemodel="!ui.nUserMode">
 	<BUTTON btnRI_Settings_basic  template=footer2_1a text="Settings"  onrelease='NEXTSTATE st_SettingRoute' visiblemodel="ui.nUserMode">
 
 	<BUTTON btn_RI_SkipNextVia_basic   template=footer2_2a text="Skip next via"   onrelease='SKIPNEXTVIAPOINT, run sc_RefreshRouteInfo'  visiblemodel="ui.nUserMode"> 
@@ -151,3 +149,15 @@
 	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstMDR_RoutesLoad.page_counter">
 </layer>
 
+;!Matze - added for multiplan messagebox
+<layer ui_MultiplanRoute_MessageBox z=100003  modal>
+	<SPRITE sprMPR_Dialog	 x=0   y=0	 z=5	bmp="dialog_2_bg.bmp" >
+	<SPRITE sprMPR_Icon	 x=137  y=180  z=10	bmp="dialog_qm.bmp">
+	<SPRITE spr_MPR_bg	 x=0 y=0 z=1		bmp="default.bmp">	
+
+	<TEXT   txtMPR_Msg      x=217  y=70  z=31  w=480 h=200 text="Calculation method for route options" valign="CENTER" align="LEFT" FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=32 wordwrap=3>
+
+	<BUTTON btnMPR_Fast    template=dialog3_1    text="Fast"   onrelease='.route.correctness 30, run btnPMP_MultiplanRoute_OnRelease, ui_MultiplanRoute_MessageBox.hide'> 
+	<BUTTON btnMPR_Default  template=dialog3_2    text="Default" onrelease='run btnPMP_MultiplanRoute_OnRelease, ui_MultiplanRoute_MessageBox.hide'>
+	<BUTTON btnMPR_Correct   template=dialog3_3    text="Correct"  onrelease='.route.correctness 100, run btnPMP_MultiplanRoute_OnRelease, ui_MultiplanRoute_MessageBox.hide'>
+</layer>
