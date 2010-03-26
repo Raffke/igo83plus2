@@ -4,12 +4,29 @@
 	<var vNeedTmcRecalc>
 ;!Raffke_jr - removed multiple TMC announcements
 	<var vTMCAudioAnnounceNeeded=1>
+;!Matze - TMC announcement auto update
+	<var vTMCAutoUpdateNeeded=1>
+
 </header>
 
+;!Raffke_jr - TODO: how to use the following:
+;
+;   ignore_all_announced, event_count, event_available, detour, detour_current, select_by_id, set_alternative_avoid, selected_for_alt_avoid, check_selected_alternative_avoid, icon_set, has_alternative_route, alternative_route_visible, check_for_event_to_ask, set_offered_for_all_announced
+;   
+
+;!Matze - script changed
 <script sc_TmcUpdateCockpitStatus>
 	runif vTmcShowOnRoute 0 'run sc_TmcUpdateCockpitStatus_AllEvents'
-	else_run 'run sc_TmcUpdateCockpitStatus_EventsOnRoute'
+;	else_run 'run sc_TmcUpdateCockpitStatus_EventsOnRoute'
+	else_run 'run sc_TmcUpdateCockpitStatus_CheckRoute'
 </script>
+
+;!Matze - script added
+<script sc_TmcUpdateCockpitStatus_CheckRoute>
+	runif %navigation.has_route 1 'run sc_TmcUpdateCockpitStatus_EventsOnRoute'
+	else_run 'run sc_TmcUpdateCockpitStatus_AllEvents'
+</script>
+
 
 <script sc_TmcUpdateCockpitStatus_AllEvents>
 	runifnot %tmc.has_event_on_route 0 'vTmcCockpitStatus.set 3' 
@@ -31,6 +48,23 @@
 <script sc_TmcUpdateCockpitStatus_EventsOnRoute_Check>
 	runifnot %tmc.has_event_on_route 0 'vTmcCockpitStatus.set 3'
 </script>
+
+;!Raffke_jr - new observer to update TMC State display
+<script sc_UpdateChangedTMCState>
+	vTmp.TEXTMODEL_WSTR "tmc.state"
+	vTmp.DROPMODEL
+	runif vTmp L"Testing.." ''
+	else_runif vTmp L"No TMC" ''
+; gray signal strength bar
+	else_runif vTmp L"TMC present" ''
+; green signal strength bar
+	else_runif vTmp L"CA-TMC (No key)" ''
+; red signal strength bar
+	else_runif vTmp L"CA-TMC (Code OK)" ''
+; blue? signal strength bar and/or additional TMCpro icon
+</script>
+;!Raffke_jr - TODO: disabled for now...
+;<observer obs_tmcstatechanged model="tmc.state" onchange='run sc_UpdateChangedTMCState' start>
 
 <observer xxx model="tmc.present" onchange='run sc_TmcUpdateCockpitStatus' start>
 <observer xxx model="tmc.station_tuned" onchange='run sc_TmcUpdateCockpitStatus' start>
@@ -65,9 +99,17 @@
 	</script>
 </state>
 
+;!Matze - script changed
 <script sc_TMC_ListElementChanged>
 	runif vTmcShowOnRoute 0 '.tmc.events.filter_offroute 0'
-	else_run '.tmc.events.filter_offroute 1'
+;	else_run '.tmc.events.filter_offroute 1' 
+	else_run 'run sc_TMC_ListElementChanged_CheckRoute'
+</script>
+
+;!Matze - script added
+<script sc_TMC_ListElementChanged_CheckRoute>	
+	runif %navigation.has_route 1 '.tmc.events.filter_offroute 1'
+	else_run '.tmc.events.filter_offroute 0'
 </script>
 
 ;==============================
@@ -95,6 +137,8 @@
 
 	<script init>
 	title.set "TMC Settings"
+;!Matze - new script
+	run sc_check_warning
 	</script>
 </state>
 
@@ -103,6 +147,15 @@
 ;	vtmp.valuemodel "tmc.denied_stations_list.isempty"
 ;	runif vtmp 1 'prevstate'
 ;	vtmp.dropmodel
+</script>
+
+;!Matze - new script
+<script sc_check_warning>
+; (only uncommented to implement "cycling" later)
+;	runif vTmcReplanMode "AUTO"  'sld_tmc_voicewarn.enable, txt_tmc_voicewarn.enable, sld_tmc_VisualWarn.disable, txt_tmc_VisualWarn.disable'
+;	else_run 'sld_tmc_voicewarn.enable, txt_tmc_voicewarn.enable, sld_tmc_VisualWarn.enable, txt_tmc_VisualWarn.enable'
+	runif vTmcReplanMode "AUTO"  'sld_tmc_voicewarn.enable, txt_tmc_voicewarn.enable, chk_VisualWarning.disable'
+	else_run 'sld_tmc_voicewarn.enable, txt_tmc_voicewarn.enable, chk_VisualWarning.enable'
 </script>
 
 ;==============================
@@ -167,14 +220,6 @@
 ; TMC announcement (not used)
 <script sc_TMC_Announce>
 	ui_TmcAnnounce.hide
-
-;!Raffke_jr - visiblemodel for TMC announcements
-	bTMCAnnouncementVisible.set 0
-;!Raffke_jr - minimize visiblemodel for secondary distance
-	runif vFullScreenCockpit 1 'bShowSecondaryDistance.set 0'
-	else_runif bSpeedcamWarningVisible 1 'bShowSecondaryDistance.set 0'
-	else_run 'bShowSecondaryDistance.set 1'
-
 	termif %tmc.events.announced_events.isempty 1
 	termif %tmc.ignore_all_events 1
 
@@ -182,53 +227,74 @@
 ;!TB - voice announcement
 ;	runifnot vTmcReplanMode "ASK" 'runif vActiveState "st_navigatemap" sc_TMC_Audio_Announce'
 
-	termifnot vTmcReplanMode "ASK"
-	runif vActiveState "st_navigatemap" 'term sc_TMC_Announce_Init, 1 run sc_TMC_Announce_Init'
-</script>
-
-;!Raffke_jr - removed multiple TMC announcements
-<script sc_TMC_Audio_Announce_Timered>
-	vTMCAudioAnnounceNeeded.set 0
-	3000 vTMCAudioAnnounceNeeded.set 1
+;	termifnot vTmcReplanMode "ASK"
+;!Matze - script changed
+	runif vTmcReplanMode "AUTO" 'runif vActiveState "st_navigatemap" sc_TMC_Audio_Announce_Start'
+	else_runif vActiveState "st_navigatemap" 'term sc_TMC_Announce_Show, 1 run sc_TMC_Announce_Init'
 </script>
 
 ;!TB - voice announcement
-<script sc_TMC_Audio_Announce>
-;!Raffke_jr - removed multiple TMC announcements
-	termifnot vTMCAudioAnnounceNeeded 1
-	term sc_TMC_Audio_Announce_Timered
-
-	runif vTMCVoiceWarning 1 '.sound.announcer.traffic_jam_ahead'
+<script sc_TMC_Audio_Announce_Start>
+;!Matze - removed multiple TMC announcements
+	termif vTMCAudioAnnounceNeeded 0
+	termif vTMCVoiceWarning 0
+	run sc_TMC_Audio_Announce
+	vTMCAudioAnnounceNeeded.set 0
 </script>
 
-<observer tmc_announce_obs boolmodel="tmc.events.announced_events.isempty" onselect='run sc_TMC_Announce'>
+<observer tmc_announce_obs boolmodel="tmc.events.announced_events.isempty" onchange='vTMCAudioAnnounceNeeded.set 1, 1 run sc_TMC_Announce'>
 
 <script sc_TMC_Announce_Init>
 ;!Raffke_jr - removed multiple TMC announcements (moved to top instead of after showing layer)
 ;!TB - voice announcement
 ;	run sc_TMC_Audio_Announce
-	runif bTMCAnnouncementVisible 0 sc_TMC_Audio_Announce
+;!Matze - added
+	runifnot vTMCVoiceWarning 0 sc_TMC_Audio_Announce_Start
+	runifnot vTMCVisualWarning 0 sc_TMC_Announce_Show	
+</script>
 
-;!Raffke_jr - visiblemodel for TMC
-	bTMCAnnouncementVisible.set 1
-;!Raffke_jr - minimize visiblemodel for secondary distance
-	bShowSecondaryDistance.set 0
 
+;****************************************************************************
+;!Matze - added new script
+<script sc_TMC_Announce_Show>
+	runif vTMCAutoUpdateNeeded 1 sc_TMC_Auto_Update_Timered
+
+;!Raffke_jr - changed back to single layer
 	ui_TmcAnnounce.show
 
 	500 run sc_TMC_Announce_Done
 </script>
 
+<script sc_TMC_Auto_Update_Timered>
+	vTMCAutoUpdateNeeded.set 0
+;	vTMCAudioAnnounceNeeded.set 0
+	15000 vTMCAutoUpdateNeeded.set 1
+	EXEC "tmc.events.refresh"
+</script>
+
+<script sc_TMC_Audio_Announce>
+	run sc_SetSpeedcamSoundVolume
+
+	5 runif vTMCVoiceWarning 1 'PLAYSOUND "!traffic_jam_ahead"'
+	else_run '.sound.announcer.traffic_jam_ahead'
+
+	run sc_SoundVolumeRestore
+</script>
+
+<script sc_TMC_Audio_Announce_Test>
+	termif vTMCVoiceWarning 0
+	run sc_SetSpeedcamSoundVolume
+
+	5 runif vTMCVoiceWarning 1 'PLAYSOUND "!traffic_jam_ahead"'
+	else_run '.sound.announcer.traffic_jam_ahead'
+
+	run sc_SoundVolumeRestore
+</script>
+;****************************************************************************
+
+
 <script sc_TMC_Announce_Done>
 	ui_TmcAnnounce.hide
-
-;!Raffke_jr - visiblemodel for TMC
-	bTMCAnnouncementVisible.set 0
-;!Raffke_jr - minimize visiblemodel for secondary distance
-	runif vFullScreenCockpit 1 'bShowSecondaryDistance.set 0'
-	else_runif bSpeedcamWarningVisible 1 'bShowSecondaryDistance.set 0'
-	else_run 'bShowSecondaryDistance.set 1'
-
 	run sc_TMC_Announce
 </script>
 
@@ -290,6 +356,11 @@
 
 <script sc_TmcAnnounceClicked>
 	vTmp.set %int:tmc.events.announced_events.current.record_id
+;	tmc.events.select_by_id vTmp
+
+;!Raffke_jr - show all events on route when called from announcement
+	runifnot %tmc.events.filter_offroute 1 '.tmc.events.filter_offroute 1'
+
 	tmc.events.select_by_id vTmp
 	vTMCMapFromAnnounce.set 1
 	nextstate st_TMCMap
@@ -434,6 +505,10 @@
 		run sc_FullScreenMap
 		map.mapmode 1
 
+;!Raffke_jr - TODO: added recalc progress
+; -removes normal progress on map-		map.PROGRESS_CONTROL txt_TMC_route_planning_progress
+
+
 		vMapSettings2d3d.set "2D"
 		map.VIEW2D3D vMapSettings2d3d
 		map.EnableMoveCursorByClick 0
@@ -445,6 +520,8 @@
 	</script>
 	
 	<script done>
+;!Raffke_jr - now restore .tmc.events.filter_offroute when called from announcement
+		runif vTMCMapFromAnnounce 1 'run sc_TmcUpdateCockpitStatus'
 		.tmc.events.auto_update 0
 		map.EnableMoveCursorByClick 1
 		map.SETCARPOSITION 0 0

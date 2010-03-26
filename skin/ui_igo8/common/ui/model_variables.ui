@@ -4,14 +4,14 @@
 	<var vNorthUpAutoZoomDistance>
 	<var nBuildingDistance>
 	<var nTerrainDetail>
-	<var nDynamicVolumeType>
+;!Matze - changed to registermodel
+	<var nDynamicVolumeType registermodel>
 	<var sGeoCodingStatus>
 	<var vOnBattery>
 	<var vShutdownInProgress>
 
 ;!TB - new variables
-;!Raffke_jr - set bShowSecondaryDistance to 0 in FullScreenCockpit
-	<var vFullScreenCockpit=0 registermodel permanent onchange="sc_SpeedLimitVisualChanged">
+	<var vFullScreenCockpit=0 registermodel permanent>
 	<var vFullScreenDiricon=1 registermodel permanent>
 	<var vFullScreenActualStreet=1 registermodel permanent>
 	<var vFullScreenNextStreet=1 registermodel permanent>
@@ -29,12 +29,13 @@
 	<var vLaneInfoMode=100 registermodel permanent>
 	<var vMyDataActPage=0>
 	<var vMapSettingsActPage=0>
-	<var vMultiRouteActPage=0>
 	<var vAddFromMenuTitle>
 	<var vFindDoneScript=0>
 	<var vAddFromDoneScript=0 registermodel>
 	<var vNaviMenuAlphaDown=10>
 	<var vTMCVoiceWarning=1 registermodel permanent>
+;!Matze - new variable for TMC visual warning
+	<var vTMCVisualWarning=1 registermodel permanent>
 	<var vPanelOpen=0>
 	<var vBTCustom=0 registermodel>
 	<var vPhoneApp="">
@@ -45,10 +46,6 @@
 	<var vCockpitAlpha=0 registermodel permanent>
 	<var vShutdownTime=10 registermodel permanent>
 	<var bShowMinimize=-1 registermodel permanent>
-	<var bTMCAnnouncementVisible=0 registermodel>
-	<var bSpeedcamWarningVisible=0 registermodel>
-;!Raffke_jr - added to minimize visiblemodel (max 4 accepted?!)
-	<var bShowSecondaryDistance=1 registermodel>
 
 ;di/\/\ka
 	<var bShowCompassOnMap=0 registermodel permanent>
@@ -57,6 +54,27 @@
 ;!Raffke_jr - changed default from "Vertical" (1)  to  "Horizontal" (0)
 	<var bVertspedInfo=0 registermodel permanent>
 	<var bSpeedBGShow=1 registermodel permanent>
+
+;!Matze - new variable for MultiRoute/MultiDraw
+	<var vPlanModeFromMultiRoute=0>
+;!Matze - new variables for night color filter
+	<var bUseColorFilter=1 registermodel permanent>
+	<var vColorFilterValue=10  registermodel permanent> 
+;!Matze - new variables for advanced overview mode settings
+	<var vSaveOverviewMode=3>
+	<var vSaveOverviewMode1=0>
+	<var vSaveOverviewModeSpeed=0>
+ 	<var vMinOverviewSpeed=80 registermodel permanent>
+	<var vMaxOverviewSpeed=100 registermodel permanent>
+	<var vNorthUpAutoZoomLeaveDistance=2000 registermodel permanent>
+;!Matze - new variables for cockpit info pop-up layer
+	<var vPopUpShowPanel=1 registermodel permanent>
+	<var vPopUpShowMiniPoi=1 registermodel permanent>
+	<var vPopUpSearchRadius=500 permanent>
+;!Matze - new variables for laneinfo settings
+	<var vSignpostShow=1 registermodel permanent>
+	<var vLaneInfoShow=0 registermodel permanent>
+	<var vOverviewLaneInfo=1 registermodel permanent>
 </header>
 
 ;TB MR - Include advanced speedcam scripts
@@ -77,6 +95,10 @@ import "ui_igo8/common/ui/speedcam_advanced.ui"
 	vOverspeedAltType1.set vOverspeedType1
 	run sc_SpeedLimitVisualChanged
 
-;!TB MR - Advansed Speedcam Initialization
+;!TB MR - Advanced Speedcam Initialization
         run sc_AdvancedSpeedcamInit
+
+;!Matze - new variables initialization for cockpit info pop-up layer
+	run sc_PopUpShowPanel_OnChange
+	vPopUpShowPanel.OnChange "sc_PopUpShowPanel_OnChange"
 </script>

@@ -220,7 +220,8 @@ import "ui_igo8/800_480/ui/templates_advanced_800_480.ui"
 <TEMPLATE spr_empty    x=50  y=188  bmp="empty_textbox.bmp" >; amikor egy lista ures ez jelenik meg helyette
 
 <TEMPLATE txt_map      x=175 y=444 w=599 h=36  z=10           align="CENTER" valign="CENTER" fontsize=24 font="tahomabd" color=#FFFFFF color2=#000000 color3=#000000 glowsize=1>; actualstreet, housenumber, nextstreet (mas y-nal), stb
-<TEMPLATE txt_sec      y=230 z=1 h=30 valign="CENTER" fontsize=22 font="tahomabd" color=#FFFFFF >;secondary diriconon pl. a manover, speedcam tavolsag, ...
+;!Raffke_jr - added color2, color3, glowsize (no need to remove x/w/align) to enable ALIGNER compatibility
+<TEMPLATE txt_sec      y=230 z=1 h=30 valign="CENTER" fontsize=22 font="tahomabd" color=#FFFFFF color2=#000000 color3=#000000 glowsize=1>;secondary diriconon pl. a manover, speedcam tavolsag, ...
 
 <TEMPLATE help_text x=25 z=36 w=670 h=20000 fontsize=18 font="tahomabd" fonttype=xhtml_ft align="CENTER" orientation="L2R"  view_top=50 view_bottom=383 fontsize_percent=200>; az xhtml alapu szovegek, help, about, legal, stb
 

@@ -239,8 +239,8 @@ import "ui_igo8/400_240/ui/templates_advanced_400_240.ui"
 <TEMPLATE spr_empty    x=24  y=96  bmp="empty_textbox.bmp" >; amikor egy lista ures ez jelenik meg helyette
 
 <TEMPLATE txt_map      x=88  y=220 z=10 w=299 h=20 align="CENTER" valign="CENTER" fontsize=14 font="tahomabd" color=#FFFFFF color2=#000000 color3=#000000 glowsize=1>; actualstreet, housenumber, nextstreet (mas y-nal), stb
-;!Raffke_jr - added color2, color3, glowsize - changed x,y,w to 320x240 layout
-<TEMPLATE txt_sec      x=1   y=107       z=1 w=50 h=20   align="CENTER" valign="BOTTOM" fontsize=12 font="tahomabd" color=#FFFFFF color2=#000000 color3=#000000 glowsize=1>;secondary diriconon pl. a manover, speedcam tavolsag, ...
+;!Raffke_jr - added color2, color3, glowsize, removed x/w/align to enable ALIGNER compatibility
+<TEMPLATE txt_sec            y=107 z=1        h=20                valign="BOTTOM" fontsize=12 font="tahomabd" color=#FFFFFF color2=#000000 color3=#000000 glowsize=1>;secondary diriconon pl. a manover, speedcam tavolsag, ...
 
 <TEMPLATE help_text x=12 z=36 w=378 h=20000 fontsize=18 font="tahomabd" fonttype=xhtml_ft align="CENTER" orientation="L2R"  view_top=27 view_bottom=193>; az xhtml alapu szovegek, help, about, legal, stb
 

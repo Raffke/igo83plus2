@@ -1,5 +1,14 @@
 <TEMPLATE btn_plan       y=0 w=74 fonttype=bw  bmp="btn_plan_cursor.bmp#3" clicked_coloring=1 font="tahomabd" fontsize=8 valign="BOTTOM-9" align="CENTER"  iconvalign="TOP+2" iconalign="CENTER">
 
+;!Matze - added templates for multiroute
+<TEMPLATE btn_multiplan	y=0 w=90	bmp="btn_multiplan.bmp#3" glowtype=1 clicked_coloring=0 font="tahomabd" fontsize=9 valign="BOTTOM-5" align="CENTER">
+;!Raffke_jr - increased font size
+<TEMPLATE txtMRD	y=5 w=51	font="tahomabd" fontsize=10	color=#FFFFFF glowtype=1 glowsize=1 color2=#000000 align="CENTER">
+<TEMPLATE txtMRD1	y=5 w=37	font="tahoma" fontsize=10	color=#FFFFFF glowtype=1 glowsize=1 color2=#000000 align="CENTER">
+<TEMPLATE spr_multi2	x=21 z=100  w=363 h=23>
+<TEMPLATE chk_lb8a	x=176 w=95 z=10  bmp="$btn_lb_6d.bmp#2"  font="tahoma" color=#FFFFFF glowtype=1 glowsize=3 color2=#000000 valign="center" align="LEFT+10" fontsize=14 clicked_coloring=0>
+<TEMPLATE chk_lb8a_1	x=176 w=137 z=10  bmp="$btn_lb_6e.bmp#2"  font="tahoma" color=#FFFFFF glowtype=1 glowsize=3 color2=#000000  valign="center" align="center" fontsize=14 clicked_coloring=0>
+
 ;****************************************************************************************************************
 <header>
 	<var vBrowseMapZoomPosMin=35>
@@ -15,18 +24,20 @@
 
 ;!TB - 2x moved Info Text down by 35 points
 	<SPRITE xxx  bmp="blackstripe.bmp" x=0 y=214 z=0>
-;!Raffke_jr - moved right by 70 points to display Route Info
-	<TEXT xxx template=txt_map x=70 y=215 w=410 textmodel_wstr="map.cursorpos.posinfotext">
+;!Raffke_jr - moved right by 68 points to display Route Info
+;!Matze - changed y, added fontsize
+	<TEXT xxx template=txt_map x=68 y=214 w=344 fontsize=12 textmodel_wstr="map.cursorpos.posinfotext">
 </layer>
 
 <layer ui_PlanModeOpenCloseButtons z=50>
-	<BUTTON btnStartPoint    template=btn_plan x=2   text="Add Start" iconspr="ico_start_pl.bmp"    onrelease='run sc_btnPM_AddStart_OnRelease'>
-	<BUTTON btnRemStartPoint template=btn_plan x=2   text="Rem Start" iconspr="ico_remstart_pl.bmp" onrelease='run sc_btnPM_RemoveStart_OnRelease'>
-	<BUTTON btnAddViaPoint   template=btn_plan x=121 text="Add Via"   iconspr="ico_via_pl.bmp"      onrelease='run sc_btnPM_AddVia_OnRelease'>
-	<BUTTON btnRemViaPoint   template=btn_plan x=121 text="Rem Via"   iconspr="ico_remvia_pl.bmp"   onrelease='run sc_btnPM_RemoveVia_OnRelease'>
+;!Matze - changed x
+	<BUTTON btnStartPoint    template=btn_plan x=0   text="Add Start" iconspr="ico_start_pl.bmp"    onrelease='run sc_btnPM_AddStart_OnRelease'>
+	<BUTTON btnRemStartPoint template=btn_plan x=0   text="Rem Start" iconspr="ico_remstart_pl.bmp" onrelease='run sc_btnPM_RemoveStart_OnRelease'>
+	<BUTTON btnAddViaPoint   template=btn_plan x=120 text="Add Via"   iconspr="ico_via_pl.bmp"      onrelease='run sc_btnPM_AddVia_OnRelease'>
+	<BUTTON btnRemViaPoint   template=btn_plan x=120 text="Rem Via"   iconspr="ico_remvia_pl.bmp"   onrelease='run sc_btnPM_RemoveVia_OnRelease'>
 	<BUTTON btnDestPoint     template=btn_plan x=240 text="Add Dest"  iconspr="ico_dest_pl.bmp"     onrelease='run sc_btnPM_AddDest_OnRelease'>
 	<BUTTON btnRemDestPoint  template=btn_plan x=240 text="Rem Dest"  iconspr="ico_remdest_pl.bmp"  onrelease='run sc_btnPM_RemoveDest_OnRelease'>
-	<BUTTON btnContinue      template=btn_plan x=359 text="Continue " iconspr="ico_dest_pl.bmp"     onrelease='run sc_btnPM_Continue_OnRelease' >
+	<BUTTON btnContinue      template=btn_plan x=360 text="Continue " iconspr="ico_dest_pl.bmp"     onrelease='run sc_btnPM_Continue_OnRelease' >
 </layer>
 
 <layer ui_PlanModeControls2D z=60>
@@ -37,17 +48,90 @@
 	<BUTTON xxx  x=0 y=103 z=0 bmp="$map_zoomout_edge.bmp#2" text=""  align="center-3" valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1  onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0' > 
 
 ;!TB - Added Back button
-	<BUTTON xxx  x=0 y=167 z=0 bmp="$map_prevstate.bmp#2" text="" align="center-3" valign="Bottom-38" fontsize=9 font="tahoma" fonttype=bw clicked_coloring=1 sound="!back" onrelease='PREVSTATE' onlongclick='run sc_GoTo_MainMenu' rawkey=27>
+;!Matze - added 'run sc_MultirouteCheck1' and 'run sc_MultirouteCheck', changed y
+	<BUTTON xxx  x=0 y=166 z=0 bmp="$map_prevstate.bmp#2" text="" align="center-3" valign="Bottom-38" fontsize=9 font="tahoma" fonttype=bw clicked_coloring=1 sound="!back" onrelease='run sc_MultirouteCheck1' onlongclick='run sc_GoTo_MainMenu, run sc_MultirouteCheck' rawkey=27>
 
 ;!TB - Added Cursor, Center Cursor, Fit-to-Screen and Map buttons
 	<BUTTON btnPM_FitScreen x=434 y=30  w=40 z=0 bmp="$map_route_to_screen.bmp#3" text=""           font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5" onrelease='run sc_FitToScreen_PlanMode' enabledmodel="navigation.has_route">
-	<BUTTON xxx             x=434 y=73  w=40 z=0 bmp="$map_center_cursor.bmp#2"   text=""           font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5" onrelease='run sc_btnPMB_FitToCursor_PlanMode'>
+;!Matze - added onlongclick
+	<BUTTON xxx             x=434 y=73  w=40 z=0 bmp="$map_center_cursor.bmp#2"   text=""           font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5" onrelease='run sc_btnPMB_FitToCursor_PlanMode' onlongclick='run sc_btnPMB_FitToGPS_PlanMode'>
 ;!Raffke_jr - return to PlanMode
 	<BUTTON xxx             x=434 y=116 w=40 z=0 bmp="$4scr_use_cur.bmp#2"        text="Cursor"     font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5" onrelease='nPlaceForPos.set 0, run sc_btnNMB_Use_OnRelease' onlongclick='run sc_AddFromMenu 1'>
-	<BUTTON btnPM_StartNav  x=434 y=164 w=40 z=0 bmp="$4scr_map.bmp#2"            text="Navigation" font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5" onrelease='run sc_btnPM_StartNavigation' onlongclick='run sc_GoTo_MainMenu_Direct'>
+;!Matze - added 'run sc_MultirouteCheck', changed .bmp
+	<BUTTON btnPM_StartNav  x=434 y=164 w=40 z=0 bmp="$map_navigation.bmp#2"            text="Navigation" font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5" onrelease='run sc_btnPM_StartNavigation, run sc_MultirouteCheck' onlongclick='run sc_GoTo_MainMenu_Direct, run sc_MultirouteCheck'>
+
+;!Matze - added button to cancel multiroute
+	<BUTTON btnPM_MultiCancel  x=434 y=164 w=40 z=0 bmp="$map_multiroute_cancel.bmp#3"	text="Exit" font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5" onrelease='run sc_MultiplanCancel'>
+
+;!Matze - added slider routing type and button routemenu
+	<SLIDER sldPM_Method  x=0  y=214 z=2 w=65 bmp="$btn_map_footer.bmp" font="tahoma" color=#FFFFFF fontsize=9 glowtype=1 glowsize=3 color2=#000000 color3=#000000 align="CENTER" valign="CENTER"  value="Fastest|FAST|Shortest|SHORT|Economic|ECO|Easy|SIMPLE|Scenic/Panoramic_View|SCENIC" var=vRouteType visiblemodel="!navigation.has_route" onselect='run sc_PM_RefreshRouteMethod'>
+	<BUTTON btnPM_RouteMenu  x=415  y=214 z=2 w=65 bmp="$btn_map_footer.bmp" text="Route Menu" font="tahoma" fontsize=9 color=#FFFFFF clicked_dy=1 glowtype=1 glowsize=2 color2=#000000 align="CENTER" valign="CENTER" onrelease='run sc_MultiplanCancel, CLEARTOSTATE st_AdvRouteMenu, NEXTSTATE st_AdvRouteMenu'>
 
 ;!Raffke_jr - Route infos (!TB NGP)
-	<BUTTON txtPM_Method  x=0  y=204 z=2 bmp="cock_infobg4full.bmp" font="tahoma" fontsize=9 fonttype=bw color=#FFFFFF align="CENTER-10" valign="TOP+10" onrelease='run sc_btn_PM_Method_OnRelease' visiblemodel="navigation.has_route">
-	<TEXT txtPM_Distance  x=2  y=224 w=38 z=3 template=xtxt4 text="n/a" font="tahomabd" fontsize=9 align="RIGHT-2" color=#FFFFFF visiblemodel="navigation.has_route">
-	<TEXT txtPM_TimeLeft  x=40 y=224 w=28 z=3 template=xtxt4 text="n/a" font="tahoma" fontsize=9 align="RIGHT-2" color=#FFFFFF visiblemodel="navigation.has_route">
+;!Matze - changed .bmp,y,z,align and valign
+	<BUTTON txtPM_Method  x=0  y=214 z=3 w=65 bmp="$btn_map_footer.bmp" font="tahoma" fontsize=9 align="CENTER" valign="TOP+1" clicked_dy=1 glowtype=1 glowsize=2 color2=#000000 onrelease='run sc_MultiRouteCalculateCheck'  visiblemodel="navigation.has_route">
+
+;!Matze - changed x/z/w, align
+	<TEXT txtPM_Distance  x=2  y=224 w=37 z=4 template=xtxt4 text="n/a" font="tahomabd" fontsize=9 align="LEFT" color=#FFFFFF visiblemodel="navigation.has_route">
+	<TEXT txtPM_TimeLeft  x=40 y=224 w=23 z=4 template=xtxt4 text="n/a" font="tahoma" fontsize=9 align="RIGHT" color=#FFFFFF visiblemodel="navigation.has_route">
+</layer>
+
+;****************************************************************************************************************
+;!Matze - added layer for multiroute
+<layer ui_PlanModeMultirouteButtons z=50>
+	<BUTTON btnFast	template=btn_multiplan x=0    text="Fast"   color=#FF0000  color2=#000000 glowsize=1 onrelease='run sc_MultiplanSelect 0'>
+	<TEXT txtDist1	template=txtMRD x=5   textmodel_wstr="route.multiplan1.dist.full_text" visiblemodel="route.multiplan1.dist.valid">
+	<TEXT txtTime1	template=txtMRD1	x=56  textmodel_timespan="route.multiplan1.time" formatmodel=5 visiblemodel="route.multiplan1.time.valid">
+
+	<BUTTON btnShort	template=btn_multiplan x=96    text="Short"   color=#00FF00  color2=#000000 glowsize=1 onrelease='run sc_MultiplanSelect 1'>
+	<TEXT txtDist2		template=txtMRD x=101   textmodel_wstr="route.multiplan2.dist.full_text" visiblemodel="route.multiplan2.dist.valid">
+	<TEXT txtTime2		template=txtMRD1	x=152  textmodel_timespan="route.multiplan2.time" formatmodel=5 visiblemodel="route.multiplan2.time.valid">
+
+	<BUTTON btnEco	template=btn_multiplan x=192    text="Economical"   color=#0000FF  color2=#000000 glowsize=1 onrelease='run sc_MultiplanSelect 2'>
+	<TEXT txtDist3	template=txtMRD x=197   textmodel_wstr="route.multiplan3.dist.full_text" visiblemodel="route.multiplan3.dist.valid">
+	<TEXT txtTime3	template=txtMRD1	x=248  textmodel_timespan="route.multiplan3.time" formatmodel=5 visiblemodel="route.multiplan3.time.valid">
+
+	<BUTTON btnSimple	template=btn_multiplan x=288    text="Easy"   color=#FFFF00  color2=#000000 glowsize=1 onrelease='run sc_MultiplanSelect 3'>
+	<TEXT txtDist4		template=txtMRD x=293   textmodel_wstr="route.multiplan4.dist.full_text" visiblemodel="route.multiplan4.dist.valid">
+	<TEXT txtTime4		template=txtMRD1	x=344  textmodel_timespan="route.multiplan4.time" formatmodel=5 visiblemodel="route.multiplan4.time.valid">
+
+	<BUTTON btnScenic	template=btn_multiplan x=384    text="Scenic/Panoramic_View"   color=#00FFFF  color2=#000000 glowsize=1 onrelease='run sc_MultiplanSelect 4'>
+	<TEXT txtDist5		template=txtMRD x=389   textmodel_wstr="route.multiplan5.dist.full_text" visiblemodel="route.multiplan5.dist.valid">
+	<TEXT txtTime5		template=txtMRD1	x=440  textmodel_timespan="route.multiplan5.time" formatmodel=5 visiblemodel="route.multiplan5.time.valid">
+</layer>
+
+<layer ui_MultiRouteDrawProgress y=32 x=37 z=9000>
+	<SPRITE xxx y=3 x=2 z=20  bmp="btn_multidraw_liner.bmp" onrelease='ui_MultiRouteDrawProgress.hide, ui_MultiRouteDrawProgress_min.show'>
+	<SPRITE sprMPRoute11 template=spr_multi2 y=10>
+	<SPRITE sprMPRoute22 template=spr_multi2 y=30>
+	<SPRITE sprMPRoute33 template=spr_multi2 y=50>
+	<SPRITE sprMPRoute44 template=spr_multi2 y=70>
+	<SPRITE sprMPRoute55 template=spr_multi2 y=90>
+</layer>
+
+<layer ui_MultiRouteDrawProgress_min y=30 x=416 z=9000 hide>
+	<SPRITE xxx y=0 x=0 z=20  bmp="btn_multidraw_min.bmp" onrelease='ui_MultiRouteDrawProgress_min.hide, ui_MultiRouteDrawProgress.show'>
+</layer>
+
+<layer ui_SelectRM z=15000 modal>
+	<SPRITE xxx bmp="$rm_sel_bg.bmp" x=173 y=31 z=0 >
+
+	<RADIO xxx template=chk_lb8a  y=34	text="Fast" group=nRMTmp var="0"  onrelease='run sc_RMselected'>
+	<RADIO xxx template=chk_lb8a  y=64	text="Short" group=nRMTmp var="1"    onrelease='run sc_RMselected'>
+	<RADIO xxx template=chk_lb8a  y=94	text="Economic" group=nRMTmp var="2"    onrelease='run sc_RMselected'>
+	<RADIO xxx template=chk_lb8a  y=124	text="Easy" group=nRMTmp var="3"  onrelease='run sc_RMselected'>
+	<RADIO xxx  template=chk_lb8a y=154	text="Scenic/Panoramic_View"   group=nRMTmp var="4"  onrelease='run sc_RMselected'>
+	<BUTTON xxx  template=chk_lb8a_1 y=184  text="Routing Methods"  onrelease='ui_SelectRM.hide, ui_SelectRM_Algorithm.show, run sc_setMultiroute' enabledmodel="!ui.vRouteCalculation">
+;!Raffke_jr - add back button
+	<BUTTON xxx  x=0  y=214 w=65 bmp="$btn_map_footer.bmp" text="Back" font="tahoma" color=#FFFFFF fontsize=9 glowtype=1 glowsize=3 color2=#000000 color3=#000000 align="CENTER" valign="CENTER"  onrelease='ui_SelectRM.hide'>
+</layer>
+
+;!Raffke_jr - changed from hide to modal
+<layer ui_SelectRM_Algorithm z=15000 modal>
+ 	<SPRITE xxx bmp="$correct_sel_bg.bmp" x=173 y=90 z=0 >
+	<BUTTON xxx  template=chk_lb8a_1 y=94	text="Fast calculation"	onrelease='.route.correctness 30, ui_SelectRM_Algorithm.hide, run sc_MultiRouteDraw' enabledmodel="!ui.vRouteCalculation">
+	<BUTTON xxx  template=chk_lb8a_1 y=124	text="Default"	onrelease='ui_SelectRM_Algorithm.hide, run sc_MultiRouteDraw' enabledmodel="!ui.vRouteCalculation">
+	<BUTTON xxx  template=chk_lb8a_1 y=154	text="Optimal calculation"	onrelease='.route.correctness 100, ui_SelectRM_Algorithm.hide, run sc_MultiRouteDraw' enabledmodel="!ui.vRouteCalculation">
+;!Raffke_jr - add back button
+	<BUTTON xxx  x=0  y=214 w=65 bmp="$btn_map_footer.bmp" text="Back" font="tahoma" color=#FFFFFF fontsize=9 glowtype=1 glowsize=3 color2=#000000 color3=#000000 align="CENTER" valign="CENTER"  onrelease='ui_SelectRM_Algorithm.hide'>
 </layer>

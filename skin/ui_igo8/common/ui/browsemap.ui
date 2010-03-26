@@ -1,7 +1,14 @@
 ;****************************************************************************************************************
+;!Matze - added variable for multiroute
+<header>
+	<var saved_vRouteType>
+	<var saved_RouteCorrectness>
+</header>
 
 <state st_BrowseMap>
 	<uselayer map/>
+;!Matze - Night color filter
+	<uselayer ui_NavigateMapnight/>
 
 	<script init>
 		;THERE ISN'T BROWSEMAP IN iGO8
@@ -24,14 +31,19 @@
 	else_runif vMapState 5 'run sc_Back_From_Overview'
 	else_run 'run sc_3DMode'
 	map.GetMapState vMapState
-	runif vMapState 3 'map.SETCARPOSITION 50 75'
-	runif vMapState 4 'map.SETCARPOSITION 50 50'
+
+;!Matze - replaced map.SETCARPOSITION by call script
+	runif vMapState 3 'run sc_Car_Pos1'
+	runif vMapState 4 'run sc_Car_Pos2'
 
 	obs_OverviewMode_Changed.start "NO_TRIGGER"
 	
-	btnNMB_Nav3D.isvisible vTmp
-	runif vTmp  1 '.map.north_lock 1'
-	else_run '.map.north_lock 0'
+;!Matze 
+	runif bShowCompassOnMap 0 sc_north_lock
+	else_run sc_north_lock1	
+;	btnNMB_Nav3D.isvisible vTmp
+;	runif vTmp  1 '.map.north_lock 1'
+;	else_run '.map.north_lock 0'
 </script>
 
 <script sc_3dMapFollowMode>
@@ -47,6 +59,9 @@
 	runif vTmp 0 'run sc_ExitOverviewTo3D'
 	else_runif vTmp 3 'run sc_ExitOverviewTo2D'
 	else_runif vTmp 4 'run sc_ExitOverviewTo2D'
+;!Matze - added for advanced overview settings 
+	vSaveOverviewMode.SET 3
+	run sc_LaneInfoShow_Check
 </script>
 
 <script sc_2DHeadUpCheck>
@@ -71,6 +86,8 @@
 	<uselayer ui_PlanMode/>
 	<uselayer ui_PlanModeControls2D/>
 	<uselayer ui_PlanModeOpenCloseButtons/>
+;!Matze - Night color filter
+	<uselayer ui_NavigateMapnight/>
 ;!TB - Popup Info
 	<uselayer ui_CockpitInfo>
 
@@ -82,13 +99,9 @@
 		vMapSettings2d3d.set "2D"
 		map.VIEW2D3D vMapSettings2d3d
 
-;!TB - Popup Info
-		runifnot %map.popup_info 0 'ui_CockpitInfo.SHOW, ui_CockpitInfo.h 0'
-		else_run 'ui_CockpitInfo.HIDE'
-;!TB - cleanup poi search for PopupInfo
-		poi.near_cursor.visible_only 0
-		poi.near_cursor.area 1000
-		poi.near_cursor.sort "distance"
+;!Matze - added popup info
+		runifnot vPopUpShowPanel 0 'run sc_ShowCockpitInfo'
+		else_run 'run sc_HideCockpitInfo'
 
 		map.EnableMoveCursorByClick 1
 		map.SHOWCURSOR 1
@@ -100,6 +113,8 @@
 
 		run sc_FitToScreen_PlanMode
 
+;!Matze - added for multiroute algorithm
+		saved_RouteCorrectness.set %route.correctness
 ;!Raffke_jr - moved here for permanent update of Route Info button
 		vRouteCalcFinishedCallback.set sc_PM_RefreshRouteInfo
 		run sc_PM_RefreshRouteInfo
@@ -120,9 +135,12 @@
 		vPlanModeOn.set 0	
 ;!Raffke_jr - moved here for permanent update of Route Info button
 		vRouteCalcFinishedCallback.clear
-;!TB - Popup Info
-		ui_CockpitInfo.h 0
-		ui_CockpitInfo.HIDE
+;!Matze - Popup Info
+		run sc_HideCockpitInfo
+
+;!Matze - added for multiroute algorithm
+		.route.correctness saved_RouteCorrectness
+		ui_MultiRouteDrawProgress_min.hide
 	</script>
 </state>
 
@@ -153,8 +171,14 @@
 <script sc_StartPlanModeMenuPlan_Refresh>
 ;!TB - Popup Info
 	run sc_DoStartHideCockpitInfo
+;!Matze - added popup info
+	runifnot vPopUpShowPanel 0 'run sc_ShowCockpitInfo'
+	else_run 'run sc_HideCockpitInfo'
 
 	5 run sc_StartPlanModeMenuPlan
+;!Matze - added to show StartNav- or MultiCancel-Button
+	5 runif vMultiRouteCalculate 1 'btnPM_StartNav.hide, btnPM_MultiCancel.show'
+	else_run 'run sc_StartPlanModeMenuPlan, btnPM_StartNav.show, btnPM_MultiCancel.hide'	
 </script>
 
 <script sc_FitToScreen_PlanMode>
@@ -188,6 +212,12 @@
 	2 run sc_StartPlanModeMenuPlan_Refresh
 </script>
 
+;!Matze - added script for "Center GPS Position" button on the 2D map
+<script sc_btnPMB_FitToGPS_PlanMode>
+	map.MOVECURSORTOGPS
+	map.CENTERCURSOR
+	2 run sc_StartPlanModeMenuPlan_Refresh
+</script>
 
 ;****************************************************************************************************************
 ;!TB NGP - ReCalc Route
@@ -220,12 +250,12 @@
 </script>
 
 <script sc_PM_RefreshRouteMethod>
-;!Raffke_jr - TODO: rename button to 'txtPM_Method'
-	runif vRouteType L"FAST" 'txtPM_Method.text "Fastest"'
-	else_runif vRouteType L"SHORT" 'txtPM_Method.text "Shortest"'
-	else_runif vRouteType L"ECO" 'txtPM_Method.text "Economic"'
-	else_runif vRouteType L"SIMPLE" 'txtPM_Method.text "Easy"'
-	else_runif vRouteType L"SCENIC" 'txtPM_Method.text "Scenic/Panoramic_View"'
+;!Matze - color added
+	runif vRouteType L"FAST" 'txtPM_Method.text "Fastest", txtPM_Method.color #FF0000'
+	else_runif vRouteType L"SHORT" 'txtPM_Method.text "Shortest", txtPM_Method.color #00FF00'
+	else_runif vRouteType L"ECO" 'txtPM_Method.text "Economic", txtPM_Method.color #0000FF'
+	else_runif vRouteType L"SIMPLE" 'txtPM_Method.text "Easy", txtPM_Method.color #ffff00'
+	else_runif vRouteType L"SCENIC" 'txtPM_Method.text "Scenic/Panoramic_View", txtPM_Method.color #00FFFF'
 </script>
 
 <script sc_PM_RefreshRouteInfo>
@@ -234,4 +264,133 @@
 	ui_Route.GET_ROUTEINFO txtPM_Distance txtRI_Stops txtPM_TimeLeft txtRI_Arrive txtRI_DestAddress
 ;!Raffke_jr - Fit to screen after recalc
 	run sc_FitToScreen_PlanMode
+</script>
+
+;****************************************************************************************************************
+;!Matze - added new scripts for multiroute
+
+<script sc_MultiplanSelect>
+	FINDPATH_SELECT_MULTIPLAN $1
+
+	run sc_MultiplanCancel
+	runif vRouteType $1 'run sc_Fittoscreen_res, term sc_MultiplanSelect'
+	vRouteType.set $1
+	run sc_RMchange
+</script>
+
+<script sc_MultiplanCancel>
+	vMultiRouteCalculate.set 0
+	ui_MultiRouteDrawProgress.hide
+	ui_MultiRouteDrawProgress_min.hide
+
+	.route.multiplan_draw_all 0
+	ui_SelectRM_Algorithm.hide
+	run sc_setPlanmode
+</script>
+
+<script sc_setMultiroute>
+	run sc_init_zoomcontrol_planmode
+	ui_PlanModeOpenCloseButtons.hide
+	ui_PlanModeMultirouteButtons.show
+	btnPM_StartNav.hide
+	btnPM_MultiCancel.show
+</script>
+
+<script sc_setPlanmode>
+	run sc_init_zoomcontrol_planmode
+	ui_PlanModeOpenCloseButtons.show
+	ui_PlanModeMultirouteButtons.hide
+	btnPM_MultiCancel.hide
+	btnPM_StartNav.show
+</script>
+
+<Script sc_RMchange>
+	ADVNAV_RECALC
+	runif vActiveState "st_planmode" 'run sc_FitToScreen_PlanMode, run sc_PM_RefreshRouteMethod'
+	else_run sc_RefreshRouteInfo
+</script>
+
+<script sc_RMselect>
+	run sc_MultiplanCancel
+	ui_SelectRM.show
+	saved_vRouteType.set vRouteType
+	runif vRouteType L"FAST" 'nRMTmp.set "0"'
+	runif vRouteType L"SHORT" 'nRMTmp.set "1"'
+	runif vRouteType L"ECO" 'nRMTmp.set "2"'
+	runif vRouteType L"SIMPLE" 'nRMTmp.set "3"'
+	runif vRouteType L"SCENIC" 'nRMTmp.set "4"'
+</script>
+
+
+<script sc_RMselected>
+	ui_SelectRM.hide
+	runif nRMTmp "0" 'vRouteType.set L"FAST"'
+	runif nRMTmp "1" 'vRouteType.set L"SHORT"'
+	runif nRMTmp "2" 'vRouteType.set L"ECO"'
+	runif nRMTmp "3" 'vRouteType.set L"SIMPLE"'
+	runif nRMTmp "4" 'vRouteType.set L"SCENIC"'
+
+	runifnot saved_vRouteType vRouteType  sc_RMchange
+</script>
+
+<script sc_MultiRouteCalculateCheck>
+;!Raffke_jr - only go on, if no other UI is being visible
+	ui_SelectRM.isvisible vTmp
+	runifnot vTmp 1 'ui_SelectRM_Algorithm.isvisible vTmp'
+	runif vTmp 1 ''
+	else_runif vMultiRouteCalculate 0 'run sc_RMselect'
+	else_run 'ui_SelectRM_Algorithm.show'
+</script>
+
+<script sc_MultirouteCheck>
+	runif vMultiRouteCalculate 0 'PREVSTATE'
+	termif vMultiRouteCalculate 0
+	vMultiRouteCalculate.set 0
+;!Raffke_jr - find workaround for obsolete variable
+	vPlanModeFromMultiRoute.set 0
+	FINDPATH_MULTIPLAN_CANCEL
+	PREVSTATE
+</script>
+
+<script sc_MultirouteCheck1>
+	runif vPlanModeFromMultiRoute 1 sc_return_Multiroute
+	else_run sc_MultirouteCheck
+</script>
+
+<script sc_return_Multiroute>
+	runif vMultiRouteCalculate 1 '.route.multiplan_draw_all 0, vPlanModeFromMultiRoute.SET 0, prevstate'
+	else_run '.route.multiplan_draw_all 0, vPlanModeFromMultiRoute.SET 0, prevstate, prevstate'
+;!Matze - possible variant (not used)
+;	else_run sc_return_Multiroute1
+	vMultiRouteCalculate.set 0
+</script>
+
+;!Matze - possible variant (not used)
+;<script sc_return_Multiroute1>
+;	FINDPATH_SET_MULTIPLAN_METHODS L"FAST" L"SHORT" L"ECO" L"SIMPLE" L"SCENIC"
+;	FINDPATH_SELECT_MULTIPLAN_DRAW 0
+;	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute1 1
+;	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute2 2
+;	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute3 3
+;	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute4 4
+;	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute5 5
+;	FINDPATH_MULTIPLAN_RECALC
+;	PREVSTATE
+;</script>
+
+<script sc_MultiRouteDraw>
+	FINDPATH_MULTIPLAN_CANCEL
+	vMultiRouteCalculate.set 1
+	.route.multiplan_draw_all 1
+	ui_MultiRouteDrawProgress_min.hide
+	ui_MultiRouteDrawProgress.show
+	FINDPATH_SET_MULTIPLAN_METHODS L"FAST" L"SHORT"  L"ECO" L"SIMPLE" L"SCENIC"
+	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute11 1
+	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute22 2
+	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute33 3
+	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute44 4
+	ui_route.ATTACH_ROUTE_SPRITE_PROVIDER sprMPRoute55 5
+	FINDPATH_MULTIPLAN_RECALC
+	run sc_Fittoscreen_res
+	.route.correctness saved_RouteCorrectness
 </script>

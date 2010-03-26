@@ -26,8 +26,20 @@
 
 	<script init>
 		Title.SET "Lane Information"
+;!Matze - new Script
+    		run sc_change_laneinfo
 	</script>
 </state>
+
+;!Matze - new Scripts
+<script sc_change_laneinfo>
+	runif vLaneInfo 0  'spr_laneinfo.disable, txt1_laneinfo.disable, txt2_laneinfo.disable, txt3_laneinfo.disable, hsc_laneinfo.disable, chk_OverviewLaneinfo.disable, chk_signpost.disable, chk_laneinfo.disable'
+	else_run 'spr_laneinfo.enable, txt1_laneinfo.enable, txt2_laneinfo.enable, txt3_laneinfo.enable, hsc_laneinfo.enable, chk_OverviewLaneinfo.enable, chk_signpost.enable, run sc_chk_laneinfo'
+</script>
+<script sc_chk_laneinfo>
+	runif vSignpostShow 1 'chk_laneinfo.enable'
+	else_run 'chk_laneinfo.disable'
+</script>
 
 <state st_SettingsVisualCurrentSpeed>
 	<uselayer ui_Header2/>
@@ -56,6 +68,12 @@
 		run sc_ChangeNormalScreenMode
 	</script>
 </state>
+
+;!Matze - new Script
+<script sc_hsr_colorFilter_change>
+      spr_bgtestNF.alpha vColorFilterValue
+      spr_color_filter.alpha vColorFilterValue
+</script>
 
 ;****************************************************************************************************************
 ; Advanced Routing Settings
