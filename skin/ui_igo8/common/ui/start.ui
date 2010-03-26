@@ -177,6 +177,9 @@
 		vtmp.dropmodel
 		runif bShowMinimize -1 'bShowMinimize.set vTmp'
 
+;!Matze - additional dimming in night mode (initial alpha setting)
+		run sc_hsr_colorFilter_change
+
 		bMapTextureFill.set 1
 ;!TB 0.4c - commented out to allow uturns configuration
 ;		bUTurn.set 1

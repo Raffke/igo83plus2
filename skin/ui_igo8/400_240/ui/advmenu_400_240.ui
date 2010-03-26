@@ -5,7 +5,8 @@
 <layer ui_AdvFindMenu z=30>
 
 	<BUTTON btnAFM_Address  template=menu4_1 iconspr="ico_find_address.bmp"   fxshowdelay=0   text="Find Address"     onrelease='NEXTSTATE st_FindAddress'>
-	<BUTTON btnAFM_History  template=menu6_4 iconspr="ico_find_history.bmp"   fxshowdelay=22  text="Recent\nPlaces"   onrelease='run sc_FindHistory' enabledmodel="!mydata.history.list.isempty"> 
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	<BUTTON btnAFM_History  template=menu6_4 iconspr="ico_find_history.bmp"   fxshowdelay=22  text="Recent\nPlaces"   onrelease='run sc_FindHistory' enabledmodel="!ui.bHistoryIsEmpty"> 
 	<BUTTON btnAFM_Coord    template=menu6_5 iconspr="ico_find_coord.bmp"     fxshowdelay=16  text="Find\nCoordinate" onrelease='run sc_FindCoord'> 	
 	<BUTTON btnAFM_POI      template=menu4_2 iconspr="ico_find_poi.bmp"       fxshowdelay=6   text="Find POI"         onrelease='run sc_FindPOI'> 
 	<BUTTON btnAFM_Favorite template=menu6_6 iconspr="ico_find_favorites.bmp" fxshowdelay=11  text="My Favorites"     onrelease='run sc_FindFavorite' enabledmodel="!mydata.favorites.isempty"> 
@@ -43,7 +44,8 @@
 <layer ui_AdvMyDataMenu z=30>
 ;!TB - Changed layout to display 4 buttons only
 	<BUTTON btnAMDM_Route    template=menu4_1 fxshowdelay=0   iconspr="ico_manage_savedroutes.bmp" text="Saved\nRoutes"  onrelease='NEXTSTATE st_MyDataRoute' enabledmodel="!mydata.routes.isempty"> 
-	<BUTTON btnAMDM_History  template=menu4_3 fxshowdelay=22  iconspr="ico_manage_history.bmp"     text="Recent\nPlaces" onrelease='run sc_btnAMDM_History_OnRelease'  enabledmodel="!mydata.history.list.isempty"> 
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	<BUTTON btnAMDM_History  template=menu4_3 fxshowdelay=22  iconspr="ico_manage_history.bmp"     text="Recent\nPlaces" onrelease='run sc_btnAMDM_History_OnRelease'  enabledmodel="!ui.bHistoryIsEmpty"> 
 	<BUTTON btnAMDM_Favorite template=menu4_2 fxshowdelay=6   iconspr="ico_manage_favorites.bmp"   text="Favorites"      onrelease='run sc_btnAMDM_Favorite_OnRelease' enabledmodel="!mydata.favorites.isempty"> 
 	<BUTTON btnAMDM_POI      template=menu4_4 fxshowdelay=12  iconspr="ico_manage_poi.bmp"         text="POI"            onrelease='run sc_btnAMDM_POI_OnRelease'> 
 ;	<BUTTON btnAMDM_Route    template=menu6_1 fxshowdelay=0   iconspr="ico_manage_savedroutes.bmp" text="Saved\nRoutes"  onrelease='NEXTSTATE st_MyDataRoute' enabledmodel="!mydata.routes.isempty"> 

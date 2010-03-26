@@ -2,13 +2,16 @@
 
 <element_template et_FindHistory>
 	<SPRITE xxx		x=68 y=15 z=1 iconmodel="*.icon"	iconindex=3>
-	<BUTTON xxx template=btn_4a_icon textmodel_wstr="*.text" clickmodel="mydata.history.list.setcurrent $i" onrelease='run sc_SearchHistoryAndGo'>
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	<BUTTON xxx template=btn_4a_icon textmodel_wstr="*.text" clickmodel="mydata.history.list.setcurrent $i" onrelease='run sc_SearchHistoryAndGo' visiblemodel="!ui.bBeckerQuicklist">
+	<BUTTON xxx template=btn_4a_icon textmodel_wstr="*.text" clickmodel="other.becker.quicklist.list.setcurrent $i" onrelease='run sc_SearchHistoryAndGo' visiblemodel="ui.bBeckerQuicklist">
 </element_template>
 
 <layer ui_FindHistory z=30>
 	<LIST lstFH_History template=tlist element_template="et_FindHistory" listmodel="mydata.history.list">
-	<TEXT   xxx template=txt_empty text="<No History Items>" align="center" visiblemodel="mydata.history.list.isempty">
-	<SPRITE xxx             template=spr_empty visiblemodel="mydata.history.list.isempty">
+;!Raffke_jr - 2x differ between "mydata.history" and "other.becker.quicklist"
+	<TEXT   xxx template=txt_empty text="<No History Items>" align="center" visiblemodel="ui.bHistoryIsEmpty">
+	<SPRITE xxx             template=spr_empty visiblemodel="ui.bHistoryIsEmpty">
 	<TEXT xxx               template=pageindex textmodel_wstr="ui.lstFH_History.page_counter">
 	<BUTTON xxx             template=prevpage clickmodel="ui.lstFH_History.prevpage" enabledmodel="ui.lstFH_History.prevpage.valid" template=slow_repeat>
 	<BUTTON xxx             template=nextpage clickmodel="ui.lstFH_History.nextpage" enabledmodel="ui.lstFH_History.nextpage.valid" template=slow_repeat>
@@ -18,19 +21,26 @@
 ;****************************************************************************************************************
 
 <element_template et_ManageHistory>
-	<BUTTON xxx template=btn_4d iconspr="x.bmp#3" text="" clickmodel="mydata.history.list.setcurrent $i" onrelease='run sc_et_ManageHistoryDel_OnRelease' usefocus=0>
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	<BUTTON xxx template=btn_4d iconspr="x.bmp#3" text="" clickmodel="mydata.history.list.setcurrent $i" onrelease='run sc_et_ManageHistoryDel_OnRelease' usefocus=0 visiblemodel="!ui.bBeckerQuicklist">
+	<BUTTON xxx template=btn_4d iconspr="x.bmp#3" text="" clickmodel="other.becker.quicklist.list.setcurrent $i" onrelease='run sc_et_ManageHistoryDel_OnRelease' usefocus=0 visiblemodel="ui.bBeckerQuicklist">
 	<SPRITE xxx		x=68 y=15	z=1		align="CENTER" valign="CENTER"	iconmodel="*.icon"	iconindex=3 usefocus=0>
-	<BUTTON xxx template=btn_4b_icon textmodel_wstr="*.text" clickmodel="mydata.history.list.setcurrent $i">
-	<BUTTON xxx template=btn_4b_icon clickmodel="mydata.history.list.setcurrent $i" alpha=0 disable>		
+;!Raffke_jr - 2x differ between "mydata.history" and "other.becker.quicklist"
+	<BUTTON xxx template=btn_4b_icon textmodel_wstr="*.text" clickmodel="mydata.history.list.setcurrent $i" visiblemodel="!ui.bBeckerQuicklist">
+	<BUTTON xxx template=btn_4b_icon textmodel_wstr="*.text" clickmodel="other.becker.quicklist.list.setcurrent $i" visiblemodel="ui.bBeckerQuicklist">
+	<BUTTON xxx template=btn_4b_icon clickmodel="mydata.history.list.setcurrent $i" alpha=0 disable visiblemodel="!ui.bBeckerQuicklist">
+	<BUTTON xxx template=btn_4b_icon clickmodel="other.becker.quicklist.list.setcurrent $i" alpha=0 disable visiblemodel="ui.bBeckerQuicklist">
 </element_template>
 
 <layer ui_ManageHistory z=30>
 	<LIST lstMH_History template=tlist element_template="et_ManageHistory" listmodel="mydata.history.list">
-	<TEXT   xxx template=txt_empty  text="<No History Items>" visiblemodel="mydata.history.list.isempty">
-	<SPRITE xxx             template=spr_empty y=185 visiblemodel="mydata.history.list.isempty">
+;!Raffke_jr - 2x differ between "mydata.history" and "other.becker.quicklist"
+	<TEXT   xxx template=txt_empty  text="<No History Items>" visiblemodel="ui.bHistoryIsEmpty">
+	<SPRITE xxx             template=spr_empty y=185 visiblemodel="ui.bHistoryIsEmpty">
 	<TEXT xxx               template=pageindex textmodel_wstr="ui.lstMH_History.page_counter">
 	<BUTTON xxx             template=prevpage clickmodel="ui.lstMH_History.prevpage" enabledmodel="ui.lstMH_History.prevpage.valid" template=slow_repeat>
 	<BUTTON xxx             template=nextpage clickmodel="ui.lstMH_History.nextpage" enabledmodel="ui.lstMH_History.nextpage.valid" template=slow_repeat>
 	
-	<BUTTON btnMH_ClearAll  template=footer2_1a text="Clear History" enabledmodel="!mydata.history.list.isempty" onrelease='run sc_btnMH_ClearAll_OnRelease'> 
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	<BUTTON btnMH_ClearAll  template=footer2_1a text="Clear History" enabledmodel="!ui.bHistoryIsEmpty" onrelease='run sc_btnMH_ClearAll_OnRelease'> 
 </layer>

@@ -102,7 +102,7 @@
 </layer>
 
 ;!Matze - additional dimming in night mode
-<layer ui_NavigateMapnight z=300000 onshow='run sc_hsr_colorFilter_change' visiblemodel="ui.bUseColorFilter&screen.nightmode">
+<layer ui_NavigateMapnight z=300000 visiblemodel="ui.bUseColorFilter&screen.nightmode">
 	<SPRITE spr_color_filter                   bmp="nightglass.bmp">
 </layer>
 

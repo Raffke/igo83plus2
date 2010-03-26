@@ -10,12 +10,13 @@
 	<TEXT xxx            template=xtxt x=256  y=287 w=160  z=1 text="Method"       align="LEFT" color=#FFFFFF alpha=25>
 	<TEXT txtRI_DestType   template=xtxt x=80   y=90  w=150>
 
-	<SPRITE sprRI_Info1  x=488 y=218 bmp="ico_route_info.spr" template=a_buggy fxshowdelay=0  onclick='run sc_sprRI_Info_OnClick 0'>
-	<SPRITE sprRI_Info2  x=596 y=218 bmp="ico_route_info.spr" template=a_buggy fxshowdelay=5  onclick='run sc_sprRI_Info_OnClick 1'>
-	<SPRITE sprRI_Info3  x=704 y=218 bmp="ico_route_info.spr" template=a_buggy fxshowdelay=10 onclick='run sc_sprRI_Info_OnClick 2'>
-	<SPRITE sprRI_Info4  x=488 y=325 bmp="ico_route_info.spr" template=a_buggy fxshowdelay=15 onclick='run sc_sprRI_Info_OnClick 3'>
-	<SPRITE sprRI_Info5  x=596 y=325 bmp="ico_route_info.spr" template=a_buggy fxshowdelay=20 onclick='run sc_sprRI_Info_OnClick 4'>
-	<SPRITE sprRI_Info6  x=704 y=325 bmp="ico_route_info.spr" template=a_buggy fxshowdelay=25 onclick='run sc_sprRI_Info_OnClick 5'>
+;!Raffke_jr - 6x changed onclick to onrelease and added onlongclick to change settings
+	<SPRITE sprRI_Info1  x=488 y=218 bmp="ico_route_info.spr" template=a_buggy fxshowdelay=0  onrelease='run sc_sprRI_Info_OnClick 0' onlongclick='run sc_sprRI_Info_OnLongClick'>
+	<SPRITE sprRI_Info2  x=596 y=218 bmp="ico_route_info.spr" template=a_buggy fxshowdelay=5  onrelease='run sc_sprRI_Info_OnClick 1' onlongclick='run sc_sprRI_Info_OnLongClick'>
+	<SPRITE sprRI_Info3  x=704 y=218 bmp="ico_route_info.spr" template=a_buggy fxshowdelay=10 onrelease='run sc_sprRI_Info_OnClick 2' onlongclick='run sc_sprRI_Info_OnLongClick'>
+	<SPRITE sprRI_Info4  x=488 y=325 bmp="ico_route_info.spr" template=a_buggy fxshowdelay=15 onrelease='run sc_sprRI_Info_OnClick 3' onlongclick='run sc_sprRI_Info_OnLongClick'>
+	<SPRITE sprRI_Info5  x=596 y=325 bmp="ico_route_info.spr" template=a_buggy fxshowdelay=20 onrelease='run sc_sprRI_Info_OnClick 4' onlongclick='run sc_sprRI_Info_OnLongClick'>
+	<SPRITE sprRI_Info6  x=704 y=325 bmp="ico_route_info.spr" template=a_buggy fxshowdelay=25 onrelease='run sc_sprRI_Info_OnClick 5' onlongclick='run sc_sprRI_Info_OnLongClick'>
 
 	<TEXT txtRI_DestAddress template=xtxt3 x=220 y=89 w=300 font="tahomabd" color=#FFFFFF align="LEFT">
 
@@ -24,7 +25,7 @@
 	<TEXT txtRI_Arrive      template=xtxt3 x=61  y=224 w=160  font="tahomabd" color=#FFFFFF align="RIGHT">
 	<TEXT txtRI_Method      template=xtxt3 x=255  y=331 w=160  font="tahomabd" color=#FFFFFF align="RIGHT">
 ;!Raffke_jr - new invisible button
-	<BUTTON btn_RI_Method x=255 y=280 z=100 alpha=0 text="" bmp="btn_route_method.bmp" onRelease='run sc_btn_RI_Method_OnRelease' visiblemodel="!ui.vOnFlyover">
+	<SPRITE btn_RI_Method x=255 y=280 z=100 bmp="btn_route_method.bmp" alpha=0 onrelease='run sc_btn_RI_Method_OnRelease' onlongclick='NEXTSTATE st_SettingRoute' visiblemodel="!ui.vOnFlyover">
 	<TEXT txtRI_Stops hide>
 
 ;!Matze - replaced "Settings" by new button for multiroute

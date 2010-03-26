@@ -49,6 +49,11 @@
 ;!Raffke_jr - new bool expressions to workaround FFUI limitations
 	<var bHouseNumbersVisible registermodel>
 	<var bGPSSateliteVisible registermodel>
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	<var bBeckerQuicklist registermodel>
+	<var bHistoryIsEmpty registermodel>
+;!Raffke_jr - switch HistSpeed usage
+	<var bHistSpeed>
 
 ;di/\/\ka
 	<var bShowCompassOnMap=0 registermodel permanent>
@@ -108,4 +113,10 @@ import "ui_igo8/common/ui/speedcam_advanced.ui"
 ;!Raffke_jr - new bool expressions to workaround FFUI limitations
 	bHouseNumbersVisible.BOOLEXPR "map.cursorpos.lefthousenumber.valid|map.cursorpos.righthousenumber.valid"
 	bGPSSateliteVisible.BOOLEXPR "!navigation.car_pos_valid&gps.connection_status<3"
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	MODEL_EXISTS "other.becker.quicklist" "bBeckerQuicklist"
+	runif bBeckerQuicklist 1 'bHistoryIsEmpty.boolmodel "other.becker.quicklist.list.isempty"'
+	else_run                 'bHistoryIsEmpty.boolmodel "mydata.history.list.isempty"'
+;!Raffke_jr - switch HistSpeed usage
+	bHistSpeed.boolmodel "route.histspeed.enabled"
 </script>

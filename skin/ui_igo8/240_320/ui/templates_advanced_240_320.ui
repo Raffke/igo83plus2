@@ -29,6 +29,46 @@
 ;!Sib - for 3D Settings
 <TEMPLATE spr_poti_small x=1 y=0 z=0 bmp="poti_bg_small.bmp">
 
+;!Matze - added templates
+<TEMPLATE csuszka_5 x=20 z=500 bmp="fable_scrollbg_5.spr" sprind="fable_scrollbtn_5.spr">
+<TEMPLATE spr_poti_5 x=1 y=0 z=0 bmp="poti_bg_5.bmp">
+<TEMPLATE txt_poti_5 template=txt_5 template=only_white x=8  w=224 h=22 z=100 align="CENTER">
+
+<TEMPLATE txt_csu_legend_5  template=txt_5 x=8  w=120  h=22>
+<TEMPLATE txt_csu_value_5   template=txt_5 x=170 w=24  h=22 align="RIGHT"  font="tahomabd" fixedwidthnumbers=1>
+<TEMPLATE txt_csu_unit_5    template=txt_5 x=197 w=34  h=22 align="LEFT"  fontsize=12  >
+<TEMPLATE txt_csu_valunit_5 template=txt_5 x=159 w=58  h=22 align="RIGHT"   font="tahomabd">
+<TEMPLATE txt_sld_5         template=txt_5 x=8   w=105 h=22 z=100>
+
+<TEMPLATE btn_5a_5 template=txt_5 bmp="btn_5a_5.bmp#2" x=4   z=10  twolinesmall=1  padding=4 clicked_coloring=1>
+<TEMPLATE btn_5b_5 template=txt_5 bmp="btn_5b_5.bmp#2" x=4   z=10  twolinesmall=1  padding=4 clicked_coloring=1>
+<TEMPLATE btn_5c_5 template=txt_5 bmp="btn_5c_5.bmp#2" x=4   z=10  twolinesmall=1  padding=4 clicked_coloring=1>
+<TEMPLATE btn_5d_5 template=txt_5 bmp="btn_5d_5.bmp#3" x=187 z=10  twolinesmall=1  padding=4  clicked_coloring=1 fontsize=12 align="CENTER" iconalign="CENTER" iconvalign="CENTER" >
+
+<TEMPLATE sld_5a_5 template=txt_5 bmp="btn_5a_5.bmp#2" x=4  w=105 twolinesmall=1  padding=4 align="RIGHT" >
+<TEMPLATE sld_5a_center_5 template=sld_5a_5 w=220 align="CENTER" >
+
+
+<TEMPLATE csuszka_4 x=20 z=500 bmp="fable_scrollbg_4.spr" sprind="fable_scrollbtn_4.spr">
+<TEMPLATE spr_poti_4 x=1 y=0 z=0 bmp="poti_bg_4.bmp">
+<TEMPLATE txt_poti_4 template=txt_5 template=only_white x=8  w=224 h=26 z=100 align="CENTER">
+
+<TEMPLATE txt_csu_legend_4  template=txt_5 x=8  w=120  h=26>
+<TEMPLATE txt_csu_value_4   template=txt_5 x=170 w=24  h=26 align="RIGHT"  font="tahomabd" fixedwidthnumbers=1>
+<TEMPLATE txt_csu_unit_4    template=txt_5 x=197 w=34  h=26 align="LEFT"  fontsize=12  >
+<TEMPLATE txt_csu_valunit_4 template=txt_5 x=159 w=58  h=26 align="RIGHT"   font="tahomabd">
+<TEMPLATE txt_sld_4         template=txt_5 x=8   w=105 h=26 z=100>
+
+<TEMPLATE btn_5a_4 template=txt_5 bmp="btn_5a_4.bmp#2" x=4   z=10  twolinesmall=1  padding=4 clicked_coloring=1>
+<TEMPLATE btn_5b_4 template=txt_5 bmp="btn_5b_4.bmp#2" x=4   z=10  twolinesmall=1  padding=4 clicked_coloring=1>
+<TEMPLATE btn_5c_4 template=txt_5 bmp="btn_5c_4.bmp#2" x=4   z=10  twolinesmall=1  padding=4 clicked_coloring=1>
+<TEMPLATE btn_5d_4 template=txt_5 bmp="btn_5d_4.bmp#3" x=187 z=10  twolinesmall=1  padding=4  clicked_coloring=1 fontsize=12 align="CENTER" iconalign="CENTER" iconvalign="CENTER" >
+
+<TEMPLATE sld_5a_4 template=txt_5 bmp="btn_5a_4.bmp#2" x=4  w=105 twolinesmall=1  padding=4 align="RIGHT" >
+<TEMPLATE sld_5a_center_4 template=sld_5a_4 w=220 align="CENTER" >
+<TEMPLATE chk_5a_4 template=txt_5 bmp="chk_5a_4.bmp#4" x=4  z=10 w=190 twolinesmall=1  padding=4>
+<TEMPLATE chk_5b_4 template=txt_5 bmp="chk_5b_4.bmp#2" x=4  z=10 w=140 twolinesmall=1  padding=4>
+
 
 ;***********************  SLIDERS  ******************************
 ;!Raffke_jr - TODO: Fit to new templates
@@ -38,12 +78,15 @@
 ;***********************  BUTTONS  ******************************
 ;!Raffke_jr - renamed to add x values, added z & iconspr, inherited template=btn_lb5e
 ;<TEMPLATE btn_lb4e51                bmp="btn_lb_4e.bmp#3"  padding=4 align="center" valign="center" fonttype=bw twolinesmall=1 clicked_coloring=1>
-<TEMPLATE btn_lb5e5   template=btn_lb5e   z=20 iconspr="$speed_cams_transp.spr" iconalign="CENTER" iconvalign="CENTER">
-<TEMPLATE btn_lb5e51  template=btn_lb5e5  x=1  >
+;!Matze - added template
+<TEMPLATE btn_lb5f 	bmp="btn_lb_5f.bmp#3" padding=4 align="center" valign="center" fonttype=bw twolinesmall=1  clicked_coloring=1>
+<TEMPLATE btn_lb5e5   template=btn_lb5f   z=20 iconspr="$speed_cams_transp.spr" iconalign="CENTER" iconvalign="CENTER">
+;!Matze - changed position
+<TEMPLATE btn_lb5e51  template=btn_lb5e5  x=0  >
 <TEMPLATE btn_lb5e52  template=btn_lb5e5  x=48 >
-<TEMPLATE btn_lb5e53  template=btn_lb5e5  x=95 >
-<TEMPLATE btn_lb5e54  template=btn_lb5e5  x=142>
-<TEMPLATE btn_lb5e55  template=btn_lb5e5  x=189>
+<TEMPLATE btn_lb5e53  template=btn_lb5e5  x=96 >
+<TEMPLATE btn_lb5e54  template=btn_lb5e5  x=144>
+<TEMPLATE btn_lb5e55  template=btn_lb5e5  x=192>
 
 ;*************************************************************
 
@@ -69,11 +112,33 @@
 <TEMPLATE y_7  y=241>
 <TEMPLATE y_7a y=244>
 
+;!Matze - added templates
+<TEMPLATE y_1_5  y=18>
+<TEMPLATE y_1_5a y=40>
+<TEMPLATE y_2_5  y=70>
+<TEMPLATE y_2_5a y=92>
+<TEMPLATE y_3_5  y=122>
+<TEMPLATE y_3_5a y=144>
+<TEMPLATE y_4_5  y=174>
+<TEMPLATE y_4_5a y=196>
+<TEMPLATE y_5_5  y=226>
+<TEMPLATE y_5_5a y=248>
+
+<TEMPLATE y_1_4  y=20>
+<TEMPLATE y_1_4a y=48>
+<TEMPLATE y_2_4  y=84>
+<TEMPLATE y_2_4a y=112>
+<TEMPLATE y_3_4  y=148>
+<TEMPLATE y_3_4a y=176>
+<TEMPLATE y_4_4  y=212>
+<TEMPLATE y_4_4a y=240>
+
 ;!Raffke_jr - new templates for scrollbar with 2 text legends (org: txt_csu_legend x=14 w=118 - txt_csu_valunit x=134 w=54 - csuszka_small x=190)
 <TEMPLATE txt_csu2_legend  template=txt_csu_legend          w=60  z=1>
-<TEMPLATE csuszka_2txt     template=csuszka_small    x=55         z=1>
-<TEMPLATE txt_csu2_left    template=txt_csu_legend   x=80   w=50  z=1 align="RIGHT">
-<TEMPLATE txt_csu2_right   template=txt_csu_legend   x=259  w=50  z=1 align="LEFT">
+;!Matze - fixed for correct position
+<TEMPLATE csuszka_2txt     template=csuszka_small    x=59        z=1>
+<TEMPLATE txt_csu2_left    template=txt_csu_legend   x=8   w=48  z=1 align="RIGHT">
+<TEMPLATE txt_csu2_right   template=txt_csu_legend   x=184  w=48  z=1 align="LEFT">
 
 ;!Raffke_jr - new template for scrollbar without value (right border from txt_csu_valunit)
 <TEMPLATE txt_csu_label    template=txt_csu_legend          w=174>

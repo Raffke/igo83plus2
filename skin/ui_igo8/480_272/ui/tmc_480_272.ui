@@ -14,12 +14,12 @@
 	<SPRITE xxx x=32 y=-1 z=1 bmp="$tmc_event_new.spr" phase=1 visiblemodel="*.is_new">
 	<SPRITE xxx x=32 y=-1 z=1 bmp="$tmc_event_new.spr" phase=0 visiblemodel="!*.is_new">
 
-
-	<SPRITE xxx x=419 y=8 z=1 bmp="$tmc_event_onroute.spr" phasemodel="*.on_route">	
+;!Raffke_jr - increased z to overlay avoided icon
+	<SPRITE xxx x=419 y=8  z=2 bmp="$tmc_event_onroute.spr" phasemodel="*.on_route">	
 ;!Raffke_jr - moved down by 18 because possibly on_route&cant_avoided
 	<SPRITE xxx x=419 y=26 z=1 bmp="$tmc_event_cant_avoided.bmp" visiblemodel="*.cant_avoided">
 ;!Raffke_jr - added avoided icon
-	<SPRITE xxx x=419 y=8 z=1 bmp="$tmc_event_avoided.bmp" visiblemodel="*.filter_option=1">
+	<SPRITE xxx x=419 y=8  z=1 bmp="$tmc_event_avoided.bmp" visiblemodel="*.filter_option=1">
 
 	<BUTTON et_TmcEvent_btn%ID% template=btn_4a SELECTABLE onRelease='run sc_TMCListEventOnRelease' clickmodel="tmc.events.list.setcurrent $i">
      
@@ -28,7 +28,7 @@
 	<TEXT  et_TmcEvent_txt4%ID%  watchstate=et_TmcEvent_btn%ID% x=140 y=9 w=210  z=1 textmodel_wstr="*.description" template=xtxt4 fontsize=12 align="LEFT">
 	<TEXT  et_TmcEvent_txt3%ID%  watchstate=et_TmcEvent_btn%ID% x=100 y=28  w=340 z=1 textmodel_wstr="*.location" template=xtxt4 fontsize=12 align="LEFT">
 ;!Raffke_jr - added TMCpro indicator
-	<SPRITE xxx x=350 y=35  z=3 bmp="$icon_tmc_pro.bmp" visiblemodel="*.is_pay_tmc & *.service_provider_id=3378 | *.is_pay_tmc & *.service_provider_id=306">
+	<SPRITE xxx x=368 y=38  z=3 bmp="$icon_tmc_pro_small.bmp" visiblemodel="*.is_pay_tmc & *.service_provider_id=3378 | *.is_pay_tmc & *.service_provider_id=306">
 </element_template>
 
 <layer ui_TmcEventsList z=35>
@@ -70,7 +70,7 @@
  <BUTTON xxx	template=footer3_1a text="Subscription"	onrelease='NEXTSTATE STF_TMC_SUBSCRIBE' visiblemodel="tmc.enable_subscription"> 
 ;!Matze - buttons added
  <BUTTON xxx	template=footer3_2a text="Settings"	onrelease='NEXTSTATE st_NoTmcHardware' visiblemodel="tmc.enable_subscription">
- <BUTTON xxx	template=footer4_1a text="Settings"	bmp="foot_1_1a.bmp" onrelease='NEXTSTATE st_NoTmcHardware' visiblemodel="!tmc.enable_subscription">
+ <BUTTON xxx	template=footer1_1a text="Settings"	onrelease='NEXTSTATE st_NoTmcHardware' visiblemodel="!tmc.enable_subscription">
  <BUTTON xxx	template=footer3_3a text="Help"		onrelease='NEXTSTATE st_HelpTmcParams' visiblemodel="tmc.enable_subscription">	
  <BUTTON xxx	template=footer4_4a text="Help"		onrelease='NEXTSTATE st_HelpTmcParams' visiblemodel="!tmc.enable_subscription">
 </layer>
@@ -99,7 +99,7 @@
 	<TEXT   txt_tmc_voicewarn  template=txt_sld	template=y_5 text="Sound warning" watchstate=sld_tmc_voicewarn>
 
 ;!Matze - button added
-	<BUTTON xxx	template=footer4_1a    bmp="foot_1_1a.bmp" text="Stations" onrelease='NEXTSTATE st_TmcParams'>
+	<BUTTON xxx  template=footer1_1a text="Stations"   onrelease='NEXTSTATE st_TmcParams' enabledmodel="tmc.present">
 ;!Matze - changed template
 	<BUTTON xxx  template=footer4_4a text="Help"       onrelease='NEXTSTATE st_HelpTmcSettings'> 
 </layer>
@@ -140,7 +140,7 @@
 	<TEXT   xxx template=btntext      y=159 text="Baud rate:" enabledmodel="!tmc.full_autodetection&&!tmc.autodetection_in_progress&!tmc.present" watchstate=sldNTHBaudR>
 
 ;!Raffke_jr - changed template and bmp to move right
-	<BUTTON xxx template=footer4_1a bmp="foot_1_1a.bmp" text="Start autodetect" enabledmodel="!tmc.autodetection_in_progress&!tmc.present" onrelease='EXEC "tmc.start_autodetect", STATE st_TMCAutoDetect'>
+	<BUTTON xxx template=footer1_1a text="Start autodetect" enabledmodel="!tmc.autodetection_in_progress&!tmc.present" onrelease='EXEC "tmc.start_autodetect", STATE st_TMCAutoDetect'>
 ;!Matze - changed template
 	<BUTTON xxx template=footer4_4a text="Help" onrelease='NEXTSTATE st_HelpNoTmcHardware'>
 </layer>
@@ -165,31 +165,32 @@
 ;==============================
 ; TMC announcement
 
+;!Raffke_jr - repositioned and added visiblemodel "!ui.vPresetOn"
 <element_template et_TmcEvent_Announce>
 ;!Matze - changed position
-	<SPRITE xxx x=26 y=14  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="*.single_icon&!ui.vOnFlyover" >
-	<SPRITE xxx x=15 y=14  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="!*.single_icon&!ui.vOnFlyover" >
-	<SPRITE xxx x=37 y=14  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase2" visiblemodel="!*.single_icon&!ui.vOnFlyover" >
+	<SPRITE xxx x=26 y=14  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="*.single_icon&!ui.vOnFlyover&!ui.vPresetOn" >
+	<SPRITE xxx x=15 y=14  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="!*.single_icon&!ui.vOnFlyover&!ui.vPresetOn" >
+	<SPRITE xxx x=37 y=14  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase2" visiblemodel="!*.single_icon&!ui.vOnFlyover&!ui.vPresetOn" >
 ;!Matze - added icon
-	<SPRITE xxx x=0 y=0 z=1 bmp="$tmc_event_new.spr" phase=1 visiblemodel="*.is_new&!ui.vOnFlyover">
+	<SPRITE xxx x=0 y=0 z=1 bmp="$tmc_event_new.spr" phase=1 visiblemodel="*.is_new&!ui.vOnFlyover&!ui.vPresetOn">
 
 ;!Matze - changed position, fontsize, fonttype and textmodel, added glowsize 
-	<TEXT	xxx x=3  y=28 w=46 h=12  z=1 textmodel_wstr="*.roadnumber" template=xtxt3 fontsize=10 fonttype=ms font="tahomabd" Glowsize=1 visiblemodel="!*.long_roadnumber&!ui.vOnFlyover">
+	<TEXT	xxx x=3  y=28 w=46 h=12  z=1 textmodel_wstr="*.roadnumber" template=xtxt3 fontsize=10 fonttype=ms font="tahomabd" Glowsize=1 visiblemodel="!*.long_roadnumber&!ui.vOnFlyover&!ui.vPresetOn">
 
 ;!Raffke_jr - added to show distance
 ;!Matze - changed position, fontsize, fonttype, added glowsize 
-	<TEXT   xxx x=3  y=39  w=46 h=12 z=1 textmodel_wstr="*.distance.full_text" template=xtxt3 fontsize=10 fonttype=ms font="tahomabd" Glowsize=1 visiblemodel="*.distance.valid&!ui.vOnFlyover">
+	<TEXT   xxx x=3  y=39  w=46 h=12 z=1 textmodel_wstr="*.distance.full_text" template=xtxt3 fontsize=10 fonttype=ms font="tahomabd" Glowsize=1 visiblemodel="*.distance.valid&!ui.vOnFlyover&!ui.vPresetOn">
 </element_template>
 
-;!Raffke_jr - repositioned
-;!Raffke_jr - TODO: add counter "tmc.events.announced_events.list"
-<layer ui_TmcAnnounce x=375 y=166 z=5100 hide>
+<layer ui_TmcAnnounce x=375 y=191 z=5100 hide>
 ;!Matze - changed for TMC announcement on map
-	<SPRITE sprTMCBG x=0 y=26 w=52 z=1 bmp="$map_bg_big.bmp" visiblemodel="!ui.vOnFlyover">
+	<SPRITE sprTMCBG x=0 y=0 w=52 z=1 bmp="$map_bg_big.bmp" visiblemodel="!ui.vOnFlyover&!ui.vPresetOn">
+;!Raffke_jr - added announce counter
+	<TEXT	xxx x=26  y=1 w=25 z=15 textmodel_wstr="tmc.events.announced_events.size" template=xtxt3 fontsize=8 fonttype=ms font="tahomabd" Glowsize=1 align="RIGHT" visiblemodel="!ui.vOnFlyover&!ui.vPresetOn">
 ;!Matze - changed position
-	<LIST lstTMC_EventsOnRoute template=glist_TMC x=0 y=26 z=10 row=1 element_template="et_TmcEvent_Announce" listmodel="tmc.events.announced_events" showselection=0>
+	<LIST lstTMC_EventsOnRoute template=glist_TMC x=0 y=0 z=10 row=1 element_template="et_TmcEvent_Announce" listmodel="tmc.events.announced_events" showselection=0>
 ;!Matze - changed for TMC announcement on map
-	<BUTTON xxx x=0 y=26 w=52 z=15 bmp="$map_bg_big.bmp" alpha=0 onrelease='run sc_TmcAnnounceClicked' clickmodel="tmc.events.announced_events.setcurrent 0"	onlongclick='NEXTSTATE st_TmcEventsList' visiblemodel="!ui.vOnFlyover">
+	<BUTTON xxx x=0 y=0 w=52 z=15 bmp="$map_bg_big.bmp" alpha=0 onrelease='run sc_TmcAnnounceClicked' clickmodel="tmc.events.announced_events.setcurrent 0"	onlongclick='NEXTSTATE st_TmcEventsList' visiblemodel="!ui.vOnFlyover&!ui.vPresetOn">
 </layer>
 
 
@@ -207,18 +208,20 @@
 ;!Matze - removed twolineoffset=-10, 2x added valign
 	<TEXT	xxx x=105 y=43 h=18 w=360  z=1 textmodel_wstr="*.location" template=xtxt font="tahomabd" align="LEFT" valign="center" fonttype=bw fontsize=12>
 	<TEXT	xxx x=105 y=63 h=32 w=360  z=1 textmodel_wstr="*.location2" template=xtxt align="LEFT" visiblemodel="!*.single_location" valign="TOP" fonttype=bw fontsize=12>
+
 ;!Matze - added icons
-	<SPRITE xxx x=105 y=9 z=1 bmp="$tmc_event_onroute.spr" phasemodel="*.on_route">	
+;!Raffke_jr - increased z to overlay avoided icon
+	<SPRITE xxx x=105 y=9 z=2 bmp="$tmc_event_onroute.spr" phasemodel="*.on_route">	
 ;!Raffke_jr - moved right by 22 because possibly on_route&cant_avoided
 	<SPRITE xxx x=127 y=9 z=1 bmp="$tmc_event_cant_avoided.bmp" visiblemodel="*.cant_avoided">
-;!Raffke_jr - added avoided icon (TODO: correct model?)
-	<SPRITE xxx x=149 y=9 z=1 bmp="$tmc_event_avoided.bmp" visiblemodel="*.filter_option=1">
+;!Raffke_jr - added avoided icon
+	<SPRITE xxx x=105 y=9 z=1 bmp="$tmc_event_avoided.bmp" visiblemodel="*.filter_option=1">
 
 ;!Raffke_jr - TODO: TMC try to display additional time (currently always invalid)
 ;8.0.0: additional_time, additional_time_in_seconds, additional_distance
 ;8.3.1: spare_time, spare_time_in_seconds, spare_distance
-	<TEXT	xxx x=175 y=9      w=70  z=1 textmodel_timespan="*.spare_time"           template=xtxt align="RIGHT" fonttype=bw fontsize=12 visiblemodel="*.spare_time.valid">
-	<TEXT	xxx x=250 y=9      w=70  z=1 textmodel_wstr="*.spare_distance.full_text" template=xtxt align="RIGHT" fonttype=bw fontsize=12 visiblemodel="*.spare_distance.valid">
+;	<TEXT	xxx x=175 y=9      w=70  z=1 textmodel_timespan="*.spare_time"           template=xtxt align="RIGHT" fonttype=bw fontsize=12 visiblemodel="*.spare_time.valid">
+;	<TEXT	xxx x=250 y=9      w=70  z=1 textmodel_wstr="*.spare_distance.full_text" template=xtxt align="RIGHT" fonttype=bw fontsize=12 visiblemodel="*.spare_distance.valid">
 ;!Raffke_jr - added TMCpro indicator
 	<SPRITE xxx x=325 y=9 z=3 bmp="$icon_tmc_pro.bmp" visiblemodel="*.is_pay_tmc & *.service_provider_id=3378 | *.is_pay_tmc & *.service_provider_id=306">
 </element_template>

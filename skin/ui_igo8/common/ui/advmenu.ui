@@ -172,7 +172,9 @@
 </script>
 
 <script sc_btnAMDM_History_OnRelease>
-	mydata.history.list.index 0
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	runif bBeckerQuicklist 1 'other.becker.quicklist.list.index 0'
+	else_run                 'mydata.history.list.index 0'
 	NEXTSTATE st_ManageHistory
 </script>
 
