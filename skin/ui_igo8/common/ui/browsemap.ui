@@ -1,0 +1,154 @@
+;****************************************************************************************************************
+
+<state st_BrowseMap>
+	<uselayer map/>
+
+	<script init>
+		;THERE ISN'T BROWSEMAP IN iGO8
+	</script>
+
+	<script done>
+	</script>
+</state>
+
+
+<script sc_btnBMC_Compass_OnRelease>
+	obs_OverviewMode_Changed.stop
+
+	run sc_NaviMenuAlphaRestore
+	vRotationAngle.set %map.rotation_angle
+	map.GetMapState vMapState
+	runif vMapState 0 sc_2DHeadUpCheck
+	else_runif vMapState 3 'map.SetMapState 4, vMapState.set 4, run sc_2DMode'
+	else_runif vMapState 4 'map.SetMapState 0, vMapState.set 0, run sc_3DMode, run sc_3dMapFollowMode'
+	else_runif vMapState 5 'run sc_Back_From_Overview'
+	else_run 'run sc_3DMode'
+	map.GetMapState vMapState
+	runif vMapState 3 'map.SETCARPOSITION 50 75'
+	runif vMapState 4 'map.SETCARPOSITION 50 50'
+
+	obs_OverviewMode_Changed.start "NO_TRIGGER"
+	
+	btnNMB_Nav3D.isvisible vTmp
+    runif vTmp  1 '.map.north_lock 1'
+    else_run '.map.north_lock 0'
+</script>
+
+<script sc_3dMapFollowMode>
+    runif %map.follow_gps 0 '.map.follow_rotation 1, .map.follow 0'
+    else_run '.map.follow_rotation 1, .map.follow 1'
+</script>
+
+<script sc_Back_From_Overview>
+	map.GET_MAPSTATE_BEFORE_OVERVIEW vTmp
+	map.setmapstate vTmp
+	.map.zoom_level vZoomLevelBeforeOverview
+    vMapState.set vTmp
+    runif vTmp 0 'run sc_ExitOverviewTo3D'
+    else_runif vTmp 3 'run sc_ExitOverviewTo2D'
+    else_runif vTmp 4 'run sc_ExitOverviewTo2D'
+</script>
+
+<script sc_2DHeadUpCheck>
+	runif v2DHeadUp 1 sc_2DHeadUpEnabled
+	else_run 'map.SetMapState 4, run sc_2DMode'
+</script>
+
+<script sc_2DHeadUpEnabled>
+	map.SetMapState 3
+	map.mapmode 0
+	run sc_2DHeadUpInit
+	run sc_2DMode
+	.map.rotation_angle vRotationAngle
+</script>
+
+
+;****************************************************************************************************************
+
+<state st_PlanMode>
+	<uselayer map/>
+	<uselayer ui_Title/>
+	<uselayer ui_PlanMode/>
+	<uselayer ui_PlanModeControls2D/>
+	<uselayer ui_PlanModeOpenCloseButtons/>
+
+	<script init>
+	    Title.set ""
+ 		run sc_FullScreenMap
+
+		map.mapmode 1
+		vMapSettings2d3d.set "2D"
+	    map.VIEW2D3D vMapSettings2d3d
+	    
+	    map.EnableMoveCursorByClick 1
+		map.SHOWCURSOR 1
+		map.ONMAPCLICK sc_StartPlanModeMenuPlan_Refresh 1	
+		
+		vPlanModeOn.set 1
+		
+		run sc_init_zoomcontrol_planmode
+		
+        run sc_FitToScreen_PlanMode
+
+	    btnStartPoint.DISABLE
+	    runif %navigation.waypoints.list.size > 1 'btnStartPoint.ENABLE'
+
+		runif bBackupNavMapFollowPlanMode 1 'run sc_FollowOff'
+
+		run sc_StartPlanModeMenuPlan
+
+        ; any button can be used for this. This must be after all show/hide layers.
+        btn_Footer_back2.CLEARFOCUS
+	</script>
+	
+	<script done>	
+		vPlanModeOn.set 0	
+	</script>
+</state>
+
+<script sc_StartPlanModeMenuPlan>
+    btnStartPoint.ENABLE
+	btnRemStartPoint.ENABLE
+	btnDestPoint.ENABLE
+	btnRemDestPoint.ENABLE
+	btnAddViaPoint.ENABLE
+	btnRemViaPoint.ENABLE
+	btnContinue.ENABLE
+	
+    GETPLACEROUTEMODE vTmp
+	runif vTmp 1 'btnStartPoint.HIDE, btnRemStartPoint.SHOW'
+	else_run 'btnStartPoint.SHOW, btnRemStartPoint.HIDE'
+	runif vTmp 2 'btnAddViaPoint.HIDE, btnRemViaPoint.SHOW'
+	else_run 'btnAddViaPoint.SHOW, btnRemViaPoint.HIDE'
+	runif vTmp 3 'btnDestPoint.HIDE, btnRemDestPoint.SHOW'
+	else_run 'btnDestPoint.SHOW, btnRemDestPoint.HIDE'
+	runif vTmp 5 'btnAddViaPoint.DISABLE, btnContinue.DISABLE'
+	else_run 'btnPMO_AddVia.ENABLE, btnPMO_Continue.ENABLE'
+	
+	runif vTmp 1 'btnDestPoint.DISABLE, btnRemDestPoint.DISABLE, btnAddViaPoint.DISABLE, btnRemViaPoint.DISABLE, btnContinue.DISABLE'
+	else_runif vTmp 2 'btnStartPoint.DISABLE, btnRemStartPoint.DISABLE, btnDestPoint.DISABLE, btnRemDestPoint.DISABLE, btnContinue.DISABLE'
+	else_runif vTmp 3 'btnStartPoint.DISABLE, btnRemStartPoint.DISABLE, btnContinue.DISABLE,btnAddViaPoint.DISABLE, btnRemViaPoint.DISABLE'
+</script>
+
+<script sc_StartPlanModeMenuPlan_Refresh>
+    5 run sc_StartPlanModeMenuPlan
+</script>
+
+<script sc_FitToScreen_PlanMode>
+	map.MOVECURSORTOSELECTEDITEM 0
+    runif %navigation.waypoints.list.size > 1 'map.SETCARPOSITION 50 50, run sc_Fittoscreen_res'
+    else_run 'map.CENTERCURSOR'
+    2 run sc_StartPlanModeMenuPlan_Refresh
+</script>
+
+
+<script sc_StartPlanMode>
+      bBackupNavMapFollowPlanMode.SET bNavMapFollow
+      NEXTSTATE st_PlanMode
+</script>
+ 
+<script sc_btnPM_StartNavigation>
+	run sc_FollowOn
+	map.mapmode 0
+	run sc_EmptyStateQueue st_NavigateMap
+</script>

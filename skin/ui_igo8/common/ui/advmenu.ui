@@ -1,0 +1,244 @@
+;****************************************************************************************************************
+<state st_AdvFindMenu>
+	<uselayer ui_Header/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer/>
+	<uselayer ui_AdvFindMenu/>
+	
+	<script init>
+		Title.SET "Find Menu"
+		vMoveCursorToSelectedItem.set 1
+	</script>
+</state>
+;****************************************************************************************************************
+<state st_AdvRouteMenu>
+	<uselayer ui_Header/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer/>
+	<uselayer ui_AdvRouteMenu/>
+	
+	<script init>
+;		vFlyoverOrSimulate.set -1
+		Title.SET "Route Menu"
+
+		run sc_UseGestures
+
+		map.ISROUTEVALID vValidRoute vDeletableRoute
+	    runif vValidRoute 1 'btnARM_Info.ENABLE, btnARM_Itineary.ENABLE, btnARM_Edit.ENABLE, btnARM_Save.ENABLE'
+	    runif vValidRoute 0 'btnARM_Info.DISABLE, btnARM_Itineary.DISABLE, btnARM_Edit.DISABLE, btnARM_Save.DISABLE'
+	    runif vDeletableRoute 1 'btnARM_Delete.ENABLE'
+	    runif vDeletableRoute 0 'btnARM_Delete.DISABLE'
+
+		runif vBackupAutoReplanIsValid 1 'vAutoReplan.SET vBackupAutoReplan, vBackupAutoReplanIsValid.SET 0, vStateMode.SET ""'
+				
+		map.ISROUTEVALID vValidRoute vDeletableRoute
+		runifnot vValidRoute 0 'INCVAL "vTmp" 1'
+		ntmp.SET %mydata.routes.hasigoitems
+		runifnot ntmp 0 'INCVAL "vTmp" 1'		
+	    runif vtmp 0 'PREVSTATE'
+	</script>
+</state>
+        
+<script sc_btnARM_Delete_OnRelease>
+    INITMESSAGEBOX 1 "The route will be deleted." 'run sc_DeleteSavedRouteConfirmed' 'vNeedPrevState.set 0'
+    vStartModeTmp.set 0
+</script>
+
+<script sc_DeleteSavedRouteConfirmed>
+    DELETEROUTE
+    btnARM_Delete.DISABLE
+    btnARM_Info.DISABLE
+    btnARM_Itineary.DISABLE
+    btnARM_Edit.DISABLE
+    btnARM_Save.DISABLE
+    run sc_RefreshRouteInfo
+
+    Title.SET "Route Menu"
+    vtmp.set 0
+    runif %navigation.waypoints.list.size 0 'incval "vtmp"'
+    runif %mydata.routes.isempty 1 'incval "vtmp"'
+    runif vtmp 2 'PREVSTATE'
+    runif vactivestate "st_navigatemap" 'vNeedPrevState.set 0'
+    runif vNeedPrevState 1 'prevstate'
+    vNeedPrevState.set 0
+</script>
+
+<script sc_SaveRoute>
+    vTmp.TEXTMODEL_WSTR "mydata.routes.route_name"
+	inpSI_Text.GET "vTmp"
+	vTmp.DROPMODEL
+    EXEC "mydata.routes.save_current"
+
+	PREVSTATE
+	
+	runif %navigation.waypoints.list.size 0 'INITMESSAGEBOX 0 "No active route. Nothing to save."'
+</script>
+
+<script sc_btnARM_Save_OnRelease>
+	Title.SET "Save Route"
+	inpSI_Text.emptytitle "<Enter route name>" 
+	inpSI_Text.value ""
+	vKeyTableDone.SET sc_SaveRoute
+	vInputDoneScript.SET sc_SaveRoute
+	vInputDoneScriptSet.SET 1
+	vRequiredField.SET 1
+	Title.SET "Route name"
+	NEXTSTATE st_SimpleInputtext
+</script>
+
+;****************************************************************************************************************
+
+<state st_AdvMyDataMenu>
+	<uselayer ui_Header/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer/>
+	<uselayer ui_AdvMyDataMenu/>
+	
+	<script init>
+		Title.SET "Manage"
+		runif %other.geocoding.list_fails.isempty 1 '.other.geocoding.list_fails.valid 0'
+		runif %other.geocoding.list_fails.valid 1 'btn_geocoding_list.enable'
+		else_run 'btn_geocoding_list.disable'
+	</script>
+</state>
+
+<script sc_btnAMDM_POI_OnRelease>
+    run sc_StartManagePOISearch
+    NEXTSTATE st_ManagePOIStructuredList
+</script>
+
+<script sc_btnAMDM_Favorite_OnRelease>
+    vManageMode.SET 1
+    NEXTSTATE st_ManageFavorite
+</script>
+
+<script sc_btnAMDM_History_OnRelease>
+	mydata.history.list.index 0
+	NEXTSTATE st_ManageHistory
+</script>
+
+;****************************************************************************************************************
+
+<state st_AdvSettingsMenu>
+	<uselayer ui_Header/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer/>
+	<uselayer ui_AdvSettingsMenu/>
+	<uselayer ui_AdvSettingsMenu2/>
+	<uselayer ui_AdvSettingsMenu_Footer/>
+	
+	<script init>
+		Title.SET "Settings"
+		run sc_SetAdvancedMode
+		
+		runif vSettingsActPage 0 'ui_AdvSettingsMenu.SHOW, ui_AdvSettingsMenu2.HIDE'
+		runif vSettingsActPage 1 'ui_AdvSettingsMenu2.SHOW, ui_AdvSettingsMenu.HIDE'
+		
+	</script>
+
+	<script exit>
+		SAVESETTINGS
+	</script>
+</state>
+
+<script sc_btnASM_Basic_OnRelease>
+    INITMESSAGEBOX 1 "Changing to Normal mode" 'run sc_btnASM_Basic_OnRelease2'
+</script>
+
+<script sc_btnASM_Basic_OnRelease2>
+    run sc_SetBasicMode
+        
+    nUserMode.SET 1
+    ;vFindStateCont.SET st_BasMenu
+	;CLEARTOMARKER vFindStateMarker vFindStateCont
+	;vFindStateCont.SET 0
+
+	EMPTYSTATEQUEUE
+	run sc_GoToStartState
+</script>
+
+;****************************************************************************************************************
+
+<state st_UserDataMgmt>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_AdvUserDataMgmt/>
+	
+	<script init>
+		Title.SET "User Data Management"
+	</script>
+</state>
+
+<script sc_UDM_RemovePins>
+    INITMESSAGEBOX 1 "All your Pins will be removed." 'REMOVEALLPINS'
+</script>
+
+<script sc_UDM_Backup_Success>
+	INITMESSAGEBOX 0 "Database was backed up successfully."
+</script>
+
+<script sc_UDM_Backup_Failed>
+	INITMESSAGEBOX 0 "Database backup failed! Check Storage Card."
+</script>
+	
+<script sc_UDM_Backup>
+    INITMESSAGEBOX 2 "Do you want to backup your current settings and data?" 'run sc_UDM_Backup_OK'
+</script>
+
+<script sc_UDM_Backup_OK>
+	USERDB_BACKUP sc_UDM_Backup_Success sc_UDM_Backup_Failed
+</script>
+	
+<script sc_UDM_Restore>
+    INITMESSAGEBOX 1 "All your settings and saved data will be lost since the last backup." 'run sc_UDM_Restore_OK'
+</script>
+
+<script sc_UDM_Restore_OK>
+	USERDB_RESTORE sc_UDM_Restore_Failed
+</script>
+
+<script sc_UDM_Restore_Failed>
+	INITMESSAGEBOX 0 "Database restore failed!"
+</script>
+
+<script sc_UDM_UserData_Reset>
+    INITMESSAGEBOX 1 "All your settings and saved data will be lost." 'run sc_UDM_UserData_Reset_OK'
+</script>
+
+<script sc_UDM_UserData_Reset_OK>
+	SETTINGS_RESET
+</script>
+
+<script sc_UDM_AdvancedData_Reset>
+    INITMESSAGEBOX 1 "All advanced settings will be reset to their default values." 'run sc_UDM_AdvancedData_Reset_OK'
+</script>
+
+<script sc_UDM_AdvancedData_Reset_OK>
+	SETTINGS_ADVANCED_RESET
+</script>
+
+<state st_HelpAdvUserDataMgmt>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_ScrollButtons/>
+	<uselayer ui_HelpAdvUserDataMgmt/>
+
+	<script init>
+		Title.SET "User Data Management"
+		run sc_ScrollingLayerInit ui_HelpAdvUserDataMgmt vAutoScrollHelp
+	</script>
+	
+	<script done>
+	    run sc_ScrollingLayerDone
+	</script>
+</state>
+
+

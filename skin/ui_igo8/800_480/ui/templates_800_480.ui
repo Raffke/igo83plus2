@@ -1,0 +1,231 @@
+<TEMPLATE btnmapmenu template=a_yzoomin    bmp="btn_lb_4d_map.bmp#2"  fonttype=bw font="tahoma" padding=6 valign="center" fontsize=22 clicked_coloring=1>
+
+<TEMPLATE btnlauncher template=a_yzoomin    bmp="4_2_all.bmp#12"  fonttype=bw font="tahoma" padding=6 valign="center" fontsize=14 clicked_coloring=1>
+
+<TEMPLATE xtxt fonttype=headerfont font="tahoma" align="left" fontsize=22>
+<TEMPLATE xtxt2 x=290 y=45 w=405 z=10 h=26	align="right"	valign="bottom-4"		text="0" font="tahoma"   fonttype=font1 fontsize=14	color=#FFFFFF>
+<TEMPLATE xtxt_numb x=5 y=47 w=690 z=10 h=26	align="RIGHT-5"	valign="BOTTOM-4"		text="0" font="tahoma"   fonttype=font1 fontsize=16	color=#FFFFFF>
+<TEMPLATE xtxt3 text="0" font="tahoma" fontsize=28  fonttype=bw  align="center" valign="center">
+<TEMPLATE xtxt4 fonttype=bw font="tahoma" align="CENTER" valign="CENTER" fontsize=28>
+
+<TEMPLATE xtxthud  font="tahomabd"                                 color=#cacaca glowsize=1 color2=#000000 color3=#000000 fontsize=18>
+<TEMPLATE xtxthud1 font="tahomabd" align="left" valign="BOTTOM-12" color=#FFFFFF color2=#000000 color3=#000000 fontsize=32>
+
+<TEMPLATE xlist      x=48 y=42 bg="btn_4a_.spr" w=664 selection="btn_4a_sel.bmp" row=4 padding=20 fonttype=bw font="tahoma" fontsize=28 SIMPLECLICKSELECT twolinesmall=1 twolinemodel=1 sound="!success" showselection=0 clicked_coloring=1>; a regi listtable kontrol
+<TEMPLATE xlist_icon x=48 y=42 bg="btn_4a_.spr" w=618 selection="btn_4a_sel.bmp" row=4 iconpadding=20 fonttype=bw font="tahoma" fontsize=28 SIMPLECLICKSELECT twolinesmall=1 iconw=66 twolinemodel=1 sound="!success" showselection=0 clicked_coloring=1>; a regi listtable kontrol (ezt hasznaljuk, ha xlist -ben ikon is van)
+
+<TEMPLATE tlist   y=42 cellw=700 cellh=90 row=4 col=1 showselection=0>; 1 oszlopos list kontrol
+<TEMPLATE tlist2  x=0  y=42 cellw=350 cellh=91 row=4 col=2 showselection=0 fxdelay_row=5 fxdelay_col=12>; 2 oszlopos list kontrol 
+
+;Buttonos listak (LIST)
+
+<TEMPLATE tlist_a x=30  y=0  z=0  bmp="btn_lb_4a.bmp#2" padding=8 align="LEFT+60" valign="CENTER" fonttype=bw fontsize=24 twolinesmall=1  clicked_coloring=1 >
+<TEMPLATE tlist_c x=63  y=0  z=0  bmp="btn_lb_4c.bmp#2" padding=8 align="LEFT+10" valign="CENTER" fonttype=bw fontsize=18 twolinesmall=1  clicked_coloring=1 >
+<TEMPLATE tlist_d x=625 y=0  z=10 bmp="btn_lb_4e.bmp#3" padding=8 align="CENTER"  valign="CENTER" fonttype=bw fontsize=18 twolinesmall=1  clicked_coloring=1  ICONALIGN="CENTER" ICONVALIGN="CENTER" >
+
+<TEMPLATE glist     x=14  y=20 cellw=300 cellh=40 row=5 col=1>
+<TEMPLATE glist_TMC x=50 z=0  cellw=565 cellh=90 row=4 col=1 fonttype=bw align="left+20" fontsize=24>
+<TEMPLATE glist_TMC_big x=0 y=0 z=0 bmp="btn_magas.bmp#2" padding=8 align="LEFT+10" valign="CENTER" fonttype=bw fontsize=16 twolinesmall=1  clicked_coloring=1>
+
+<TEMPLATE t5list_d x=254 y=0  z=10 bmp="btn_lb_5e.bmp#3" padding=8 align="CENTER"  valign="CENTER" fonttype=bw fontsize=16 twolinesmall=1  clicked_coloring=1  ICONALIGN="CENTER" ICONVALIGN="CENTER" >
+
+;Settingsek Uj Buttonos listak
+
+<TEMPLATE btn_lb5a x=50 z=0 bmp="btn_lb_5a.bmp#2" padding=8 align="LEFT+10"  valign="CENTER" fonttype=bw twolinesmall=1  clicked_coloring=1  fontsize=22>
+<TEMPLATE sld_lb5a x=50 z=0 bmp="btn_lb_5a.bmp#2"           align="RIGHT-15" valign="CENTER" fonttype=bw                                     fontsize=22>
+<TEMPLATE chk_lb5a x=50 z=0 bmp="chk_lb_5a.bmp#2" align="LEFT+20"  valign="CENTER" fonttype=bw                 fontsize=22>
+
+<TEMPLATE btn_lb5e x=389 bmp="btn_lb_5e.bmp#3" padding=8 align="center" valign="center" fonttype=bw twolinesmall=1  clicked_coloring=1>
+
+<TEMPLATE btn_lb4d x=64 z=0 bmp="btn_lb_4d.bmp#2" padding=8 align="LEFT+10"  valign="CENTER" fonttype=bw twolinesmall=1  clicked_coloring=1 fontsize=14>
+
+
+;*********************** ^^ L I S T A K ^^ ******************************
+
+<TEMPLATE btntext fonttype=bw fontsize=28 x=68 z=100 font="tahoma" align="LEFT">
+<TEMPLATE texttmc fonttype=bw fontsize=14 z=100 font="tahoma" align="left" >
+
+<TEMPLATE xinput MAXLENGTH=30 fonttype=font1  valuefontsize=20 align="left" valign="center" fp=99 x=10 y=47 z=10 w=695 h=52 valuefont="tahomabd" emptycolor=#888888 color=#ffffff valuecolor=#ffffff dontshowfocus  nospace=1>; az inputtext kontroll szovege uresen, es beleirva is
+<TEMPLATE xinputfield bmp="inputfield.bmp" x=2 y=40 z=5>; a beviteli mezo hattere
+<TEMPLATE xinputfield_short template=xinputfield bmp="inputfield_short.bmp">; a rovidebb beviteli mezo hattere
+
+<TEMPLATE menu4_1 template=a_yzoomin2c bmp="4_1.bmp#3" x=397 y=222 w=200 ICONALIGN="CENTER" ICONVALIGN="CENTER-15" bmpalign="RIGHT" bmpvalign="BOTTOM" fonttype=bw font="tahoma"  valign="BOTTOM-30" align="CENTER"  fontsize=28 padding=6  clicked_coloring=1 twolineoffset=20 leading=_0.75>
+<TEMPLATE menu4_2 template=a_yzoomin2c bmp="4_2.bmp#3" x=397 y=228 w=200 ICONALIGN="CENTER" ICONVALIGN="CENTER-25" bmpalign="RIGHT" bmpvalign="TOP"    fonttype=bw font="tahoma"  valign="BOTTOM-40" align="CENTER"  fontsize=28 padding=6  clicked_coloring=1 twolineoffset=15 leading=_0.75>
+<TEMPLATE menu4_3 template=a_yzoomin2c bmp="4_3.bmp#3" x=403 y=222 w=200 ICONALIGN="CENTER" ICONVALIGN="CENTER-15" bmpalign="LEFT"  bmpvalign="BOTTOM" fonttype=bw font="tahoma"  valign="BOTTOM-30" align="CENTER"  fontsize=28 padding=6  clicked_coloring=1 twolineoffset=20 leading=_0.75>
+<TEMPLATE menu4_4 template=a_xzoomin2c bmp="4_4.bmp#3" x=403 y=228 w=200 ICONALIGN="CENTER" ICONVALIGN="CENTER-25" bmpalign="LEFT"  bmpvalign="TOP"    fonttype=bw font="tahoma"  valign="BOTTOM-40" align="CENTER"  fontsize=28 padding=6  clicked_coloring=1 twolineoffset=15 leading=_0.75>
+
+<TEMPLATE menu6_1 template=a_yzoomin2c bmp="6_1.bmp#3" x=397 y=168 w=245 ICONALIGN="LEFT+20" ICONVALIGN="CENTER+12" bmpalign="RIGHT" bmpvalign="BOTTOM" fonttype=bw font="tahoma" valign="center+3" align="LEFT+110" fontsize=28  padding=6  clicked_coloring=1 leading=_0.75>
+<TEMPLATE menu6_2 template=a_yzoomin2c bmp="6_2.bmp#3" x=397 y=173 w=245 ICONALIGN="LEFT+20" ICONVALIGN="CENTER"    bmpalign="RIGHT" bmpvalign="TOP"    fonttype=bw font="tahoma" valign="center"   align="LEFT+110" fontsize=28  padding=6  clicked_coloring=1 leading=_0.75>
+<TEMPLATE menu6_3 template=a_yzoomin2c bmp="6_3.bmp#3" x=397 y=283 w=245 ICONALIGN="LEFT+20" ICONVALIGN="CENTER-12" bmpalign="RIGHT" bmpvalign="TOP"    fonttype=bw font="tahoma" valign="center-3" align="LEFT+110" fontsize=28  padding=6  clicked_coloring=1 leading=_0.75>
+
+<TEMPLATE menu6_4 template=a_yzoomin2c bmp="6_4.bmp#3" x=403 y=167 w=245 ICONALIGN="LEFT+20" ICONVALIGN="CENTER" bmpalign="LEFT"  bmpvalign="BOTTOM"  fonttype=bw font="tahoma" valign="center+3" align="LEFT+110" fontsize=28  padding=6  clicked_coloring=1 leading=_0.75>
+<TEMPLATE menu6_5 template=a_yzoomin2c bmp="6_5.bmp#3" x=403 y=173 w=245 ICONALIGN="LEFT+20" ICONVALIGN="CENTER" bmpalign="LEFT"  bmpvalign="TOP"     fonttype=bw font="tahoma" valign="center"   align="LEFT+110" fontsize=28  padding=6  clicked_coloring=1 leading=_0.75>
+<TEMPLATE menu6_6 template=a_xzoomin2c bmp="6_6.bmp#3" x=403 y=283 w=245 ICONALIGN="LEFT+20" ICONVALIGN="CENTER" bmpalign="LEFT"  bmpvalign="TOP"     fonttype=bw font="tahoma" valign="center-3" align="LEFT+110" fontsize=28  padding=6  clicked_coloring=1 leading=_0.75>
+
+;-----------------------------  FOOTERS -------------------------------------
+;--------Gorbitett footerek-----------
+<TEMPLATE footer y=407 padding=8 font="tahomabd" valign="center+4" align="center" fontsize=20 color=#FFFFFF clicked_dy=1 glowtype=1 glowsize=6 color2=#000000>
+	<TEMPLATE footer4_1  template=footer  bmp="foot_4_1.bmp"  x=160  >
+	<TEMPLATE footer4_2  template=footer  bmp="foot_4_2.bmp"  x=320 >
+	<TEMPLATE footer4_3  template=footer  bmp="foot_4_3.bmp"  x=480 >
+	<TEMPLATE footer4_4  template=footer  bmp="foot_4_4.bmp"  x=640 >
+
+	<TEMPLATE footer3_1  template=footer  bmp="foot_3_1.bmp"  x=160  >
+	<TEMPLATE footer3_2  template=footer  bmp="foot_3_2.bmp"  x=373 >
+	<TEMPLATE footer3_3  template=footer  bmp="foot_3_3.bmp"  x=587 >
+
+	<TEMPLATE footer2_1  template=footer  bmp="foot_2_1.bmp"  x=160  >
+	<TEMPLATE footer2_2  template=footer  bmp="foot_2_2.bmp"  x=480 >
+
+	<TEMPLATE footerm3_1 template=footer  bmp="foot_m3_1.bmp" x=0 >
+	<TEMPLATE footerm3_2 template=footer  bmp="foot_m3_2.bmp" x=267 >
+	<TEMPLATE footerm3_3 template=footer  bmp="foot_m3_3.bmp" x=533 >
+	
+	<TEMPLATE prevpage_sett template=footer bmp="btn_prev_sett.bmp#3" x=480>
+	<TEMPLATE nextpage_sett template=footer bmp="btn_next_sett.bmp#3" x=640>
+
+	<TEMPLATE back          template=footer bmp="back.bmp#3"          x=0  text="" onlongclick='run sc_GoTo_MainMenu'> 
+
+;--------Egyenes footerek-----------
+<TEMPLATE footera y=414 padding=4 font="tahomabd" valign="center" align="center" fontsize=20 color=#FFFFFF clicked_dy=1 glowtype=1 glowsize=6 color2=#000000>
+	<TEMPLATE footer4_1a  template=footera bmp="foot_4_a.bmp" x=160  >
+	<TEMPLATE footer4_2a  template=footera bmp="foot_4_a.bmp" x=320 >
+	<TEMPLATE footer4_3a  template=footera bmp="foot_4_a.bmp" x=480 >
+	<TEMPLATE footer4_4a  template=footera bmp="foot_4_a.bmp" x=640 >
+							
+	<TEMPLATE footer3_1a  template=footera bmp="foot_3_a.bmp" x=161  >
+	<TEMPLATE footer3_2a  template=footera bmp="foot_3_a.bmp" x=374 >
+	<TEMPLATE footer3_3a  template=footera bmp="foot_3_a.bmp" x=587 >
+
+	<TEMPLATE footer1_1a  template=footera bmp="foot_1_1a.bmp" x=0 >
+							
+	<TEMPLATE footer2_1a  template=footera bmp="foot_2_a.bmp" x=160 >
+	<TEMPLATE footer2_2a  template=footera bmp="foot_2_a.bmp" x=480 >
+
+	<TEMPLATE footerm3_1a template=footera bmp="foot_m3_a.bmp" x=0 >
+	<TEMPLATE footerm3_2a template=footera bmp="foot_m3_a.bmp" x=267 >
+	<TEMPLATE footerm3_3a template=footera bmp="foot_m3_a.bmp" x=533 >
+
+	<TEMPLATE prevpage    template=footera bmp="btn_prev.bmp#3"  x=480 >
+	<TEMPLATE nextpage    template=footera bmp="btn_next.bmp#3"  x=640 >
+
+	<TEMPLATE backa       template=footera bmp="backa.bmp#3"     x=0 text="" onlongclick='run sc_GoTo_MainMenu'> 
+
+
+
+	;-------------- vastag gombok --------------y=21,66,111,156
+<TEMPLATE txt_4 z=1 align="LEFT" valign="CENTER" h=88 fonttype=bw  fontsize=28 font="tahoma"  >
+	<TEMPLATE chk_4c template=txt_4 bmp="chk_4c.bmp#3" x=48  z=1 w=280 h=88 twolinesmall=1  padding=20 align="LEFT" valign="CENTER" fontsize=28>;ket oszlop
+
+	<TEMPLATE btn_4a template=txt_4 bmp="btn_4a.bmp#2" x=48  z=0   twolinesmall=1 padding=20 clicked_coloring=1>;egy oszlop
+		<TEMPLATE btn_4a_icon  template=btn_4a align="LEFT+72">;ha ikon van
+		<TEMPLATE btn_4a_poi   template=btn_4a align="LEFT+112"                    bmp="btn_4a_poi.bmp#2"   >;Poi listakban
+		<TEMPLATE btn_4a_poigr template=btn_4a align="LEFT+72" valign="CENTER+4"  bmp="btn_4a_poigr.bmp#2" >;Poigr listakban
+	
+	<TEMPLATE btn_4b template=txt_4 bmp="btn_4b.bmp#2" x=48  z=0  twolinesmall=1  padding=20 clicked_coloring=1>;egy oszlop + a kicsi helye jobbra
+		<TEMPLATE btn_4b_icon  template=btn_4b align="LEFT+72">;ha ikon van
+		<TEMPLATE btn_4b_poigr template=btn_4b align="LEFT+72" valign="CENTER+8"  bmp="btn_4b_poigr.bmp#2">;manage Poigr listakban
+	
+	<TEMPLATE btn_4c template=txt_4 bmp="btn_4c.bmp#2" x=48  z=0  twolinesmall=1  padding=20 clicked_coloring=1>;ket oszlop                
+		<TEMPLATE btn_4c_icon  template=btn_4c ICONALIGN="LEFT+18" ICONVALIGN="CENTER+2" align="LEFT+72">;ha ikon van            
+	
+	<TEMPLATE btn_4d bmp="btn_4d.bmp#3" x=634 z=0 align="CENTER" valign="CENTER" fonttype=bw twolinesmall=1  fontsize=24 padding=10 clicked_coloring=1 iconalign="CENTER" iconvalign="CENTER" iconphasesync=1 >;kicsi jobbra              
+
+	;-------------- vekony gombok --------------y=21,57,93,129,165 Szovegek ua.
+<TEMPLATE txt_5 z=1 align="LEFT" valign="CENTER" h=70 fonttype=bw  fontsize=28 font="tahoma" >
+	<TEMPLATE txt_csu_legend  template=txt_5 x=68  w=340 >;a csuszka neve
+	<TEMPLATE txt_csu_value   template=txt_5 x=354 w=70  align="RIGHT"  font="tahomabd" fixedwidthnumbers=1>;a csuszka erteke
+	<TEMPLATE txt_csu_unit    template=txt_5 x=444 w=70  align="LEFT" >;a csuszka mertekegysege
+	<TEMPLATE txt_csu_valunit template=txt_5 x=414 w=100 align="RIGHT" font="tahomabd">;a csuszka erteke es mertekegysege ahol egyben van
+	<TEMPLATE txt_sld         template=txt_5 x=68  w=332 z=100>; Balra zart szoveg a slider tipusu gombokon
+
+	<TEMPLATE btn_5a template=txt_5 bmp="btn_5a.bmp#2" x=48   z=10  twolinesmall=1  padding=20 clicked_coloring=1>;egy oszlop
+	<TEMPLATE btn_5b template=txt_5 bmp="btn_5b.bmp#2" x=48   z=10  twolinesmall=1  padding=20 clicked_coloring=1>;egy oszlop + a kicsi helye jobbra
+	<TEMPLATE btn_5c template=txt_5 bmp="btn_5c.bmp#2" x=402   z=10  twolinesmall=1  padding=20 clicked_coloring=1>;ket oszlop
+	<TEMPLATE btn_5d template=txt_5 bmp="btn_5d.bmp#3" x=634 z=10  twolinesmall=1  padding=10  clicked_coloring=1 fontsize=24 align="CENTER" iconalign="CENTER" iconvalign="CENTER" >;kicsi jobbra
+
+	<TEMPLATE sld_5a template=txt_5 bmp="btn_5a.bmp#2" x=48  z=0  w=332 twolinesmall=1  padding=20 align="RIGHT" >;egy oszlop
+
+	<TEMPLATE chk_5a template=txt_5 bmp="chk_5a.bmp#4" x=48  z=10 w=604 twolinesmall=1  padding=20>;egy oszlop
+	<TEMPLATE chk_5b template=txt_5 bmp="chk_5b.bmp#2" x=48  z=10 w=414 twolinesmall=1  padding=20 >;egy oszlop + a kicsi helye jobbra
+
+
+<TEMPLATE spr_5a bmp="btn_5a.bmp#2" x=48  z=0 >;egy oszlop
+
+<TEMPLATE csuszka_small x=532 z=500 bmp="fable_scrollbg_small.spr" sprind="fable_scrollbtn.spr">
+<TEMPLATE csuszka x=390 z=500 h=70 valign="CENTER" bmp="fable_scrollbg.spr" sprind="fable_scrollbtn.spr">
+
+<TEMPLATE only_white color=#FFFFFF color2=#FFFFFF color3=#FFFFDD>>
+<TEMPLATE spr_poti x=48 y=0 z=0 bmp="poti_bg.bmp">
+<TEMPLATE txt_poti template=txt_5 template=only_white x=68 w=400 z=100>; Poti bg- lévõ szöveg, mindig fehér
+
+;----------- animacios templatek -------------
+<TEMPLATE a_fadein     fxinit='call $1 "ALPHA" 0' fxshow='call $1 "BLENDALPHA"  0 32 20' >
+<TEMPLATE a_xzoomin    fxinit='call $1 "ALPHA" 0' fxshow='call $1 "BLENDALPHA"  0 32 10, call $1 "BLENDZOOMX"  1 1424 10, 10 call $1 "BLENDZOOMX"  1424 1024 10'  >
+<TEMPLATE a_xzoomin1   fxinit='call $1 "ALPHA" 0' fxshow='call $1 "BLENDALPHA"  0 32 10, call $1 "BLENDZOOMX"  1 512 3, 3 call $1 "BLENDZOOMX"  512 881 3, 6 call $1 "BLENDZOOMX"  881 1024 4'  >
+<TEMPLATE a_xzoomin2a  fxinit='call $1 "ALPHA" 0' fxshow='call $1 "BLENDALPHA"  0 32 2, call $1 "BLENDZOOMX"  1 512 6, call $1 "BLENDZOOMY"   389  683 6, 6 call $1 "BLENDZOOMX"  512 881 6, 6 call $1 "BLENDZOOMY"    854 977 6, 12 call $1 "BLENDZOOMX"  881 1024 8, 12 call $1 "BLENDZOOMY"  977  1024 8'  >
+<TEMPLATE a_xzoomin2b  fxinit='call $1 "ALPHA" 0' fxshow='call $1 "BLENDALPHA"  0 32 2, call $1 "BLENDZOOMX"  1 512 6, call $1 "BLENDZOOMY"  1170 1120 6, 6 call $1 "BLENDZOOMX"  512 881 6, 6 call $1 "BLENDZOOMY"  1120 1070 6, 12 call $1 "BLENDZOOMX"  881 1024 8, 12 call $1 "BLENDZOOMY"  1070 1024 8'  >
+<TEMPLATE a_xzoomin2c  fxinit='call $1 "ALPHA" 0' fxshow='call $1 "BLENDALPHA"  0 32 10,
+															call $1 "BLENDZOOMX"  1 1 3,
+														3	call $1 "BLENDZOOMX"  1 512 3,
+														6	call $1 "BLENDZOOMX"  512 768 3,
+														9	call $1 "BLENDZOOMX"  768 896 3,
+														12	call $1 "BLENDZOOMX"  896 960 3,
+														15	call $1 "BLENDZOOMX"  960 1024 3'>
+
+<TEMPLATE a_yzoomin2c  fxinit='call $1 "ALPHA" 0' fxshow='call $1 "BLENDALPHA"  0 32 10,
+															call $1 "BLENDZOOMY"  1 1 3,
+														3	call $1 "BLENDZOOMY"  1 512 3,
+														6	call $1 "BLENDZOOMY"  512 768 3,
+														9	call $1 "BLENDZOOMY"  768 896 3,
+														12	call $1 "BLENDZOOMY"  896 960 3,
+														15	call $1 "BLENDZOOMY"  960 1024 3'>
+														
+;<TEMPLATE a_xzoomin2a  fxinit='call $1 "ALPHA" 0' fxshow='call $1 "BLENDALPHA"  0 32 10, call $1 "BLENDZOOMX"  1 512 6, call $1 "BLENDZOOMY"  389 683 6, 6 call $1 "BLENDZOOMX"  512 881 6, 6 call $1 "BLENDZOOMY"  854 977 6, 12 call $1 "BLENDZOOMX"  881 1024 8, 12 call $1 "BLENDZOOMY"  977 1024 8'  >
+;<TEMPLATE a_xzoomin2b  fxinit='call $1 "ALPHA" 0' fxshow='call $1 "BLENDALPHA"  0 32 10, call $1 "BLENDZOOMX"  1 512 6, call $1 "BLENDZOOMY"  1170 1120 6, 6 call $1 "BLENDZOOMX"  512 881 6, 6 call $1 "BLENDZOOMY"  1120 1070 6, 12 call $1 "BLENDZOOMX"  881 1024 8, 12 call $1 "BLENDZOOMY"  1070 1024 8'  >
+                      
+<TEMPLATE a_yzoomin   fxinit='call $1 "ALPHA" 0' fxshow='call $1 "BLENDZOOMY"  0 1024 10, call $1 "BLENDALPHA"  0 32 1' >
+<TEMPLATE a_btnfoot                              fxshow='call $1 "BLENDZOOMY" 0 1224 10, 10 call $1 "BLENDZOOMY" 1224 1024 5'>
+
+<TEMPLATE a_fromcenter alpha=0 fxinit='call $1 "ALPHA" 0' fxshow='call $1 "BLENDALPHA" 0 32 10, call $1 "BLENDZOOM" 10 1024 10, call $1 "BLENDFROMPOS" 160 120 10'>
+
+<TEMPLATE a_buggy  fxinit='call $1 "ALPHA" 0'  fxshow= ' call $1 "BLENDALPHA" 0 32 1, call $1 "BLENDZOOM" 1 1200 10,  10 call $1 "BLENDZOOM" 1200 1024 4'>
+
+<TEMPLATE a_buggy1 fxinit='call $1 "ALPHA" 0'  fxshow=   ' call $1 "BLENDALPHA" 0 32 10, 
+							   call $1 "BLENDZOOM" 1 1200 10,   
+						        10 call $1 "BLENDZOOM" 1200 900 10,   
+							20 call $1 "BLENDZOOM" 900 1100 10,  
+							30 call $1 "BLENDZOOM" 1100 1000 10,
+							40 call $1 "BLENDZOOM" 1000 1024 10'>
+							
+<TEMPLATE a_rubber fxinit='call $1 "ALPHA" 0'  fxshow=   ' call $1 "BLENDALPHA" 0 32 1, 
+							   call $1 "BLENDZOOMX" 2000 600  20,   
+						           call $1 "BLENDZOOMY" 1    1300 20,   
+							
+							20 call $1 "BLENDZOOMX" 600  1200 10,  
+						        20 call $1 "BLENDZOOMY" 1300 900  10,
+							
+							30 call $1 "BLENDZOOMX" 1200 1024 10,
+							30 call $1 "BLENDZOOMY" 900  1024 10'>
+
+; ************************ Uj template-ek ***************************
+
+<TEMPLATE pageindex    x=750 y=3  w=45  z=99  align="RIGHT-10" text="" fontsize=20  font="tahomabd" color=#FFFFFF fixedwidthnumbers=1>; oldalszamlalo jobb felul
+<TEMPLATE txt_results  x=0   y=47 w=700 z=10  align="RIGHT" valign="CENTER" text="0" fontsize=20  fonttype=font1 font="tahoma"   color=#FFFFFF fixedwidthnumbers=1>; a beviteli mezo jobb oldalan a talalatszamlalo >300 stb..
+
+<TEMPLATE txt_empty    x=48  y=186 w=704 h=70 font="tahoma" text="0" fonttype=bw  align="CENTER" valign="CENTER"  fontsize=24 align="center">; amikor egy lista ures ez jelenik meg helyette
+<TEMPLATE spr_empty    x=50  y=188  bmp="empty_textbox.bmp" >; amikor egy lista ures ez jelenik meg helyette
+
+<TEMPLATE txt_map      x=175 y=444 w=599 h=36  z=10           align="CENTER" valign="CENTER" fontsize=24 font="tahomabd" color=#FFFFFF color2=#000000 color3=#000000 glowsize=1>; actualstreet, housenumber, nextstreet (mas y-nal), stb
+<TEMPLATE txt_sec      y=230 z=1 h=30 valign="CENTER" fontsize=22 font="tahomabd" color=#FFFFFF >;secondary diriconon pl. a manover, speedcam tavolsag, ...
+
+<TEMPLATE help_text x=25 z=36 w=670 h=20000 fontsize=18 font="tahomabd" fonttype=xhtml_ft align="CENTER" orientation="L2R"  view_top=50 view_bottom=383 fontsize_percent=200>; az xhtml alapu szovegek, help, about, legal, stb
+
+<TEMPLATE dialog1_1 x=292 y=278 bmp="dialog_3_2.bmp#3" fonttype=bw font="tahoma"  padding=6  clicked_coloring=1 valign="CENTER-3" align="center" fontsize=28>
+
+<TEMPLATE dialog2_1 x=77  y=278 bmp="dialog_2_1.bmp#3" fonttype=bw font="tahoma"  padding=6  clicked_coloring=1 valign="CENTER-3" align="center" fontsize=28>
+<TEMPLATE dialog2_2 x=400 y=278 bmp="dialog_2_2.bmp#3" fonttype=bw font="tahoma"  padding=6  clicked_coloring=1 valign="CENTER-3" align="center" fontsize=28>
+
+<TEMPLATE dialog3_1 x=77  y=278 bmp="dialog_3_1.bmp#3"  valign="CENTER-3" align="center" fontsize=28 fonttype=bw clicked_coloring=1>
+<TEMPLATE dialog3_2 x=292 y=278 bmp="dialog_3_2.bmp#3"  valign="CENTER-3" align="center" fontsize=28 fonttype=bw clicked_coloring=1 >
+<TEMPLATE dialog3_3 x=508 y=278 bmp="dialog_3_3.bmp#3"  valign="CENTER-3" align="center" fontsize=28 fonttype=bw clicked_coloring=1>

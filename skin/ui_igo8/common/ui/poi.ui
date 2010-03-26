@@ -1,0 +1,1315 @@
+<header>
+    <var vSortBy="name">
+    <var vSortByQS="distance">
+	<var vSortBy2="distance">	; second state of vSortBy
+	<var vSortByQS2="name">		; second state of vSortByQS
+    <var vRestartAllSearch=0>
+	<var vQSStateMarker>
+	<var vManagePoiQueryMode="all">
+</header>
+
+;****************************************************************************************************************
+
+<state st_FindPOIQuickSearch>
+	<uselayer ui_Header/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer/>
+	<uselayer ui_FindPOIQuickSearch/>
+
+	<script init>
+		Title.SET "Select Center"
+        poi.structure.find_writeable 0
+	</script>
+</state>
+
+
+<script sc_StartPOISearchAroundGPSQS>
+	exec "poi.structure.center" "gps"
+	poi.structure.distance_on_route "disabled"
+	poi.structure.calculate_detour "disabled"
+	poi.structure.area 300000
+	vSortBy.SET "distance"
+	vSortBy2.SET "name"
+	run sc_ResetStructuredQueryQS
+	NEXTSTATE st_FindPOIStructuredListQS
+</script>
+
+<script sc_StartPOISearchAroundDestinationQS>
+	exec "poi.structure.center" "destination"
+	poi.structure.distance_on_route "disabled"
+	poi.structure.calculate_detour "disabled"
+	poi.structure.area 300000
+	vSortBy.SET "distance"
+	vSortBy2.SET "name"
+   
+	run sc_ResetStructuredQueryQS
+	NEXTSTATE st_FindPOIStructuredListQS
+</script>
+
+<script sc_StartPOISearchAroundCursorQS>
+	exec "poi.structure.center" "cursor"
+	poi.structure.distance_on_route "disabled"
+	poi.structure.calculate_detour "disabled"
+	poi.structure.area 300000
+	vSortBy.SET "distance"
+	vSortBy2.SET "name"
+	run sc_ResetStructuredQueryQS
+	NEXTSTATE st_FindPOIStructuredListQS
+</script>
+
+<script sc_StartPOISearchAlongCursorQS>
+	exec "poi.structure.center" "route"
+	poi.structure.distance_on_route "enabled"
+	poi.structure.calculate_detour "enabled"
+	poi.structure.area 1500
+	vSortBy.SET "detour_group"
+	vSortBy2.SET "distance_on_route"
+	run sc_ResetStructuredQueryQS
+	NEXTSTATE st_FindPOIStructuredListQS
+</script>
+
+<script sc_ResetStructuredQueryQS>
+	exec "poi.structure.reset"
+	;don't merge the next line to R4+
+	poi.structure.search_root 0
+	exec "poi.structure.drop_result"
+    exec "poi.structure.sort" vSortByQS
+    exec "poi.structure.execute"
+	poi.structure.last_index 0
+</script>
+
+;****************************************************************************************************************
+
+<state st_FindPOIStructuredListQS>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindPOIStructuredListQS/>
+    <uselayer ui_FindPOIStructuredListButtonsQS/>
+	
+	<script init>
+		Title.COMBINED_TEXTMODEL "$poi.structure.path_text$ - $poi.structure.name_filter:*$"
+	</script>
+	
+	<script done>
+		Title.DROPMODEL
+	</script>
+</state>
+
+;****************************************************************************************************************
+
+<script sc_FindPOI>
+	.map.store_cursor_pos
+	NEXTSTATE st_FindPOI
+</script>
+
+;****************************************************************************************************************
+<state st_FindPoiByAddress>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindAddress/>
+	
+	<script enter>
+		run sc_FindAddressUpdateSelectionFromCursor
+	</script>
+
+	<script init>
+		Title.SET "Find POI By Address"
+		vAddressFindMode.set 1
+
+		run sc_FindAddressInit
+	</script>
+
+	<script exit>
+		GET_CURSOR_POS vLastCursorX vLastCursorY
+	</script>
+</state>
+
+<state st_FindPOI>
+    <uselayer ui_Header/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer/>
+	<uselayer ui_FindPOI/>
+
+    <script init>
+        Title.SET "POI Search Center"
+        
+        poi.struct_search.find_writeable 0
+
+	    btnFP_Route.ENABLE
+	    btnFP_Dest.ENABLE
+		map.ISROUTEVALID vValidRoute vDeletableRoute
+	    runif vValidRoute 0 'btnFP_Route.DISABLE, btnFP_Dest.DISABLE'
+    </script>
+  
+  <script exit>
+    poi.struct_search.drop_result
+  </script>
+</state>
+
+<script sc_StartPOISearchAroundGPS>
+	exec "poi.struct_search.center" "gps"
+	poi.struct_search.distance_on_route "disabled"
+	poi.struct_search.calculate_detour "disabled"
+	poi.struct_search.area 300000
+	vSortBy.SET "distance"
+	vSortBy2.SET "name"
+	run sc_ResetStructuredQuery
+	NEXTSTATE st_FindPOIStructuredList
+</script>
+
+<script sc_StartPOISearchAroundDestination>
+	exec "poi.struct_search.center" "destination"
+	poi.struct_search.distance_on_route "disabled"
+	poi.struct_search.calculate_detour "disabled"
+	poi.struct_search.area 300000
+	vSortBy.SET "distance"
+	vSortBy2.SET "name"
+	run sc_ResetStructuredQuery
+	NEXTSTATE st_FindPOIStructuredList
+</script>
+
+<script sc_StartPOISearchAroundCursor>
+	exec "poi.struct_search.center" "cursor"
+	poi.struct_search.distance_on_route "disabled"
+	poi.struct_search.calculate_detour "disabled"
+	poi.struct_search.area 300000
+	vSortBy.SET "distance"
+	vSortBy2.SET "name"
+	run sc_ResetStructuredQuery
+	NEXTSTATE st_FindPOIStructuredList
+</script>
+
+<script sc_StartPOISearchAlongCursor>
+	exec "poi.struct_search.center" "route"
+	poi.struct_search.distance_on_route "enabled"
+	poi.struct_search.calculate_detour "enabled"
+	poi.struct_search.area 1500
+	vSortBy.SET "detour_group"
+	vSortBy2.SET "distance_on_route"
+	run sc_ResetStructuredQuery
+	NEXTSTATE st_FindPOIStructuredList
+</script>
+
+<script sc_ResetStructuredQuery>
+	exec "poi.struct_search.reset"
+	;don't merge the next line to R4+
+	poi.struct_search.search_root 0
+    exec "poi.struct_search.sort" vSortBy
+	poi.struct_search.last_index 0
+</script>
+
+<script sc_SetLandmarkProperties>
+	nLandmarkHeight.set "0"
+	nLandmarkHeight.TEXTMODEL_WSTR "poi.current.ext_HEIGHT"
+	nLandmarkHeight.DROPMODEL
+	nLandmarkDiameter.set "0"
+	nLandmarkDiameter.TEXTMODEL_WSTR "poi.current.ext_DIAMETER"
+	nLandmarkDiameter.DROPMODEL
+	nPlaceStateMode.SET 2
+</script>
+	
+<script sc_SetPOIPlaceState>
+	runif %wstr:poi.current.ext_LANDMARK L"1" sc_SetLandmarkProperties
+	else_run 'nPlaceStateMode.SET 1'
+</script>
+
+<script sc_SelectPOIItem>
+  vtmp.set $1
+  runif bMsndValid 1 sc_SelectPOIItem_msnd vtmp
+  else_run sc_SelectPOIItem_orig vtmp
+</script>
+
+<script sc_SelectPOIItem_msnd>
+    SELECTPOIITEM $1
+    run sc_SetPOIPlaceState
+    nPlaceStateMode.SET 1    
+	  exec "poi.flat_search.pause_search"
+	  vTmp2.set 1
+  	
+	  .poi.find_provider "msnd.gas_stations" vTmp
+	  runif vTmp %poi.current.provider_id 'vTmp2.set 0, exec "other.msnd.gas_stations.show", exec "other.msnd.gas_stations.select", NEXTSTATE st_MsndGasStationInfo'
+  	
+	  .poi.find_provider "msnd.movies" vTmp
+	  runif vTmp %poi.current.provider_id 'vTmp2.set 0, exec "other.msnd.movies.theaters.show", exec "other.msnd.movies.theaters.select", NEXTSTATE st_MsndMovieTheaterInfo'
+  	
+	  .poi.find_provider "msnd.local_events" vTmp
+	  runif vTmp %poi.current.provider_id 'vTmp2.set 0, exec "other.msnd.local_events.show", exec "other.msnd.local_events.select", NEXTSTATE st_MsndLocalEventsInfo'
+  	
+	  runif vTmp2 1 'NEXTSTATE st_ShowPoiInfo'
+</script>  
+
+<script sc_SelectPOIItem_orig>
+    SELECTPOIITEM $1
+    run sc_SetPOIPlaceState
+    nPlaceStateMode.SET 1    
+    NEXTSTATE st_ShowPoiInfo
+</script>
+
+<script sc_SelectPOIItem_map>
+    SELECTPOIITEM
+    run sc_SetPOIPlaceState
+    map.MOVECURSORTOSELECTEDITEM
+      
+	exec "poi.flat_search.pause_search"
+    CLEARTOSTATE st_Place
+    run st_Place_enter
+    NEXTSTATE st_Place
+</script>
+
+<script sc_SelectPOIGroup>
+    exec "poi.struct_search.to_child"
+    exec "poi.struct_search.sort" vSortBy
+	exec "poi.struct_search.execute"
+</script>
+
+<script sc_SelectPOIParentGroup>
+    exec "poi.struct_search.to_parent"
+    exec "poi.struct_search.sort" vSortBy
+    exec "poi.struct_search.execute"
+</script>
+
+<state st_POISearchMain>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindPOISearch/>
+
+	<script enter>
+		COPYPOISEARCHQUERY "poi.struct_search" "poi.flat_search" 1
+		inpFPS_Name.VALUE ""
+	</script>
+
+	<script init>
+		poi.struct_search.drop_result
+		vPoiSearch.set 1
+		inpFPS_Name.emptytitle "<Enter POI name>" 
+	    
+		vKeyTableDone.SET sc_SetPOIFilterAndShow
+		vInputDoneScript.SET sc_SetPOIFilterAndShow
+		vInputDoneScriptSet.set 1
+		vRequiredField.SET 0
+		Title.SET "POI name"
+		LOADPANELTYPE 1
+		inpFPS_Name.SYNCKBPANEL
+		COPYPOISEARCHQUERY "poi.struct_search" "poi.flat_search" 1
+		KEY "RETURN" vKeyTableDone
+		run sc_POISearch
+	</script>
+
+	<script done>
+		SAVEPANELTYPE 1
+		KEY "RETURN"
+		local.keyboard.on_close_panel
+	</script>
+</state>
+
+<script sc_POISearch>
+
+    vTmp.TEXTMODEL_WSTR "poi.flat_search.name_filter"
+    inpFPS_Name.GET "vTmp"
+    vTmp.DROPMODEL
+
+    exec "poi.flat_search.sort" vSortBy
+    exec "poi.flat_search.execute"
+</script>
+
+<script sc_POIShowAllMain>
+	poi.struct_search.drop_result
+	vRestartAllSearch.SET 0
+	run sc_POIFlatFindAll
+;    vSortBy.SET "distance"
+	NEXTSTATE st_FindPOIFlatList
+</script>
+
+<script sc_SetPOIFilterAndShow>
+    NEXTSTATE st_FindPOIFlatListAfterSearch
+</script>
+
+;****************************************************************************************************************
+<script sc_SelectPOIItemQS>
+    SELECTPOIITEM $1
+    map.MOVECURSORTOSELECTEDITEM
+    nPlaceStateMode.SET 1
+    NEXTSTATE st_Place
+</script>
+
+<script sc_SelectPOIGroupQS>
+    exec "poi.structure.to_child"
+    exec "poi.structure.sort" vSortByQS
+	exec "poi.structure.execute"
+</script>
+
+<script sc_POISearchMainQS>
+	vPoiSearch.set 1
+	inpSI_Text.VALUE %poi.structure.name_filter
+	inpSI_Text.emptytitle "<Enter POI name>"
+
+	vKeyTableDone.SET sc_POISearchMainQS_Done
+	vInputDoneScript.SET sc_POISearchMainQS_Done
+	vInputDoneScriptSet.SET 1
+	vRequiredField.SET 1
+	Title.SET "POI name"
+	NEXTSTATE st_SimpleInputText
+</script>
+
+<script sc_SelectPOIParentGroupQS>
+    exec "poi.structure.to_parent"
+    exec "poi.structure.sort" vSortByQS
+    exec "poi.structure.execute"
+</script>
+
+<script sc_POISearchMainQS_Done>
+	inpSI_Text.GET "vTmp"
+	poi.structure.name_filter vTmp
+	PREVSTATE
+</script>
+
+;****************************************************************************************************************
+<observer obs_POIStructSearch_ListAll boolmodel="interface.poi_show_all_btn&&!poi.struct_search.cont_list.isempty" ondeselect='ui.lmListAll.clear' onselect='ui.lmListAll.clear, ui.lmListAll.add 1'>
+
+<state st_FindPOIStructuredList>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindPOIStructuredList/>
+    <uselayer ui_FindPOIStructuredListButtons/>
+	
+	<script init>
+		obs_POIStructSearch_ListAll.start
+		poi.flat_search.drop_result
+		runif vUIRes "240_320" ' run sc_POISortByPortrait'
+        else_runif vUIRes "240_400" ' run sc_POISortByPortrait' 
+        else_runif vUIRes "240_240" ' run sc_POISortByPortrait'
+        else_runif vUIRes "480_800" ' run sc_POISortByPortrait'
+		else_run 'run sc_POISortByOtherRes'
+		poi.struct_search.execute
+	</script>
+	
+	<script done>
+		obs_POIStructSearch_ListAll.stop
+		Title.DROPMODEL
+	</script>
+
+	<script exit>
+		poi.flat_search.drop_result
+	</script>
+</state>
+
+<script sc_POISortByOtherRes>
+        runif vSortBy "name" 'btnFPS_Sort.TEXT "By Dist."'
+        else_runif vSortBy "distance" 'btnFPS_Sort.TEXT "By Name"'
+		else_runif vSortBy "distance_on_route" 'btnFPS_Sort.TEXT "By Detour"'
+		else_runif vSortBy "detour_group" 'btnFPS_Sort.TEXT "By Route"'
+</script>
+
+<script sc_POISortByPortrait>
+        runif vSortBy "name" 'run sc_PortraitSortByName'
+        else_runif vSortBy "distance" 'run sc_PortraitSortByDistance'
+		else_runif vSortBy "distance_on_route" 'run sc_PortraitSortByDistanceOnRoute'
+		else_runif vSortBy "detour_group" 'run sc_PortraitSortByDetour'
+</script>
+
+<script sc_PortraitSortByName>
+    btnFPS_Sort.iconspr "icof_bydistance.bmp#3"
+    btnFPS_Sort.onlongclick 'run sc_show_btn_help "By Dist."'
+</script>
+
+<script sc_PortraitSortByDistance>
+    btnFPS_Sort.iconspr "icof_byname.bmp#3"
+    btnFPS_Sort.onlongclick 'run sc_show_btn_help "By Name"'
+</script>
+
+<script sc_PortraitSortByDistanceOnRoute>
+    btnFPS_Sort.iconspr "icof_bydetour.bmp#3"
+    btnFPS_Sort.onlongclick 'run sc_show_btn_help "By Detour"'
+</script>
+
+<script sc_PortraitSortByDetour>
+    btnFPS_Sort.iconspr "icof_bydistance.bmp#3"
+    btnFPS_Sort.onlongclick 'run sc_show_btn_help "By Route"'
+</script>
+
+<script sc_POIStructuredSort>
+	vTmp.SET vSortBy2
+	vSortBy2.SET vSortBy
+	vSortBy.SET vTmp
+	runif vUIRes "240_320" ' run sc_POISortByPortrait'
+    else_runif vUIRes "240_400" ' run sc_POISortByPortrait'   
+    else_runif vUIRes "240_240" ' run sc_POISortByPortrait'
+    else_runif vUIRes "480_800" ' run sc_POISortByPortrait'
+	else_run 'run sc_POISortByOtherRes'
+    exec "poi.struct_search.sort" vSortBy
+</script>
+
+;****************************************************************************************************************
+
+<state st_FindPOIFlatListQS>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindPOIFlatListQS/>
+	
+	<script enter>
+		ui.lstFPFQS.current_index 0
+	</script>
+	<script init>
+     Title.SET "Found POIs"
+     
+	 runif vUIRes "240_320" 'run sc_POISortByQSPortrait'
+     else_runif vUIRes "240_400" 'run sc_POISortByQSPortrait'
+     else_runif vUIRes "240_240" 'run sc_POISortByQSPortrait'
+     else_runif vUIRes "480_800" 'run sc_POISortByQSPortrait'
+	 else_run 'run sc_POISortByQSOtherRes'
+     runif vUIRes "240_320" 'btnFPFQS_Sort.TEXT ""'
+     runif vUIRes "240_400" 'btnFPFQS_Sort.TEXT ""'
+     runif vUIRes "240_240" 'btnFPFQS_Sort.TEXT ""'
+     runif vUIRes "480_800" 'btnFPFQS_Sort.TEXT ""'
+	</script>
+	<script exit>
+		poi.flat_search.drop_result
+	</script>
+</state>
+
+<script sc_POISortByQSOtherRes>
+    runif vSortByQS "name" 'btnFPFQS_Sort.TEXT "By Dist."'
+    else_runif vSortByQS "distance" 'btnFPFQS_Sort.TEXT "By Name"'
+	else_runif vSortByQS "distance_on_route" 'btnFPFQS_Sort.TEXT "By Detour"'
+	else_runif vSortByQS "detour_group" 'btnFPFQS_Sort.TEXT "By Route"'
+</script>
+
+<script sc_POISortByQSPortrait>
+    runif vSortByQS "name" 'run sc_PortraitSortByQSName'
+    else_runif vSortByQS "distance" 'run sc_PortraitSortByQSDistance'
+    else_runif vSortByQS "distance_on_route" 'run sc_PortraitSortByQSDistanceOnRoute'
+	else_runif vSortByQS "detour_group" 'run sc_PortraitSortByQSDetour'
+</script>
+
+<script sc_PortraitSortByQSName>
+    btnFPFQS_Sort.iconspr "icof_bydistance.bmp#3"
+    btnFPFQS_Sort.onlongclick 'run sc_show_btn_help "By Dist."'
+</script>
+
+<script sc_PortraitSortByQSDistance>
+    btnFPFQS_Sort.iconspr "icof_byname.bmp#3"
+    btnFPFQS_Sort.onlongclick 'run sc_show_btn_help "By Name"'
+</script>
+
+<script sc_PortraitSortByQSDistanceOnRoute>
+    btnFPFQS_Sort.iconspr "icof_bydetour.bmp#3"
+    btnFPFQS_Sort.onlongclick 'run sc_show_btn_help "By Detour"'
+</script>
+
+<script sc_PortraitSortByQSDetour>
+    btnFPFQS_Sort.iconspr "icof_bydistance.bmp#3"
+    btnFPFQS_Sort.onlongclick 'run sc_show_btn_help "By Route"'
+</script>
+
+<script sc_POIFlatSortQS>
+	vTmp.SET vSortByQS2
+	vSortByQS2.SET vSortByQS
+	vSortByQS.SET vTmp
+	runif vUIRes "240_320" 'run sc_POISortByQSPortrait'
+    else_runif vUIRes "240_400" 'run sc_POISortByQSPortrait'   
+    else_runif vUIRes "240_240" 'run sc_POISortByQSPortrait'
+    else_runif vUIRes "480_800" 'run sc_POISortByQSPortrait'
+	else_run 'run sc_POISortByQSOtherRes'
+    exec "poi.flat_search.sort" vSortByQS
+    runif vUIRes "240_320" 'btnFPFQS_Sort.TEXT ""'
+    runif vUIRes "240_400" 'btnFPFQS_Sort.TEXT ""'
+    runif vUIRes "240_240" 'btnFPFQS_Sort.TEXT ""'
+    runif vUIRes "480_800" 'btnFPFQS_Sort.TEXT ""'
+</script>
+
+;****************************************************************************************************************
+
+<state st_FindPOIFlatList>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindPOIFlatList/>
+	
+	<script enter>
+		ui.lstFPF.current_index 0
+	</script>
+	<script init>
+     Title.SET "Searching for POI"
+     runif vRestartAllSearch 1 'run sc_POIFlatFindAll'
+     else_run 'exec "poi.flat_search.resume_search"'
+	 runif vUIRes "240_320" 'run sc_POISortByFlatPortrait'
+     else_runif vUIRes "240_400" 'run sc_POISortByFlatPortrait'
+     else_runif vUIRes "240_240" 'run sc_POISortByFlatPortrait'
+     else_runif vUIRes "480_800" 'run sc_POISortByFlatPortrait'
+	 else_run 'run sc_POISortByFlatOtherRes'
+	</script>
+</state>
+
+<script sc_POISortByFlatOtherRes>
+     runif vSortBy "name" 'btnFPF_Sort.TEXT "By Dist."'
+     else_runif vSortBy "distance" 'btnFPF_Sort.TEXT "By Name"'
+	 else_runif vSortBy "distance_on_route" 'btnFPF_Sort.TEXT "By Detour"'
+	 else_runif vSortBy "detour_group" 'btnFPF_Sort.TEXT "By Route"'
+</script>
+
+<script sc_POISortByFlatPortrait>
+     runif vSortBy "name" 'run sc_PortraitSortByFlatName'
+     else_runif vSortBy "distance" 'run sc_PortraitSortByFlatDistance'
+	 else_runif vSortBy "distance_on_route" 'run sc_PortraitSortByFlatDistanceOnRoute'
+	 else_runif vSortBy "detour_group" 'run sc_PortraitSortByFlatDetour'
+</script>
+
+<script sc_PortraitSortByFlatName>
+     btnFPF_Sort.iconspr "icof_bydistance.bmp#3"
+     btnFPF_Sort.onlongclick 'run sc_show_btn_help "By Dist."'
+</script>
+
+<script sc_PortraitSortByFlatDistance>
+    btnFPF_Sort.iconspr "icof_byname.bmp#3"
+    btnFPF_Sort.onlongclick 'run sc_show_btn_help "By Name"'
+</script>
+
+<script sc_PortraitSortByFlatDistanceOnRoute>
+    btnFPF_Sort.iconspr "icof_bydetour.bmp#3"
+    btnFPF_Sort.onlongclick 'run sc_show_btn_help "By Detour"'
+</script>
+
+<script sc_PortraitSortByFlatDetour>
+    btnFPF_Sort.iconspr "icof_bydistance.bmp#3"
+    btnFPF_Sort.onlongclick 'run sc_show_btn_help "By Route"'
+</script>
+
+<state st_FindPOIFlatListAfterSearch>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindPOIFlatList/>
+	<uselayer ui_FindPOIFlatListAfterSearch>
+	
+	<script enter>
+		ui.lstFPF.current_index 0
+	</script>
+	<script init>
+     Title.SET "Searching for POI"
+	 runif vUIRes "240_320" 'run sc_POISortByFlatPortrait'
+     else_runif vUIRes "240_400" 'run sc_POISortByFlatPortrait'   
+     else_runif vUIRes "240_240" 'run sc_POISortByFlatPortrait'
+     else_runif vUIRes "480_800" 'run sc_POISortByFlatPortrait'
+	 else_run 'run sc_POISortByFlatOtherRes'
+	</script>
+</state>
+
+<script sc_POIFlatFindAll>
+    COPYPOISEARCHQUERY "poi.struct_search" "poi.flat_search" 1
+    exec "poi.flat_search.sort" vSortBy
+    exec "poi.flat_search.execute"
+    vRestartAllSearch.SET 0
+</script>
+
+<script sc_POIFlatSort>
+	vTmp.SET vSortBy2
+	vSortBy2.SET vSortBy
+	vSortBy.SET vTmp
+	runif vUIRes "240_320" 'run sc_POISortByFlatPortrait'
+    else_runif vUIRes "240_400" 'run sc_POISortByFlatPortrait'
+    else_runif vUIRes "240_240" 'run sc_POISortByFlatPortrait'
+    else_runif vUIRes "480_800" 'run sc_POISortByFlatPortrait'
+	else_run 'run sc_POISortByFlatOtherRes'
+    exec "poi.flat_search.sort" vSortBy
+</script>
+
+<script sc_POIFlatBackAfterSearch>
+    vPoiSearch.set 1
+    vRestartAllSearch.SET 1
+    PREVSTATE
+</script>
+
+<script sc_POISaveQuery_OnRelease>
+    vTmp.TEXTMODEL_WSTR "poi.structure.poi_list.current.name"
+    vInputDest.SET vTmp
+    vTmp.DROPMODEL
+
+    inpSI_Text.VALUE vInputDest
+	inpSI_Text.emptytitle "<Enter query name>" 
+
+	vKeyTableDone.SET sc_POISaveQuery
+	vInputDoneScript.SET sc_POISaveQuery
+	vInputDoneScriptSet.set 1
+	vRequiredField.SET 1
+	Title.SET "Query name"
+	NEXTSTATE st_SimpleInputText
+</script>
+
+<script sc_POISaveQuery>
+	COPYPOISEARCHQUERY "poi.structure" "poi.flat_search" 1
+	inpSI_Text.GET "vTmp2"
+    runif vTmp2 L"" 'INITMESSAGEBOX 0 "Please enter a name!"'
+	else_run 'EXEC "poi.savequery" vTmp2, PREVSTATE, PREVSTATE, PREVSTATE'
+</script>
+
+;****************************************************************************************************************
+
+<script sc_StartManagePOISearch>
+	vSortBy.set "name"
+	poi.structure.drop_result
+	poi.structure.reset
+	;don't merge the next line to R4+
+	poi.structure.search_root 0
+	poi.structure.distance_on_route "disabled"
+	poi.structure.calculate_detour "disabled"
+	poi.structure.find_writeable 0
+	poi.structure.area 0
+	poi.structure.center "cursor"
+	poi.structure.sort vSortBy
+
+	poi.struct_search.drop_result
+	poi.struct_search.reset
+	;don't merge the next line to R4+
+	poi.struct_search.search_root 0
+	poi.struct_search.distance_on_route "disabled"
+	poi.struct_search.calculate_detour "disabled"
+	poi.struct_search.find_writeable 1
+	poi.struct_search.area 0
+	poi.struct_search.center "cursor"
+	poi.struct_search.sort vSortBy
+
+	poi.structure.last_index 0
+	poi.struct_search.last_index 0	
+
+	run sc_ManagePoiExecuteQuery "all"
+</script>
+
+;****************************************************************************************************************
+
+<state st_ManagePOIStructuredList>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_ManagePOIStructuredList/>
+    <uselayer ui_ManagePOIStructuredListButtons/>
+
+	<script init>
+		Title.SET  "Manage POI"
+	</script>
+</state>
+
+<state st_ManagePOIStructuredListMyPOI>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_ManagePOIStructuredListMyPOI/>
+    <uselayer ui_ManagePOIStructuredListButtonsMyPOI/>
+
+	<script enter>
+		.poi.userpoi_show_all_containers 1
+	</script>
+	
+	<script init>
+		Title.SET  "Manage POI"
+	</script>
+	
+	<script exit>
+		.poi.userpoi_show_all_containers 0
+	</script>
+</state>
+
+<script sc_SetMyPoiView>
+	run sc_ManagePoiDropLists
+	STATE st_ManagePOIStructuredListMyPoi
+	run sc_ManagePoiExecuteQuery "mypoi"
+</script>
+
+<script sc_SetAllPoiView>
+	run sc_ManagePoiDropLists
+	COPYPOISEARCHQUERY "poi.struct_search" "poi.structure"
+	STATE st_ManagePOIStructuredList
+	run sc_ManagePoiExecuteQuery "all"
+</script>
+
+<script sc_ManagePoiExecuteQuery>
+	vManagePoiQueryMode.set $1
+	runif $1 "all" 'run sc_ManagePoiAllContainerExecute, COPYPOISEARCHQUERY "poi.structure" "poi.struct_search", run sc_ManagePoiMyPoiExecute'
+	else_runif $1 "mypoi" 'poi.struct_search.execute'
+	else_run 'poi.struct_search.execute'
+</script>
+
+<script sc_ManagePoiAllContainerExecute>
+	poi.structure.find_writeable 0
+	poi.structure.execute
+	poi.structure.cont_list.setcurrent %poi.structure.last_index
+</script>
+
+<script sc_ManagePoiMyPoiExecute>
+	poi.struct_search.find_writeable 1
+	poi.struct_search.execute
+	poi.struct_search.cont_list.setcurrent %poi.structure.last_index
+</script>
+
+<script sc_ManagePoiDropLists>
+	poi.structure.reset
+    poi.structure.drop_result
+    poi.struct_search.drop_result
+</script>
+
+<script sc_SelectPOIGroupManage>
+	runif $1 "all" 'poi.structure.to_child'
+	else_runif $1 "mypoi" 'poi.struct_search.to_child'
+    run sc_ManagePoiExecuteQuery $1
+</script>
+
+<script sc_SelectPOIParentGroupManage>
+	runif $1 "all" 'poi.structure.to_parent'
+	else_runif $1 "mypoi" 'poi.struct_search.to_parent'
+    run sc_ManagePoiExecuteQuery $1
+</script>
+
+<script sc_EditPOIItem>
+	SELECTPOIITEM "poi.struct_search" 1
+	run sc_EditPOIItem_WithMode 1
+</script>
+
+<script sc_EditPOIItem_WithMode>
+	vManageMode.SET $1
+	NEXTSTATE st_ManagePOIEdit
+</script>
+
+;****************************************************************************************************************
+; vManageMode values:
+; * 0: add POI from map
+; * 1: manage POI
+; * 2: edit user POI in POIs near cursor
+
+<state st_ManagePOIEdit>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_ManagePOIEdit/>
+	<uselayer ui_ManagePOIEditBack/>
+
+	<script init>
+		runif vManageMode 2 'SELECTPOIITEM "poi.near_cursor" 0'
+	
+		runif      vManageMode 0 'vTmp.SET "Edit POI$|  -  $poi.structure.path_text$"'
+		else_runif vManageMode 1 'vTmp.SET "Edit POI$|  -  $poi.struct_search.path_text$"'
+		else_runif vManageMode 2 'vTmp.SET "Edit POI$|  -  $poi.current_group.name$"'
+		else_run 'vTmp.SET "Edit POI"'
+		
+		txtMPE_Title.COMBINED_TEXTMODEL vTmp
+		txtMPE_Title.DROPMODEL
+		
+		Title.SET ""
+	</script>
+</state>
+
+<script sc_ManagePOIEditBack>
+  runif vManageMode 0 'run sc_P_return_to_map 0'
+  else_run 'PREVSTATE'
+  run sc_ManagePoiMyPoiExecute
+</script>
+
+<script sc_ChangeCurrentPoiIcon>
+	.screen.filter_unique_by_index 2
+    exec "screen.set_current_icongroup" "poi"
+    vIconSelectedScript.set sc_CurrentPoiIconSelected
+    NEXTSTATE st_SelectIcon
+</script>
+
+<script sc_CurrentPoiIconSelected>
+    poi.current.icon $1
+    PREVSTATE
+</script>
+
+<script sc_ModifyPOINameMain>
+    vTmp.TEXTMODEL_WSTR "poi.current.name"
+    vInputDest.SET vTmp
+    vTmp.DROPMODEL
+
+    inpSI_Text.VALUE vInputDest
+    inpSI_Text.emptytitle "<Enter new poi name>" 
+
+    vKeyTableDone.SET sc_ModifyPOIName
+    vInputDoneScript.SET sc_ModifyPOIName
+    vInputDoneScriptSet.set 1
+    vRequiredField.SET 1
+	Title.SET "New poi name"
+    NEXTSTATE st_SimpleInputText
+</script>
+
+<script sc_ModifyPOIName>
+    vTmp.TEXTMODEL_WSTR "poi.current.name"
+    inpSI_Text.GET "vTmp"
+    vTmp.DROPMODEL
+	PREVSTATE
+</script>
+
+<script sc_ModifyPOIExtMain>
+    vTmp.TEXTMODEL_WSTR "poi.current.address.ext"
+    vInputDest.SET vTmp
+    vTmp.DROPMODEL
+    
+    inpSI_Text.VALUE vInputDest
+    inpSI_Text.emptytitle "<Enter new extra info>" 
+    inpSI_Text.MAXLENGTH 35
+	
+	vKeyTableDone.SET sc_ModifyPOIExt
+	vInputDoneScript.SET sc_ModifyPOIExt
+	vInputDoneScriptSet.set 1
+	vRequiredField.SET 0
+	Title.SET "Extra info"
+	NEXTSTATE st_SimpleInputText
+</script>
+
+<script sc_ModifyPOIExt>
+    inpSI_Text.MAXLENGTH 20
+    vTmp.TEXTMODEL_WSTR "poi.current.address.ext"
+    inpSI_Text.GET "vTmp"
+    vTmp.DROPMODEL
+    PREVSTATE
+</script>
+
+<script sc_ManagePOIEdit_Remove>
+    INITMESSAGEBOX 1 "The POI will be deleted." sc_ManagePOIEdit_RemoveOK
+</script>
+
+<script sc_ManagePOIEdit_RemoveOK>
+	exec "poi.current.remove"
+	; when removing POI from nearby POIs list, go back another state (POI detail screen would be invalid)
+	runif vManageMode 2 'PREVSTATE'
+	else_run 'run sc_ManagePoiExecuteQuery vManagePoiQueryMode, run sc_ManagePOIEditBack'
+</script>
+
+;****************************************************************************************************************
+
+<state st_ModifyPOIPhone>
+  <uselayer ui_Header2/>
+  <uselayer ui_Background/>
+  <uselayer ui_Title/>
+  <uselayer ui_Footer2/>
+  <uselayer ui_ModifyPoiPhone/>
+
+  <script init>
+    Title.SET "Phone Number Input"
+    LOADPANELTYPE 4
+
+    vTmp.TEXTMODEL_WSTR "poi.current.phone"
+    vInputDest.SET vTmp
+    vTmp.DROPMODEL
+
+    inpMPP_Text.VALUE vInputDest
+	inpMPP_Text.TITLE ""
+    inpMPP_Text.SYNCKBPANEL
+
+    vKeyTableDone.SET sc_ModifyPOIPhone
+    vInputDoneScript.SET sc_ModifyPOIPhone
+    vInputDoneScriptSet.set 1
+
+ 	KEY "RETURN" sc_ModifyPOIPhone
+  </script>
+  
+  <script done>
+    KEY "RETURN"
+    local.keyboard.on_close_panel
+  </script>
+</state>
+
+<script sc_ModifyPOIPhone>
+    vTmp.TEXTMODEL_WSTR "poi.current.phone"
+    inpMPP_Text.GET "vTmp"
+    vTmp.DROPMODEL
+    PREVSTATE
+</script>
+
+;****************************************************************************************************************
+
+<state st_AddPOI>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_AddPOI/>
+	<uselayer ui_AddPOIButtons/>
+
+	<script init>
+		Title.SET ""
+		vSortBy.SET "name"
+		exec "poi.structure.sort" vSortBy
+	</script>
+
+	<script exit>
+		vChangePoiGroup.set 0
+		vPoiGroupID.set vChangePoiGroup_backup
+		exec "poi.structure.execute"
+		exec "poi.struct_search.execute"
+	</script>
+</state>
+
+<script sc_AddPOIToGroupMain>
+	;ntmp.TEXTMODEL_WSTR "poi.structure.path_text"
+	;Title_path2.text ntmp
+	;ntmp.dropmodel
+
+	poi.new_poi.container %poi.structure.search_root
+	poi.new_poi.provider_id %poi.writable_providers.@0.id
+
+	exec "poi.new_poi.add"
+	vManageMode.SET 0
+	run sc_SetNewPOINameMain
+</script>
+
+<script sc_ManagePOIEditAddress>
+    exec "poi.current.set_address"
+    poi.current.address.ext vPoiExtraInfoSave
+    prevstate
+</script>
+
+<script sc_ChangePOIGroupMain>
+	exec "poi.current.set_group" vPoiGroupID
+	poi.struct_search.search_root vPoiGroupID
+	run sc_ManagePoiExecuteQuery vManagePoiQueryMode
+	prevstate
+</script>
+
+<script sc_SetNewPOINameMain>
+    vTmp.TEXTMODEL_WSTR "poi.current.name"
+    vInputDest.SET vTmp
+    vTmp.DROPMODEL
+
+    inpSI_Text.VALUE vInputDest
+    inpSI_Text.emptytitle "<Enter new poi name>" 
+
+    vKeyTableDone.SET sc_SetNewPOIName
+    vInputDoneScript.SET sc_SetNewPOIName
+    vInputDoneScriptSet.set 1
+    vRequiredField.SET 1
+	Title.SET "New poi name"
+    NEXTSTATE st_SimpleInputText
+</script>
+
+<script sc_SetNewPOIName>
+    vTmp.TEXTMODEL_WSTR "poi.current.name"
+    inpSI_Text.GET "vTmp"
+    vTmp.DROPMODEL
+	NEXTSTATE st_ManagePOIEdit
+</script>
+
+<script sc_CreateNewGroupMain>
+    inpSI_Text.VALUE ""
+    inpSI_Text.emptytitle "<Enter new POI group name>"
+
+	runif $1 "mypoi" 'vKeyTableDone.SET sc_CreateNewGroupDoneMyPoi, vInputDoneScript.SET sc_CreateNewGroupDoneMyPoi'
+	else_runif $1 "all" 'vKeyTableDone.SET sc_CreateNewGroupDoneAll, vInputDoneScript.SET sc_CreateNewGroupDoneAll'
+	else_runif $1 "struct" 'vKeyTableDone.SET sc_CreateNewGroupDoneStruct, vInputDoneScript.SET sc_CreateNewGroupDoneStruct'
+    vInputDoneScriptSet.SET 1
+    vRequiredField.SET 1
+	Title.SET "New POI group name"
+    NEXTSTATE st_SimpleInputtext
+</script>
+
+<script sc_CreateNewGroupDoneMyPoi>
+	run sc_CreateNewGroup "mypoi"
+</script>
+
+<script sc_CreateNewGroupDoneAll>
+	run sc_CreateNewGroup "all"
+</script>
+
+<script sc_CreateNewGroupDoneStruct>
+	run sc_CreateNewGroup "struct"
+</script>
+
+<script sc_CreateNewGroup>
+	inpSI_Text.GET "vTmp"
+	runif vTmp L"" 'vTmp.SET "<New Group>"'
+	vTmp2.TEXTMODEL_WSTR "poi.new_group.name"
+	vTmp2.SET vTmp
+	vTmp2.DROPMODEL
+
+	runif $1 "all" 'vTmp.VALUEMODEL "poi.structure.search_root"'
+	else_runif $1 "struct" 'vTmp.VALUEMODEL "poi.structure.search_root"'
+	else_runif $1 "mypoi" 'vTmp.VALUEMODEL "poi.struct_search.search_root"'
+	vTmp2.VALUEMODEL "poi.new_group.parent"
+	vTmp2.Set vTmp
+	vTmp2.DROPMODEL
+	vTmp.DROPMODEL
+
+	vTmp.VALUEMODEL "poi.writable_providers.@0.id"
+	vTmp2.VALUEMODEL "poi.new_group.provider_id"
+	vTmp2.Set vTmp
+	vTmp2.DROPMODEL 
+	vTmp.DROPMODEL
+	
+	poi.new_group.check_group_exist
+	
+	runif %poi.new_group.group_exist 0 sc_CreateNewGroup2 $1
+	else_run 'INITMESSAGEBOX 0 "This group already exists"'
+</script>
+
+<script sc_CreateNewGroup2>
+	poi.new_group.add
+	poi.structure.execute
+	runif $1 "mypoi" 'poi.struct_search.execute'
+	
+	PREVSTATE
+
+	vTmp.set %int:poi.current_group.id
+	poi.structure.to_child_by_container_id vTmp	
+	poi.structure.execute
+</script>
+
+<script sc_SelectPOIStructureGroup>
+    exec "poi.structure.to_child"
+    exec "poi.structure.sort" vSortBy
+	exec "poi.structure.execute"
+</script>
+
+<script sc_SelectPOIStructureParentGroup>
+    exec "poi.structure.to_parent"
+    exec "poi.structure.sort" vSortBy
+    exec "poi.structure.execute"
+</script>
+
+;****************************************************************************************************************
+
+<state st_POIQuickSearch>
+    <uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_POIQuickSearch/>
+
+	<script enter>
+        poi.search_manager.list.index 0
+	</script>
+
+	<script init>
+		Title.SET "Saved Searches"
+		SET_QUICK_SEARCH_ITEMS_ENABLED 300000
+    </script>
+</state>
+
+<script sc_POISearchItemSelect>
+	vTmp.TEXTMODEL_WSTR "poi.search_manager.list.current.name"
+	vTmp.DROPMODEL
+	runifnot vTmp L""  'run sc_POISearchItemSelect2'
+</script>
+
+<script sc_POISearchItemSelect2>
+    poi.flat_search.area 300000
+
+	poi.flat_search.distance_on_route "disabled"
+	poi.flat_search.calculate_detour "disabled"
+	vSortByQS.SET "distance"
+	vSortByQS2.SET "name"
+
+	runif %int:poi.search_manager.list.current.current_center_mode 3 sc_TurnDetourCalculationOnQS
+
+	EXEC "poi.flat_search.reset"
+	EXEC "poi.flat_search.sort" vSortByQS
+	EXEC "poi.dosearch"
+	NEXTSTATE st_FindPOIFlatListQS
+</script>
+
+<script sc_TurnDetourCalculationOnQS>
+	poi.flat_search.distance_on_route "enabled"
+	poi.flat_search.calculate_detour "enabled"
+	vSortByQS.SET "detour_group"
+	vSortByQS2.SET "distance_on_route"
+</script>
+
+;****************************************************************************************************************
+
+<state st_ManagePOIQuickSearch>
+    <uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_ManagePOIQuickSearch/>
+
+	<script enter>
+		vTmp.VALUEMODEL "poi.search_manager.list.index"
+		vTmp.SET 0
+		vTmp.DROPMODEL	
+	</script>
+	
+    <script init>
+        Title.SET "Manage Saved Searches"
+
+		SET_QUICK_SEARCH_ITEMS_ENABLED 300000 
+        SETMARKER vQSStateMarker
+    </script>
+</state>
+
+<script sc_ManagePOISItemRename_OnRelease>
+    runif %wstr:poi.search_manager.list.current.name L"" 'NEXTSTATE st_FindPOIQuickSearch'
+    else_run sc_ManagePOISItemRename
+</script>
+
+<script sc_ManagePOISItemRename>
+	vTmp.TEXTMODEL_WSTR "poi.search_manager.list.current.name"
+    vInputDest.SET vTmp
+    vTmp.DROPMODEL
+
+	inpSI_Text.VALUE vInputDest
+	inpSI_Text.emptytitle "<Enter a new name>" 
+
+	vKeyTableDone.SET sc_ManagePOISItemRenameDone
+	vInputDoneScript.SET sc_ManagePOISItemRenameDone
+	vInputDoneScriptSet.set 1
+	vRequiredField.SET 1
+	Title.SET "New name"
+	NEXTSTATE st_SimpleInputText
+</script>
+
+<script sc_ManagePOISItemRenameDone>
+	inpSI_Text.GET "vTmp"
+	runif vTmp L"" 'INITMESSAGEBOX 0 "Please enter a name!"'
+	else_run 'run sc_ManagePOISItemRenameCore vTmp'
+</script>
+
+<script sc_ManagePOISItemRenameCore>
+	poi.search_manager.list.current.name $1
+	exec "poi.search_manager.save"
+	PREVSTATE
+</script>
+
+<script sc_et_ManageQSearchDel_OnRelease>
+    runifnot %wstr:poi.search_manager.list.current.name L"" 'INITMESSAGEBOX 1 "Deleting Saved Search entry." sc_RemoveQSearchItem'
+</script>
+
+<script sc_et_ManageQSearchClearAll_OnRelease>
+	INITMESSAGEBOX 1 "Deleting all Saved Search entries." 'exec "poi.search_manager.clearall", STATE st_ManagePOIQuickSearch'
+</script>
+
+<script sc_RemoveQSearchItem>
+	vTmp.TEXTMODEL_WSTR "poi.search_manager.list.current.index"
+	poi.search_manager.remove
+	vTmp.DROPMODEL
+	STATE st_ManagePOIQuickSearch
+</script>
+
+;****************************************************************************************************************
+
+<state st_EditPOIGroup>
+    <uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_EditPOIGroup/>
+
+	<script init>
+		Title.COMBINED_TEXTMODEL "POI Icon Appearance - $wstr:poi.current_group.name$"
+
+		vTmp.VALUEMODEL "poi.current_group.visible_at"
+		runif vTmp 500 'vPoiGroupAltitude.SET "500"' 
+		else_runif vTmp 1000 'vPoiGroupAltitude.SET "1000"'
+		else_runif vTmp 5000 'vPoiGroupAltitude.SET "5000"' 
+		else_runif vTmp 30000 'vPoiGroupAltitude.SET "30000"' 
+		else_run 'vPoiGroupAltitude.SET "OFF"' 
+		vTmp.DROPMODEL
+	</script>
+
+	<script done>
+        run sc_SetVisibilityLevel
+		Title.DROPMODEL
+		exec "poi.save_visibility_data"
+        map.redraw_poi              
+	</script>
+
+</state>
+
+<script sc_DeletePoiGroup>
+	vTmpID.SET %poi.current_group.id
+	INITMESSAGEBOX 1 "The POI group and all POIs in it will be deleted!" '.poi.delete_group vTmpID -1, run sc_ManagePoiExecuteQuery vManagePoiQueryMode, PREVSTATE'
+</script>
+
+<script sc_ChangeCurrentPoiGroupIcon>
+	.screen.filter_unique_by_index 2
+    exec "screen.set_current_icongroup" "poi"
+    vIconSelectedScript.set sc_CurrentPoiGroupIconSelected
+    NEXTSTATE st_SelectIcon
+</script>
+
+<script sc_RenameCurrentPoiGroup>
+    vTmp.TEXTMODEL_WSTR "poi.current_group.name"
+    vInputDest.SET vTmp
+    vTmp.DROPMODEL
+
+    inpSI_Text.VALUE vInputDest
+    inpSI_Text.emptytitle "<Enter a new name>" 
+
+    vKeyTableDone.SET sc_RenamePoiUserContainer
+    vInputDoneScript.SET sc_RenamePoiUserContainer
+    vInputDoneScriptSet.set 1
+    vRequiredField.SET 1
+	Title.SET "New POI group name"
+    NEXTSTATE st_SimpleInputText
+</script>
+
+<script sc_RenamePoiUserContainer>
+	.poi.find_provider "userpoi" vTmp2
+	inpSI_Text.GET "vTmp"
+	.poi.rename_group %int:poi.current_group.id vTmp vTmp2
+	exec "poi.structure.execute"
+	exec "poi.struct_search.execute"
+	PREVSTATE
+</script>
+
+<script sc_CurrentPoiGroupIconSelected>
+    poi.current_group.icon $1
+    PREVSTATE
+</script>
+
+<script sc_SetVisibilityLevel>
+	vTmp.VALUEMODEL "poi.current_group.visible_at"
+	
+	runif vPoiGroupAltitude "500" 'vTmp.SET 500' 
+	else_runif vPoiGroupAltitude "1000" 'vTmp.SET 1000'
+	else_runif vPoiGroupAltitude "5000" 'vTmp.SET 5000' 
+	else_runif vPoiGroupAltitude "30000" 'vTmp.SET 30000' 
+	runif vPoiGroupAltitude "OFF" 'vTmp.SET 0' 
+	vTmp.DROPMODEL
+</script>
+
+;****************************************************************************************************************
+
+<state st_ShowPOIInfo>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_ShowPOIInfo/>
+
+	<script init>
+		;Title.SET "POI Information"
+		Title.SET %poi.current_group.name
+
+		runif %poi.current.valid 0 'PREVSTATE'
+	</script>
+</state>
+
+<script sc_ShowPoiInfo_Select>
+    SELECTPOIITEM
+    map.MOVECURSORTOSELECTEDITEM
+    PREVSTATE
+    PREVSTATE
+</script>
+
+<script sc_poicall>
+    vtmp.TEXTMODEL_WSTR "poi.current.phone"
+    vtmp.DROPMODEL
+    other.phone.call vtmp
+</script>
+
+
+

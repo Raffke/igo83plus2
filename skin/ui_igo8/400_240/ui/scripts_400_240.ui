@@ -1,0 +1,168 @@
+;****************************************************************************************************************
+; Resolution dependent scripts
+;****************************************************************************************************************
+<Header>
+    <var nGPSViewGlobeCX=75>
+    <var nGPSViewGlobeCY=88>
+    <var nGPSViewGlobeRX=54>
+    <var vGpsOnOff=0>
+</header>
+
+<script sc_GPS_Satelite_map>
+	nGPSViewGlobeCX.set 36
+	nGPSViewGlobeCY.set 34
+	nGPSViewGlobeRX.set 33
+</script>
+
+<script sc_GPS_Satelite>
+	nGPSViewGlobeCX.set 75
+	nGPSViewGlobeCY.set 88
+	nGPSViewGlobeRX.set 54
+</script>
+
+
+<script sc_RD_SetMapSize>
+	map.x 0
+	map.w 240
+	map.y 0
+	map.h 240
+</script>
+
+<script sc_RD_SetCockpitMapSize>
+	map.x 68
+	map.w 332
+	map.y 0
+	map.h 240
+</script>
+
+<script sc_FullScreenMap>
+	map.x 0
+	map.w 400
+	map.y 0
+	map.h 240
+</script>
+
+<script sc_RD_CenterCursor>
+	runif vMapSettings2d3d "3D" 'map.CENTERCURSOR 50 65'
+	else_run 'map.CENTERCURSOR 50 45'
+</script>
+
+<script sc_Fittoscreen_res>
+		FITROUTETOSCREEN 45 50 260 200
+</script>
+
+<script sc_current_TMC_Fittoscreen_res>
+	vTmp.boolmodel "tmc.events.list.current.is_new"
+	vTmp.set 0
+	vTmp.dropmodel
+	; height: y0 h70 : btn_lb_4a_tmcevent.bmp, y70 h135 : map, y205 h35 : ui_TMCMapBack (TEMPLATE backa), 137.5 / 240 = 0.5729
+	map.SETCARPOSITION 50 57
+	TMCLISTMODEL_SHOW 0 0 0 135
+</script>
+
+<script sc_init_zoomcontrol>
+   map.ZOOMCONTROL_SHOW 1
+   map.ZOOMCONTROL_X 137
+   map.ZOOMCONTROL_Y 194
+
+   map.ZOOMCONTROL_TEXTOFFSET -4
+   map.ZOOMCONTROL_BARHEIGHT 6
+   map.ZOOMCONTROL_TICKHEIGHT 2
+</script>
+
+<script sc_init_zoomcontrol_browsemap>
+   map.ZOOMCONTROL_SHOW 1
+   map.ZOOMCONTROL_X 100
+   map.ZOOMCONTROL_Y 23
+   map.ZOOMCONTROL_TEXTOFFSET 12
+   map.ZOOMCONTROL_BARHEIGHT 6
+   map.ZOOMCONTROL_TICKHEIGHT -2
+</script>
+
+<script sc_init_zoomcontrol_planmode>
+   map.ZOOMCONTROL_SHOW 1
+   map.ZOOMCONTROL_X 137
+   map.ZOOMCONTROL_Y 176
+   
+   map.ZOOMCONTROL_TEXTOFFSET -4
+   map.ZOOMCONTROL_BARHEIGHT 6
+   map.ZOOMCONTROL_TICKHEIGHT 2
+</script>
+
+<script sc_enable_speedcam_functions>
+	btnPM_POS_AddCam.x 220
+	btnPM_POS_EditCam.x 220
+	btnPMO_AddCam.x 201
+	btnPMO_EditCam.x 201
+	;btnPMO_Favorite.y 108
+;	chk_SpeedCamWarning.show
+;	btn_SpeedCamWarning.show
+</script>
+
+
+<script sc_disable_speedcam_functions>
+	btnPM_POS_AddCam.x 1000
+	btnPM_POS_EditCam.x 1000
+	btnPMO_AddCam.x 1000
+	btnPMO_EditCam.x 1000
+;	chk_SpeedCamWarning.hide
+;	btn_SpeedCamWarning.hide
+</script>
+
+<script sc_3DFlyOverModeOn>
+	map.mapmode 0
+	vMapMode.SET L"3D"
+	vMapSettings2d3d.SET "3D"
+	map.VIEW2D3D vMapSettings2d3d
+
+	btnNMB_RouteInfo.x -80
+	btnNMB_Menu.HIDE
+	btnNMB_Detour.HIDE
+    btnNMB_Cursor.y 330
+    ;btnNMB_Pos.y 330
+
+	btnNMR_CockpitInfo.DISABLE
+		
+    btn_CSGPS.HIDE
+    btn_CSTMC.HIDE
+	
+	btn_NMPC3D_VZoom3D1.onlongclick ''
+	btn_NMPC3D_VZoom3D2.onlongclick ''
+	btn_NMPC2D_VZoom2D1.onlongclick ''
+	btn_NMPC2D_VZoom2D2.onlongclick ''
+</script>
+
+<script sc_3DFlyOverModeOff>
+	btnNMB_RouteInfo.x 0
+	btnNMB_Menu.SHOW
+	btnNMB_Detour.SHOW
+
+    btnNMB_Cursor.y 119
+    ;btnNMB_Pos.y 168
+
+	btnNMR_CockpitInfo.ENABLE
+
+	btn_CSGPS.SHOW
+	btn_CSTMC.SHOW
+	
+	btn_NMPC3D_VZoom3D1.onlongclick 'NEXTSTATE st_SettingVisualZoom3D'
+	btn_NMPC3D_VZoom3D2.onlongclick 'NEXTSTATE st_SettingVisualZoom3D'
+	btn_NMPC2D_VZoom2D1.onlongclick 'NEXTSTATE st_SettingVisualZoom2D'
+	btn_NMPC2D_VZoom2D2.onlongclick 'NEXTSTATE st_SettingVisualZoom2D'
+
+	run sc_RestoreSavedMapMode
+</script>
+
+<script sc_laneinfo_pos_3D>
+   runif vLaneInfo 0 'sprLaneInfo.y -100,sprLaneInfoSignpost.y -1000'
+   runif vLaneInfo 1 'sprLaneInfo.y 21  ,sprLaneInfoSignpost.y 0'
+   runif vLaneInfo 2 'sprLaneInfo.y 199 ,sprLaneInfoSignpost.y 0'
+</script>
+
+<script sc_laneinfo_pos_2D>
+   runif vLaneInfo 0 'sprLaneInfo.y -100 ,sprLaneInfoSignpost.y -1000'
+   runif vLaneInfo 1 'sprLaneInfo.y 40   ,sprLaneInfoSignpost.y 0'
+   runif vLaneInfo 2 'sprLaneInfo.y 199  ,sprLaneInfoSignpost.y 0'
+</script>
+
+

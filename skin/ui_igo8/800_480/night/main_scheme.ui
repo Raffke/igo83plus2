@@ -1,0 +1,21 @@
+;import "uicommon/night/scheme.ui"
+<FONTTYPE headerfont color=#ffffff font="tahomabd" fontsize=18>
+<FONTTYPE buttonlabel1 color=#ffffff font="tahoma" fontsize=14 color2=#000000>
+<FONTTYPE buttonlabel2 color=#ffffff font="tahoma" fontsize=14 color2=#FF0000>
+<FONTTYPE buttonlabel_menu color=#CC0000 font="tahoma" fontsize=12 color2=#CC0000>
+<FONTTYPE buttonlabel_menu2 color=#CC0000 font="tahomabd" fontsize=10 color2=#CC0000> 
+<FONTTYPE font1 color=#ff0000 valuecolor=#ff0000 emptycolor=#800000 color2=#FF0000>
+<FONTTYPE font_speedlimit_below color=#FF0000 font="tahomabd" fontsize=16 valuecolor=#000000 emptycolor=#5B6B50 color2=#a00000>
+<FONTTYPE font_speedlimit_above color=#FFFF00 font="tahomabd" fontsize=16 valuecolor=#000000 emptycolor=#5B6B50 color2=#a00000>
+
+<FONTTYPE keyfont color=#ff0000 font="tahomabd" fontsize=18 color2=#a00000>
+<FONTTYPE keyfont1 color=#ff0000 font="tahomabd" fontsize=14 color2=#a00000>
+<FONTTYPE keyfont2 color=#ff0000 font="tahomabd" fontsize=14 color2=#a00000>
+
+<FONTTYPE keysmallfont color=#ff0000 color2=#a00000>
+<FONTTYPE font2 color=#800000 font="tahoma" fontsize=16 valuecolor=#ff0000 emptycolor=#800000 color2=#FF0000>
+
+<FONTTYPE xhtml_ft font="tahomabd" fontsize=12 color=#FFFFFF color2=#FFFFFF color3=#FFFFFF>
+
+<fonttype bw color=#FFFFFF color2=#000000 color3=#FF0000>
+<fonttype wb color=#000000 color2=#FFFFFF>

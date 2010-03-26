@@ -1,0 +1,411 @@
+<header>
+	<var vClearNewMessages>
+  <var vShowTmcDetour=1 registermodel>
+  <var vNeedTmcRecalc>
+</header>
+
+<script sc_TmcUpdateCockpitStatus>
+  runif vTmcShowOnRoute 0 'run sc_TmcUpdateCockpitStatus_AllEvents'
+  else_run 'run sc_TmcUpdateCockpitStatus_EventsOnRoute'
+</script>
+
+<script sc_TmcUpdateCockpitStatus_AllEvents>
+  runifnot %tmc.has_event_on_route 0 'vTmcCockpitStatus.set 3' 
+  else_runifnot %tmc.has_new_message 0 'vTmcCockpitStatus.set 2'
+  else_runif %tmc.present 0 'vTmcCockpitStatus.set 0'
+  else_runif %tmc.station_tuned 0 'vTmcCockpitStatus.set 0' 
+  else_runifnot %tmc.has_last_calc_avoided 0 'vTmcCockpitStatus.set 4'
+  else_runif %tmc.has_message 1 'vTmcCockpitStatus.set 5'
+  else_run 'vTmcCockpitStatus.set 1'
+</script>
+
+<script sc_TmcUpdateCockpitStatus_EventsOnRoute>
+  runif %navigation.waypoints.list.size > 1 sc_TmcUpdateCockpitStatus_EventsOnRoute_Check
+  else_runif %tmc.present 0 'vTmcCockpitStatus.set 0'
+  else_runif %tmc.station_tuned 0 'vTmcCockpitStatus.set 0'
+  else_run 'vTmcCockpitStatus.set 1'
+</script>
+
+<script sc_TmcUpdateCockpitStatus_EventsOnRoute_Check>
+  runifnot %tmc.has_event_on_route 0 'vTmcCockpitStatus.set 3'
+</script>
+
+<observer xxx model="tmc.present" onchange='run sc_TmcUpdateCockpitStatus' start>
+<observer xxx model="tmc.station_tuned" onchange='run sc_TmcUpdateCockpitStatus' start>
+<observer xxx model="tmc.has_event_on_route" onchange='run sc_TmcUpdateCockpitStatus' start>
+<observer xxx model="tmc.has_new_message" onchange='run sc_TmcUpdateCockpitStatus' start>
+<observer xxx model="tmc.has_last_calc_avoided" onchange='run sc_TmcUpdateCockpitStatus' start>
+
+;==============================
+; TMC event list
+<state st_TmcEventsList>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_TmcEventsList/>
+	
+	<script init>
+		title.set "Traffic events"
+		.tmc.events.auto_update 1
+		.tmc.events.split_location_at 40
+		run sc_TMC_ListElementChanged
+		vClearNewMessages.set 1
+</script>
+
+	<script enter> 
+		tmc.events.list.index 0 
+	</script>
+
+	<script done>
+		runif vClearNewMessages 1 'EXEC "tmc.events.set_none_new"'
+		.tmc.events.auto_update 0
+	</script>
+</state>
+
+<script sc_TMC_ListElementChanged>
+	runif vTmcShowOnRoute 0 '.tmc.events.filter_offroute 0'
+	else_run '.tmc.events.filter_offroute 1'
+</script>
+
+;==============================
+; TMC parameters
+<state st_TmcParams>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>  
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_TmcParams/>
+
+	<script init>
+	title.set "TMC parameters"
+	</script>
+</state>
+
+;==============================
+; TMC settings
+<state st_TmcSettings>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/> 
+	<uselayer ui_Title/>	
+	<uselayer ui_Footer2/>
+	<uselayer ui_TmcSettings/>
+
+	<script init>
+	title.set "TMC Settings"
+	</script>
+</state>
+
+<script sc_Enable_Selected_Station>
+	EXEC "tmc.enable_selected_station"
+;	vtmp.valuemodel "tmc.denied_stations_list.isempty"
+;	runif vtmp 1 'prevstate'
+;	vtmp.dropmodel
+</script>
+
+;==============================
+; TMC hardware state
+<state st_NoTmcHardware>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>   
+	<uselayer ui_Footer2/>
+	<uselayer ui_NoTmcHardware/>
+
+	<script init>
+		runif %tmc.autodetection_in_progress 1 'PREVSTATE'
+		Title.Set "TMC Settings"
+	</script>
+	
+</state>
+
+<script sc_TMC_HW_Changed>
+	termif %tmc.autodetection_in_progress 1
+	runif %tmc.autodetection_successful 1 sc_TMC_HW_Detected
+	else_run sc_TMC_HW_Not_Found
+</script>
+
+<script sc_TMC_HW_Detected>
+	INITMESSAGEBOX 0 "TMC Hardware detected!" sc_TMC_SearchResult
+</script>
+
+<script sc_TMC_HW_Not_Found>
+	INITMESSAGEBOX 0 "No TMC Hardware Found!" sc_TMC_SearchResult
+</script>
+
+
+<script sc_TMC_SearchResult>
+	vTmp.set 0
+	runif vActiveState "st_tmcautodetect" 'vTmp.set 1'
+	else_runif vActiveState "st_notmchardware" 'vTmp.set 1'
+	else_runif vActiveState "st_tmcparams" 'vTmp.set 2'
+	termif vTmp 0
+	runif %tmc.present 1 'STATE st_TmcParams'
+	else_run 'STATE st_NoTmcHardware'
+</script>
+
+<state st_TmcAutodetect>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>  
+	<uselayer ui_TMCAutoDetect/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	
+	<script init>
+	</script>
+</state>
+
+<script sc_TmcReplanChanged>
+	run sc_SetTmcRecalcOptionFromVar
+	run sc_SetShowTmcDetour
+	ADVNAV_RECALC
+</script>
+
+;==============================
+; TMC announcement (not used)
+<script sc_TMC_Announce>
+	ui_TmcAnnounce.hide
+	termif %tmc.events.announced_events.isempty 1
+	termif %tmc.ignore_all_events 1
+	termifnot vTmcReplanMode "ASK"
+	runif vActiveState "st_navigatemap" 'term sc_TMC_Announce_Init, 1 run sc_TMC_Announce_Init'
+</script>
+
+<observer tmc_announce_obs boolmodel="tmc.events.announced_events.isempty" onselect='run sc_TMC_Announce'>
+
+<script sc_TMC_Announce_Init>
+	ui_TmcAnnounce.show
+	500 run sc_TMC_Announce_Done
+</script>
+
+<script sc_TMC_Announce_Done>
+	ui_TmcAnnounce.hide
+	run sc_TMC_Announce
+</script>
+
+
+<script sc_TMC_SwitchState>
+	runif %tmc.present 1 'NEXTSTATE st_TmcParams'
+	else_runif %tmc.autodetection_in_progress 1 'NEXTSTATE st_TmcAutodetect'
+	else_run 'NEXTSTATE st_NoTmcHardware'
+</script>
+
+<script sc_TmcAvoid>
+	EXEC "tmc.events.list.current.avoid" 1
+	EXEC "tmc.events.unannounce_current"
+	EXEC "tmc.events.refresh"
+	ADJUST_INT "vNeedTmcRecalc" 1
+	run sc_back_if_empty
+</script>
+
+<script sc_TmcUnavoid>
+	EXEC "tmc.events.list.current.avoid" 0
+	EXEC "tmc.events.unannounce_current"
+	EXEC "tmc.events.refresh"
+	;ADJUST_INT "vNeedTmcRecalc" 0
+	run sc_back_if_empty
+</script>
+
+<script sc_back_if_empty>
+	ui_DisableLayer2.show
+	2 runif %tmc.events.list.isempty 1 sc_back_if_same_state
+	2 else_run 'ui_DisableLayer2.hide'
+</script>
+
+<script sc_back_if_same_state>
+	; you could still change the state with gestures, despite the disable layer
+	runif vActiveState "st_tmcmap" 'PREVSTATE'
+</script>
+
+<script sc_TmcAvoidAnn>
+	runif %tmc.events.list.index >= 0 sc_TmcAvoid
+	run sc_TmcTakeNextAnnouncement
+</script>
+
+<script sc_TmcUnavoidAnn>
+	runif %tmc.events.list.index >= 0 sc_TmcUnavoid
+	run sc_TmcTakeNextAnnouncement
+</script>
+
+<script sc_TmcTakeNextAnnouncement>
+	runif %tmc.events.announced_events.isempty 1 'PREVSTATE'
+	else_run sc_TmcTryNextAnnounce
+</script>
+
+<script sc_TmcTryNextAnnounce>
+	tmc.events.announced_events.index 0
+	vTmp.set %int:tmc.events.announced_events.current.record_id
+	runif vTmp 0 'PREVSTATE'
+	else_run 'tmc.events.select_by_id vTmp, run sc_current_TMC_Fittoscreen_res'
+</script>
+
+<script sc_TmcAnnounceClicked>
+	vTmp.set %int:tmc.events.announced_events.current.record_id
+	tmc.events.select_by_id vTmp
+	vTMCMapFromAnnounce.set 1
+	nextstate st_TMCMap
+	run sc_current_TMC_Fittoscreen_res
+</script>
+
+<script sc_TMCListEventOnRelease>
+	vClearNewMessages.set 0
+	vTMCMapFromAnnounce.set 0
+	nextstate st_TMCMap
+	run sc_current_TMC_Fittoscreen_res
+</script>
+
+<script sc_UseTrafficInfoOnRelease>
+	runif %tmc.ignore_all_events 1 'EXEC "tmc.events.unannounce_events"'
+	else_run 'EXEC "tmc.events.refresh"'
+</script>
+
+;==============================
+; TMC denied stations
+<state st_TmcTiltStations>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/> 
+	<uselayer ui_Title/> 
+	<uselayer ui_Footer2/>
+	<uselayer ui_TmcDeniedStations/>
+
+	<script init>
+		title.set "Excluded stations"
+	</script>
+</state>
+
+
+;********************** Clear Channel ******************************
+<state STF_TMC_ENTER_CODE>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>  
+	<uselayer ui_Footer2/>
+	<uselayer ui_tmc_enter_code/>
+	
+	<script sc_check_serial_number_ok>
+		PREVSTATE
+	</script>
+	
+	<script sc_check_serial_number>
+		CHECK_USA_TMC_SERIAL input_tmccode vTmp
+		runif vTmp 1 'INITMESSAGEBOX 0 "Your subscription is valid, thank you!" sc_check_serial_number_ok'
+		else_run 'INITMESSAGEBOX 0 vTmp'
+		PREVSTATE
+	</script>
+	
+	<script init>
+		LOADPANELTYPE 1
+		vKeyTableDone.set sc_check_serial_number
+		KEY "RETURN" vKeyTableDone
+		title.set "Enter TMC subscription code"
+		input_tmccode.value ""
+	</script>
+	<script done>    
+        KEY "RETURN"
+	</script>
+</state>
+
+<state STF_TMC_SUBSCRIBE>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>  
+	<uselayer ui_Footer2/>
+	<uselayer ui_tmc_subscribe_status/>
+	<script init>
+		GET_USA_TMC_CLIENT_KEY vTmp
+		txt_tmc_subscriber_id.text vTmp
+		GET_USA_TMC_EXPIRATION_TEXT vTmp
+		txt_tmc_expiration_text.text vTmp
+	</script>
+</state>
+
+;*************************** HELP **********************************
+<state st_HelpTmcSettings>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_ScrollButtons/>
+	<uselayer ui_HelpTmcSettings/>
+
+	<script init>
+		Title.SET "TMC settings"
+		run sc_ScrollingLayerInit ui_HelpTmcSettings vAutoScrollHelp
+	</script>
+	
+	<script done>
+	    run sc_ScrollingLayerDone
+	</script>
+</state>
+
+<state st_HelpTmcParams>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_ScrollButtons/>
+	<uselayer ui_HelpTmcParams/>
+
+	<script init>
+		Title.SET "TMC parameters"
+		run sc_ScrollingLayerInit ui_HelpTmcParams vAutoScrollHelp
+	</script>
+	
+	<script done>
+	    run sc_ScrollingLayerDone
+	</script>
+</state>
+
+<state st_HelpNoTmcHardware>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_ScrollButtons/>
+	<uselayer ui_HelpNoTmcHardware/>
+
+	<script init>
+		Title.SET "TMC settings"
+		run sc_ScrollingLayerInit ui_HelpNoTmcHardware vAutoScrollHelp
+	</script>
+	
+	<script done>
+	    run sc_ScrollingLayerDone
+	</script>
+</state>
+
+<state st_TMCMap>
+	<uselayer ui_TMCMap/>
+	<uselayer ui_TMCMapBack/>	
+	<uselayer map/>
+  <uselayer ui_title/>
+	
+	<script init>	
+		title.set ""
+		.tmc.events.auto_update 1	
+		; Map properties
+		run sc_FullScreenMap
+		map.mapmode 1
+
+		vMapSettings2d3d.set "2D"
+		map.VIEW2D3D vMapSettings2d3d
+		map.EnableMoveCursorByClick 0
+		run sc_init_zoomcontrol
+		;map.CENTERCURSOR 50 50
+		vNeedTmcRecalc.set 0
+		; any button can be used for this. This must be after all show/hide layers.
+		btn_Footer_back2.CLEARFOCUS
+	</script>
+	
+	<script done>
+		.tmc.events.auto_update 0
+		map.EnableMoveCursorByClick 1
+		map.SETCARPOSITION 0 0
+		runifnot vNeedTmcRecalc 0 'ADVNAV_RECALC'
+	</script>
+
+	<script sc_TMC_go_to_current_loc>
+		run sc_current_TMC_Fittoscreen_res
+		;TMCLISTMODEL_SHOW
+		;map.centercursor 50 50
+	</script>
+	
+</state>

@@ -1,0 +1,125 @@
+<header>
+    <var nSpeedCamStateMode=0>
+    <var nSpeedCamDirection=0>
+    <var nSpeedCamPosX=0>
+    <var nSpeedCamPosY=0>
+</header>
+
+<script sc_SpeedcamSkippedChanged>
+	runif %navigation.curr_speedcam.skipped 1 'ui_SpeedCamWarningLayer.hide'
+	else_run 'ui_SpeedCamWarningLayer.show'
+</script>
+
+<observer xxx boolmodel="navigation.curr_speedcam.skipped" onchange='run sc_SpeedcamSkippedChanged' start>
+
+;****************************************************************************************************************
+
+<state st_SpeedCam>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_SpeedCam/>
+
+	<script init>
+		Title.SET "Speed Camera"
+		;btn_Footer_back2.onrelease 'run sc_ReturnToMap'
+		sprSC_Dir.BLENDROTATE nCamOnScreenHeading 1
+
+		txtSC_Speed.SHOW
+		hscSC_Speed.VALUE nCameraSpeed
+		hscSC_Speed.SHOW
+		txtSC_SpeedValue.SHOW
+		sprSC_Speed.SHOW
+		;SETFORMATTED_UNIT_TEXT txtSC_SpeedUnit "km/h"
+		runif nCamSpeedUnit 0 'txtSC_SpeedUnit.TEXT "mph"'
+		else_run 'txtSC_SpeedUnit.TEXT "km/h"'
+		txtSC_SpeedUnit.SHOW
+		run sc_hscSC_Speed_OnChange
+		sprSC_Type.PHASE "vTmp"
+		runif vTmp 1 'txtSC_Speed.HIDE, hscSC_Speed.HIDE, txtSC_SpeedValue.HIDE, sprSC_Speed.HIDE, txtSC_SpeedUnit.HIDE, txtSC_SpeedNo.HIDE'
+		runif vTmp 4 'txtSC_Speed.HIDE, hscSC_Speed.HIDE, txtSC_SpeedValue.HIDE, sprSC_Speed.HIDE, txtSC_SpeedUnit.HIDE, txtSC_SpeedNo.HIDE'
+	</script>
+
+	<script done>
+		map.UPDATECAMSTATE
+		;btn_Footer_back2.onrelease 'PREVSTATE'
+	</script>
+</state>
+
+<script sc_SpeedCamOK>
+	sprSC_Type.PHASE "nCamType"
+	sprSC_Dir.PHASE "nCamDirectionType"
+	runif nSpeedCamStateMode 1 'POI_ADD_SPEEDCAM nCamType nCameraSpeed nCamHeading nCamDirectionType nSpeedCamPosX nSpeedCamPosY'
+	else_run 'POI_UPDATE_SPEEDCAM nCamType nCameraSpeed nCamHeading nCamDirectionType'
+	map.INVALIDATE_VECTOR_LAYER
+	run sc_ReturnToMap
+</script>
+
+<script sc_btnSC_Delete_OnRelease>
+    INITMESSAGEBOX 1 "Camera will be deleted." sc_SpeedCamDelete
+</script>
+
+<script sc_SpeedCamDelete>
+    POI_DELETE_SPEEDCAM
+    map.INVALIDATE_VECTOR_LAYER
+    run sc_ReturnToMap
+</script>
+
+<script sc_btnSC_Dir_OnClick>
+    run sc_SelectCameraDirection $1
+</script>
+
+<script sc_SetCameraDirection>
+    sprSC_Dir.phase $1
+	nSpeedCamDirection.set $1
+	btnSC_Dir.onclick 'run sc_btnSC_Dir_OnClick nSpeedCamDirection'
+</script>
+
+<script sc_SelectCameraDirection>
+	runif $1 0 'nSpeedCamDirection.set 1'
+	runif $1 1 'nSpeedCamDirection.set 2'
+	runif $1 2 'nSpeedCamDirection.set 3'
+	runif $1 3 'nSpeedCamDirection.set 0'
+    sprSC_Dir.phase nSpeedCamDirection
+    btnSC_Dir.onclick 'run sc_btnSC_Dir_OnClick nSpeedCamDirection'
+</script>
+
+<script sc_SelectCameraType>
+	sprSC_Type.phase "vTmp"
+	NEXTSTATE st_SpeedCamType
+</script>
+
+<script sc_hscSC_Speed_OnChange>
+	hscSC_Speed.GET "vTmp"
+	nCameraSpeed.SET vTmp
+	runif vTmp 0 'txtSC_SpeedValue.HIDE, txtSC_SpeedUnit.HIDE, txtSC_SpeedNo.SHOW'
+	else_run 'txtSC_SpeedValue.SET vTmp, txtSC_SpeedValue.SHOW, txtSC_SpeedUnit.SHOW, txtSC_SpeedNo.HIDE'
+</script>
+
+;****************************************************************************************************************
+
+<state st_SpeedCamType>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+    <uselayer ui_Footer2/>
+	<uselayer ui_SpeedCamType/>
+	
+	<script init>
+		Title.TEXT "Select Camera Type"
+	</script>
+</state>
+
+<script sc_btnSCT_Type_OnClick>
+	sprSC_Type.PHASE $1
+	PREVSTATE
+</script>
+
+;****************************************************************************************************************
+
+<script sc_ToggleSpeedcamSound>
+	runif %navigation.curr_speedcam.speed_warning_sound_active 0 '.navigation.curr_speedcam.skipped 1'
+	else_runif %warning.speedcam_soundtype 0 '.navigation.curr_speedcam.skipped 1'
+	else_run '.navigation.curr_speedcam.speed_warning_sound_active 0'
+</script>

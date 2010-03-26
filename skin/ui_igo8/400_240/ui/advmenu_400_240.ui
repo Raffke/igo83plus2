@@ -1,0 +1,90 @@
+<header>
+	<layer ui_HelpAdvUserDataMgmt type="xhtml"  template=help_text filename="hlp_settinguserdata.xhtml">
+</header>
+
+<layer ui_AdvFindMenu z=30>
+
+	<BUTTON btnAFM_Address  template=menu4_1 iconspr="ico_find_address.bmp"   fxshowdelay=0   text="Find Address"    onrelease='NEXTSTATE st_FindAddress'>
+	<BUTTON btnAFM_History  template=menu6_4 iconspr="ico_find_history.bmp"   fxshowdelay=22  text="Recent\nPlaces"  onrelease='run sc_FindHistory' enabledmodel="!mydata.history.list.isempty"> 
+	<BUTTON btnAFM_Coord    template=menu6_5 iconspr="ico_find_coord.bmp"     fxshowdelay=16  text="Find\nCoordinate"onrelease='run sc_FindCoord'> 	
+	<BUTTON btnAFM_POI      template=menu4_2 iconspr="ico_find_poi.bmp"       fxshowdelay=6   text="Find POI"        onrelease='run sc_FindPOI'> 
+	<BUTTON btnAFM_Favorite template=menu6_6 iconspr="ico_find_favorites.bmp" fxshowdelay=11  text="My Favorites"    onrelease='run sc_FindFavorite' enabledmodel="!mydata.favorites.isempty"> 
+	
+	<BUTTON btnAFM_PlanMode template=footer2_2 text="Plan Mode"     onrelease='run sc_StartPlanMode'> 
+</layer>
+
+<layer ui_AdvRouteMenu z=30>
+	<BUTTON btnARM_Info     template=menu6_1 iconspr="ico_route_routeinfo.bmp"  fxshowdelay=0  text="Route Info"     onrelease='NEXTSTATE st_RouteInfo'> 
+	<BUTTON btnARM_Itineary template=menu6_2 iconspr="ico_route_itiner.bmp"     fxshowdelay=5   text="Itinerary"     onrelease='NEXTSTATE st_RouteItinerary'> 
+	<BUTTON btnARM_Edit     template=menu6_3 iconspr="ico_route_edit.bmp"       fxshowdelay=10   text="Edit Route"   onrelease='NEXTSTATE st_RouteEdit'> 
+						                                                      
+	<BUTTON xxx             template=menu6_4 iconspr="ico_route_load.bmp"       fxshowdelay=28   text="Load Route"    onrelease='NEXTSTATE st_MyDataRouteLoad'  enabledmodel="!mydata.routes.isempty" w=93> 
+	<BUTTON btnARM_Delete   template=menu6_6 iconspr="ico_route_remove.bmp"     fxshowdelay=15  text="Remove\nRoute"  onrelease='run sc_btnARM_Delete_OnRelease'> 
+	<BUTTON btnARM_Save     template=menu6_5 iconspr="ico_route_save.bmp"       fxshowdelay=20  text="Save Route"     onrelease='run sc_btnARM_Save_OnRelease' w=95> 
+                                        
+
+	<BUTTON btnARM_Params    template=footer3_1 text="Settings"     onrelease='NEXTSTATE st_SettingRoute'> 
+	<BUTTON btnARM_FlyOver   template=footer3_2 text="Fly Over"     onrelease='run sc_btnRI_Simulate_or_FlyOver_OnRelease 0' enabledmodel="navigation.has_navigable_path&!navigation.calculation_todo"> 
+	<BUTTON btnARM_Simulate  template=footer3_3 text="Simulate"     onrelease='run sc_btnRI_Simulate_or_FlyOver_OnRelease 1' enabledmodel="navigation.has_navigable_path&!navigation.calculation_todo"> 
+</layer>
+
+<layer ui_AdvMyDataMenu z=30>
+
+	<BUTTON btnAMDM_Route    template=menu6_1 fxshowdelay=0   iconspr="ico_manage_savedroutes.bmp" text="Saved\nRoutes"	 onrelease='NEXTSTATE st_MyDataRoute' enabledmodel="!mydata.routes.isempty"> 
+	<BUTTON btnAMDM_History  template=menu6_4 fxshowdelay=28  iconspr="ico_manage_history.bmp"     text="Recent\nPlaces" onrelease='run sc_btnAMDM_History_OnRelease'  enabledmodel="!mydata.history.list.isempty"> 
+	<BUTTON btnAMDM_Track    template=menu6_2 fxshowdelay=5   iconspr="ico_manage_tracklog.bmp"    text="Track Logs"     onrelease='NEXTSTATE st_ManageTrack'> 
+	<BUTTON btnAMDM_QSearch  template=menu6_6 fxshowdelay=15  iconspr="ico_manage_savedsearch.bmp" text="Saved\nSearch"  onrelease='NEXTSTATE st_ManagePOIQuickSearch'> 
+	<BUTTON btnAMDM_Favorite template=menu6_5 fxshowdelay=20  iconspr="ico_manage_favorites.bmp"   text="Favorites"      onrelease='run sc_btnAMDM_Favorite_OnRelease' enabledmodel="!mydata.favorites.isempty"> 
+	<BUTTON btnAMDM_POI      template=menu6_3 fxshowdelay=10  iconspr="ico_manage_poi.bmp"         text="POI"            onrelease='run sc_btnAMDM_POI_OnRelease'> 
+	                                                   
+	<BUTTON btnAMDM_UserData template=footer3_2 text="User Data\nManagement" fontsize=8  onrelease='NEXTSTATE st_UserDataMgmt'>
+	<BUTTON xxx  template=footer3_3 text="Help"       onrelease='NEXTSTATE st_mydata_help'> 
+	<BUTTON btn_geocoding_list template=footer3_1 text="Geocoding\nErrors" onrelease='run sc_GeoCodingErrorShow' fontsize=8 enabledmodel="other.geocoding.list_fails.valid&!other.geocoding.list_fails.isempty">
+</layer>
+
+<layer ui_AdvSettingsMenu z=30>
+	<BUTTON btnASM_Visual   template=menu6_1 fxshowdelay=0  iconspr="ico_sett_visual.bmp"     text="Map Visual"        onrelease='NEXTSTATE st_SettingVisual'> 
+	<BUTTON btnASM_Sound    template=menu6_4 fxshowdelay=28 iconspr="ico_sett_sound.bmp"      text="Sound"             onrelease='NEXTSTATE st_SettingSound'> 
+	<BUTTON btnASM_Route    template=menu6_2 fxshowdelay=5  iconspr="ico_sett_route.bmp"      text="Route Planning"    onrelease='NEXTSTATE st_SettingRoute'> 
+	<BUTTON btnASM_Warnings template=menu6_6 fxshowdelay=15 iconspr="ico_sett_warning.bmp"    text="Warnings"          onrelease='NEXTSTATE st_SettingWarnings'> 
+	<BUTTON btnASM_Regional template=menu6_5 fxshowdelay=20 iconspr="ico_sett_regional.bmp"   text="Regional"          onrelease='NEXTSTATE st_SettingRegional'> 
+	<BUTTON xxx				template=menu6_3 fxshowdelay=10 iconspr="ico_sett_navigation.bmp" text="Navigation"        onrelease='NEXTSTATE st_SettingGuidance'> 
+                                                     
+	<BUTTON xxx template=prevpage_sett onrelease='' DISABLE>
+	<BUTTON xxx template=nextpage_sett onrelease='ui_AdvSettingsMenu.HIDE, ui_AdvSettingsMenu2.SHOW, vSettingsActPage.set 1'>
+
+	<TEXT xxx   template=pageindex text="1/2">
+
+</layer>
+
+<layer ui_AdvSettingsMenu2 z=30>
+
+	<BUTTON xxx               template=menu6_1 fxshowdelay=0  iconspr="ico_sett_gps.bmp"      text="GPS"              onrelease='NEXTSTATE st_SettingGPSConfig'> 
+	<BUTTON btnASM2_TMC       template=menu6_4 fxshowdelay=28 iconspr="ico_sett_tmc.bmp"      text="TMC"              onrelease='run sc_TMC_SwitchState'> 
+	<BUTTON xxx               template=menu6_2 fxshowdelay=5  iconspr="ico_sett_menu.bmp"     text="Menu"              onrelease='NEXTSTATE st_SettingVisualMenu'> 
+	<BUTTON xxx               template=menu6_6 fxshowdelay=15 iconspr="ico_sett_about.bmp"    text="About"            onrelease='NEXTSTATE st_About'> 
+	<BUTTON btnASM2_DevicePDA template=menu6_5 fxshowdelay=20 iconspr="ico_sett_pda.bmp"      text="Device Settings"  onrelease='NEXTSTATE st_SettingSystem' visiblemodel="other.device.ispda"> 
+	<BUTTON btnASM2_DevicePNA template=menu6_5 fxshowdelay=20 iconspr="ico_sett_pna.bmp"      text="Device Settings"  onrelease='NEXTSTATE st_SettingSystem' visiblemodel="!other.device.ispda"> 
+	<BUTTON xxx               template=menu6_3 fxshowdelay=10 iconspr="ico_sett_tracklog.bmp" text="Tracks"           onrelease='NEXTSTATE st_Tracking_Options'> 
+	                                                   
+
+	<BUTTON xxx template=prevpage_sett onrelease='ui_AdvSettingsMenu2.HIDE, ui_AdvSettingsMenu.SHOW, vSettingsActPage.set 0'>
+	<BUTTON xxx template=nextpage_sett onrelease='' DISABLE>
+	
+	<TEXT xxx   template=pageindex text="2/2">
+
+</layer>
+
+<layer ui_AdvSettingsMenu_Footer z=30>
+	<BUTTON btnASM_Basic    template=footer2_1 text="Normal mode" onrelease='run sc_btnASM_Basic_OnRelease'>
+</layer>
+
+<layer ui_AdvUserDataMgmt z=30>
+	<BUTTON btnUDM_RemovePins    template=btn_5a y=21  text="Remove Pins"        onrelease='run sc_UDM_RemovePins'>
+	<BUTTON btnUDM_Backup        template=btn_5a y=57  text="Backup User Data"   onrelease='run sc_UDM_Backup'>
+	<BUTTON btnUDM_Restore       template=btn_5a y=93  text="Restore User Data"  onrelease='run sc_UDM_Restore'>
+	<BUTTON btnUDM_UserDataReset template=btn_5a y=129 text="Delete User Data"   onrelease='run sc_UDM_UserData_Reset'> 
+	<BUTTON btnUDM_FactoryReset  template=btn_5a y=165 text="Reset All Settings" onrelease='run sc_UDM_AdvancedData_Reset'>
+
+	<BUTTON xxx  template=footer3_3a text="Help"       onrelease='NEXTSTATE st_HelpAdvUserDataMgmt'> 
+</layer>

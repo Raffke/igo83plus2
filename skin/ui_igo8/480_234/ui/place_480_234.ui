@@ -1,0 +1,177 @@
+<TEMPLATE txt_multi_label z=1 w=105 font="tahoma"   fontsize=11  fonttype=bw  align="LEFT">
+<TEMPLATE txt_multi_value z=1       font="tahomabd" fontsize=12 fonttype=bw  >
+<TEMPLATE txt_multi_unit  z=1       font="tahoma"   fontsize=11  fonttype=bw  >
+<TEMPLATE aligner_multi   x=150 align="LEFT" w=155>
+
+
+<TEMPLATE spr_multi        x=46  z=1  w=388 h=23 >
+
+<TEMPLATE btn_4c_icon_place template=btn_4c_icon x=163 z=10 iconalign="LEFT+6" iconvalign="CENTER">
+
+<TEMPLATE txt_posinfo      x=280 y=3  w=200 font="tahomabd" fontsize=11 color=#FFFFFF  align="center" valign="center">
+
+<header>
+	<var vPlaceZoomPosMin=20>
+	<var vPlaceZoomPosMax=186>
+</header>
+m
+<layer ui_PlaceAdvanced z=30>
+	<button xxx                            x=280 y=0 z=0 bmp="main_bg2.bmp"  nosound>
+	<TEXT   txtPA_Address   template=txt_posinfo textmodel_wstr="map.last_selected.name">
+	<TEXT   txtPA_POI       template=txt_posinfo textmodel_wstr="poi.current.name">
+	<SPRITE xxx             x=96   y=201   bmp="foot_2_a.bmp" alpha=32 onclick=''>
+	<BUTTON btnPA_Map       template=footer2_1a z=30     text="Map" onrelease='run sc_btnP_Map_OnRelease'> 
+	<BUTTON btnPA_Info      template=footer2_2a z=30     text="Info" onrelease='run sc_btnPA_Info_OnRelease'> 
+</layer>
+
+<layer ui_PlaceBasic z=30>
+	<button xxx                           x=280 y=0   z=0  bmp="main_bg2.bmp" nosound>
+	<BUTTON xxx       template=btnmapmenu x=283 y=65  z=10 text="Navigate To" iconspr="ico_dest.bmp"     iconalign="LEFT+6" iconvalign="CENTER+2" onrelease='run sc_btnPM_AddDest_OnRelease'> 
+	<BUTTON xxx       template=btnmapmenu x=283 y=120 z=10 text="Add to\nFavourites" iconspr="ico_fav_add.bmp"  iconalign="LEFT+" iconvalign="CENTER+2" onrelease='run sc_btnPM_Favorite_OnRelease'>
+	<SPRITE xxx       x=96   y=201   bmp="foot_2_a.bmp" alpha=32 onclick=''>
+	<BUTTON btnPB_Map template=footer2_1a             z=30 text="Map" onrelease='run sc_btnP_Map_OnRelease'> 
+	<BUTTON xxx       template=footer2_2a text="Info" z=30 onrelease='run sc_btnPA_Info_OnRelease'>
+</layer>
+
+<layer ui_PlaceBasic_POS z=30>
+	<button xxx                     x=280 y=0   z=0  bmp="main_bg2.bmp"  nosound>
+	<BUTTON xxx template=btnmapmenu x=283 y=65  z=10 text="Add to\nFavourites" iconspr="ico_fav_add.bmp"  iconalign="LEFT+" iconvalign="CENTER+2" onrelease='run sc_btnPM_Favorite_OnRelease'>
+	<SPRITE xxx             x=96   y=201   bmp="foot_2_a.bmp" alpha=32 onclick=''>
+	<BUTTON xxx template=footer2_2a text="Info" z=30 onrelease='run sc_btnPA_Info_OnRelease'>
+</layer>
+
+<layer ui_PlaceAddressText z=35>
+	<TEXT xxx template=txt_posinfo textmodel_wstr="map.cursorpos.address.short_format">
+	<TEXT xxx template=txt_posinfo y=20 textmodel_wstr="map.cursorpos.address.city">
+</layer>
+
+<layer ui_PlacePOIText z=35>
+	<SPRITE xxx                x=366 y=2  iconmodel="poi.current.icon" iconindex=1>
+	<TEXT   xxx template=txt_posinfo y=30 textmodel_wstr="poi.current.name">
+</layer>
+
+<LAYER ui_PlaceZoomControls z=50>
+	<BUTTON xxx    x=3   y=3 z=0  bmp="places_center.bmp#2" onRelease='run sc_lock_plan_mode'> 
+	<BUTTON btnPZC_ZoomIn  x=3 y=49  z=0 bmp="map_zoomin.bmp#2"  onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0'>
+	<BUTTON btnPZC_ZoomOut x=3 y=113 z=0 bmp="map_zoomout.bmp#2" onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0'>
+</layer>
+
+<layer ui_PlaceMenuPlan z=32>
+	<BUTTON btnPMP_AddDest	   template=btn_4c_icon_place x=283 y=20  text="Set as Destination" iconspr="ico_dest.bmp"     onrelease='run sc_btnPM_AddDest_OnRelease'>
+	<BUTTON btnPMP_RemoveDest  template=btn_4c_icon_place x=283 y=65  text="Remove Destination" iconspr="ico_remdest.bmp"  onrelease='run sc_btnPM_RemoveDest_OnRelease'>
+	<BUTTON btnPMP_AddVia      template=btn_4c_icon_place x=283 y=65  text="Insert Via"         iconspr="ico_via.bmp"      onrelease='run sc_btnPM_AddVia_OnRelease'>
+	<BUTTON btnPMP_RemoveVia   template=btn_4c_icon_place x=283 y=65  text="Remove Via"         iconspr="ico_remvia.bmp"   onrelease='run sc_btnPM_RemoveVia_OnRelease'>
+	<BUTTON btnPMP_AddPin      template=btn_4c_icon_place x=283 y=110 text="Add Pin"            iconspr="ico_pin_add.bmp"  onrelease='run sc_btnPM_AddPin_OnRelease'>
+	<BUTTON btnPMP_RemovePin   template=btn_4c_icon_place x=283 y=110 text="Remove Pin"         iconspr="ico_pin_rem.bmp"  onrelease='run sc_btnPM_RemovePin_OnRelease'>
+	<BUTTON	btnPMP_More        template=btn_4c_icon_place x=283 y=155 text="More Options..."    onrelease='NEXTSTATE st_PlaceMoreOptions'>
+</layer>
+
+<layer ui_PlaceMenuPlan_POS z=32>
+	<BUTTON btnPM_POS_AddPoi    template=btn_4c_icon_place x=283 y=20  text="Add POI"		  iconspr="ico_poi_add.bmp"       onrelease='run sc_btnPM_AddPoi_OnRelease'>
+	<BUTTON btnPM_POS_AddPin    template=btn_4c_icon_place x=283 y=65  text="Add Pin"          iconspr="ico_pin_add.bmp"       onrelease='run sc_btnPM_AddPin_OnRelease'>
+	<BUTTON btnPM_POS_RemovePin template=btn_4c_icon_place x=283 y=65  text="Remove Pin"       iconspr="ico_pin_rem.bmp"       onrelease='run sc_btnPM_RemovePin_OnRelease'>
+	<BUTTON btnPM_POS_AddCam    template=btn_4c_icon_place x=283 y=155 text="Add SpeedCam"     iconspr="ico_speedcam_add.bmp"  onrelease='run sc_btnPM_AddCam_OnRelease' enabledmodel="warning.speedcams_allowed">
+	<BUTTON btnPM_POS_EditCam   template=btn_4c_icon_place x=283 y=155 text="Edit SpeedCam"    iconspr="ico_speedcam_edit.bmp" onrelease='run sc_btnPM_EditCam_OnRelease' enabledmodel="warning.speedcams_allowed">
+	<BUTTON	btnPM_POS_Favorite  template=btn_4c_icon_place x=283 y=110 text="Add to Favorites" iconspr="ico_fav_add.bmp"       onrelease='run sc_btnPM_Favorite_OnRelease'>
+</layer>
+
+
+<layer ui_MultiRoute z=30>
+	<BUTTON btnMR_fast    template=btn_4a    y=18      valign="TOP+5" font="tahomabd" text="Fast" fontsize=12 onrelease='run sc_SelectMultiplanRoute 0'>	
+	<SPRITE sprMPRoute1   template=spr_multi       y=38>
+	<TEXT txtMPDist1label template=txt_multi_label y=25 text="Distance:" watchstate=btnMR_fast>
+	<TEXT txtMPDist1      template=txt_multi_value y=24 textmodel_wstr="route.multiplan1.dist.number_text" watchstate=btnMR_fast visiblemodel="route.multiplan1.dist.valid">
+	<TEXT txtMPDist1Unit  template=txt_multi_unit  y=25 textmodel_wstr="route.multiplan1.dist.unit_text" watchstate=btnMR_fast visiblemodel="route.multiplan1.dist.valid">
+	<ALIGNER xxx          template=aligner_multi   control=txtMPDist1label padding=5 control=txtMPDist1 padding=3 control=txtMPDist1Unit>
+	<TEXT txtMPTime1label template=txt_multi_label y=25 text="Time:" watchstate=btnMR_fast>
+	<TEXT txtMPTime1      template=txt_multi_value y=24 textmodel_timespan="route.multiplan1.time" formatmodel=3 watchstate=btnMR_fast visiblemodel="route.multiplan1.time.valid">
+	<TEXT txtMPTime1Unit  template=txt_multi_unit  y=25 textmodel_timespan="route.multiplan1.time" formatmodel=4 watchstate=btnMR_fast visiblemodel="route.multiplan1.time.valid">
+	<ALIGNER xxx          template=aligner_multi   x=320 control=txtMPTime1label padding=5 control=txtMPTime1 padding=3 control=txtMPTime1Unit>
+	
+	<BUTTON btnMR_short   template=btn_4a    y=63      valign="TOP+5" font="tahomabd"  text="Short" fontsize=12 onrelease='run sc_SelectMultiplanRoute 1'>	
+	<SPRITE sprMPRoute2   template=spr_multi       y=83>
+	<TEXT txtMPDist2label template=txt_multi_label y=70 text="Distance:" watchstate=btnMR_short>
+	<TEXT txtMPDist2      template=txt_multi_value y=69 textmodel_wstr="route.multiplan2.dist.number_text" watchstate=btnMR_short visiblemodel="route.multiplan2.dist.valid">
+	<TEXT txtMPDist2Unit  template=txt_multi_unit  y=70 textmodel_wstr="route.multiplan2.dist.unit_text" watchstate=btnMR_short visiblemodel="route.multiplan2.dist.valid">
+	<ALIGNER xxx          template=aligner_multi   control=txtMPDist2label padding=5 control=txtMPDist2 padding=3 control=txtMPDist2Unit>
+	<TEXT txtMPTime2label template=txt_multi_label y=70 text="Time:" fontsize=10 watchstate=btnMR_short>
+	<TEXT txtMPTime2      template=txt_multi_value y=69 textmodel_timespan="route.multiplan2.time" formatmodel=3 watchstate=btnMR_short visiblemodel="route.multiplan2.time.valid">
+	<TEXT txtMPTime2Unit  template=txt_multi_unit  y=70 textmodel_timespan="route.multiplan2.time" formatmodel=4 watchstate=btnMR_short visiblemodel="route.multiplan2.time.valid">
+	<ALIGNER xxx          template=aligner_multi   x=320 control=txtMPTime2label padding=5 control=txtMPTime2 padding=3 control=txtMPTime2Unit>
+	
+	<BUTTON btnMR_econo   template=btn_4a    y=108 valign="TOP+5" font="tahomabd"  text="Economical" fontsize=12 onrelease='run sc_SelectMultiplanRoute 2'>	
+	<SPRITE sprMPRoute3   template=spr_multi       y=128>
+	<TEXT txtMPDist3label template=txt_multi_label y=115 text="Distance:" watchstate=btnMR_econo>
+	<TEXT txtMPDist3      template=txt_multi_value y=114 textmodel_wstr="route.multiplan3.dist.number_text" watchstate=btnMR_econo visiblemodel="route.multiplan3.dist.valid">
+	<TEXT txtMPDist3Unit  template=txt_multi_unit  y=115 textmodel_wstr="route.multiplan3.dist.unit_text" watchstate=btnMR_econo visiblemodel="route.multiplan3.dist.valid">
+	<ALIGNER xxx          template=aligner_multi   control=txtMPDist3label padding=5 control=txtMPDist3 padding=3 control=txtMPDist3Unit>
+	<TEXT txtMPTime3label template=txt_multi_label y=115 text="Time:" fontsize=10 watchstate=btnMR_econo>
+	<TEXT txtMPTime3      template=txt_multi_value y=114 textmodel_timespan="route.multiplan3.time" formatmodel=3 watchstate=btnMR_econo visiblemodel="route.multiplan3.time.valid">
+	<TEXT txtMPTime3Unit  template=txt_multi_unit  y=115 textmodel_timespan="route.multiplan3.time" formatmodel=4 watchstate=btnMR_econo visiblemodel="route.multiplan3.time.valid">
+	<ALIGNER xxx          template=aligner_multi   x=320 control=txtMPTime3label padding=5 control=txtMPTime3 padding=3 control=txtMPTime3Unit>
+	
+	<BUTTON btnMR_easy    template=btn_4a    y=153 valign="TOP+5" font="tahomabd"  text="Easy" fontsize=12 onrelease='run sc_SelectMultiplanRoute 3'>
+	<SPRITE sprMPRoute4   template=spr_multi       y=173>
+	<TEXT txtMPDist4label template=txt_multi_label y=160 text="Distance:" watchstate=btnMR_easy>
+	<TEXT txtMPDist4      template=txt_multi_value y=159 textmodel_wstr="route.multiplan4.dist.number_text" watchstate=btnMR_easy visiblemodel="route.multiplan4.dist.valid">
+	<TEXT txtMPDist4Unit  template=txt_multi_unit  y=160 textmodel_wstr="route.multiplan4.dist.unit_text" watchstate=btnMR_easy visiblemodel="route.multiplan4.dist.valid">
+	<ALIGNER xxx          template=aligner_multi   control=txtMPDist4label padding=5 control=txtMPDist4 padding=3 control=txtMPDist4Unit>
+	<TEXT txtMPTime4label template=txt_multi_label y=160 text="Time:" fontsize=10  watchstate=btnMR_easy>
+	<TEXT txtMPTime4      template=txt_multi_value y=159 textmodel_timespan="route.multiplan4.time" formatmodel=3 watchstate=btnMR_easy visiblemodel="route.multiplan4.time.valid">
+	<TEXT txtMPTime4Unit  template=txt_multi_unit  y=160 textmodel_timespan="route.multiplan4.time" formatmodel=4 watchstate=btnMR_easy visiblemodel="route.multiplan4.time.valid">
+	<ALIGNER xxx          template=aligner_multi   x=320 control=txtMPTime4label padding=5 control=txtMPTime4 padding=3 control=txtMPTime4Unit>
+		
+	<BUTTON btnMR_vehicle template=footer2_1a text="Vehicle" onrelease='run sc_MultiRouteVehicle'>
+	<BUTTON xxx template=footer2_2a text="Route Types" onrelease='run sc_MultiRouteRouteTypes'>
+	
+</layer>
+
+<layer ui_PlaceMoreOptions z=30>
+	<BUTTON btnPMO_AddDest       template=btn_4c_icon_place  x=34  y=-80  text="Set as Destination" iconspr="ico_dest.bmp"     onrelease='run sc_btnPM_AddDest_OnRelease'>
+	<BUTTON btnPMO_RemoveDest    template=btn_4c_icon_place  x=34  y=-80  text="Remove Destination" iconspr="ico_remdest.bmp"  onrelease='run sc_btnPM_RemoveDest_OnRelease'>
+	<BUTTON btnPMP_MultiplanDest template=btn_4c_icon_place  x=34  y=18   text="Routing Methods"    iconspr="ico_dest.bmp"     onrelease='run btnPMP_MultiplanDest_OnRelease'>
+ 	<BUTTON btnPMO_AddStart      template=btn_4c_icon_place  x=34  y=63   text="Set as Start"       iconspr="ico_start.bmp"    onrelease='run sc_btnPM_AddStart_OnRelease'>
+	<BUTTON btnPMO_RemoveStart   template=btn_4c_icon_place  x=34  y=63   text="Remove Start"       iconspr="ico_remstart.bmp" onrelease='run sc_btnPM_RemoveStart_OnRelease'>
+	<BUTTON btnPMO_AddVia        template=btn_4c_icon_place  x=34  y=108  text="Insert Via"         iconspr="ico_via.bmp"      onrelease='run sc_btnPM_AddVia_OnRelease'>
+	<BUTTON btnPMO_RemoveVia     template=btn_4c_icon_place  x=34  y=108  text="Remove Via"         iconspr="ico_remvia.bmp"   onrelease='run sc_btnPM_RemoveVia_OnRelease'>
+	<BUTTON	btnPMO_Continue      template=btn_4c_icon_place  x=34  y=153  text="Continue "	       iconspr="ico_dest.bmp"     onrelease='run sc_btnPM_Continue_OnRelease'>
+                                 
+	<BUTTON btnPMO_AddPoi        template=btn_4c_icon_place  x=241 y=18  text="Add POI"		       iconspr="ico_poi_add.bmp"       onrelease='run sc_btnPM_AddPoi_OnRelease'>
+	<BUTTON btnPMO_AddPin        template=btn_4c_icon_place  x=241 y=63  text="Add Pin"            iconspr="ico_pin_add.bmp"       onrelease='run sc_btnPM_AddPin_OnRelease'>
+	<BUTTON btnPMO_RemovePin     template=btn_4c_icon_place  x=241 y=63  text="Remove Pin"         iconspr="ico_pin_rem.bmp"       onrelease='run sc_btnPM_RemovePin_OnRelease'>
+	<BUTTON btnPMO_AddCam        template=btn_4c_icon_place  x=241 y=153 text="Add SpeedCam"       iconspr="ico_speedcam_add.bmp"  onrelease='run sc_btnPM_AddCam_OnRelease' enabledmodel="warning.speedcams_allowed">
+	<BUTTON btnPMO_EditCam       template=btn_4c_icon_place  x=241 y=153 text="Edit SpeedCam"      iconspr="ico_speedcam_edit.bmp" onrelease='run sc_btnPM_EditCam_OnRelease' enabledmodel="warning.speedcams_allowed">
+	<BUTTON	btnPMO_Favorite      template=btn_4c_icon_place  x=241 y=108 text="Add to Favorites"   iconspr="ico_fav_add.bmp"       onrelease='run sc_btnPM_Favorite_OnRelease'>
+</layer>
+
+<element_template et_POIItemAroundCursorList>
+	<SPRITE xxx                  x=45 y=1  z=1 iconmodel="*.icon" iconindex=1>
+	<BUTTON btn_lstPI_List%ID% template=btn_4a_poi textmodel_wstr="*.name+*.address.long_format" clickmodel="poi.near_cursor.list.setcurrent $i" onrelease='run sc_etPIA_OnRelease'>
+	<TEXT   xxx template=xtxt3   x=37 y=29 z=2 w=47 fontsize=11 font="tahomabd" align="CENTER" textmodel_wstr="*.distance.full_text" watchstate=btn_lstPI_List%ID%>
+</element_template>
+
+<layer ui_PlaceInfo z=30>
+	<SPRITE xxx                     x=34 y=18 z=1      bmp="btn_magas1.bmp">
+
+	<SPRITE xxx                     x=40 y=28 z=10    bmp="ico_m_addr.bmp">
+	<TEXT   xxx template=btntext    x=75 y=31 w=359   textmodel_wstr="map.last_selected.text">
+
+	<SPRITE xxx                     x=40 y=60 z=10    bmp="ico_m_coord.bmp">
+	<TEXT   xxx template=btntext    x=75 y=63 w=359   textmodel_wstr="map.last_selected.geocoord_text" fontsize=12>
+	
+	<TEXT xxx template=xtxt3        x=47   y=87 w=143 text="POIs nearby:" font="tahomabd" fontsize=12>
+	<TEXT xxx template=xtxt3        x=192  y=88 w=145 textmodel_int="poi.near_cursor.list.size" font="tahomabd" fontsize=12 align="left">
+
+	<LIST lstPI_List template=tlist y=108 row=2   element_template="et_POIItemAroundCursorList" listmodel="poi.near_cursor.list">
+
+	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstPI_List.page_counter">
+	
+
+ 	<BUTTON xxx template=prevpage clickmodel="ui.lstPI_List.prevpage" enabledmodel="ui.lstPI_List.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lstPI_List.nextpage" enabledmodel="ui.lstPI_List.nextpage.valid" template=slow_repeat>
+</layer>
+
+<layer ui_PlaceMenuBack z=1001>
+	<BUTTON xxx template=backa onrelease='run sc_PlaceMenuBack'>
+</layer>
+

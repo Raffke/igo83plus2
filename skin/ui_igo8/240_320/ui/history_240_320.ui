@@ -1,0 +1,36 @@
+;****************************************************************************************************************
+
+<element_template et_FindHistory>
+
+	<SPRITE xxx		x=8	y=10 w=30 h=31 align="CENTER" valign="CENTER" z=1 iconmodel="*.icon"	iconindex=1>
+	<BUTTON xxx template=btn_4a_icon textmodel_wstr="*.text" clickmodel="mydata.history.list.setcurrent $i" onrelease='run sc_SearchHistoryAndGo'>
+
+</element_template>
+
+<layer ui_FindHistory z=30>
+	<LIST lstFH_History template=tlist element_template="et_FindHistory" listmodel="mydata.history.list">
+	<TEXT   xxx template=txt_empty text="<No History Items>" visiblemodel="mydata.history.list.isempty">
+	<SPRITE xxx template=spr_empty visiblemodel="mydata.history.list.isempty">
+	<TEXT xxx               template=pageindex textmodel_wstr="ui.lstFH_History.page_counter">
+	<BUTTON xxx             template=prevpage clickmodel="ui.lstFH_History.prevpage" enabledmodel="ui.lstFH_History.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx             template=nextpage clickmodel="ui.lstFH_History.nextpage" enabledmodel="ui.lstFH_History.nextpage.valid" template=slow_repeat>
+</layer>
+
+;****************************************************************************************************************
+
+<element_template et_ManageHistory>
+	<BUTTON xxx template=btn_4d iconspr="x.bmp#3" text="" clickmodel="mydata.history.list.setcurrent $i" onrelease='run sc_et_ManageHistoryDel_OnRelease' usefocus=0>
+	<SPRITE xxx		x=8	w=30	y=10	z=1		align="CENTER"	iconmodel="*.icon"	iconindex=1 usefocus=0>
+	<BUTTON xxx template=btn_4b_icon textmodel_wstr="*.text" clickmodel="mydata.history.list.setcurrent $i">
+	<BUTTON xxx template=btn_4b_icon clickmodel="mydata.history.list.setcurrent $i" alpha=0 disable>
+</element_template>
+
+<layer ui_ManageHistory z=30>
+	<LIST lstMH_History template=tlist element_template="et_ManageHistory" listmodel="mydata.history.list">
+	<TEXT   xxx template=txt_empty  text="<No History Items>" visiblemodel="mydata.history.list.isempty">
+	<SPRITE xxx template=spr_empty  visiblemodel="mydata.history.list.isempty">
+	<TEXT xxx               template=pageindex textmodel_wstr="ui.lstMH_History.page_counter">
+	<BUTTON xxx             template=prevpage clickmodel="ui.lstMH_History.prevpage" enabledmodel="ui.lstMH_History.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx             template=nextpage clickmodel="ui.lstMH_History.nextpage" enabledmodel="ui.lstMH_History.nextpage.valid" template=slow_repeat>
+	<BUTTON btnMH_ClearAll  template=footer2_1a text="" iconspr="icof_clearall.bmp#3" onlongclick='run sc_show_btn_help "Clear History"' enabledmodel="!mydata.history.list.isempty" onrelease='run sc_btnMH_ClearAll_OnRelease'> 
+</layer>

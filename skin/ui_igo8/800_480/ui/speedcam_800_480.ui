@@ -1,0 +1,47 @@
+<layer ui_SpeedCam z=30>
+	<BUTTON	btnSC_Type  template=xtxt4 x=160  y=70 w=120 z=0  bmp="speedcam_bg.bmp#2" text="Camera Type" valign="BOTTOM-10" onrelease='run sc_SelectCameraType' clicked_coloring=1>
+	<SPRITE sprSC_Type  x=163  y=70  z=1  bmp="kamerak.spr">
+	
+	<TEXT   txtSC_Speed       template=txt_csu_legend   y=258  text="Camera Speed:">
+	<TEXT   txtSC_SpeedValue  template=txt_csu_value    y=258  >
+	<TEXT   txtSC_SpeedUnit   template=txt_csu_unit     y=258  >
+	<TEXT   txtSC_SpeedNo     template=txt_csu_valunit  y=258  text="No Limit" >
+	<HSCROLLBAR hscSC_Speed   template=csuszka_small    y=258  endsize=0 possiblevalues="0, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130" blockincrement=_0.0 onchange='run sc_hscSC_Speed_OnChange' endsize=15>
+	<SPRITE     sprSC_Speed		template=spr_5a	y=258>
+	
+	
+	<BUTTON	btnSC_Dir    template=xtxt4     x=480 y=70 w=120 z=0         bmp="speedcam_bg.bmp#2" text="Camera\nDirection" valign="BOTTOM-10" clicked_coloring=1>
+	<SPRITE sprSC_Dir    x=560  y=120 z=1 bmp="direct.spr">
+	
+	<BUTTON btnSC_Delete template=footer4_3a             z=0         text="Delete" onrelease='run sc_btnSC_Delete_OnRelease'>
+	<BUTTON xxx          template=footer4_4a             z=0         text="Ok" onrelease='run sc_SpeedCamOK'>
+</layer>
+
+<layer ui_SpeedCamType z=30>
+	<BUTTON	btnSCT_Type1  template=btntext   x=40   y=55   z=0   bmp="speedcamcell_bg.bmp#2" iconspr="kamerak.spr" iconphase=0 iconalign="CENTER" iconvalign="CENTER-6" onrelease='run sc_btnSCT_Type_OnClick 0'>
+	<BUTTON	btnSCT_Type2  template=btntext   x=280  y=55   z=0   bmp="speedcamcell_bg.bmp#2" iconspr="kamerak.spr" iconphase=1 iconalign="CENTER" iconvalign="CENTER-6" onrelease='run sc_btnSCT_Type_OnClick 1'>
+	<BUTTON	btnSCT_Type3  template=btntext   x=520  y=55   z=0   bmp="speedcamcell_bg.bmp#2" iconspr="kamerak.spr" iconphase=2 iconalign="CENTER" iconvalign="CENTER-6" onrelease='run sc_btnSCT_Type_OnClick 2'>
+	<BUTTON	btnSCT_Type4  template=btntext   x=160   y=225  z=0   bmp="speedcamcell_bg.bmp#2" iconspr="kamerak.spr" iconphase=3 iconalign="CENTER" iconvalign="CENTER-6" onrelease='run sc_btnSCT_Type_OnClick 3'>
+	<BUTTON	btnSCT_Type5  template=btntext   x=400  y=225  z=0   bmp="speedcamcell_bg.bmp#2" iconspr="kamerak.spr" iconphase=4 iconalign="CENTER" iconvalign="CENTER-6" onrelease='run sc_btnSCT_Type_OnClick 4'>
+</layer>
+
+<layer ui_SpeedCamWarningLayer z=5000 visiblemodel="navigation.curr_speedcam.category.valid&warning.speedcam_visualtype!=0&!ui.vOnFlyover">
+	<SPRITE xxx x=0  y=144  z=0 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol">
+
+	<SPRITE sprSCW_CamType       x=30 y=170 z=1  phasemodel="navigation.curr_speedcam.category" bmp="speed_cams.spr">
+	<SPRITE sprSCW_CamEnterExit  x=30 y=170 z=2  phasemodel="navigation.curr_speedcam.enterexit" bmp="speed_cam_enterexit.spr">
+
+	<SPRITE xxx x=163  y=360 z=50 bmp="speed_cam_speedlimit.bmp">
+	<TEXT   xxx x=175  y=368 w=54 h=60 z=51 textmodel_wstr="navigation.curr_speedcam.speed_limit.number_text" visiblemodel="navigation.curr_speedcam.speed_limit.valid"  align="CENTER" fontsize=28 font="tahomabd" color=#000000>
+	<TEXT   xxx x=175  y=368 w=54 h=60 z=51 text="!"                                                          visiblemodel="!navigation.curr_speedcam.speed_limit.valid" align="CENTER" fontsize=28 font="tahomabd" color=#000000>
+
+	<TEXT    txtSCW_AvgSpeed     template=txt_sec textmodel_wstr="navigation.curr_speedcam.avg_speed.number_text" visiblemodel="navigation.curr_speedcam.avg_speed.valid" >
+	<TEXT    txtSCW_AvgSpeedUnit template=txt_sec textmodel_wstr="navigation.curr_speedcam.avg_speed.unit_text"   visiblemodel="navigation.curr_speedcam.avg_speed.valid" >
+	<ALIGNER xxx                 x=5 w=105 align="CENTER" control=txtSCW_AvgSpeed padding=10 control=txtSCW_AvgSpeedUnit>
+
+	<TEXT    txtSCW_Distance     template=txt_sec textmodel_wstr="navigation.curr_speedcam.distance.number_text"  visiblemodel="navigation.curr_speedcam.distance.valid">
+	<TEXT    txtSCW_DistanceUnit template=txt_sec textmodel_wstr="navigation.curr_speedcam.distance.unit_text"    visiblemodel="navigation.curr_speedcam.distance.valid">
+	<ALIGNER xxx                 x=5 w=105 align="CENTER" control=txtSCW_Distance padding=10 control=txtSCW_DistanceUnit>
+
+	<SPRITE xxx x=0  y=144  z=100 bmp="cock_infobg2.bmp" alpha=0 onrelease='run sc_ToggleSpeedcamSound'>
+</layer>

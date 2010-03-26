@@ -1,0 +1,203 @@
+<header>
+	<var vMenuOpened=0>
+	<var vMsgBoxOpened=0>
+	<var vSettingsMenuOpened=0>
+
+	<var vNavigateQuickMenuUp=0>
+	<var vBrowseQuickMenuUp=0>
+	<var vSelectedItem=L"">
+	<var vSelectedItem2>
+	<var vSelectedUID=0>
+	<var vSelectedUID2="">
+	<var vSelectedAdvUID=0>
+	<var vPrevStateMode>
+	<var vAddressFindMode registermodel>
+	<var vInputDest="">
+	<var vMapSettings2d3d="2D">
+	<var vCockpitCurrentQuickMenu>
+	<var vCockpitCurrentQuickMenuCloseScript>
+	<var vSelectedCity=L"">
+	<var vSelectedStreet=L"">
+	<var vStreetEntrySkipped=0>
+	<var vFindStateMarker>
+	<var vFindStateCont>
+	<var vTmp=1 registermodel>
+	<var vTmp2="">
+  <var vWaypointslistindex=0>
+  <var vDeleteError=0 registermodel>
+	<var vSelectedWayPoint=-1>
+	<var vValidRoute=0>	
+	<var vDeletableRoute=0>
+	<var vFlyOverNextState>
+	<var vAskForReplanScript>
+	<var vAskForReplanCloseScript>	
+	<var vResultReady=0>
+	<var vResultCount="0">
+	<var vResultCountNum=0>
+	<var vAddressRange="">
+	<var vRouteCalcFinishedCallback>
+	<var vRouteCalcFinishedCallback2>
+	<var vMuted=0>
+	<var vAutoGo=0>
+	<var vSafemode=0>
+	<var vApplySafemode=0>
+	<var vMultiSegmentPath=0>
+	<var vCurrentOrientation="PORTRAIT">
+	<var vOrientationVar=0>
+	<var vFactoryResetPossible>	
+	<var vIsCOS=0>
+	<var vIsHaveCOS>
+	<var vSelectedCountryCode="HUN">
+	<var vXTML_Y_target=0>
+	<var vXTML_Y_time=3000>
+	<var vEulaSelection>
+	<var vGeoInputLatitude=0 registermodel>
+	<var vGeoInputLongitude=0 registermodel>
+	<var vGeoInputState=0>
+	<var vQuickMasterVol=500>
+	<var vQuickMasterVolMax=116>
+	<var vAdvlist_PrevEnable=0>
+	<var vAdvlist_SelectedItemPos=0>
+	<var vAdvlist_SelectedItemUID=0>
+	<var nTmp=0>
+	<var vCustomMessageBox2ndLine="">
+	<var vPNA=0>	
+	<var nCameraSpeed= 30>
+	<var nCamSpeedUnit=1>
+	<var nCamType= 0>
+	<var nCamDirectionType= 0>
+	<var nCamHeading= _0>
+	<var nCamOnScreenHeading= _0>
+	
+	<var vDriveCarefully=0>          ; Show or not the drive carefully message layer
+	<var vBatLifePercent>            ; (INT) contains the status of the battery in percentage
+	<var vBatLifePercentStr>         ; (STR) contains the "Battery level: %d" string
+	<var vBatLifeTime>               ; (INT) contains the remaining time in seconds
+	<var vBatLifeTimeStr>            ; (STR) contains the "Remaining time: %d min" or "Battery is charging" string
+	<var vGpsStatus=0>               ; show the status of the GPS
+	<var vOnFlyover=0 registermodel> ; 1 if we are in simulation or in flyover mode, zero otherwise
+	<var vFlyoverOrSimulate=0>       ; 0 = flyover mode, 1 = simulation mode,
+
+	<var nVehicleTmp>
+
+	<var vActualField=0>
+	<var vActualFieldValue>
+	<var CockpitField1="2" permanent>
+	<var CockpitField2="8" permanent>
+	<var CockpitField3="12" permanent>
+	<var vNavigationMode="DEFAULT" permanent>
+
+	<var vTmcShowOnRoute=0 permanent>
+	
+	<var vSpeedcamEulaAck=0 permanent>
+
+	<var vPoiGroupAltitude>
+	
+	<var vSchemetypePath="ui_igo8/common/schemetype.bmp#3">
+	
+	<var nBacklightOn= 0>
+	
+	<var tmpSpeedWarnSound=0>
+	<var tmpSpeedWarnVisual=0>
+
+	<var vHideZoomControls=0 registermodel permanent>
+	<var Enable3dMode=1>
+
+	<var vMapModeChange=0 >
+	<var vNavMode="">
+	<var vPresetOn=0 registermodel>
+
+	<var vSmartzoom_prev=0>
+	<var vPlanModeOn=0>
+	<var vPlanModeControls=1 permanent>
+	<var vPlanModeRouteBtns=1 permanent>
+	<var vPlanMode3D=0>
+	<var bBackupNavMapFollowPlanMode>
+
+
+	<var nUserMode=3 registermodel permanent> 
+
+	<var bHasMapWithCarPool=0>
+
+	<var vShowNavCockpitControls>
+	<var vMoveCursorToSelectedItem=1>
+
+	<var vcf_bAutoFollowModeOn_save=1  permanent>
+	<var vAutoOrientation registermodel>
+	<var vUIRes>
+	<var vAutoRecalc=1>
+	<var vTrackColor>
+
+	<var vRecalcOffByStartPoint=0 permanent>
+	<var vSafetyMode=0>
+	<var vRouteCalculation=0 registermodel>
+  	<var vLoadingDemoRoute=0>
+	<var vSelectedTmcSource>
+	<var vTmcHwDetected boolmodel="tmc.autodetection_finished" onchange="sc_TMC_HW_Changed">
+	<var vTmcHwFound boolmodel="tmc.present" onchange="sc_TMC_SearchResult">
+	<var vChangePoiGroup=0 registermodel>
+	<var Vpoiinfo=0>
+	<var bTripComputerWarned=0 permanent>
+	<var vSettingsActPage=0>
+	<var vMultiRouteCalculate=0>
+	<var nPlaceForPos=0>
+	<var vChangePoiGroup_backup=0>
+	<var vPoiSearch=0>
+	<var vDriveCarefully_show=1>
+	<var v3dzoomcontrol=0 registermodel>
+	<var vChangePOIcoord=0 registermodel>
+  <var vPoiExtraInfoSave>
+    
+	; ez kell az antihack-nek, ne szedd ki (a kommentet se;)
+	<var vAH2SCPT=-1 permanent>
+	<var vManageMode=0 registermodel>
+
+	<var vRecordTrack=0> ; shadow variable for mydata.tracks.record_auto_track
+	<var vMapMode_saved>
+
+	<var vQuickMasterVolNStep=15>
+	<var vResolveHouseListExtState=0>
+	<var vLaneInfo=2 permanent>
+	<var bDialogBoxVisible=0>
+	<var vPlayListSortMenuVisible=0>
+
+	<var vTmpID>
+	; az ertek nem fontos, csak az elemszam
+	<var lmListAll definelistmodel="dummy:int">
+
+	<var vUseSplitView=0 registermodel permanent>
+
+	<var vUseGestures=0>
+           
+        
+    <var vMapState=0 permanent>
+    <var vRotationAngle> 
+    <var vRotationAngleNavMap=-1 permanent>
+	<var vScrollingLayerUp=0   registermodel>
+	<var vScrollingLayerDown=0 registermodel>
+    <var v2DHeadUp=0>
+    <var vScreenCalibration=0 registermodel>
+    <var vZoomLevelBeforeOverview=0> 
+	<var bLaneinfoSignpostValid=0 registermodel>
+	<var vTmcCockpitStatus=0 registermodel>
+    ; 0 unknown, off
+    ; 1 station tuned
+    ; 2 has new event
+    ; 3 has event on route
+    ; 4 has avoided event
+  <var vSetZoomSettings=1>
+  <var vZoomLevelInNavigate=-1 permanent>     
+	<var vZoomLevelInMap=-1 permanent>
+  <var vZoomLevel=-1 permanent>     
+	<var vTiltInNavigate=-1 permanent>
+    <var vNeedPrevState=0>
+	<var vOasisExists=0 registermodel>
+    <var vIntersectionCount=0>
+    <var  vModeTmp=0>
+    <var  vStartModeTmp=0>
+  <var vMapModeBool registermodel>
+  <var vMapSelect>
+  <var vGetUpdates registermodel>  
+ 	<var vDiriconVisible=0 registermodel>
+  
+</header>

@@ -1,0 +1,169 @@
+<header>
+	<layer ui_DisableLayer type="disable" z=10000 x=0 y=0>
+	<layer ui_DisableLayer2 type="disable" z=10000 x=0 y=0>
+
+    <layer ui_CreditsScreenXHTML type="xhtml" template=help_text z=25 h=10000 filename="ui_igo8/common/credits.xhtml">
+    <layer ui_LegalScreenXHTML   type="xhtml" template=help_text z=25 h=20000 filename="i18n/eula.xhtml"             >
+    <layer ui_SafetyScreenXHTML  type="xhtml" template=help_text z=25 h=10000 filename="i18n/legal.xhtml"            >
+    <layer ui_UpdateScreenXHTML  type="xhtml" template=help_text z=25 h=20000 filename="i18n/naviextras.xhtml"       >    
+</header>
+
+<layer ui_Header z=30>
+	<SPRITE xxx bmp="felso.bmp" x=0 y=0   z=10   >
+	<SPRITE xxx bmp="also.bmp"  x=0 y=228 z=10  >
+</layer>
+
+<layer ui_Header2 z=30> 
+	<SPRITE xxx bmp="felso_a.bmp" x=0 y=0   z=10 >
+	<SPRITE xxx bmp="also_a.bmp"  x=0 y=237 z=10 >
+</layer>
+
+<layer ui_Background z=20>
+	<SPRITE sprH_Background x=0 y=0 z=1 bmp="ui_igo8/480_272/default.bmp">	
+	<SPRITE xxx             x=0 y=0 z=2 bmp="daynight.bmp" alpha=0>	
+</layer>
+
+<layer ui_Exiting z=35>
+	<SPRITE xxx x=0 y=0 z=1 bmp="ui_igo8/480_272/loading.bmp">	
+	<TEXT txt_exiting x=0 y=250 w=480 z=160 align="RIGHT" text="EXITING, PLEASE WAIT..." FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=16>
+</layer>
+
+<layer ui_Title z=35>
+	<TEXT Title x=100 y=1  w=280  z=160 align="CENTER" text="StateTitle"  fonttype=headerfont fontsize=10>
+</layer>
+
+<layer ui_Footer z=1000>
+	<BUTTON btn_Footer_back template=back onrelease='prevstate' onlongclick='run sc_GoTo_MainMenu' rawkey=27>
+</layer>
+
+<layer ui_Footer2 z=1000>
+	<BUTTON btn_Footer_back2 template=backa onrelease='prevstate' onlongclick='run sc_GoTo_MainMenu' rawkey=27>
+</layer>
+
+<layer ui_MessageBox z=100001 modal>
+	<SPRITE xxx                            x=0   y=0   z=5   bmp="dialog_2_bg.bmp" >
+	<SPRITE sprMB_Icon template=a_rubber   x=100  y=109  z=10  fxshowdelay=10>
+	<SPRITE spr_msg_bg x=0 y=0 z=1 bmp="ui_igo8/480_272/default.bmp">	
+
+	<TEXT   txtMB_Msg    x=130  y=60  z=31   w=280 h=90 text="" valign="CENTER" align="LEFT" FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=18 wordwrap=3>
+	<BUTTON btnMB_Ok     template=dialog1_1 text="Ok" onrelease='run sc_HideMessageBox, run vActionDone' rawkey=13> 
+	<BUTTON btnMB_Yes    template=dialog2_1 onrelease='run sc_HideMessageBox, run vActionConfirmed' rawkey=13> 
+	<BUTTON btnMB_No     template=dialog2_2 onrelease='run sc_HideMessageBox, run vActionNotConfirmed'> 
+</layer>
+
+<layer ui_Exit_MessageBox z=100002 modal>
+	<SPRITE sprEMB_Dialog                    x=0   y=0   z=5   bmp="dialog_2_bg.bmp" >
+	<SPRITE sprEMB_Icon  template=a_rubber   x=100  y=109  z=10  fxshowdelay=10>
+	<SPRITE spr_emsg_bg  x=0 y=0 z=1 bmp="ui_igo8/480_272/default.bmp">	
+
+	<TEXT   txtEMB_Msg      x=130  y=60  z=31  w=280 h=90 text="" valign="CENTER" align="LEFT" FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=18 wordwrap=3>
+	<BUTTON btnEMB_Exit         template=dialog2_1 text="Exit"     onrelease='nextstate ExitState' rawkey=13> 
+	<BUTTON btnEMB_Cancel       template=dialog2_2 text="Cancel"   onrelease='run sc_hideExitMessage' rawkey=27> 
+
+	<BUTTON btnEMB_Exit_pda      template=dialog3_1     text="Exit"      onrelease='nextstate ExitState' rawkey=13> 
+	<BUTTON btnEMB_minimize_pda  template=dialog3_2     text="Minimize"  onrelease='run sc_hideExitMessage, hide'>
+	<BUTTON btnEMB_Cancel_pda    template=dialog3_3     text="Cancel"    onrelease='run sc_hideExitMessage' rawkey=27> 
+</layer>
+
+<layer ui_ShutdownTimer z=100002 modal>
+	<SPRITE xxx x=0   y=0   z=5   bmp="dialog_2_bg.bmp" >
+	<SPRITE xxx template=a_rubber bmp="ui_igo8/common/dialog_qm.spr"  x=100  y=109  z=10  fxshowdelay=10>
+	<SPRITE spr_sdtmsg_bg x=0 y=0 z=1 bmp="ui_igo8/480_272/default.bmp">	
+
+	<TEXT   xxx      x=130  y=60  z=31  w=280 h=90 textmodel_wstr="power.shutdown_timer_text" valign="CENTER" align="LEFT" FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=18 wordwrap=3>
+	<BUTTON xxx     template=dialog3_2  text="Cancel"  FONTTYPE=bw clicked_dy=1  clicked_coloring=1 onrelease='run sc_CancelShutdown' rawkey=13> 
+</layer>
+
+
+;****************************************************************************************************************
+
+<layer ui_About z=30>
+	<SPRITE xxx bmp="xhtml_bg.bmp" x=5 y=22 z=0 w=470 align="CENTER">
+
+	<SPRITE sprAbout_Logo       x=0 y=30  w=480 z=0  align="CENTER" bmp="logo.bmp" visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Release    x=0 y=136 w=480 h=20 align="CENTER" text="$release$"                        font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Buildnum   x=0 y=151 w=480 h=20 align="CENTER" text="$buildnum$"                       font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Date       x=0 y=166 w=480 h=20 align="CENTER" text="$date$"                           font="tahoma"   fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_WebInfo    x=0 y=181 w=480 h=20 align="CENTER" text="<Web Address> | <Support E-mail>" font="tahomabd" fontsize=11 fonttype=buttonlabel2 visiblemodel="!ui.vGetUpdates">
+	<TEXT   txtAbout_Copyright  x=0 y=196 w=480 h=20 align="CENTER" text="$copyright$"                      font="tahoma"   fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="!ui.vGetUpdates">
+     
+    <SPRITE xxx  x=0 y=30  w=320 z=0  align="CENTER" bmp="logo.bmp" visiblemodel="ui.vGetUpdates">
+    <TEXT   xxx  x=0 y=136 w=320 h=20 align="CENTER" text="$release$"                        font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="ui.vGetUpdates">
+	<TEXT   xxx  x=0 y=151 w=320 h=20 align="CENTER" text="$buildnum$"                       font="tahomabd" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="ui.vGetUpdates">
+	<TEXT   xxx  x=0 y=166 w=320 h=20 align="CENTER" text="$date$"                           font="tahoma"   fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="ui.vGetUpdates">
+	<TEXT   xxx  x=0 y=181 w=320 h=20 align="CENTER" text="<Web Address> | <Support E-mail>" font="tahomabd" fontsize=11 fonttype=buttonlabel2 visiblemodel="ui.vGetUpdates">
+	<TEXT   xxx  x=0 y=196 w=320 h=20 align="CENTER" text="$copyright$"                      font="tahoma"   fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="ui.vGetUpdates">    
+    <BUTTON xxx  template=dialog3_2 x=300 y=100  text="Get updates" onrelease='NEXTSTATE st_AboutUpdate' visiblemodel="ui.vGetUpdates">        
+
+	<BUTTON  xxx  template=footer4_1a  text="Maps"    onrelease='NEXTSTATE st_AboutMaps'>
+	<BUTTON  xxx  template=footer4_2a  text="Credits" onrelease='NEXTSTATE st_AboutCredits'>
+	<BUTTON  xxx  template=footer4_3a  text="Safety"  onrelease='NEXTSTATE st_AboutSafety'>
+	<BUTTON  xxx  template=footer4_4a  text="Legal"   onrelease='NEXTSTATE st_AboutLegal'>
+</layer>
+
+<layer ui_ScrollButtons z=21>
+	<BUTTON xxx  x=0 y=22  z=30 bmp="arrowup2.bmp#3" onclick='SCROLL_Y vScrollingLayer  1 1 15' onrelease='SCROLL_Y vScrollingLayer 0 0 0' enabledmodel="ui.vScrollingLayerUp" rawkey="UP"   >
+	<BUTTON xxx  x=0 y=147 z=30 bmp="arrowdn2.bmp#3" onclick='SCROLL_Y vScrollingLayer -1 1 15' onrelease='SCROLL_Y vScrollingLayer 0 0 0' enabledmodel="ui.vScrollingLayerDown" rawkey="DOWN" >
+	<SPRITE xxx   bmp="xhtml_bg.bmp" x=4 y=22>
+</layer>
+
+<layer ui_AboutMaps z=30>
+	<LISTTABLE lbAM_Maps template=xlist onclick='nextstate st_AboutMapDetails' simpleclickselect>
+    <VSMARTSCROLL lbAM_Maps_smartscroll x=-100 bmp="1pxline320.bmp" sprind="1pxline320.bmp" table="lbAM_Maps" hide SLIDER_ABOVE_FRAME_SIZETHUMB>
+	<BUTTON  xxx  template=footer2_1a  text="Licenses" onrelease='NEXTSTATE st_AboutLicenses'>
+	<TEXT   xxx template=pageindex textmodel_wstr="ui.lbAM_Maps.page_counter">
+	<BUTTON xxx template=prevpage template=slow_repeat onclick='ui.lbAM_Maps.prevpage' enabledmodel="ui.lbAM_Maps.prevpage.valid">
+	<BUTTON xxx template=nextpage template=slow_repeat onclick='ui.lbAM_Maps.nextpage' enabledmodel="ui.lbAM_Maps.nextpage.valid">
+</layer>
+
+<layer ui_AboutMapDetails orientation="L2R" font="tahomabd" fontsize=18 z=300 x=25 y=0 w=480 h=272>
+	<SPRITE xxx   bmp="xhtml_bg.bmp" x=4 y=21 z=2>
+  <TEXT xxx               x=65 y=40  w=55  h=20 text="File:" align="LEFT" font="tahomabd" fontsize=14 fonttype=buttonlabel1>
+	<TEXT xxx               x=65 y=60  w=55  h=20 text="Size:" align="LEFT" font="tahomabd" fontsize=14 fonttype=buttonlabel1>
+	<TEXT txtAMD_MapFile    x=125 y=40  w=280 h=20 text="" align="LEFT" font="tahoma" fontsize=14 fonttype=buttonlabel1>
+	<TEXT txtAMD_MapSize    x=125 y=60  w=280 h=20 text="" align="LEFT" font="tahoma" fontsize=14 fonttype=buttonlabel1>
+
+	<SPRITE sprAMD_MapLogo  x=55  y=85  w=320 z=10  bmp="igo.bmp" align="CENTER">
+	<TEXT txtAMD_MapName    x=65 y=120 w=300 h=20 text="" align="CENTER" font="tahomabd" fontsize=14 fonttype=buttonlabel1>
+	<TEXT txtAMD_MapSource  x=65 y=140 w=300 h=20 text="" align="CENTER" font="tahoma" fontsize=14 fonttype=buttonlabel1>
+	<TEXT txtAMD_MapDetail1 x=65 y=160 w=300 h=20 text="" align="CENTER" font="tahoma" fontsize=14 fonttype=buttonlabel1>
+	<TEXT txtAMD_MapDetail2 x=65 y=180 w=300 h=20 text="" align="CENTER" font="tahoma" fontsize=14 fonttype=buttonlabel1>
+	<TEXT txtAMD_MapDetail3 x=65 y=200 w=300 h=20 text="" align="CENTER" font="tahoma" fontsize=14 fonttype=buttonlabel1>
+	<TEXT txtAMD_MapDetail4 x=65 y=220 w=300 h=20 text="" align="CENTER" font="tahoma" fontsize=14 fonttype=buttonlabel1>
+</layer>
+
+<element_template et_License>
+ 	<BUTTON xxx template=btn_4a onrelease=''>
+	<TEXT xxx x=46  y=8  template=xtxt fonttype=bw fontsize=15 w=220 textmodel_wstr="*.name">
+	<TEXT xxx x=46  y=30 template=xtxt fonttype=bw fontsize=13 w=220 textmodel_wstr="*.code">
+	<TEXT xxx x=235 y=8  template=xtxt fonttype=bw fontsize=15 w=200 align="RIGHT" textmodel_wstr="*.type">
+	<TEXT xxx x=235 y=30 template=xtxt fonttype=bw fontsize=13 w=200 align="RIGHT" textmodel_wstr="*.timelimit">
+ 	<BUTTON xxx template=btn_4a z=100 nosound alpha=0 disable onrelease=''>           
+</element_template>
+
+<layer ui_AboutLicenses z=30>
+  <LIST lst_Licenses template=tlist element_template="et_License" listmodel="other.license.list">
+  <BUTTON  xxx  template=footer2_1a  text="SWID" onrelease='run sc_ShowSWID'>
+	<BUTTON xxx template=prevpage clickmodel="ui.lst_Licenses.prevpage" enabledmodel="ui.lst_Licenses.prevpage.valid" template="slow_repeat">
+	<BUTTON xxx template=nextpage clickmodel="ui.lst_Licenses.nextpage" enabledmodel="ui.lst_Licenses.nextpage.valid" template="slow_repeat">
+	<TEXT xxx template=pageindex  textmodel_wstr="ui.lst_Licenses.page_counter">
+</layer>
+
+
+<header>
+	<layer disable_layer_dcare type="disable" z=31 x=0 y=0 w=480>
+</header>
+
+<layer ui_drive_carefully_xhtml type="xhtml" filename="i18n/drive_carefully.xhtml" align="LEFT" orientation="L2R" font="tahomabd" fonttype=bw fontsize=14 z=50 x=32 y=0 w=412  h=17000 view_top=30 view_bottom=272>  
+
+</layer>
+ 
+<layer ui_drive_carefully_bg z=100000>
+  	<SPRITE spr_dc_bg x=0 y=0 z=1 bmp="ui_igo8/480_272/default.bmp">	
+    <SPRITE xxx bmp="xhtml_bg.bmp" x=5 y=10 z=2 w=470 align="CENTER"> 
+</layer>
+
+
+<layer ui_drive_carefully_btn z=32 x=0 y=0 w=480 z=100000 >
+	<BUTTON btn_dc_agree  text="Accept"  bmp="btn_conf.bmp#2" template=xtxt4  fontsize=18 clicked_dy=1 valign="CENTER" align="center" x=0 y=220 z=30 w=480 ph=1 onrelease='run sc_accept_drive_carefully' clicked_coloring=1> 
+</layer>

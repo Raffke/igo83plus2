@@ -1,0 +1,60 @@
+;****************************************************************************************************************
+
+<script sc_FindHistory>
+	mydata.history.list.index 0
+	.map.store_cursor_pos
+    NEXTSTATE st_FindHistory
+</script>
+
+;****************************************************************************************************************
+
+<state st_FindHistory>
+	<uselayer ui_Header2/>
+    <uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FindHistory/>
+
+	<script init>
+		Title.set "History"
+	    vMoveCursorToSelectedItem.set 1
+	</script>
+</state>
+
+<script sc_SearchHistoryAndGo>
+	vTmp.VALUEMODEL "mydata.history.list.index"
+	SELECT_HISTORY vTmp
+	vTmp.DROPMODEL
+
+	nPlaceStateMode.SET 0
+	NEXTSTATE st_Place
+</script>
+
+;****************************************************************************************************************
+
+<state st_ManageHistory>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_ManageHistory/>
+
+	<script init>
+		title.set "Manage History"
+
+	    runif %mydata.history.list.size 0 'btnMH_ClearAll.disable'
+	    else_run 'btnMH_ClearAll.enable'
+	</script>
+
+</state>
+
+<script sc_btnMH_ClearAll_OnRelease>
+    INITMESSAGEBOX 1 "Deleting all history entries." 'CLEARHISTORY, STATE st_ManageHistory'
+</script>
+
+<script sc_et_ManageHistoryDel_OnRelease>
+	vTmpID.SET %mydata.history.list.index
+	INITMESSAGEBOX 1 "Deleting history entry." 'REMOVEHISTORYITEM vTmpID, STATE st_ManageHistory'
+</script>
+
+;****************************************************************************************************************

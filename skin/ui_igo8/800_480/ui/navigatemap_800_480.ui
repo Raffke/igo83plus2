@@ -1,0 +1,473 @@
+<TEMPLATE xetNavInfoSingle x=10   y=0  z=10 w=130 font="tahomabd" align="CENTER"  glowsize=1 fontsize=28 color=#FFFFFF color2=#000000 fixedwidthnumbers=1>
+<TEMPLATE xetNavInfoNum    y=0  z=10 font="tahomabd" glowsize=1 fontsize=28 color=#FFFFFF color2=#000000 fixedwidthnumbers=1>
+<TEMPLATE xetNavInfoUnit   y=13 z=10 font="tahomabd" glowsize=1 fontsize=14 color=#FFFFFF color2=#000000 fixedwidthnumbers=1>
+<TEMPLATE aligner_navinfo  x=10 w=130 align="CENTER">
+
+<TEMPLATE txt_hud_label_left   x=30  z=100 w=400                font="tahomabd" align="LEFT+50" fontsize=20 glowsize=0 color=#cacaca color2=#000000 color3=#000000>
+<TEMPLATE txt_hud_label_right  x=369 z=100 w=400                font="tahomabd" align="RIGHT-50" fontsize=20 glowsize=0 color=#cacaca color2=#000000 color3=#000000>
+
+<TEMPLATE txt_hud_value_left   x=30  z=0 w=400 h=104 font="tahomabd" align="LEFT+50"  valign="CENTER+10" color=#FFFFFF glowsize=1 color2=#000000 color3=#000000 fontsize=28 >
+<TEMPLATE txt_hud_value_right  x=369 z=0 w=400 h=104 font="tahomabd" align="RIGHT-50" valign="CENTER+10" color=#FFFFFF glowsize=1 color2=#000000 color3=#000000 fontsize=28 >
+
+
+<TEMPLATE btn_map x=710 w=60   font="tahoma" fontsize=18 fonttype=bw clicked_coloring=1 align="CENTER+8"  valign="BOTTOM-10">
+
+;****************************************************************************************************************
+
+<layer ui_NavigateMapButtons z=3000>
+	<BUTTON btnNMB_RouteInfo   x=0   y=0  z=100  alpha=0 text="" align="CENTER" valign="CENTER-12"   bmp="startnavi.bmp"  font="tahoma" fontsize=22 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_RouteInfo' visiblemodel="ui.vDiriconVisible"> 
+
+
+	;; the STOPFLYOVER command also stops other kinds of simulations (i.e. saved track replay)
+	<BUTTON btnNMB_Stop    bmp="simulate.bmp#2"  x=0 y=144 w=60 z=2 z=1000  text="Stop" font="tahomabd" fontsize=18 align="CENTER" valign="bottom-5" color=#FFFFFF onRelease='STOPFLYOVER, run sc_3DFlyOverModeOff' visiblemodel="ui.vOnFlyover">
+
+	<BUTTON btnNMB_Menu    template=btn_map bmp="4scr_menu.bmp#2"           y=341 text="Menu"    onrelease='run sc_btnNMB_Menu_OnRelease'>
+	<BUTTON btnNMB_Nav2D   template=btn_map bmp="4scr_map.bmp#2"            y=44   text="2D"          onrelease='run sc_btnBMC_Compass_OnRelease'>
+	<BUTTON btnNMB_Nav2DN  template=btn_map bmp="4scr_NorthUp.bmp#2"  y=44   text="2D"          onrelease='run sc_btnBMC_Compass_OnRelease'>
+	<BUTTON btnNMB_Nav3D   template=btn_map bmp="4scr_cock.bmp#2"           y=44   text="3D"          onrelease='run sc_btnBMC_Compass_OnRelease'>
+	<BUTTON btnNMB_ExOv2D  template=btn_map bmp="4scr_map.bmp#2"          y=44   text="2D"           onrelease='map.SET_OVERVIEW 0' hide>
+	<BUTTON btnNMB_ExOv3D  template=btn_map bmp="4scr_cock.bmp#2"         y=44   text="3D"           onrelease='map.SET_OVERVIEW 0' hide>
+	<BUTTON btnNMB_Detour  template=btn_map bmp="4scr_route.bmp#2"           y=143 text="Detour"   onrelease='nextstate st_Detour'>
+	<BUTTON btnNMB_Cursor  template=btn_map bmp="4scr_use_cur.bmp#2"     y=242  text="Cursor"  onrelease='nPlaceForPos.set 0, run sc_btnNMB_Use_OnRelease'>
+	<BUTTON btnNMB_Pos     template=btn_map bmp="4scr_use.bmp#2"                y=242  text="Pos."       onrelease='nPlaceForPos.set 1, run sc_btnNMB_Pos_OnRelease'>	
+
+	<BUTTON btnNMB_Itiner w=141 h=111 alpha=0 x=0 y=154 onrelease='run sc_ShowCockpitDetailDirInfo2' visiblemodel="!ui.vOnFlyover">
+</layer>
+
+<layer ui_NavigateMapButtons_nogps z=3001 visiblemodel="!navigation.has_route">
+	<BUTTON	sprNMB_GPSWarn template=xtxt x=25 y=170 z=100 bmp="nogps.bmp" visiblemodel="gps.connection_status>2&!ui.vRouteCalculation&!ui.vOnFlyover" onrelease='NEXTSTATE st_SettingGPS'> 
+</layer>
+
+<script sc_GoItinerOnMap>
+	map.ISROUTEVALID vValidRoute vDeletableRoute
+    runif vValidRoute 1 'NEXTSTATE st_RouteItinerary'
+</script>
+
+<layer ui_NavigateMapZoomControls3D z=50000  visiblemodel="ui.vPresetOn&!ui.vHideZoomControls&ui.vMapModeBool">
+	<BUTTON btnNMC_ZoomIn  x=0 y=253  z=0 bmp="ges_zoom1.bmp#2" text=""  align="center-3" valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1 onClick='START_STOP_ZOOM 0 1,run sc_NaviMenuAlphaRe_term' onRelease='START_STOP_ZOOM 0 0,run sc_NaviMenuTimerInit' onMouseLeave='START_STOP_ZOOM 0 0,run sc_NaviMenuTimerInit'>  
+	<BUTTON btnNMC_ZoomOut x=0 y=336  z=0 bmp="ges_zoom3.bmp#2"  text="" align="center-3" valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1 onClick='START_STOP_ZOOM 1 1,run sc_NaviMenuAlphaRe_term' onRelease='START_STOP_ZOOM 1 0,run sc_NaviMenuTimerInit' onMouseLeave='START_STOP_ZOOM 1 0,run sc_NaviMenuTimerInit'> 
+
+
+	<BUTTON btnNMC_TiltIn  x=0 y=85  z=0 bmp="ges_tilt1.bmp#3"   text="" align="center-3" valign="Bottom-4" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1 onClick='START_STOP_TILT 0 1,run sc_NaviMenuAlphaRe_term' onRelease='START_STOP_TILT 0 0,run sc_NaviMenuTimerInit' onMouseLeave='START_STOP_TILT 0 0,run sc_NaviMenuTimerInit'>  
+	<BUTTON btnNMC_Tiltout x=0 y=169 z=0 bmp="ges_tilt3.bmp#3"   text="" align="center-3" valign="Bottom-4" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1 onClick='START_STOP_TILT 1 1,run sc_NaviMenuAlphaRe_term' onRelease='START_STOP_TILT 1 0,run sc_NaviMenuTimerInit' onMouseLeave='START_STOP_TILT 1 0,run sc_NaviMenuTimerInit'> 
+	
+	<BUTTON     xxx x=0   y=0 z=0 bmp="ges_rot1.bmp#3"  onClick='START_STOP_ROTATE 0 1,run sc_NaviMenuAlphaRe_term' onRelease='START_STOP_ROTATE 0 0,run sc_NaviMenuTimerInit' onMouseLeave='START_STOP_ROTATE 0 0,run sc_NaviMenuTimerInit'>
+	<BUTTON     xxx x=68  y=0 z=0 bmp="ges_rot3.bmp#3"  onClick='START_STOP_ROTATE 1 1,run sc_NaviMenuAlphaRe_term' onRelease='START_STOP_ROTATE 1 0,run sc_NaviMenuTimerInit' onMouseLeave='START_STOP_ROTATE 1 0,run sc_NaviMenuTimerInit'>
+</layer>
+
+<layer ui_NavigateMapBT z=50000 visiblemodel="other.phone.event_incoming_call"> 
+    <BUTTON xxx x=277 y=4 w=74 bmp="bt_endcall.bmp" text="End call" font="tahomabd" fontsize=12 color=#000000 color2=#FFFFFF glowsize=1 align="LEFT+60" valign="CENTER+6" onrelease='EXEC "other.phone.hangup"'>
+</layer>
+
+
+<layer ui_NavigateMapZoomControls2D z=50000 visiblemodel="ui.vPresetOn&!ui.vHideZoomControls&!ui.vMapModeBool">
+	<BUTTON xxx  x=0 y=266 z=0 bmp="ges_zoom1_2d_cockpit.bmp#2" text=""  align="center-3" valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1  onClick='START_STOP_ZOOM 0 1,run sc_NaviMenuAlphaRe_term' onRelease='START_STOP_ZOOM 0 0,run sc_NaviMenuTimerInit' onMouseLeave='START_STOP_ZOOM 0 0,run sc_NaviMenuTimerInit'>  
+	<BUTTON xxx  x=0 y=343  z=0 bmp="ges_zoom3_2d_cockpit.bmp#2" text=""  align="center-3" valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1  onClick='START_STOP_ZOOM 1 1,run sc_NaviMenuAlphaRe_term' onRelease='START_STOP_ZOOM 1 0,run sc_NaviMenuTimerInit' onMouseLeave='START_STOP_ZOOM 1 0,run sc_NaviMenuTimerInit'> 
+</layer>
+
+<layer ui_Lock_Onmap z=50000>
+	<BUTTON btn_LO_Lock  x=585 y=392   z=0 bmp="zoom_lock.bmp#2" onRelease='run sc_FollowOn, run sc_RefreshNavigateMapScreenAfterViewPreset 1' visiblemodel="!map.follow&navigation.car_pos_valid">
+</layer>
+
+
+<layer ui_NavigateMapPresetControls3D z=50000 visiblemodel="ui.vPresetOn&ui.vMapModeBool">
+	<BUTTON xxx                  x=240 y=392   z=0 bmp="cam_back.bmp#2"        clickmodel="map.carviewpresets FRONT1"  onRelease='run sc_disable_smartzoom_3D, run sc_RefreshNavigateMapScreenAfterViewPreset 1' onlongclick='run sc_ModifyPreset "FRONT1"'>
+	<BUTTON xxx                  x=355 y=392   z=0 bmp="cam_backtop.bmp#2"     clickmodel="map.carviewpresets FRONT2"  onRelease='run sc_disable_smartzoom_3D, run sc_RefreshNavigateMapScreenAfterViewPreset 1' onlongclick='run sc_ModifyPreset "FRONT2"'>
+	<BUTTON xxx                  x=470 y=392   z=0 bmp="cam_top.bmp#2"         clickmodel="map.carviewpresets TOP"     onRelease='run sc_disable_smartzoom_3D, run sc_RefreshNavigateMapScreenAfterViewPreset 1' onlongclick='run sc_ModifyPreset "TOP"'>
+	<BUTTON btn_NMPC3D_VZoom3D1  x=585 y=392   z=0 bmp="zoom_exitmenu.bmp#2"   visiblemodel="navigation.car_pos_valid&map.follow" onRelease='run sc_enable_smartzoom_3D,  run sc_RefreshNavigateMapScreenAfterViewPreset 1, .map.carviewpresets "DEFAULT"' onlongclick='NEXTSTATE st_SettingVisualZoom3D'>
+	<BUTTON btn_NMPC3D_VZoom3D2  x=585 y=392   z=0 bmp="zoom_exitmenu.bmp#2"   visiblemodel="!navigation.car_pos_valid"  onRelease='run sc_enable_smartzoom_3D,  run sc_RefreshNavigateMapScreenAfterViewPreset 0, .map.carviewpresets "NOGPS_DEFAULT"' onlongclick='NEXTSTATE st_SettingVisualZoom3D'>
+</layer>
+
+<layer ui_NavigateMapPresetControls2D z=50000 visiblemodel="ui.vPresetOn&!ui.vMapModeBool">
+	<BUTTON xxx                  x=240 y=392   z=0 bmp="zoom_close.bmp#2"    clickmodel="map.carviewpresets FRONT1"   onRelease='run sc_disable_smartzoom_2D, run sc_RefreshNavigateMapScreenAfterViewPreset 1' onlongclick='run sc_ModifyPreset "FRONT1"'>
+	<BUTTON xxx                  x=355 y=392   z=0 bmp="zoom_mid.bmp#2"      clickmodel="map.carviewpresets FRONT2"   onRelease='run sc_disable_smartzoom_2D, run sc_RefreshNavigateMapScreenAfterViewPreset 1' onlongclick='run sc_ModifyPreset "FRONT2"'>
+	<BUTTON xxx                  x=470 y=392   z=0 bmp="zoom_far.bmp#2"      clickmodel="map.carviewpresets TOP"      onRelease='run sc_disable_smartzoom_2D, run sc_RefreshNavigateMapScreenAfterViewPreset 1' onlongclick='run sc_ModifyPreset "TOP"'>
+	<BUTTON btn_NMPC2D_VZoom2D1  x=585 y=392   z=0 bmp="zoom_exitmenu.bmp#2" visiblemodel="navigation.car_pos_valid&map.follow" onRelease='run sc_enable_smartzoom_2D,  run sc_RefreshNavigateMapScreenAfterViewPreset 1, .map.carviewpresets "DEFAULT"' onlongclick='NEXTSTATE st_SettingVisualZoom2D'>
+	<BUTTON btn_NMPC2D_VZoom2D2  x=585 y=392   z=0 bmp="zoom_exitmenu.bmp#2" visiblemodel="!navigation.car_pos_valid" onRelease='run sc_enable_smartzoom_2D,  vNavigationMode.set "NOGPS_DEFAULT", run sc_RefreshNavigateMapScreenAfterViewPreset 0, .map.carviewpresets "NOGPS_DEFAULT"' onlongclick='NEXTSTATE st_SettingVisualZoom2D'>
+</layer>
+
+<layer ui_NavigateToggleZoomControls z=3000>
+    <PUSHBUTTON  btn_NMPC_OpenClose x=170  y=-6 z=0 bmp="openclose1.bmp#2" onselect='vHideZoomControls.set 0, run sc_SetZoomControlLayer,run sc_NaviMenuAlphaRestore' ondeselect='vHideZoomControls.set 1, run sc_SetZoomControlLayer'>
+</layer>
+
+<layer ui_NavigateMapInfos z=50>
+	<SPRITE sprNMINextStreetBG   bmp="blackstripe.bmp" x=70 y=-1 z=0>
+	<SPRITE sprNMIActualStreetBG bmp="blackstripe.bmp" x=70 y=444 z=0>
+</layer>
+
+<layer ui_NavigateMapSingpost z=5100 visiblemodel="!map.globe_mode">
+	<SPRITE sprLaneInfoSignpost x=167 y=0 w=633 z=400 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.vPresetOn">
+</layer>
+
+<layer ui_NavigateMapCursorPosInfos z=50>
+	;<SPRITE xxx bmp="blackstripe.bmp" x=70 y=-1 z=0>
+	<ROADSHIELDEDTEXT sprNMCPINextStreetName template=txt_map y=0 textmodel_wstr="navigation.next_street_enc"    visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|ui.vPresetOn">
+
+	<TEXT txtNMCPIStreetName template=txt_map textmodel_wstr="map.cursorpos.posinfotext" visiblemodel="!map.follow">
+</layer>
+
+<layer ui_NavigateMapGPSPosInfos z=51>
+	<ROADSHIELDEDTEXT sprNMINextStreetName   template=txt_map y=0 textmodel_wstr="navigation.next_street_enc" visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|ui.vPresetOn">
+	<ROADSHIELDEDTEXT sprNMIActualStreetName template=txt_map x=235 w=479 textmodel_wstr="navigation.current_street_enc" visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|ui.vPresetOn">
+
+;	<TEXT sprNMINextStreetName template=xtxt x=103 y=2   z=10 w=347 align="CENTER" textmodel_wstr="navigation.next_street"    fontsize=14 font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000 color3=#000000>
+;	<TEXT sprNMIActualStreetName template=xtxt x=103 y=254 z=10 w=347 align="CENTER" textmodel_wstr="navigation.current_street" fontsize=14 font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000 color3=#000000>
+</layer>
+
+<layer ui_NavigateMapGPSPosHouseNumber z=51 visiblemodel="!navigation.car_on_planned_route&ui.vShowStreetsLayer&!ui.vRouteCalculation">
+	<TEXT sprNMIActualHouseNum1  template=txt_map           x=175 w=50 textmodel_wstr="map.cursorpos.lefthousenumber" visiblemodel="navigation.car_pos_valid&map.follow_gps"> 
+	<TEXT sprNMIActualHouseNum2  template=txt_map           x=724 w=50 textmodel_wstr="map.cursorpos.righthousenumber" visiblemodel="navigation.car_pos_valid&map.follow_gps">
+</layer>
+
+<layer ui_NavigateMapRouteNavigation z=51>
+	<BUTTON sprNMRCockpit       x=0 y=0   z=0 bmp="cock_infobg1.bmp" visiblemodel="!ui.v3dzoomcontrol"  onrelease='NEXTSTATE st_RouteInfo' enabledmodel="!ui.vDiriconVisible&!ui.vOnFlyover" CHECKHIT>
+	<SPRITE xxx                 x=0 y=144 z=0 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol">
+	<SPRITE xxx                 x=0 y=265 z=0 bmp="cock_infobg3.bmp" visiblemodel="!ui.v3dzoomcontrol">
+	<BUTTON btnNMR_CockpitInfo  x=0 y=265 z=2 bmp="cock_infobg3.bmp" alpha=0 onrelease='run sc_ShowCockpitDetailTrip' visiblemodel="!ui.v3dzoomcontrol"  enabledmodel="!ui.vOnFlyover">
+
+	<SPRITE sprNMRDiricon x=10  y=25  z=10 iconmodel="navigation.direction_icon" iconindex=3 visiblemodel="navigation.direction_icon.valid&navigation.distance_to_manuver.valid&!ui.vRouteCalculation&navigation.car_on_planned_route">
+	<SPRITE sprNMRExitNum x=55  y=57  z=10 iconmodel="navigation.exit_icon"      iconindex=2 visiblemodel="navigation.exit_icon.valid&navigation.distance_to_manuver.valid&!ui.vRouteCalculation">
+	<SPRITE xxx           x=10  y=147  z=10 iconmodel="navigation.secondary_direction_icon" iconindex=3 visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&navigation.secondary_direction_icon.valid&!ui.vRouteCalculation&!ui.vOnFlyover" zoom=768>
+	
+	<SPRITE sprLaneInfo x=160 y=20 w=550 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.bLaneinfoSignpostValid&!ui.vPresetOn">	
+	
+;!Raffke_jr - 2x removed x, w, align and changed DIRDISTALIGNER to ALIGNER
+	<TEXT sprNMRDiriconDist template=xtxt   y=-12 z=10 h=60 font="tahomabd" glowsize=1 fontsize=40 color=#FFFFFF color2=#000000 fixedwidthnumbers=1 textmodel_wstr="navigation.distance_to_manuver.number_text" visiblemodel="navigation.distance_to_manuver.valid&!ui.vRouteCalculation&navigation.car_on_planned_route">
+	<TEXT sprNMRDiriconUnit template=xtxt   y=-4  z=10 h=60 font="tahomabd" fontsize=20 color=#bbbbbb textmodel_wstr="navigation.distance_to_manuver.unit_text" visiblemodel="navigation.distance_to_manuver.valid&!ui.vRouteCalculation&navigation.car_on_planned_route">
+	<ALIGNER xxx x=13 w=140 align="CENTER" control=sprNMRDiriconDist padding=8 control=sprNMRDiriconUnit>
+
+;!Raffke_jr - 2x removed w, align and changed DIRDISTALIGNER to ALIGNER
+	<TEXT DistanceToManuverDist template=txt_sec y=232 valign="BOTTOM" textmodel_wstr="navigation.secondary_distance_to_manuver_diff.number_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&!ui.vOnFlyover">
+	<TEXT DistanceToManuverUnit template=txt_sec color=#bbbbbb valign="BOTTOM" fontsize=20 textmodel_wstr="navigation.secondary_distance_to_manuver_diff.unit_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&!ui.vOnFlyover">
+	<ALIGNER xxx x=0 w=110 align="CENTER" control=DistanceToManuverDist padding=8 control=DistanceToManuverUnit>
+</layer>
+
+<layer ui_NavigateMapSpeedLimit z=51>
+    <SPRITE xxx bmp="speed.bmp" x=163  y=360 z=100 visiblemodel="navigation.near_speed_limit">
+    <TEXT   xxx	             x=175  y=368  w=54 h=60 z=101 L2R=1 align="CENTER" text="0" FONTTYPE=font_speedlimit_below font="tahomabd" fontsize=28 color=0 textmodel_wstr="navigation.current_speed_limit.number_text"  visiblemodel="navigation.near_speed_limit">
+</layer>
+
+<element_template et_NavInfoDistanceToDestination>
+	<TEXT txtNIDistToDestNum%ID%  template=xetNavInfoNum textmodel_wstr="navigation.distance_to_destination.number_text" visiblemodel="navigation.distance_to_destination.valid">
+	<TEXT txtNIDistToDestUnit%ID% template=xetNavInfoUnit textmodel_wstr="navigation.distance_to_destination.unit_text" visiblemodel="navigation.distance_to_destination.valid">
+	<ALIGNER xxx template=aligner_navinfo control=txtNIDistToDestNum%ID% padding=10 control=txtNIDistToDestUnit%ID%>
+</element_template>
+
+<element_template et_NavInfoDistanceToWaypoint>
+	<TEXT txtNIDistToWayNum%ID%  template=xetNavInfoNum textmodel_wstr="navigation.distance_to_waypoint.number_text" visiblemodel="navigation.distance_to_waypoint.valid">
+	<TEXT txtNIDistToWayUnit%ID% template=xetNavInfoUnit textmodel_wstr="navigation.distance_to_waypoint.unit_text" visiblemodel="navigation.distance_to_waypoint.valid">
+	<ALIGNER xxx template=aligner_navinfo control=txtNIDistToWayNum%ID% padding=10 control=txtNIDistToWayUnit%ID%>
+</element_template>
+
+<element_template et_NavInfoSpeed>
+	<TEXT txtNISpdNum%ID%  template=xetNavInfoNum textmodel_wstr="navigation.current_speed.number_text" visiblemodel="navigation.current_speed.valid">
+	<TEXT txtNISpdUnit%ID% template=xetNavInfoUnit textmodel_wstr="navigation.current_speed.unit_text" visiblemodel="navigation.current_speed.valid">
+	<ALIGNER xxx template=aligner_navinfo control=txtNISpdNum%ID% padding=10 control=txtNISpdUnit%ID%>
+</element_template>
+
+<element_template et_NavInfoSpeedLimit>
+	<TEXT txtNISpdLimNum%ID%  template=xetNavInfoNum textmodel_wstr="navigation.current_speed_limit.number_text" visiblemodel="navigation.current_speed_limit.valid">
+	<TEXT txtNISpdLimUnit%ID% template=xetNavInfoUnit textmodel_wstr="navigation.current_speed_limit.unit_text" visiblemodel="navigation.current_speed_limit.valid">
+	<ALIGNER xxx template=aligner_navinfo control=txtNISpdLimNum%ID% padding=10 control=txtNISpdLimUnit%ID%>
+</element_template>
+
+<element_template et_NavInfoCurrentTime>
+	<TEXT xxx  template=xetNavInfoSingle textmodel_time="gps.current_time" formatmodel="local.short_timeformat" visiblemodel="gps.current_time.valid" dayperiod="1">
+</element_template>
+
+<element_template et_NavInfoTimeETAAtDestination>
+	<TEXT xxx  template=xetNavInfoSingle textmodel_time="navigation.eta_at_destination" formatmodel="local.short_timeformat" visiblemodel="navigation.eta_at_destination.valid" dayperiod="1">
+</element_template>
+
+<element_template et_NavInfoTimeETAAtWaypoint>
+	<TEXT xxx  template=xetNavInfoSingle textmodel_time="navigation.eta_at_waypoint" formatmodel="local.short_timeformat" visiblemodel="navigation.eta_at_waypoint.valid" dayperiod="1">
+</element_template>
+
+<element_template et_NavInfoTimeToDestination>
+	<TEXT xxx  template=xetNavInfoSingle combined_textmodel="$timespan:navigation.time_to_destination:5$" visiblemodel="navigation.time_to_destination.valid">
+</element_template>
+
+<element_template et_NavInfoTimeToWaypoint>
+	<TEXT xxx  template=xetNavInfoSingle combined_textmodel="$timespan:navigation.time_to_waypoint:5$" visiblemodel="navigation.time_to_waypoint.valid">
+</element_template>
+
+<element_template et_NavInfoTimeToManeuver>
+	<TEXT xxx  template=xetNavInfoSingle textmodel_timespan="navigation.time_to_manuver" formatmodel="local.short_timeformat" visiblemodel="navigation.time_to_manuver.valid">
+</element_template>
+
+<element_template et_NavInfoAltitude>
+	<TEXT txtNIAltNum%ID%  template=xetNavInfoNum textmodel_wstr="navigation.current_altitude.number_text" visiblemodel="navigation.current_altitude.valid">
+	<TEXT txtNIAltUnit%ID% template=xetNavInfoUnit textmodel_wstr="navigation.current_altitude.unit_text" visiblemodel="navigation.current_altitude.valid">
+	<ALIGNER xxx template=aligner_navinfo control=txtNIAltNum%ID% padding=10 control=txtNIAltUnit%ID%>
+</element_template>
+
+<element_template et_NavInfoCompass>
+	<SPRITE xxx              x=2 y=2 z=11 bmp="compassmask.bmp">
+	<SPRITE et_sprNICCompass x=2 y=2 z=10 h=30 w=140 attach_sprite_provider="other.attach_linear_compass(linear_compass.bmp,navigation.car_heading)">
+</element_template>
+
+<layer ui_NavigateMapRouteNavigationInfos z=52>
+	<DYNAMICELEMENT dyn_NMR1 x=0 y=276>
+	<DYNAMICELEMENT dyn_NMR2 x=0 y=326>
+	<DYNAMICELEMENT dyn_NMR3 x=0 y=376>	
+</layer>
+
+<layer ui_NavigateMapSettingsCruise z=31>
+
+	<TEXT txtNMS_1                       template=txt_hud_label_left y=60  text="Distance Left">   
+	<TEXT txtNMS_2                       template=txt_hud_label_left y=177 text="Time Left">  
+	<TEXT txtNMS_3                       template=txt_hud_label_left y=295 text="Arrival Time" >            
+
+	<PUSHBUTTON btnNSM_1d bmp="trip1.bmp" template=txt_hud_value_left y=53  iconalign="LEFT+20" iconvalign="CENTER" var="1" CHECKHIT>
+	<PUSHBUTTON btnNSM_2d bmp="trip2.bmp" template=txt_hud_value_left y=171 iconalign="LEFT+20" iconvalign="CENTER" var="2" CHECKHIT>   
+	<PUSHBUTTON btnNSM_3d bmp="trip3.bmp" template=txt_hud_value_left y=288 iconalign="LEFT+20" iconvalign="CENTER" var="3" CHECKHIT>
+
+	<PUSHBUTTON btnNSM_1v bmp="trip1.bmp" template=txt_hud_value_left y=53  iconalign="LEFT+20" iconvalign="CENTER" var="5" CHECKHIT>
+	<PUSHBUTTON btnNSM_2v bmp="trip2.bmp" template=txt_hud_value_left  y=171 iconalign="LEFT+20" iconvalign="CENTER" var="4" CHECKHIT>     
+	<PUSHBUTTON btnNSM_3v bmp="trip3.bmp" template=txt_hud_value_left y=288 iconalign="LEFT+20" iconvalign="CENTER" var="6" CHECKHIT>
+
+	<PUSHBUTTON pbtn_t4 bmp="trip4.bmp" template=txt_hud_value_right y=53 var="10" iconalign="RIGHT-20" iconvalign="CENTER" textmodel_time="gps.current_time"  formatmodel="local.short_timeformat" dayperiod=1 CHECKHIT>
+	<TEXT xxx                       template=txt_hud_label_right y=60  text="GPS time">    
+
+	<PUSHBUTTON pbtn_t5 bmp="trip5.bmp" template=txt_hud_value_right y=171  var="11" iconalign="RIGHT-20" iconvalign="CENTER" combined_textmodel="$navigation.current_altitude.number_text$ $navigation.current_altitude.unit_text$" CHECKHIT>
+	<TEXT xxx                       template=txt_hud_label_right y=177  text="Altitude">    
+	
+	<PUSHBUTTON pbtn_t6 bmp="trip6.bmp" template=txt_hud_value_right y=288 var="9" iconalign="RIGHT-20" iconvalign="CENTER" textmodel_wstr="navigation.current_speed_limit.full_text" CHECKHIT>
+	<TEXT xxx                       template=txt_hud_label_right y=295 text="Speed limit">    
+
+
+	;<PUSHBUTTON pbtn_speed bmp="speedometer_dummy.bmp" template=txt_hud_value_left x=265 y=100 z=34 iconvalign="BOTTOM-23"  iconalign="CENTER+1" var="8">
+	<PUSHBUTTON pbtn_speed bmp="speedometer_bg.bmp" template=txt_hud_value_left x=259 y=90 z=33 iconvalign="BOTTOM-32"  iconalign="CENTER+1"  var="8" checkhit>
+
+	<PUSHBUTTON pbtn_compass bmp="tripx.bmp" template=txt_hud_value_right x=110 y=330 iconvalign="CENTER"  iconalign="RIGHT-51" var="12" >
+
+	<CHECKLIST chkl_NMS_Selection STATUSSPRITE="states.bmp#4" ADDITEM="*" ADDSLOT="CockpitField1" ADDSLOT="CockpitField2" ADDSLOT="CockpitField3"  onSelect='run sc_NMS_Init'>
+
+
+	<TEXT xxx  template=xtxthud1 x=0 y=205 z=3000 w=800 align="CENTER" fontsize=36 color2=#FFFFFF  glowsize=1 color=#000000 textmodel_wstr="navigation.current_speed.number_text">
+	<TEXT xxx  template=xtxthud1 x=0 y=247 z=3000 w=800 align="CENTER" fontsize=16                  glowsize=0 color=#000000 textmodel_wstr="navigation.current_speed_limit.unit_text">
+
+	 
+  <SPRITE xxx                   x=259 y=90 z=38 bmp="gloss_top.bmp">
+	<SPRITE sprSpeedometerPointer x=259 y=90 z=36 w=284 h=284>
+	<SPRITE sprSpeedometerNumbers x=259 y=90 z=34 bmp="speedometer_num_km.bmp">
+	;<SPRITE xxx                   x=259 y=90 z=33 bmp="speedometer_bg.bmp">
+	<SPRITE sprSpeedRange         x=256 y=91 z=32 w=284 h=284>
+	<SPRITE xxx                   x=259 y=90 z=31 bmp="speedometer_bg1.bmp">
+
+	<SPRITE xxx x=240 y=39 z=0 bmp="trip_diricon_bg.bmp">
+
+	
+	<SPRITE xxx              x=325 y=375 z=51 bmp="compassmask_big.bmp">
+	<SPRITE sprLinearCompass x=325 y=375 z=50 h=30 w=120>
+
+
+	<BUTTON btnTRIPCOMPUTER      template=footer2_1a text="Trip Computer" onrelease='nextstate ST_TRIPCOMPUTER' enabledmodel="!ui.vOnFlyover">
+	
+</layer>
+
+<layer ui_NavigateMapSettingsDestination z=31>
+	<SPRITE txtNMSD_Flag bmp="ico_dest_pl.bmp" x=5 y=4 z=100>
+	<TEXT xxx x=40 y=4 w=720 align="CENTER" textmodel_wstr="navigation.destination_name_short" visiblemodel="navigation.has_route" fonttype=headerfont fontsize=22>
+	<TEXT xxx x=40 y=4 w=720 align="CENTER" text="Destination" visiblemodel="!navigation.has_route" fonttype=headerfont fontsize=22>
+	<BUTTON btn_NMS2_ShowVia template=footer2_2a text="Next via"   onRelease='run sc_ShowNavigateMapSettingsVia'>
+	<TEXT xxx template=txt_hud_value_left y=53 combined_textmodel="$navigation.distance_to_destination.number_text$ $navigation.distance_to_destination.unit_text$" visiblemodel="navigation.has_route">
+	<TEXT xxx template=txt_hud_value_left y=53 text="--" visiblemodel="!navigation.has_route">
+	<TEXT xxx template=txt_hud_value_left y=171 textmodel_timespan="navigation.time_to_destination" formatmodel=5 visiblemodel="navigation.has_route">     
+	<TEXT xxx template=txt_hud_value_left y=171 text="--:--" visiblemodel="!navigation.has_route">     
+	<TEXT xxx template=txt_hud_value_left y=288 textmodel_time="navigation.eta_at_destination" formatmodel="local.short_timeformat" dayperiod=1 visiblemodel="navigation.has_route">
+	<TEXT xxx template=txt_hud_value_left y=288 text="--:--" visiblemodel="!navigation.has_route">
+</layer>
+
+<layer ui_NavigateMapSettingsDir z=32>
+	<SPRITE xxx x=341  y=40 z=10 zoom=768 iconindex=2 iconmodel="navigation.direction_icon" visiblemodel="navigation.direction_icon.valid">
+	<SPRITE xxx x=350  y=49 z=10 zoom=768 iconindex=1 iconmodel="navigation.exit_icon" visiblemodel="navigation.exit_icon.valid">
+
+	<TEXT xxx template=xtxt x=380  y=49 z=10 w=60 h=30 font="tahomabd" glowsize=1 fontsize=22 color=#FFFFFF color2=#000000 align="RIGHT" textmodel_wstr="navigation.distance_to_manuver.number_text" visiblemodel="navigation.distance_to_manuver.valid">
+	<TEXT xxx template=xtxt x=446  y=52 z=10 w=60 h=30 font="tahomabd" glowsize=1 fontsize=12 color=#FFFFFF color2=#000000 align="LEFT"  textmodel_wstr="navigation.distance_to_manuver.unit_text" visiblemodel="navigation.distance_to_manuver.valid">
+</layer>
+
+<layer ui_NavigateMapSettingsVia z=31>
+	<SPRITE txtNMSV_Flag bmp="ico_via_pl.bmp" x=5 y=4 z=100>
+	<TEXT xxx x=40 y=4 w=720 align="CENTER" textmodel_wstr="navigation.next_viapoint_name_short" visiblemodel="navigation.has_waypoint_in_route" fonttype=headerfont fontsize=22>
+	<TEXT xxx x=40 y=4 w=720 align="CENTER" text="Next via" visiblemodel="!navigation.has_waypoint_in_route" fonttype=headerfont fontsize=22>
+	<BUTTON xxx template=footer2_2a text="Destination" onRelease='run sc_ShowNavigateMapSettingsDestination'>
+	<TEXT xxx template=txt_hud_value_left y=53 combined_textmodel="$navigation.distance_to_waypoint.number_text$ $navigation.distance_to_waypoint.unit_text$" visiblemodel="navigation.has_waypoint_in_route">
+	<TEXT xxx template=txt_hud_value_left y=53 text="--" visiblemodel="!navigation.has_waypoint_in_route">
+	<TEXT xxx template=txt_hud_value_left y=171 textmodel_timespan="navigation.time_to_waypoint" formatmodel=5 visiblemodel="navigation.has_waypoint_in_route">     
+	<TEXT xxx template=txt_hud_value_left y=171 text="--:--" visiblemodel="!navigation.has_waypoint_in_route">     
+	<TEXT xxx template=txt_hud_value_left y=288 textmodel_time="navigation.eta_at_waypoint" formatmodel="local.short_timeformat" dayperiod=1 visiblemodel="navigation.has_waypoint_in_route">
+	<TEXT xxx template=txt_hud_value_left y=288 text="--:--" visiblemodel="!navigation.has_waypoint_in_route">
+</layer>
+
+<layer ui_NavigateMapCockpitelemets_hack z=3010 visiblemodel="navigation.has_route&!ui.vOnFlyover">
+;Mivel nem lehet 4 bool-t egyszerre kezelni....
+	<BUTTON btnNMC_Recalc   x=10   y=5  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="recalc.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='run sc_RecalcWays' visiblemodel="!ui.vRouteCalculation" HIDE visiblemodel="navigation.car_pos_valid&!ui.vRouteCalculation&!navigation.car_on_planned_route"> 
+</layer>
+
+<layer ui_NavigateMapCockpitelemets z=55>
+	<SPRITE spr_RecalcAnim  x=10   y=5  z=100   align="CENTER" valign="CENTER-5"   bmp="recalc_anim.spr"  font="tahoma" fontsize=12  visiblemodel="ui.vRouteCalculation"> 
+	<TEXT txt_route_planning_progress  x=5 y=144 w=100 z=31 h=120 font="tahomabd" align="CENTER" valign="CENTER" glowsize=1 fontsize=18 color=#78ff78  visiblemodel="ui.vRouteCalculation">
+</layer>
+
+<layer ui_QuickFind z=40100 visiblemodel="!navigation.calculation_todo&!navigation.has_route">
+; 	<SPRITE sprNMCCockpit_Find  x=0 y=0  w=78 z=0 bmp="cock_infobg1.bmp" visiblemodel="!ui.v3dzoomcontrol">
+	<BUTTON btnNMC_Find         x=25   y=40  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_main_find.bmp"          font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="!ui.nUserMode&!ui.vOnFlyover"> 
+	<BUTTON btnNMC_Find_normal  x=25   y=40  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_find_address.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_FindAddress' HIDE visiblemodel="ui.nUserMode&!ui.vOnFlyover">
+
+</layer>
+
+<layer ui_NavigateMapCruise z=52 visiblemodel="!ui.v3dzoomcontrol">
+	<BUTTON xxx  x=0  y=0   z=0 bmp="cock_infobg1.bmp" visiblemodel="!navigation.has_route&!navigation.calculation_todo&!ui.nUserMode" onrelease='NEXTSTATE st_AdvFindMenu' enabledmodel="!ui.vDiriconVisible" CHECKHIT>
+	<BUTTON xxx  x=0  y=0   z=0 bmp="cock_infobg1.bmp" visiblemodel="!navigation.has_route&!navigation.calculation_todo&ui.nUserMode" onrelease='NEXTSTATE st_FindAddress' enabledmodel="!ui.vDiriconVisible" CHECKHIT>
+	<BUTTON xxx  x=0  y=0   z=0 bmp="cock_infobg1.bmp" visiblemodel="navigation.has_route&!navigation.calculation_todo"  onrelease='NEXTSTATE st_RouteInfo'   enabledmodel="!ui.vDiriconVisible&!ui.vOnFlyover" CHECKHIT>
+	<SPRITE xxx  x=0  y=0   z=0 bmp="cock_infobg1.bmp" visiblemodel="navigation.calculation_todo">
+	<SPRITE xxx  x=0  y=144 z=0 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol">
+	<SPRITE xxx  x=0  y=265 z=0 bmp="cock_infobg3.bmp" visiblemodel="!ui.v3dzoomcontrol">
+	<BUTTON xxx  x=0  y=265 z=1 bmp="cock_infobg3.bmp" alpha=0 onrelease='run sc_ShowCockpitDetailTrip' visiblemodel="!ui.v3dzoomcontrol" enabledmodel="!ui.vOnFlyover">
+
+; ------------OFF_ROUTE
+
+	<SPRITE sprTurnRestriction x=15 y=168 z=10 bmp="turnrestrictions.spr" phasemodel="navigation.turn_restriction_icon" visiblemodel="navigation.turn_restriction_icon.valid&!ui.vRouteCalculation&navigation.car_pos_valid&route.vehicle_type!=5">
+
+	<TEXT txtNMCruiseNum  template=xetNavInfoNum  y=276 textmodel_wstr="navigation.current_speed.number_text" visiblemodel="!navigation.has_route&navigation.current_speed.valid">
+	<TEXT txtNMCruiseUnit  template=xetNavInfoUnit y=290 textmodel_wstr="navigation.current_speed.unit_text" visiblemodel="!navigation.has_route&navigation.current_speed.valid">
+	<ALIGNER xxx template=aligner_navinfo control=txtNMCruiseNum padding=10 control=txtNMCruiseUnit>
+					    
+	<SPRITE xxx           x=2   y=331 z=11 w=142 bmp="compassmask.bmp"  visiblemodel="!navigation.has_route">
+	<SPRITE sprNMCCompass x=2   y=331 z=10 h=30 w=140 attach_sprite_provider="other.attach_linear_compass(linear_compass.bmp,navigation.car_heading)" visiblemodel="!navigation.has_route">
+	
+	<TEXT xxx  template=xetNavInfoSingle x=10  y=376 textmodel_time="gps.current_time" formatmodel="local.short_timeformat" visiblemodel="!navigation.has_route&gps.current_time.valid" dayperiod=1>
+</layer>
+
+<layer ui_NavigateMapStatus z=20000>
+	<BUTTON xxx  x=0 y=419 z=0 bmp="cock_infobg4.bmp" onrelease='nextstate st_CockpitStatus' alpha=0 enabledmodel="!ui.vOnFlyover">
+	<SPRITE sprNM_BatteryStatus x=6    y=425 z=20 bmp="status_minibattery.spr" phasemodel="power.battery_phase">
+	<SPRITE sprNM_GPSStatus     x=6    y=451 z=21 bmp="status_minigps_onmap.spr" phasemodel="gps.connection_status">
+	<SPRITE sprNM_TMCStatus     x=-45  y=100 z=22 bmp="$status_minitmc.spr">
+
+	<SPRITE spr_TMC_Status       x=109  y=198 z=63 bmp="tmc_events.spr" phasemodel="ui.vTmcCockpitStatus" visiblemodel="!ui.nUserMode">
+	<SPRITE spr_TMC_Status_Basic x=109  y=198 z=63 bmp="tmc_events.spr" phase=1 visiblemodel="ui.nUserMode&tmc.station_tuned">	
+
+	<SPRITE sprNM_VolStatus     x=110   y=144  z=23 bmp="status_sound.spr" boolmodel="!sound.os_muted">
+	<SPRITE sprNM_BTStatus      x=113   y=229 bmp="ico_bt_status.spr" phasemodel="other.bluetooth.status"  visiblemodel="!ui.nUserMode">
+
+	<SPRITE sprNM_RecordStatus  x=123   y=182 z=24 bmp="record.spr"  visiblemodel="mydata.tracks.isrecording&!ui.nUserMode">
+
+	<SPRITE xxx bmp="status_bg.bmp" x=0 y=419 z=1>
+	<SPRITE vehicle_icon x=87 y=425 z=10 bmp="vhcl_car.bmp">
+
+
+</layer>
+
+<LAYER ui_NavigateMapAvoid z=18003 >
+	<BUTTON btnNMA_1  template=btn_4c fxshowdelay=0  x=33  y=50   text="1km"   onrelease='run sc_Avoid "1"'>
+	<BUTTON btnNMA_2  template=btn_4c fxshowdelay=3  x=420 y=50   text="2km"   onrelease='run sc_Avoid "2"'>
+	<BUTTON btnNMA_5  template=btn_4c fxshowdelay=6  x=33  y=150  text="5km"   onrelease='run sc_Avoid "5"'>
+	<BUTTON btnNMA_10 template=btn_4c fxshowdelay=15 x=420 y=150  text="10km"  onrelease='run sc_Avoid "10"'>
+	<BUTTON btnNMA_30 template=btn_4c fxshowdelay=12 x=33  y=250  text="30km"  onrelease='run sc_Avoid "30"'>
+								      
+
+</LAYER>
+
+
+<element_template et_Detour>
+	<BUTTON xxx template=btn_4c_icon combined_textmodel="$*.name:<Empty>$" clickmodel="poi.search_manager.list.setcurrent $i" onrelease='run sc_POISearchItemSelect' enabledmodel="*.current_valid">
+	<SPRITE xxx template=a_yzoomin x=58 y=12 z=2 bmp="aroundicons.spr" phasemodel="*.current_center_mode" visiblemodel="!*.isempty">
+</element_template>
+
+<LAYER ui_Detour z=30>
+	<LIST lstDetour template=tlist2 element_template="et_Detour" listmodel="poi.search_manager.list">
+
+	<BUTTON btnD_RemoveAvoids template=footer2_1a   text="Delete Avoids" onrelease='run sc_RemoveAvoids'>
+	<BUTTON btnD_ByPassRoad   template=footer2_2a   text="By-pass Road" onrelease='NEXTSTATE st_Bypass' enabledmodel="gps.valid&navigation.has_navigable_path">
+</LAYER>
+
+
+<LAYER ui_CockpitStatus z=30>
+	<BUTTON btn_CSTMC  template=footer3_2a text="TMC"        onrelease='NEXTSTATE st_TmcEventsList' enabledmodel="tmc.present|!tmc.events.list.isempty" >
+	<BUTTON btn_CSGPS  template=footer3_3a text="GPS"        onrelease='NEXTSTATE st_SettingGPS'>
+	<BUTTON btn_CSBT   template=footer3_1a text="Bluetooth"  visiblemodel="other.bluetooth.available|other.phone.available" onrelease='EXEC "other.bluetooth.show_manager"'>
+
+
+	<HSCROLLBAR xxx	template=csuszka bmp="fable_scrollbg_cockpit.spr" x=220 y=35 min=0 max=255 endsize=18 blockincrement=_0.0 value=255 onrelease='run sc_PlayTestSound, run sc_SetVolumeCheckBox' nosound valuemodel="sound.os_volume">
+
+	<CHECKBOX   statusSound   template=chk_5a x=152 y=130  z=10 bmp="quick_sound.bmp#2" onrelease='playsound "!button", run sc_SetVolumeSlider,run sc_TimeredPrevState' nosound boolmodel="!sound.os_muted" onlongclick='NEXTSTATE st_SettingSound' noreleaseonlongclick>
+
+	<BUTTON statusNight    template=sld_5a  x=22    y=270  z=15 align="LEFT" bmp="quick_daymode.bmp"   onrelease='run sc_SetToNightMode, run sc_TimeredPrevState' onlongclick='NEXTSTATE st_ColorProfiles'>
+	<BUTTON statusAutoDN   template=sld_5a  x=22    y=270  z=15 align="LEFT" bmp="quick_auto_dnmode.bmp" onrelease='run sc_SetToDayMode'>
+	<BUTTON statusDay      template=sld_5a  x=22    y=270  z=15 align="LEFT" bmp="quick_daymode.bmp"     onrelease='run sc_SetToDayMode, run sc_TimeredPrevState' onlongclick='NEXTSTATE st_ColorProfiles'>	
+
+	<BUTTON  btnCS_Vehicle      template=chk_5a x=542 y=270 z=15 bmp="quick_vehicle.bmp#2" onrelease='NEXTSTATE st_SettingVehicle' onlongclick='NEXTSTATE st_SettingRoute'>
+	<SPRITE  btnCS_Vehicle_Icon                   x=602 y=278  z=16 bmp="vhcl_car_big.bmp">
+	
+	<CHECKBOX chk_quick3d     template=chk_5a x=280 y=270  z=35  bmp="quick_3Dmode.bmp#2"  boolmodel="map.3d_buildings" onrelease='run sc_chk_quick3d_onrelease,run sc_TimeredPrevState' onlongclick='NEXTSTATE st_SettingVisual3D' noreleaseonlongclick>
+
+	<BUTTON xxx   template=btn_lb5a x=412 y=130 z=25 bmp="quick_tracklog_rec.bmp"    visiblemodel="!mydata.tracks.tracking&ui.nUserMode=0" onrelease='run sc_TrackRecord_Start, run sc_TimeredPrevState'     onlongclick='NEXTSTATE st_ManageTrack'>
+	<BUTTON xxx     template=btn_lb5a x=412 y=130 z=25 bmp="quick_tracklog_stop.bmp" onrelease='run sc_btnMT_Stop_OnRelease,run sc_TimeredPrevState' onlongclick='NEXTSTATE st_ManageTrack' visiblemodel="mydata.tracks.tracking&ui.nUserMode=0">
+</LAYER>
+
+<LAYER ui_pointonmap z=500>
+	<SPRITE xxx  bmp="blackstripe.bmp" x=0 y=0   z=0>
+	<SPRITE xxx bmp="also_a.bmp"  x=0 y=410 z=0>
+	<BUTTON xxx  x=4   y=6 z=0  bmp="places_center.bmp#2"  text="" font="tahoma" fontsize=11 fonttype=bw clicked_coloring=1 align="CENTER"  valign="CENTER" onRelease='run sc_lock_point_on_map' visiblemodel="ui.vChangePOIcoord">
+	<BUTTON xxx  x=4 y=100  z=0 bmp="map_zoomin.bmp#2"     onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0'>  
+	<BUTTON xxx  x=4 y=230 z=0 bmp="map_zoomout.bmp#2" onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0' > 
+	<TEXT xxx    template=txt_map x=0 w=800 y=0 textmodel_wstr="map.cursorpos.address.long_format" fontsize=18>
+	<TEXT xxx    template=txt_map textmodel_wstr="map.cursorpos.geocoord" align="LEFT"           fontsize=18 hide>
+
+	<BUTTON xxx  template=footer3_3a text="Select"   onrelease='run sc_ManagePOIEditAddress' visiblemodel="ui.vChangePOIcoord">	
+	<BUTTON xxx  template=footer3_3a text="OK"       onrelease='run sc_StartPOISearchAroundCursor' visiblemodel="!ui.vChangePOIcoord">
+</LAYER>
+
+
+<layer ui_ModifyPreset z=100001 modal>
+	<SPRITE xxx                   x=0   y=0   z=2   bmp="dialog_2_bg.bmp" >
+	<SPRITE xxx template=a_rubber x=150  y=130  z=10  fxshowdelay=10 bmp="dialog_qm.spr" fxshowdelay=10>
+	<SPRITE spr_MP_bg x=0 y=0 z=1 bmp="ui_igo8/800_480/default.bmp">		
+	<TEXT   txtMP_Msg       x=200  y=80  z=31  w=500 h=90 text="What would you like to do with\nthe selected map view preset?" valign="CENTER" align="LEFT" FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=32 wordwrap=3>
+
+	<BUTTON btnEMB_Save          template=dialog3_1 text="Save"   onrelease='run sc_SavePreset vTmp, ui_ModifyPreset.hide'> 
+	<BUTTON btnEMB_Reset         template=dialog3_2 text="Reset"  onrelease='run sc_ResetPreset vTmp, ui_ModifyPreset.hide'>
+	<BUTTON btnEMB_Cancel2       template=dialog3_3 text="Cancel" onrelease='ui_ModifyPreset.hide' rawkey=13> 
+</layer>
+
+
+<layer ui_GPS_Satelite_Onmap z=40000 visiblemodel="!navigation.car_pos_valid&gps.connection_status<3&!ui.vRouteCalculation&navigation.has_route">
+	<BUTTON	xxx template=xtxt x=-10 y=0 z=100 bmp="cock_infobg1.bmp" alpha=0 onrelease='NEXTSTATE st_RouteInfo' visiblemodel="!ui.v3dzoomcontrol"> 
+
+	<SPRITE sat_map1  x=-50 y=0 z=10 bmp="sat.spr" visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation"> 
+	<SPRITE sat_map2  x=-50 y=0 z=10 bmp="sat.spr" visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation"> 
+	<SPRITE sat_map3  x=-50 y=0 z=10 bmp="sat.spr" visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation"> 
+	<SPRITE sat_map4  x=-50 y=0 z=10 bmp="sat.spr" visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation"> 
+	<SPRITE sat_map5  x=-50 y=0 z=10 bmp="sat.spr" visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation"> 
+	<SPRITE sat_map6  x=-50 y=0 z=10 bmp="sat.spr" visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation"> 
+	<SPRITE sat_map7  x=-50 y=0 z=10 bmp="sat.spr" visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation"> 
+	<SPRITE sat_map8  x=-50 y=0 z=10 bmp="sat.spr" visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation"> 
+	<SPRITE sat_map9  x=-50 y=0 z=10 bmp="sat.spr" visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation"> 
+	<SPRITE sat_map10 x=-50 y=0 z=10 bmp="sat.spr" visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation"> 
+	<SPRITE sat_map11 x=-50 y=0 z=10 bmp="sat.spr" visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation"> 
+	<SPRITE sat_map12 x=-50 y=0 z=10 bmp="sat.spr" visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation"> 
+	
+	<TEXT l_sat_map1 fontsize=9  text="" x=-50 y=0 z=10 color=#FFFFFF fonttype=headerfont GlowSize=1 color2=#000000 align="center" w=20 hide alpha=0 visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation">
+	<TEXT l_sat_map2 fontsize=9  text="" x=-50 y=0 z=10 color=#FFFFFF fonttype=headerfont GlowSize=1 color2=#000000 align="center" w=20 hide alpha=0 visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation">
+	<TEXT l_sat_map3 fontsize=9  text="" x=-50 y=0 z=10 color=#FFFFFF fonttype=headerfont GlowSize=1 color2=#000000 align="center" w=20 hide alpha=0 visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation">
+	<TEXT l_sat_map4 fontsize=9  text="" x=-50 y=0 z=10 color=#FFFFFF fonttype=headerfont GlowSize=1 color2=#000000 align="center" w=20 hide alpha=0 visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation">
+	<TEXT l_sat_map5 fontsize=9  text="" x=-50 y=0 z=10 color=#FFFFFF fonttype=headerfont GlowSize=1 color2=#000000 align="center" w=20 hide alpha=0 visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation">
+	<TEXT l_sat_map6 fontsize=9  text="" x=-50 y=0 z=10 color=#FFFFFF fonttype=headerfont GlowSize=1 color2=#000000 align="center" w=20 hide alpha=0 visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation">
+	<TEXT l_sat_map7 fontsize=9  text="" x=-50 y=0 z=10 color=#FFFFFF fonttype=headerfont GlowSize=1 color2=#000000 align="center" w=20 hide alpha=0 visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation">
+	<TEXT l_sat_map8 fontsize=9  text="" x=-50 y=0 z=10 color=#FFFFFF fonttype=headerfont GlowSize=1 color2=#000000 align="center" w=20 hide alpha=0 visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation">
+	<TEXT l_sat_map9 fontsize=9  text="" x=-50 y=0 z=10 color=#FFFFFF fonttype=headerfont GlowSize=1 color2=#000000 align="center" w=20 hide alpha=0 visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation">
+	<TEXT l_sat_map10 fontsize=9 text="" x=-50 y=0 z=10 color=#FFFFFF fonttype=headerfont GlowSize=1 color2=#000000 align="center" w=20 hide alpha=0 visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation">
+	<TEXT l_sat_map11 fontsize=9 text="" x=-50 y=0 z=10 color=#FFFFFF fonttype=headerfont GlowSize=1 color2=#000000 align="center" w=20 hide alpha=0 visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation">
+	<TEXT l_sat_map12 fontsize=9 text="" x=-50 y=0 z=10 color=#FFFFFF fonttype=headerfont GlowSize=1 color2=#000000 align="center" w=20 hide alpha=0 visiblemodel="!navigation.car_pos_valid&!ui.vRouteCalculation">
+</layer>	
+
+
+<script sc_SignPostZoomOn>
+	run 'map.SETCARPOSITION 50 80, .smartzoom.addconsttilt 8, .smartzoom.maxangle 88, .smartzoom.percentage 110'
+</script>
+
+<script sc_SignPostZoomOff>
+	run 'map.SETCARPOSITION 50 75, .smartzoom.addconsttilt 0, .smartzoom.maxangle %smartzoom.maxangle_default, .smartzoom.percentage 100'
+</script>
