@@ -7,6 +7,8 @@
 	<var vLastCursorY=0>
 	<var vSelectedAdvUID2=0>
 	<var vHouseNumberByRange=0>
+;!Raffke_jr - Helper for Becker builds
+	<var vZipMode=0>
 </header>
 
 ;****************************************************************************************************************
@@ -127,9 +129,18 @@
 	RUNIF vTmp 0 'btnFA_HOUSE.DISABLE'
 </script>
 
+;!Raffke_jr - Helper question for Becker builds
+<script sc_AskSwitchCityZip>
+	INITMESSAGEBOX 2 "Do you want to enter the Postal Code instead of the city name?" 'vZipMode.SET 1, NEXTSTATE st_FindAddressCity' 'vZipMode.SET 0, NEXTSTATE st_FindAddressCity'
+;!Raffke_jr - TRICKY: need to write NEXTSTATE after vZipMode.SET - otherwise the state is entered BEFORE the variable is actually been set!
+</script>
+
 <script sc_GetCityMain>
 	inpFACi_City.VALUE ""
-	NEXTSTATE st_FindAddressCity
+
+;!Raffke_jr - re-use existing bBeckerQuicklist to identify Becker builds
+	runif bBeckerQuicklist 1 sc_AskSwitchCityZip
+	else_run 'NEXTSTATE st_FindAddressCity'
 </script>
 
 <script sc_GetStreetMain>
@@ -280,7 +291,13 @@
 		inpFACi_City.GET "vTmp"
 		runif vTmp L"" sc_ShowAllCityButton
 
+;!Raffke_jr - Helper for Becker builds
+		runif bBeckerQuicklist 1 'lbFACR_CityResult.DROPMODEL'
+
 		map.ATTACHFINDADDRESSMODELCITYZIP lbFACR_CityResult Title
+;!Raffke_jr - Helper for Becker builds
+		runif bBeckerQuicklist 1 'BECKER_FINDADDRESSMODELCITYZIPMODE vZipMode'
+
 		map.ADDRESSCHANGECITYZIP inpFACi_City lbFACR_CityResult
 		CHECKFINDRESULTCOUNT lbFACR_CityResult vResultReady vResultCount vResultCountNum
 		CHECKFINDFILTER inpFACi_City vResultReady
@@ -291,6 +308,9 @@
 	</script>
 
 	<script done>
+;!Raffke_jr - Helper for Becker builds
+		runif bBeckerQuicklist 1 'BECKER_FINDADDRESSMODELCITYZIPMODE 0'
+
 		KEY "RETURN"
 		local.keyboard.on_close_panel
 	</script>

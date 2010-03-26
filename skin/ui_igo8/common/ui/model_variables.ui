@@ -83,6 +83,13 @@
 	<var vSignpostShow=1 registermodel permanent>
 	<var vLaneInfoShow=0 registermodel permanent>
 	<var vOverviewLaneInfo=1 registermodel permanent>
+
+;!Raffke_jr - translated TMC states
+	<var vTmcState_Testing>
+	<var vTmcState_NoTmc>
+	<var vTmcState_TmcPresent>
+	<var vTmcState_NoKey>
+	<var vTmcState_KeyOK>
 </header>
 
 ;TB MR - Include advanced speedcam scripts
@@ -119,4 +126,11 @@ import "ui_igo8/common/ui/speedcam_advanced.ui"
 	else_run                 'bHistoryIsEmpty.boolmodel "mydata.history.list.isempty"'
 ;!Raffke_jr - switch HistSpeed usage
 	bHistSpeed.boolmodel "route.histspeed.enabled"
+
+;!Raffke_jr - translated TMC states
+	TRANSLATE L"Testing.." vTmcState_Testing
+	TRANSLATE L"No TMC" vTmcState_NoTmc
+	TRANSLATE L"TMC present" vTmcState_TmcPresent
+	TRANSLATE L"CA-TMC (No key)" vTmcState_NoKey
+	TRANSLATE L"CA-TMC (Key OK)" vTmcState_KeyOK
 </script>
