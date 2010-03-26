@@ -1,5 +1,0 @@
-Bmp = "ui_igo8/common/cockpit_infobg_i.bmp"
-BmpFlags = 0
-DefFlags = ALPHA_LAYER | TRANS_COLOR
-DefPhase = 0
-DefAlpha = 27
