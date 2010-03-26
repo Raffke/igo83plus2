@@ -1,0 +1,17 @@
+sizex=100
+sizey=100
+center_x=50
+center_y=50
+
+[polygona]
+color=255, 0, 0
+p= -12,  0
+p=   0, 36
+p=  12,  0
+
+
+[polygonb]
+color=255,255, 255
+p= -12,   0
+p=   0, -36
+p=  12,   0

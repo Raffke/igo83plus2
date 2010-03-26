@@ -87,7 +87,7 @@
 
 	<BUTTON btnPMB_Panic    template=dialog3_1    text="Panic"   onrelease='run sc_PanicButton_Execute'> 
 	<BUTTON btnPMB_Restart  template=dialog3_2    text="Restart" onrelease='APP_RESTART'>
-	<BUTTON btnPMB_Cancel   template=dialog3_3    text="Cancel"  onrelease='ui_Panic_MessageBox.hide' rawkey=13> 
+	<BUTTON btnPMB_Cancel   template=dialog3_3    text="Cancel"  onrelease='ui_Panic_MessageBox.hide' rawkey=27>
 </layer>
 
 <layer ui_ShutdownTimer z=100002 modal>

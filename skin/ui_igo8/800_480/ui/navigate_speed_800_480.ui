@@ -1,0 +1,52 @@
+;****************************************************************************************************************
+;!TB, di/\/\ka - speed on map display
+;****************************************************************************************************************
+;!Sib - changed for 800x480
+;!Raffke_jr - changed to avoid crash on exit with 8.3.1
+
+<element_template et_speedonmap>
+	<TEXT   xxx x=6 y=3  w=68 z=1  textmodel_wstr="navigation.current_speed.number_text"  FONTTYPE=font_speedlimit_below fontsize=48   align="CENTER" Glowsize=1             visiblemodel="!navigation.near_speed_limit">
+	<TEXT   xxx x=6 y=3  w=68 z=3  textmodel_wstr="navigation.current_speed.number_text"  FONTTYPE=font_speedlimit_above fontsize=48   align="CENTER" Glowsize=1  glowtype=1 visiblemodel="navigation.near_speed_limit">
+	<TEXT   xxx x=6 y=3  w=68 z=4  textmodel_wstr="navigation.current_speed.number_text"  FONTTYPE=font_speedlimit_above fontsize=48   align="CENTER" Glowsize=1  glowtype=1 visiblemodel="navigation.current_speed_limit.valid&navigation.current_speed.value>navigation.current_speed_limit.value&!ui.vOnFlyover">
+	<TEXT   xxx x=6 y=54 w=68      textmodel_wstr="navigation.current_speed.unit_text"    FONTTYPE=font_speedlimit_below fontsize=20   align="CENTER" Glowsize=1  font="tahoma" >
+</element_template>
+
+;speed on map display (common)
+; x="$speed.bmp".x y="$speed.bmp".y-40
+<layer ui_NavigateMapCurrentSpeed z=50  x=0 y=0 HIDE>
+	; speed only
+	<SPRITE          xxx          x=0  y=80 z=1  bmp="sp_map_bg_furled.bmp" alpha=16 visiblemodel="ui.bSpeedBGShow">
+	<DYNAMICELEMENT  deNMS_Common x=0  y=80 z=5 element_template="et_speedonmap">
+</layer>
+
+;speed on map display (vertical)
+<layer ui_NavigateMapCurrentSpeedV z=50 x=0 y=0 HIDE>
+	; speed and speed limit
+	<SPRITE          xxx          x=0  y=0  z=1  bmp="sp_map_bg_v.bmp" alpha=16 visiblemodel="ui.bSpeedBGShow">
+	<DYNAMICELEMENT  deNMS_Vert   x=0  y=0  z=5 element_template="et_speedonmap">
+</layer>
+
+;speed on map display (horizontal)
+<layer ui_NavigateMapCurrentSpeedH z=50 x=0 y=0 HIDE>
+	; speed and speed limit
+	<SPRITE          xxx          x=0  y=80 z=1  bmp="sp_map_bg.bmp" alpha=16 visiblemodel="ui.bSpeedBGShow">
+	<DYNAMICELEMENT  deNMS_Horz   x=80 y=80 z=5 element_template="et_speedonmap">
+</layer>
+
+<script sc_initspeedonmap>
+	ui_NavigateMapCurrentSpeed.visiblemodel ""
+	ui_NavigateMapCurrentSpeedV.visiblemodel ""
+	ui_NavigateMapCurrentSpeedH.visiblemodel ""
+	ui_NavigateMapCurrentSpeed.HIDE
+	ui_NavigateMapCurrentSpeedV.HIDE
+	ui_NavigateMapCurrentSpeedH.HIDE
+	termif bSpeedShow 0 sc_initspeedonmap
+	termif vPanelOpen 1 sc_initspeedonmap
+
+	; resolution-dependent script
+	run sc_speedonmap_pos
+
+	ui_NavigateMapCurrentSpeed.visiblemodel "navigation.current_speed.value>0&!ui.bSpeedLimitVisible"
+	runif bVertspedInfo 1 'ui_NavigateMapCurrentSpeedV.visiblemodel "navigation.current_speed.value>0&ui.bSpeedLimitVisible"'
+	else_run              'ui_NavigateMapCurrentSpeedH.visiblemodel "navigation.current_speed.value>0&ui.bSpeedLimitVisible"'
+</script>

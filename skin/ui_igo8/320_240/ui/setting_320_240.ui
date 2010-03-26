@@ -531,13 +531,14 @@ import "ui_igo8/320_240/ui/speedcam_setting_320_240.ui"
 ; Warnings ******************************************************************************************************
 ;****************************************************************************************************************
 
+;!Raffke_jr - applied new templates
 <layer ui_SettingWarnings z=30>
- 	<CHECKBOX  xxx                   template=chk_5b	 y=21  text="Overspeed warning"  boolmodel="warning.speedlimit_warning">
-	<BUTTON    xxx                   template=btn_5d	 y=21  text="..."  onrelease='NEXTSTATE st_SettingWarningsOverSpeed' enabledmodel="warning.speedlimit_warning">
-	<CHECKBOX  chk_WarnInPredest     template=chk_5a	 y=57 text="Warn in pedestrian mode" boolmodel="warning.pedestrian_warning" onselect='run sc_SetPedestrianWarning'>
-	<CHECKBOX  chk_safetymode        template=chk_5a	 y=93  text="Safety Mode" onrelease='run sc_safemode_switch' nostress>
-	<CHECKBOX  chk_SpeedCamWarning   template=chk_5b         y=129  text="Speed camera warning"  onselect='run sc_SettingWarningsCheckSpeedCamEula' ondeselect='run sc_SpeedcamWarningDisabled' visiblemodel="warning.speedcams_allowed">
-	<BUTTON    btn_SpeedCamWarning   template=btn_5d	 y=129  text="..."  onrelease='NEXTSTATE st_SettingWarningsSpeedCam' enabledmodel="warning.speedcam_warning" visiblemodel="warning.speedcams_allowed">
+ 	<CHECKBOX  xxx                   template=chk_5b	 template=y_1  text="Overspeed warning"  boolmodel="warning.speedlimit_warning">
+	<BUTTON    xxx                   template=btn_5d	 template=y_1  text="..."  onrelease='NEXTSTATE st_SettingWarningsOverSpeed' enabledmodel="warning.speedlimit_warning">
+	<CHECKBOX  chk_WarnInPredest     template=chk_5a	 template=y_2 text="Warn in pedestrian mode" boolmodel="warning.pedestrian_warning" onselect='run sc_SetPedestrianWarning'>
+	<CHECKBOX  chk_safetymode        template=chk_5a	 template=y_3  text="Safety Mode" onrelease='run sc_safemode_switch' nostress>
+	<CHECKBOX  chk_SpeedCamWarning   template=chk_5b         template=y_4  text="Speed camera warning"  onselect='run sc_SettingWarningsCheckSpeedCamEula' ondeselect='run sc_SpeedcamWarningDisabled' visiblemodel="warning.speedcams_allowed">
+	<BUTTON    btn_SpeedCamWarning   template=btn_5d	 template=y_4  text="..."  onrelease='NEXTSTATE st_SettingWarningsSpeedCam' enabledmodel="warning.speedcam_warning" visiblemodel="warning.speedcams_allowed">
 	<BUTTON xxx  template=footer3_3a text="Help"       onrelease='NEXTSTATE st_HelpSettingWarnings'> 
 </layer>
 
@@ -756,7 +757,6 @@ import "ui_igo8/320_240/ui/speedcam_setting_320_240.ui"
 	<TEXT xxx   template=pageindex textmodel_wstr="ui.lstSGT_TimeZones.page_counter">
 	<BUTTON xxx template=prevpage clickmodel="ui.lstSGT_TimeZones.prevpage" enabledmodel="ui.lstSGT_TimeZones.prevpage.valid" template="slow_repeat">
 	<BUTTON xxx template=nextpage clickmodel="ui.lstSGT_TimeZones.nextpage" enabledmodel="ui.lstSGT_TimeZones.nextpage.valid" template="slow_repeat">
-	
 </LAYER>
 
 

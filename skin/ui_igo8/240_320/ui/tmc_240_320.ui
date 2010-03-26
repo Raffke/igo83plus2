@@ -71,6 +71,9 @@
 	<SLIDER sld_tmc_eventlist  template=sld_5a          y=127 z=10   var=vTmcShowOnRoute value="All Events|0|On Route|1" align="CENTER">
 	<TEXT   xxx  template=btntext_magas                 x=17 y=97         text="Event list:" color=#FFFFFF>
 
+;!TB - voice announcement
+	<CHECKBOX xxx  template=chk_5a  template=y_5  text="Voice warning" boolmodel="ui.vTMCVoiceWarning">
+
 	<BUTTON xxx               template=footer3_3a text="" iconspr="icof_help.bmp"  onlongclick='run sc_show_btn_help "Help"'    onrelease='NEXTSTATE st_HelpTmcSettings'> 
 </layer>
 
@@ -131,18 +134,25 @@
 ;==============================
 ; TMC announcement
 
+;!Raffke_jr - visiblemodels for Speedcam
 <element_template et_TmcEvent_Announce>
-	<SPRITE xxx x=22 y=2   z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="*.single_icon&!ui.vOnFlyover">
-	<SPRITE xxx x=12 y=-5  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="!*.single_icon&!ui.vOnFlyover" zoom=800>
-	<SPRITE xxx x=32 y=6  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase2" visiblemodel="!*.single_icon&!ui.vOnFlyover" zoom=800>
+	<SPRITE xxx x=22 y=2   z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="*.single_icon&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible">
+	<SPRITE xxx x=12 y=-5  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase"  visiblemodel="!*.single_icon&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible" zoom=800>
+	<SPRITE xxx x=32 y=6  z=1 bmp="$tmc.spr" phasemodel="*.icon_phase2" visiblemodel="!*.single_icon&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible" zoom=800>
 
-	<TEXT	xxx x=-5  y=18 w=52  z=1 textmodel_wstr="*.roadnumber" template=xtxt3 fontsize=12 fonttype=buttonlabel_menu  font="tahomabd" color=#FFFFFF  visiblemodel="!*.long_roadnumber&!ui.vOnFlyover" align="CENTER">
+	<TEXT	xxx x=-5  y=18 w=52  z=1 textmodel_wstr="*.roadnumber" template=xtxt3 fontsize=12 fonttype=buttonlabel_menu  font="tahomabd" color=#FFFFFF  visiblemodel="!*.long_roadnumber&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible" align="CENTER">
+
+;!Raffke_jr - added to show distance
+;!Raffke_jr - TODO: keep it updated...
+	<TEXT	xxx x=-5  y=38 w=52  z=1 textmodel_wstr="*.distance.full_text" template=xtxt3 fontsize=12 fonttype=buttonlabel_menu  font="tahomabd" color=#FFFFFF  visiblemodel="*.distance.valid&!ui.vOnFlyover&!ui.bSpeedcamWarningVisible" align="CENTER">
 </element_template>
 
 <layer ui_TmcAnnounce w=240 h=183 z=5100 hide>
-	<SPRITE xxx x=75 y=20 w=65 z=1 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol&!ui.vOnFlyover">
+;!Raffke_jr - removed for transparent Cockpit style
+;	<SPRITE xxx x=75 y=20 w=65 z=1 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol&!ui.vOnFlyover">
 	<LIST lstTMC_EventsOnRoute template=glist_TMC x=83 y=38 z=10 row=1 element_template="et_TmcEvent_Announce" listmodel="tmc.events.announced_events" showselection=0>
-	<BUTTON xxx x=75 y=20 w=65 z=15 bmp="cock_infobg2.bmp" onrelease='run sc_TmcAnnounceClicked' alpha=0 clickmodel="tmc.events.announced_events.setcurrent 0" visiblemodel="!ui.vOnFlyover">
+;!Raffke_jr - visiblemodel for Speedcam
+	<BUTTON xxx x=75 y=20 w=65 z=15 bmp="cock_infobg2.bmp" onrelease='run sc_TmcAnnounceClicked' alpha=0 clickmodel="tmc.events.announced_events.setcurrent 0" visiblemodel="!ui.vOnFlyover&!ui.bSpeedcamWarningVisible">
 </layer>
 ;==============================
 <element_template et_TmcEvent_map>

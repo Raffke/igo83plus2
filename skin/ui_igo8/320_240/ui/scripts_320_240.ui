@@ -48,7 +48,7 @@
 </script>
 
 <script sc_Fittoscreen_res>
-		FITROUTETOSCREEN 45 50 260 200
+	FITROUTETOSCREEN 45 50 260 200
 </script>
 
 <script sc_current_TMC_Fittoscreen_res>
@@ -241,7 +241,7 @@
 	btnNMC_Find1.x 11
 	btnNMC_Find_normal.x 8
 	btnNMC_Find_normal1.x 8
-	btnNMC_Recalc.x 6
+
 	sprNMB_GPSWarn.x -3
 	sprNMINextStreetBG.x 75
 	sprNMINextStreetName.x 88
@@ -280,7 +280,7 @@
 	ui_SpeedCamWarningLayer.y 0
 	ui_NavigateMapRouteLaneInfo.x 0
 	ui_NavigateMapRouteLaneInfo.y 0
-	spr_TMC_Status.x 53  
+	spr_TMC_Status.x 53
 	spr_TMC_Status_Basic.x 53
 ;	txt_TMC_StationName.x 76
 	spr_TMC_Status2.x 53

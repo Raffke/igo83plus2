@@ -10,17 +10,12 @@
 
 <layer ui_Header z=30> 
 	<SPRITE xxx bmp="felso.bmp" x=0 y=0   z=10  >
-
 	<SPRITE xxx bmp="also.bmp"  x=0 y=276 z=10  >
-
-
 </layer>
 
 <layer ui_Header2 z=30> 
 	<SPRITE xxx bmp="felso_a.bmp" x=0 y=0 z=10 >
-
 	<SPRITE xxx bmp="also_a.bmp"  x=0 y=277 z=10>
-
 </layer>
 
 <layer ui_Background z=20>
@@ -35,21 +30,23 @@
 
 <layer ui_Title z=3001>
 	<TEXT Title x=42 y=2  w=156 z=160 align="CENTER" text="StateTitle"  fonttype=headerfont fontsize=10>
-	
 	<BUTTON spr_help x=0 y=91 z=1 bmp="pleasewait_bg.bmp" text="" fonttype=wb fontsize=16 font="tahomabd" align="CENTER" onrelease='run sc_hide_btn_help' HIDE>
-
-
-    
 </layer>
 
 <layer ui_Footer z=1000>
-	<BUTTON xxx template=back onrelease='prevstate' onlongclick='run sc_GoTo_MainMenu' rawkey=27>
+;!TB - Added sound and renamed
+	<BUTTON btn_Footer_back template=back onrelease='prevstate' sound="!back" onlongclick='run sc_GoTo_MainMenu' rawkey=27>
 </layer>
 
 <layer ui_Footer2 z=1000>
-	<BUTTON btn_Footer_back2 template=backa z=11   onrelease='prevstate' onlongclick='run sc_GoTo_MainMenu' rawkey=27>
+;!TB - Added sound
+	<BUTTON btn_Footer_back2 template=backa z=11   onrelease='prevstate' sound="!back" onlongclick='run sc_GoTo_MainMenu' rawkey=27>
 </layer>
 
+;!TB - Footer with no sound on back button - to be used in advanced settings
+<layer ui_Footer3 z=1000>
+	<BUTTON xxx template=back onrelease='prevstate' nosound onlongclick='run sc_GoTo_MainMenu' rawkey=27>
+</layer>
 
 <layer ui_MessageBox z=100001 modal>
 	<SPRITE xxx                            x=0   y=0   z=2   bmp="dialog_2_bg.bmp" >
@@ -66,6 +63,7 @@
 	<SPRITE sprEMB_Dialog                    x=0   y=0   z=2   bmp="dialog_2_bg.bmp" >
 	<SPRITE sprEMB_Icon  template=a_rubber   x=40  y=120  z=10  fxshowdelay=10>
 	<SPRITE spr_emsg_bg  x=0 y=0 z=1 bmp="ui_igo8/240_320/default.bmp">
+
 	<TEXT txtEMB_Msg x=70 y=53 z=31 w=150 h=150  text="" align="LEFT" FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=18 wordwrap=5>
 	<BUTTON btnEMB_Exit         template=dialog2_1 text="Exit"   onrelease='nextstate ExitState' rawkey=13> 
 	<BUTTON btnEMB_Cancel       template=dialog2_2 text="Cancel" onrelease='run sc_hideExitMessage' rawkey=27> 
@@ -73,6 +71,24 @@
 	<BUTTON btnEMB_Exit_pda      template=dialog3_1 text="Exit"     onrelease='nextstate ExitState' rawkey=13> 
 	<BUTTON btnEMB_minimize_pda  template=dialog3_2 text="Minimize" onrelease='run sc_hideExitMessage, hide'>
 	<BUTTON btnEMB_Cancel_pda    template=dialog3_3 text="Cancel"   onrelease='run sc_hideExitMessage' rawkey=27> 
+</layer>
+
+;!Raffke_jr - Panic Button
+; available in "Dictionary.lang":
+;	For this you need to restart iGO.
+;	For this you need to restart the software.
+;	Program must be restarted!
+;	The program will restart.
+<layer ui_Panic_MessageBox z=100003 modal>
+	<SPRITE sprPMB_Dialog                    x=0   y=0   z=2   bmp="dialog_2_bg.bmp" >
+	<SPRITE sprPMB_Icon  template=a_rubber   x=40  y=120  z=10  fxshowdelay=10>
+	<SPRITE spr_pmsg_bg  x=0 y=0 z=1 bmp="ui_igo8/240_320/default.bmp">
+
+	<TEXT txtPMB_Msg x=70 y=53 z=31 w=150 h=150  text="For this you need to restart iGO." align="LEFT" FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=18 wordwrap=5>
+
+	<BUTTON btnPMB_Panic    template=dialog3_1 text="Panic"   onrelease='run sc_PanicButton_Execute'> 
+	<BUTTON btnPMB_Restart  template=dialog3_2 text="Restart" onrelease='APP_RESTART'>
+	<BUTTON btnPMB_Cancel   template=dialog3_3 text="Cancel"  onrelease='ui_Panic_MessageBox.hide' rawkey=27>
 </layer>
 
 
@@ -106,7 +122,7 @@
 	<TEXT   xxx  x=0 y=220 w=240 z=5 h=20 align="CENTER" text="$copyright$" font="tahoma" fontsize=11 fonttype=buttonlabel1 REPLACETAGS visiblemodel="ui.vGetUpdates">
 	<BUTTON xxx  template=dialog3_2 x=0 y=235            text="Get updates" onrelease='NEXTSTATE st_AboutUpdate' visiblemodel="ui.vGetUpdates" >               
  
-	<BUTTON  xxx  template=footer4_1a  text=""    iconspr="icof_map.bmp"          onlongclick='run sc_show_btn_help "Maps"' onrelease='NEXTSTATE st_AboutMaps'>
+	<BUTTON  xxx  template=footer4_1a  text=""    iconspr="icof_map.bmp"  onlongclick='run sc_show_btn_help "Maps"' onrelease='NEXTSTATE st_AboutMaps'>
 	<BUTTON  xxx  template=footer4_2a  text="" iconspr="icof_about.bmp"   onlongclick='run sc_show_btn_help "Credits"' onrelease='NEXTSTATE st_AboutCredits'>
 	<BUTTON  xxx  template=footer4_3a  text=""  iconspr="icof_safety.bmp" onlongclick='run sc_show_btn_help "Safety"' onrelease='NEXTSTATE st_AboutSafety'>
 	<BUTTON  xxx  template=footer4_4a  text=""   iconspr="icof_legal.bmp" onlongclick='run sc_show_btn_help "Legal"' onrelease='NEXTSTATE st_AboutLegal'>
@@ -124,7 +140,7 @@
 	<VSMARTSCROLL lbAM_Maps_smartscroll x=-100 bmp="1pxline320.bmp" sprind="1pxline320.bmp" table="lbAM_Maps" hide SLIDER_ABOVE_FRAME_SIZETHUMB>
 	<BUTTON xxx template=prevpage template=slow_repeat onclick='ui.lbAM_Maps.prevpage' enabledmodel="ui.lbAM_Maps.prevpage.valid">
 	<BUTTON xxx template=nextpage template=slow_repeat onclick='ui.lbAM_Maps.nextpage' enabledmodel="ui.lbAM_Maps.nextpage.valid">
-  <TEXT   xxx template=pageindex textmodel_wstr="ui.lbAM_Maps.page_counter">
+	<TEXT   xxx template=pageindex textmodel_wstr="ui.lbAM_Maps.page_counter">
 </layer>
 
 <layer ui_AboutMapDetails orientation="L2R" font="tahomabd" fontsize=18 z=300 x=0 y=0 w=240 h=320>
@@ -141,8 +157,6 @@
 	<TEXT txtAMD_MapDetail2 x=20 y=185 w=200 h=20 text="" align="CENTER" font="tahoma" fontsize=14 fonttype=buttonlabel1>
 	<TEXT txtAMD_MapDetail3 x=20 y=205 w=200 h=20 text="" align="CENTER" font="tahoma" fontsize=14 fonttype=buttonlabel1>
 	<TEXT txtAMD_MapDetail4 x=20 y=225 w=200 h=20 text="" align="CENTER" font="tahoma" fontsize=14 fonttype=buttonlabel1>
-
-
 </layer>
 
 <element_template et_License>
@@ -167,14 +181,13 @@
 	<layer disable_layer_dcare type="disable" z=31 x=0 y=0 w=240>
 </header>
 
-
 <layer ui_drive_carefully_xhtml type="xhtml" filename="i18n/drive_carefully.xhtml" align="LEFT" orientation="L2R" font="tahomabd" fonttype=bw fontsize=14 z=50 x=15 y=0 w=210 h=17000 view_top=30 view_bottom=315>  
   
 </layer>
 
 <layer ui_drive_carefully_bg z=100000>
   	<SPRITE spr_dc_bg x=0 y=0 z=1 bmp="ui_igo8/240_320/default.bmp">	
-    <SPRITE xxx   bmp="xhtml_bg.bmp" x=0 y=10 z=1>
+	<SPRITE xxx   bmp="xhtml_bg.bmp" x=0 y=10 z=1>
 </layer>
 
 
@@ -183,11 +196,11 @@
 </layer>
 
 <script sc_hide_btn_help>
-  spr_Help.HIDE
+	spr_Help.HIDE
 </script>
 
 <script sc_show_btn_help>
-  spr_help.set $1
-  spr_Help.show
-  70 run sc_hide_btn_help
+	spr_help.set $1
+	spr_Help.show
+	70 run sc_hide_btn_help
 </script>

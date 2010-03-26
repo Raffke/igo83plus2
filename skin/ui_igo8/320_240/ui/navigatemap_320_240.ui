@@ -12,6 +12,11 @@
 <TEMPLATE btn_map x=274 w=30   font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5">
 
 ;****************************************************************************************************************
+;!TB, di/\/\ka - speed on map display
+;****************************************************************************************************************
+import "ui_igo8/320_240/ui/navigate_speed_320_240.ui"
+
+;****************************************************************************************************************
 
 <layer ui_NavigateMapButtons z=3000>
 ;!Raffke_jr - removed "navigation.car_pos_valid&!ui.vOnFlyover" from visiblemodel="ui.vDiriconVisible", changed bmp from "startnavi.bmp" to use full size to click
@@ -38,7 +43,7 @@
 ;!Raffke_jr - PlanMode on long click
 	<BUTTON btnNMB_Detour  template=btn_map bmp="$4scr_route.bmp#2"    y=70  text="Detour" onrelease='nextstate st_Detour' onlongclick='run sc_StartPlanMode'>
 
-;!TB - "Find" on long click
+;!TB - 2x "Find" on long click
 	<BUTTON btnNMB_Cursor  template=btn_map bmp="$4scr_use_cur.bmp#2"  y=119 text="Cursor" onrelease='nPlaceForPos.set 0, run sc_btnNMB_Use_OnRelease' onlongclick='run sc_OpenFindMenu'>
 	<BUTTON btnNMB_Pos     template=btn_map bmp="$4scr_use.bmp#2"      y=119 text="Pos."   onrelease='nPlaceForPos.set 1, run sc_btnNMB_Pos_OnRelease' onlongclick='run sc_OpenFindMenu'>
 
@@ -49,10 +54,11 @@
 
 ;!TB, di/\/\ka
 <layer ui_NavigateMapCompass z=3000 hide>
-	<VSPRITE vspr_compass3d_on_map vec="$compass3d.vpr"   x=275 y=22  z=40 rotatemodel="map.rotation_angle">
-	<SPRITE  vspr_compass2d_on_map bmp="$northlock.spr#2" x=286 y=31  z=40 phase=0 hide>
+	<VSPRITE vspr_compass3d_on_map  vec="$compass3d.vpr"   x=275 y=22  z=40 rotatemodel="map.rotation_angle">
+	<VSPRITE vspr_compass2d_on_map  vec="$compass2d.vpr"   x=275 y=22  z=40 rotatemodel="map.rotation_angle" hide>
+	<SPRITE  vspr_compass2dn_on_map bmp="$northlock.spr#2" x=286 y=31  z=40 phase=0 hide>
 ;!Raffke_jr - changed onlongclick for OverviewMode
-	<BUTTON  sprNMB_Compass  template=btn_map  bmp="$4scr_empty.bmp#2" y=21  onrelease='run feature_switch_3D' onlongclick='run sc_FitToScreen_Cockpit'>
+	<BUTTON  sprNMB_Compass  template=btn_map  bmp="$4scr_empty.bmp#2" y=21  onrelease='run sc_btnBMC_Compass_OnRelease' onlongclick='run sc_FitToScreen_Cockpit'>
 </layer>
 
 ;!TB, di/\/\ka - new layer
@@ -88,7 +94,7 @@
 
 <script sc_GoItinerOnMap>
 	map.ISROUTEVALID vValidRoute vDeletableRoute
-    runif vValidRoute 1 'NEXTSTATE st_RouteItinerary'
+	runif vValidRoute 1 'NEXTSTATE st_RouteItinerary'
 </script>
 
 <layer ui_NavigateMapZoomControls3D z=50000 visiblemodel="ui.vPresetOn&!ui.vHideZoomControls&ui.vMapModeBool">
@@ -101,7 +107,6 @@
 	
 	<BUTTON     xxx x=0   y=0 z=0 bmp="ges_rot1.bmp#3"  onClick='START_STOP_ROTATE 0 1,run sc_NaviMenuAlphaRe_term' onRelease='START_STOP_ROTATE 0 0,run sc_NaviMenuTimerInit' onMouseLeave='START_STOP_ROTATE 0 0,run sc_NaviMenuTimerInit'>
 	<BUTTON     xxx x=35  y=0 z=0 bmp="ges_rot3.bmp#3"  onClick='START_STOP_ROTATE 1 1,run sc_NaviMenuAlphaRe_term' onRelease='START_STOP_ROTATE 1 0,run sc_NaviMenuTimerInit' onMouseLeave='START_STOP_ROTATE 1 0,run sc_NaviMenuTimerInit'>
-	
 </layer>
 
 <layer ui_NavigateMapBT z=50000 visiblemodel="other.bluetooth.available|other.phone.available">
@@ -194,7 +199,7 @@
 	<SPRITE xxx           x=12 y=80  z=10 iconmodel="navigation.secondary_direction_icon" iconindex=2 visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&navigation.secondary_direction_icon.valid&!ui.vRouteCalculation&ui.bShowSecondaryDistance" zoom=512>
 	
 ;!TB - moved to a separate layer
-;	<SPRITE sprLaneInfo x=84 y=199 w=220 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.bLaneinfoSignpostValid&!ui.vPresetOn">	
+;	<SPRITE sprLaneInfo x=84 y=199 w=220 z=10 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.bLaneinfoSignpostValid&!ui.vPresetOn">
 	
 	<TEXT sprNMRDiriconDist template=xtxt x=3   y=-6   z=10 w=50 h=30 font="tahomabd" glowsize=1 fontsize=20 color=#FFFFFF color2=#000000 align="CENTER" fixedwidthnumbers=1 textmodel_wstr="navigation.distance_to_manuver.number_text" visiblemodel="navigation.distance_to_manuver.valid&!ui.vRouteCalculation&navigation.car_on_planned_route">
 ;!Raffke_jr - added glowsize, color2
@@ -347,11 +352,12 @@
 ;!Raffke_jr - copied from ui_NavigateMapSettingsDestination (text="Destination")
 	<TEXT xxx x=19 y=2 w=211 align="CENTER" text="Settings" fonttype=headerfont fontsize=10>
 
-;!Raffke_jr - copied from ui_NavigateMapSettingsCruise & changed names
+;!Raffke_jr - positions from ui_NavigateMapSettingsCruise
 	<SPRITE xxx bmp="trip1.bmp" x=0   y=37  z=0>
 	<SPRITE xxx bmp="trip2.bmp" x=0   y=89  z=0>
 	<SPRITE xxx bmp="trip3.bmp" x=0   y=141 z=0>
 
+;!Raffke_jr - copied from ui_NavigateMapSettingsCruise & changed names
 	<PUSHBUTTON pbtnc_t4      template=txt_hud_value_right bmp="trip4.bmp"  y=37  var="10" iconvalign="CENTER"  iconalign="RIGHT-1" textmodel_time="gps.current_time"  formatmodel="local.short_timeformat" dayperiod=1 CHECKHIT>
 	<TEXT xxx        template=txt_hud_label_right  y=40   text="GPS time"  >    
 

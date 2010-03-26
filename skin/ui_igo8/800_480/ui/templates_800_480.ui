@@ -1,3 +1,6 @@
+;!TB_MR - Import new templates
+import "ui_igo8/800_480/ui/templates_advanced_800_480.ui"
+
 <TEMPLATE btnmapmenu template=a_yzoomin    bmp="btn_lb_4d_map.bmp#2"  fonttype=bw font="tahoma" padding=6 valign="center" fontsize=22 clicked_coloring=1>
 
 <TEMPLATE btnlauncher template=a_yzoomin    bmp="4_2_all.bmp#12"  fonttype=bw font="tahoma" padding=6 valign="center" fontsize=14 clicked_coloring=1>

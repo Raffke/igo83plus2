@@ -22,13 +22,23 @@
 	<TEXT txtRI_TimeLeft    template=xtxt3 x=20  y=142 w=90 font="tahomabd" fontsize=16 color=#FFFFFF align="RIGHT">
 	<TEXT txtRI_Arrive      template=xtxt3 x=20  y=92  w=90 font="tahomabd" fontsize=16 color=#FFFFFF align="RIGHT">
 	<TEXT txtRI_Method      template=xtxt3 x=138 y=142 w=90 font="tahomabd" fontsize=16 color=#FFFFFF align="RIGHT">
+;!Raffke_jr - new invisible button, MultiplanDest on Longclick
+;!Raffke_jr - TODO: change button (size) to fit portrait text
+	<BUTTON btn_RI_Method x=122 y=119 z=100 alpha=0 text="" bmp="btn_4f.bmp" onRelease='run sc_btn_RI_Method_OnRelease' onlongclick='run btnPMP_MultiplanDest_OnRelease' visiblemodel="!ui.vOnFlyover">
 	<TEXT txtRI_Stops hide>
 
-	<BUTTON btnRI_Settings  template=footer3_1a text="" iconspr="icof_settings.bmp"    onlongclick='run sc_show_btn_help "Settings"' onrelease='NEXTSTATE st_SettingRoute' visiblemodel="!ui.nUserMode">
+;!Raffke_jr - replaced "Settings" by "Edit Route"
+;	<BUTTON btnRI_Settings  template=footer3_1a text="" iconspr="icof_settings.bmp"    onlongclick='run sc_show_btn_help "Settings"' onrelease='NEXTSTATE st_SettingRoute' visiblemodel="!ui.nUserMode">
+	<BUTTON btnRI_EditRoute template=footer3_1a text="" iconspr="icof_edit.bmp#3"      onlongclick='run sc_show_btn_help "Edit Route"' onrelease='NEXTSTATE st_RouteEdit' visiblemodel="!ui.nUserMode">
 	<BUTTON btnRI_Fit       template=footer3_2a text="" iconspr="icof_fittoscreen.bmp" onlongclick='run sc_show_btn_help "Plan Mode"' onrelease='run sc_StartPlanMode' visiblemodel="!ui.nUserMode"> 
 
-	<BUTTON btn_RI_SkipNextVia    template=footer3_3a text=""	iconspr="icof_skipnextvia.bmp" onlongclick='run sc_show_btn_help "Skip next via"' onrelease='SKIPNEXTVIAPOINT, run sc_RefreshRouteInfo' visiblemodel="!ui.nUserMode"> 
-	<BUTTON btn_RI_DelRoute       template=footer3_3a text=""  iconspr="icof_delroute.bmp"  			onlongclick='run sc_show_btn_help "Delete route"' onrelease='vNeedPrevState.set 1, run sc_btnARM_Delete_OnRelease' visiblemodel="!ui.nUserMode"> 
+;!Raffke_jr - replaced "SkipNextVia"/"DelRoute" by "Route Menu", changed from footer 3_1a to 4-btn template
+;	<BUTTON btn_RI_SkipNextVia    template=footer3_3a text=""	iconspr="icof_skipnextvia.bmp" onlongclick='run sc_show_btn_help "Skip next via"' onrelease='SKIPNEXTVIAPOINT, run sc_RefreshRouteInfo' visiblemodel="!ui.nUserMode"> 
+;	<BUTTON btn_RI_DelRoute       template=footer3_3a text=""  iconspr="icof_delroute.bmp"  			onlongclick='run sc_show_btn_help "Delete route"' onrelease='vNeedPrevState.set 1, run sc_btnARM_Delete_OnRelease' visiblemodel="!ui.nUserMode"> 
+	<BUTTON btnRI_RouteMenu       template=footer3_3a text=""  iconspr="icof_settings.bmp"  			onlongclick='run sc_show_btn_help "Route Menu"' onrelease='CLEARTOSTATE st_AdvRouteMenu, NEXTSTATE st_AdvRouteMenu' visiblemodel="!ui.nUserMode"> 
+
+;!TB - Added Recalc button
+;	<BUTTON btn_RI_Recalc   template=footer4_3a text="Recalc"  onrelease='FINDPATH_RECALC, run sc_RefreshRouteInfo, runif vPlanModeOn 1 sc_FitToScreen_PlanMode'  visiblemodel="!ui.nUserMode">
 
 	<BUTTON btnRI_Settings_basic  template=footer2_1a text="" iconspr="icof_settings.bmp"    onlongclick='run sc_show_btn_help "Settings"' onrelease='NEXTSTATE st_SettingRoute' visiblemodel="ui.nUserMode">
 
@@ -43,7 +53,9 @@
 <element_template et_itinerentry>	
 	<SPRITE xxx x=5 y=0 valign="CENTER" h=50 z=20 iconindex=1 iconmodel="*.icon_id" visiblemodel="*.icon_visible"> ;így VGA-ban is középen lesz az ikon
 	<SPRITE xxx x=5 y=0 valign="CENTER" h=50 z=20 iconmodel="*.icon_small_id" visiblemodel="!*.icon_visible">
-	<BUTTON btnETItinerEntry%ID% template=btn_4a clickmodel="route.itiner.list.setcurrent $i" onrelease='NEXTSTATE st_RouteItineraryMap, run sc_RItMNew_go_to_current_loc'>
+
+;!Raffke_jr - disabled during flyover
+	<BUTTON btnETItinerEntry%ID% template=btn_4a clickmodel="route.itiner.list.setcurrent $i" onrelease='NEXTSTATE st_RouteItineraryMap, run sc_RItMNew_go_to_current_loc' enabledmodel="!ui.vOnFlyover">
 	<TEXT txtETItinerEntryCrossing%ID% template=xtxt3 watchstate=btnETItinerEntry%ID% z=20 align="LEFT" valign="TOP" y=5 fontsize=16 textmodel_wstr="*.cross_count" visiblemodel="*.distance_visible">
 	<TEXT txtETItinerEntryLength%ID% template=xtxt3 watchstate=btnETItinerEntry%ID% z=20 w=145 align="LEFT" valign="TOP" y=5 fontsize=16 textmodel_wstr="*.length.full_text" visiblemodel="*.distance_visible">
 	<ALIGNER xxx align="LEFT" x=50 control=txtETItinerEntryCrossing%ID% padding=5 control=txtETItinerEntryLength%ID%>
@@ -62,7 +74,12 @@
 </layer>
 
 <element_template et_RE_WayPoint>
-	<BUTTON xxx template=btn_4b  textmodel_wstr="*.name" clickmodel="navigation.waypoints.list.setcurrent $i" selectable>
+;!Raffke_jr - applied new template
+	<BUTTON xxx template=btn_REWP_txt textmodel_wstr="*.name" clickmodel="navigation.waypoints.list.setcurrent $i" selectable>
+
+;!TB - Added "Remove" button
+;!Raffke_jr - visiblemodel from enabledmodel at new Remove button
+	<BUTTON xxx template=btn_REWP_del clickmodel="navigation.waypoints.list.setcurrent $i" onrelease='run sc_btnRE_Remove_OnRelease' enabledmodel="!*.isempty" enabledmodel="$i!=0|navigation.waypoints.start_is_user_selected&navigation.waypoints.is_route_valid" usefocus=0>
 </element_template>
 
 <LAYER ui_RouteEdit z=30>
@@ -76,7 +93,10 @@
 	<BUTTON xxx          template=prevpage clickmodel="ui.lstRE_WayPoints.prevpage"  enabledmodel="ui.lstRE_WayPoints.prevpage.valid" template="slow_repeat">
 	<BUTTON xxx          template=nextpage clickmodel="ui.lstRE_WayPoints.nextpage"  enabledmodel="ui.lstRE_WayPoints.nextpage.valid" template="slow_repeat">
 
-	<BUTTON btnRE_Remove   template=footer4_1a text="" iconspr="icof_clear.bmp#3"  clickmodel="navigation.waypoints.delete_current" enabledmodel="ui.lstRE_WayPoints.current_index!=0|navigation.waypoints.start_is_user_selected&navigation.waypoints.is_route_valid" onrelease='run sc_RemovePoint'>
+;!TB - Replaced Remove by Add Via button
+;	<BUTTON btnRE_Remove   template=footer4_1a text="" iconspr="icof_clear.bmp#3"  clickmodel="navigation.waypoints.delete_current" enabledmodel="ui.lstRE_WayPoints.current_index!=0|navigation.waypoints.start_is_user_selected&navigation.waypoints.is_route_valid" onrelease='run sc_RemovePoint'>
+	<BUTTON btnRE_Add      template=footer4_1a text="" iconspr="icof_edit.bmp#3"  visiblemodel="!ui.nUserMode" onrelease='run sc_btnRE_Add_OnRelease'>
+
 	<BUTTON btnRE_Optimize template=footer4_2a text="" iconspr="icof_smiley.bmp#3" clickmodel="navigation.waypoints.optimize" enabledmodel="navigation.waypoints.optimize.valid">
 	<TEXT xxx   template=pageindex textmodel_wstr="ui.lstRE_WayPoints.page_counter">
 </layer>

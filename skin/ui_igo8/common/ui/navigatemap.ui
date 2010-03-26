@@ -50,11 +50,6 @@
 </script>
 
 ;****************************************************************************************************************
-;!TB, di/\/\ka - speed on map display
-;****************************************************************************************************************
-import "ui_igo8/common/ui/navigate_speed.ui"
-
-;****************************************************************************************************************
 <state st_PointOnMap>
 	<uselayer map/>
 	;<uselayer ui_Header2/>
@@ -162,12 +157,13 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 ;	runif vUIRes "800_480" 'statusSound.x 280'
 ;	runif vUIRes "480_800" 'chk_quick3d.x 120' 
 
-;!TB - Full Screen cockpit buttons
-;!Raffke_jr - added 400_240 and 480_234
+;!Raffke_jr - Full Screen cockpit buttons
+	runif vUIRes "240_320" 'statusSound.x 65'
 	runif vUIRes "320_240" 'statusSound.x 162, btnCS_Mode_Cockpit.x	 57'
 	runif vUIRes "400_240" 'statusSound.x 212, btnCS_Mode_Cockpit.x	 87'
 	runif vUIRes "480_234" 'statusSound.x 243, btnCS_Mode_Cockpit.x 108'
 	runif vUIRes "480_272" 'statusSound.x 243, btnCS_Mode_Cockpit.x 108'
+	runif vUIRes "800_480" 'statusSound.x 412, btnCS_Mode_Cockpit.x	152'
 </script>
 
 <script sc_SetCockpitStatusAdvMode>
@@ -183,12 +179,13 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 ;	runif vUIRes "800_480" 'statusSound.x 150'
 ;	runif vUIRes "480_800" 'chk_quick3d.x 245'
 
-;!TB - Full Screen cockpit buttons
-;!Raffke_jr - added 400_240 and 480_234
+;!Raffke_jr - Full Screen cockpit buttons
+	runif vUIRes "240_320" 'statusSound.x   7,                          btnMT_Record_Cockpit.x 122, btnMT_Stop_Cockpit.x 122'
 	runif vUIRes "320_240" 'statusSound.x 110, btnCS_Mode_Cockpit.x	 5, btnMT_Record_Cockpit.x 215, btnMT_Stop_Cockpit.x 215'
 	runif vUIRes "400_240" 'statusSound.x 150, btnCS_Mode_Cockpit.x 25, btnMT_Record_Cockpit.x 275, btnMT_Stop_Cockpit.x 275'
 	runif vUIRes "480_234" 'statusSound.x 175, btnCS_Mode_Cockpit.x 40, btnMT_Record_Cockpit.x 310, btnMT_Stop_Cockpit.x 310'
 	runif vUIRes "480_272" 'statusSound.x 175, btnCS_Mode_Cockpit.x 40, btnMT_Record_Cockpit.x 310, btnMT_Stop_Cockpit.x 310'
+	runif vUIRes "800_480" 'statusSound.x 280, btnCS_Mode_Cockpit.x 22, btnMT_Record_Cockpit.x 542, btnMT_Stop_Cockpit.x 542'
 </script>
 
 
@@ -252,7 +249,8 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 	else_runif nVehicle 1 'btnMR_vehicle.iconspr "vhcl_taxi.bmp"'
 	else_runif nVehicle 2 'btnMR_vehicle.iconspr "vhcl_bus.bmp"'
 ;!TB 0.4d - Changed to truck icon for nVehicle=3
-	else_runif nVehicle 3 'btnMR_vehicle.iconspr "vhcl_truck_big.bmp"'
+;!Sib - changed bmp from "vhcl_truck_big.bmp"
+	else_runif nVehicle 3 'btnMR_vehicle.iconspr "vhcl_truck.bmp"'
 	else_runif nVehicle 4 'btnMR_vehicle.iconspr "vhcl_emr.bmp"'
 	else_runif nVehicle 5 'btnMR_vehicle.iconspr "vhcl_ped.bmp"'
 	else_runif nVehicle 6 'btnMR_vehicle.iconspr "vhcl_bic.bmp"'

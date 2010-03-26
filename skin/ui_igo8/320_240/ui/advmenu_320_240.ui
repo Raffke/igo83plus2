@@ -11,11 +11,11 @@
 	<BUTTON btnAFM_Favorite template=menu6_6 iconspr="ico_find_favorites.bmp" fxshowdelay=11  text="My Favorites"     onrelease='run sc_FindFavorite' enabledmodel="!mydata.favorites.isempty"> 
 	                                    
 ;!TB - Added visiblemodel
-;!Raffke_jr MR - changed template from footer_2_2 to add Work button
+;!Raffke_jr MR - changed template from footer2_2 to add Work button
 	<BUTTON btnAFM_PlanMode template=footer3_3 text="Plan Mode"     onrelease='run sc_StartPlanMode' visiblemodel="!ui.vAddFromDoneScript">
 
 ;!TB - Added Find on Map button
-;!Raffke_jr MR - changed template from footer_2_2 to add Work button; changed visiblemodel when called from PlanOnMap
+;!Raffke_jr MR - changed template from footer2_2 to add Work button; changed visiblemodel when called from PlanOnMap
 	<BUTTON btnAFM_Map      template=footer3_3 text="Map search"    onrelease='run sc_OpenMapAfterFind' visiblemodel="ui.vAddFromDoneScript&ui.vAddFromDoneScript!=1">
 
 ;!TB - Added Home button

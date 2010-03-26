@@ -1,3 +1,7 @@
+;!TB_MR - Import new templates
+import "ui_igo8/240_320/ui/templates_advanced_240_320.ui"
+
+
 <TEMPLATE btnmapmenu template=a_yzoomin    bmp="btn_lb_4d_map.bmp#2"  fonttype=bw font="tahoma"   padding=6 valign="center" align="LEFT+30" fontsize=12 clicked_coloring=1>
 
 <TEMPLATE btnlauncher template=a_yzoomin    bmp="4_2_all.bmp#12"  fonttype=bw font="tahoma" padding=6 valign="center" fontsize=14 clicked_coloring=1>
@@ -259,8 +263,8 @@
 <TEMPLATE spr_empty    x=13  y=125  bmp="empty_textbox.bmp" >; amikor egy lista ures ez jelenik meg helyette
 
 <TEMPLATE txt_map    x=5   y=0 h=20 w=230 align="CENTER" valign="CENTER" fontsize=14 font="tahomabd" color=#FFFFFF color2=#000000 color3=#000000 glowsize=1>; actualstreet, housenumber, nextstreet (mas y-nal), stb
-;!Raffke_jr - removed x=80, w=50, align="CENTER" to work with ALIGNER
-<TEMPLATE txt_sec          y=50  z=1 h=20                valign="BOTTOM" fontsize=12 font="tahomabd" color=#FFFFFF >;secondary diriconon pl. a manover, speedcam tavolsag, ...
+;!Raffke_jr - added color2, color3, glowsize
+<TEMPLATE txt_sec    x=80  y=50       z=1 w=50 h=20   align="CENTER" valign="BOTTOM" fontsize=12 font="tahomabd" color=#FFFFFF color2=#000000 color3=#000000 glowsize=1>;secondary diriconon pl. a manover, speedcam tavolsag, ...
 
 <TEMPLATE help_text x=13 z=36 w=214 h=20000 fontsize=18 font="tahomabd" fonttype=xhtml_ft align="CENTER" orientation="L2R"  view_top=27 view_bottom=258>; az xhtml alapu szovegek, help, about, legal, stb
 

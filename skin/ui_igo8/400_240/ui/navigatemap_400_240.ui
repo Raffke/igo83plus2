@@ -12,6 +12,11 @@
 <TEMPLATE btn_map x=354 w=30 font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5">
 
 ;****************************************************************************************************************
+;!TB, di/\/\ka - speed on map display
+;****************************************************************************************************************
+import "ui_igo8/400_240/ui/navigate_speed_400_240.ui"
+
+;****************************************************************************************************************
 
 <layer ui_NavigateMapButtons z=3000>
 ;!Raffke_jr - removed "navigation.car_pos_valid&!ui.vOnFlyover" from visiblemodel="ui.vDiriconVisible", changed bmp from "startnavi.bmp" to use full size to click
@@ -49,10 +54,11 @@
 
 ;!TB, di/\/\ka
 <layer ui_NavigateMapCompass z=3000 hide>
-	<VSPRITE vspr_compass3d_on_map vec="$compass3d.vpr"   x=355 y=22  z=40 rotatemodel="map.rotation_angle">
-	<SPRITE  vspr_compass2d_on_map bmp="$northlock.spr#2" x=366 y=31  z=40 phase=0 hide>
+	<VSPRITE vspr_compass3d_on_map  vec="$compass3d.vpr"   x=355 y=22  z=40 rotatemodel="map.rotation_angle">
+	<VSPRITE vspr_compass2d_on_map  vec="$compass2d.vpr"   x=355 y=22  z=40 rotatemodel="map.rotation_angle" hide>
+	<SPRITE  vspr_compass2dn_on_map bmp="$northlock.spr#2" x=366 y=31  z=40 phase=0 hide>
 ;!Raffke_jr - changed onlongclick for OverviewMode
-	<BUTTON  sprNMB_Compass  template=btn_map  bmp="$4scr_empty.bmp#2" y=21  onrelease='run feature_switch_3D' onlongclick='run sc_FitToScreen_Cockpit'>
+	<BUTTON  sprNMB_Compass  template=btn_map  bmp="$4scr_empty.bmp#2" y=21  onrelease='run sc_btnBMC_Compass_OnRelease' onlongclick='run sc_FitToScreen_Cockpit'>
 </layer>
 
 ;!TB, di/\/\ka - new layer
@@ -300,7 +306,7 @@
 	<PUSHBUTTON pbtn_t5 bmp="trip5.bmp" template=txt_hud_value_right y=93 iconvalign="CENTER"  iconalign="RIGHT-1" var="11" combined_textmodel="$navigation.current_altitude.number_text$ $navigation.current_altitude.unit_text$" CHECKHIT>
 	<TEXT xxx                       template=txt_hud_label_right y=96  text="Altitude">    
 	
-	<PUSHBUTTON pbtn_t6 bmp="trip6.bmp" template=txt_hud_value_right y=145iconvalign="CENTER"  iconalign="RIGHT-1" var="9" textmodel_wstr="navigation.current_speed_limit.full_text" CHECKHIT>
+	<PUSHBUTTON pbtn_t6 bmp="trip6.bmp" template=txt_hud_value_right y=145 iconvalign="CENTER"  iconalign="RIGHT-1" var="9" textmodel_wstr="navigation.current_speed_limit.full_text" CHECKHIT>
 	<TEXT xxx                       template=txt_hud_label_right y=148 text="Speed limit">    
 
 
@@ -353,7 +359,7 @@
 	<PUSHBUTTON pbtnc_t5 bmp="trip5.bmp" template=txt_hud_value_right y=93 iconvalign="CENTER"  iconalign="RIGHT-1" var="11" combined_textmodel="$navigation.current_altitude.number_text$ $navigation.current_altitude.unit_text$" CHECKHIT>
 	<TEXT xxx                       template=txt_hud_label_right y=96  text="Altitude">    
 	
-	<PUSHBUTTON pbtnc_t6 bmp="trip6.bmp" template=txt_hud_value_right y=145iconvalign="CENTER"  iconalign="RIGHT-1" var="9" textmodel_wstr="navigation.current_speed_limit.full_text" CHECKHIT>
+	<PUSHBUTTON pbtnc_t6 bmp="trip6.bmp" template=txt_hud_value_right y=145 iconvalign="CENTER"  iconalign="RIGHT-1" var="9" textmodel_wstr="navigation.current_speed_limit.full_text" CHECKHIT>
 	<TEXT xxx                       template=txt_hud_label_right y=148 text="Speed limit">    
 
 

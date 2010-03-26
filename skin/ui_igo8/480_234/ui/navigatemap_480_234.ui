@@ -12,6 +12,11 @@
 <TEMPLATE btn_map x=434 w=30   font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5">
 
 ;****************************************************************************************************************
+;!TB, di/\/\ka - speed on map display
+;****************************************************************************************************************
+import "ui_igo8/480_234/ui/navigate_speed_480_234.ui"
+
+;****************************************************************************************************************
 
 <layer ui_NavigateMapButtons z=3000>
 ;!Raffke_jr - removed "navigation.car_pos_valid&!ui.vOnFlyover" from visiblemodel="ui.vDiriconVisible", changed bmp from "startnavi.bmp" to use full size to click
@@ -49,10 +54,11 @@
 
 ;!TB, di/\/\ka
 <layer ui_NavigateMapCompass z=3000 hide>
-	<VSPRITE vspr_compass3d_on_map vec="$compass3d.vpr"   x=435 y=20  z=40 rotatemodel="map.rotation_angle">
-	<SPRITE  vspr_compass2d_on_map bmp="$northlock.spr#2" x=446 y=29  z=40 phase=0 hide>
+	<VSPRITE vspr_compass3d_on_map  vec="$compass3d.vpr"   x=435 y=20  z=40 rotatemodel="map.rotation_angle">
+	<VSPRITE vspr_compass2d_on_map  vec="$compass2d.vpr"   x=435 y=20  z=40 rotatemodel="map.rotation_angle" hide>
+	<SPRITE  vspr_compass2dn_on_map bmp="$northlock.spr#2" x=446 y=29  z=40 phase=0 hide>
 ;!Raffke_jr - changed onlongclick for OverviewMode
-	<BUTTON  sprNMB_Compass  template=btn_map  bmp="$4scr_empty.bmp#2" y=19  onrelease='run feature_switch_3D' onlongclick='run sc_FitToScreen_Cockpit'>
+	<BUTTON  sprNMB_Compass  template=btn_map  bmp="$4scr_empty.bmp#2" y=19  onrelease='run sc_btnBMC_Compass_OnRelease' onlongclick='run sc_FitToScreen_Cockpit'>
 </layer>
 
 ;!TB, di/\/\ka - new layer
@@ -146,7 +152,9 @@
 </layer>
 
 <layer ui_NavigateMapSingpost z=5100 visiblemodel="!map.globe_mode">
-	<SPRITE sprLaneInfoSignpost x=84 y=0 w=397 z=400 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.vPresetOn">
+;!Raffke_jr - modified x/w according to Kallesilva's comments
+;	<SPRITE sprLaneInfoSignpost x=84 y=0 w=397 z=400 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.vPresetOn">
+	<SPRITE sprLaneInfoSignpost x=74 y=0 w=259 z=400 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.vPresetOn">
 </layer>
 
 <layer ui_NavigateMapCursorPosInfos z=50>
