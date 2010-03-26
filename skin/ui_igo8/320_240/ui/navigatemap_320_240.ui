@@ -173,12 +173,13 @@ import "ui_igo8/320_240/ui/navigate_speed_320_240.ui"
 ;!Raffke_jr - added name, onrelease, onlongclick and moved right by 5
 	<SPRITE sprNMINextStreetBG   bmp="blackstripe.bmp" x=75 y=0 z=0 visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|!navigation.car_pos_valid|ui.vPresetOn" onrelease='SAYNEXTCOMMAND' onlongclick='run sc_ToggleMute'>
 	<ROADSHIELDEDTEXT sprNMINextStreetName   template=txt_map x=88  w=230 y=0 textmodel_wstr="navigation.next_street_enc" visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|ui.vPresetOn">
-;!Raffke_jr - changed x/w to insert HouseNum
+;!Raffke_jr - changed x/w to insert HouseNum, duplicated for streets without numbers
 ;	<ROADSHIELDEDTEXT sprNMIActualStreetName template=txt_map x=75  w=240 textmodel_wstr="navigation.current_street_enc"   visiblemodel="navigation.car_pos_valid&map.follow_gps">
-	<ROADSHIELDEDTEXT sprNMIActualStreetName template=txt_map x=103 w=187 textmodel_wstr="navigation.current_street_enc"   visiblemodel="navigation.car_pos_valid&map.follow_gps">
+	<ROADSHIELDEDTEXT sprNMIActualStreetName     template=txt_map x=103 w=187 textmodel_wstr="navigation.current_street_enc"   visiblemodel="navigation.car_pos_valid&map.follow_gps&ui.bHouseNumbersVisible">
+	<ROADSHIELDEDTEXT sprNMIActualStreetNameWide template=txt_map x=73  w=247 textmodel_wstr="navigation.current_street_enc"   visiblemodel="navigation.car_pos_valid&map.follow_gps&!ui.bHouseNumbersVisible">
 </layer>
 
-;!Raffke_jr - enabled HouseNum on Route: removed visiblemodel "!navigation.car_on_planned_route&!ui.vRouteCalculation"
+;!Raffke_jr - enabled HouseNum on Route: replaced visiblemodel "!navigation.car_on_planned_route&!ui.vRouteCalculation" by "ui.bHouseNumbersVisible"
 ;!Raffke_jr - TODO: possibility to display HouseNum only on Destination/Via street?!
 <layer ui_NavigateMapGPSPosHouseNumber z=51 visiblemodel="ui.vShowStreetsLayer">
 ;!Raffke_jr - moved back to last line
@@ -186,8 +187,8 @@ import "ui_igo8/320_240/ui/navigate_speed_320_240.ui"
 ;	<TEXT sprNMIActualHouseNum1  template=txt_map            x=127  y=200 w=51 textmodel_wstr="map.cursorpos.lefthousenumber"  visiblemodel="navigation.car_pos_valid&map.follow_gps"> 
 ;	<SPRITE xxx  bmp="blackstripe_hnum.bmp"  x=210 y=200 z=0 visiblemodel="map.follow&!ui.vRouteCalculation&map.cursorpos.righthousenumber.valid">
 ;	<TEXT sprNMIActualHouseNum2  template=txt_map            x=212 y=200 w=51 textmodel_wstr="map.cursorpos.righthousenumber" visiblemodel="navigation.car_pos_valid&map.follow_gps">
-	<TEXT sprNMIActualHouseNum1  template=txt_map  x=73  w=30 textmodel_wstr="map.cursorpos.lefthousenumber"  visiblemodel="navigation.car_pos_valid&map.follow_gps"> 
-	<TEXT sprNMIActualHouseNum2  template=txt_map  x=290 w=30 textmodel_wstr="map.cursorpos.righthousenumber" visiblemodel="navigation.car_pos_valid&map.follow_gps">
+	<TEXT sprNMIActualHouseNum1  template=txt_map  x=73  w=30 textmodel_wstr="map.cursorpos.lefthousenumber"  visiblemodel="navigation.car_pos_valid&map.follow_gps&ui.bHouseNumbersVisible"> 
+	<TEXT sprNMIActualHouseNum2  template=txt_map  x=290 w=30 textmodel_wstr="map.cursorpos.righthousenumber" visiblemodel="navigation.car_pos_valid&map.follow_gps&ui.bHouseNumbersVisible">
 </layer>
 
 <layer ui_NavigateMapRouteNavigation z=51>
@@ -449,12 +450,10 @@ import "ui_igo8/320_240/ui/navigate_speed_320_240.ui"
 <layer ui_QuickFind z=40100 visiblemodel="!navigation.calculation_todo&!navigation.has_route">
 ;!Raffke_jr - removed for transparent cockpit (already removed in 8.3.2)
 ;	<SPRITE sprNMCCockpit_Find  x=0 y=0  w=70 z=0 bmp="cock_infobg1.bmp" visiblemodel="!ui.v3dzoomcontrol">
-;!Raffke_jr - duplicated & added visiblemodel to implement !(!navigation.car_pos_valid&gps.connection_status<3)
-	<BUTTON btnNMC_Find         x=11  y=12  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_main_find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="gps.connection_status>2&!ui.nUserMode&!ui.vOnFlyover"> 
-	<BUTTON btnNMC_Find1        x=11  y=12  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_main_find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="navigation.car_pos_valid&!ui.nUserMode&!ui.vOnFlyover"> 
+;!Raffke_jr - 2x added visiblemodel "!ui.bGPSSateliteVisible" to implement !(!navigation.car_pos_valid&gps.connection_status<3)
+	<BUTTON btnNMC_Find         x=11  y=12  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_main_find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="!ui.nUserMode&!ui.vOnFlyover&!ui.bGPSSateliteVisible"> 
 ;!TB - Added vAddFromDoneScript Reset Script to onrelease
-	<BUTTON btnNMC_Find_normal  x=8   y=9   z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_basicmain_address.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='vAddFromDoneScript.set 0, NEXTSTATE st_FindAddress' HIDE visiblemodel="gps.connection_status>2&ui.nUserMode&!ui.vOnFlyover">
-	<BUTTON btnNMC_Find_normal1 x=8   y=9   z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_basicmain_address.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='vAddFromDoneScript.set 0, NEXTSTATE st_FindAddress' HIDE visiblemodel="navigation.car_pos_valid&ui.nUserMode&!ui.vOnFlyover">
+	<BUTTON btnNMC_Find_normal  x=8   y=9   z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_basicmain_address.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='vAddFromDoneScript.set 0, NEXTSTATE st_FindAddress' HIDE visiblemodel="ui.nUserMode&!ui.vOnFlyover&!ui.bGPSSateliteVisible">
 </layer>
 
 <layer ui_NavigateMapCruise z=51 visiblemodel="!ui.v3dzoomcontrol">
@@ -497,7 +496,7 @@ import "ui_igo8/320_240/ui/navigate_speed_320_240.ui"
 
 <layer ui_NavigateMapStatus z=20000>
 ;!Raffke_jr - removed enabledmodel, added onlongclick
-	<BUTTON xxx  x=0 y=235 z=2 bmp="cock_infobg4.bmp" onrelease='nextstate st_CockpitStatus' onlongclick='NEXTSTATE st_TmcEventsList' alpha=0>
+	<BUTTON xxx  x=0 y=210 z=2 bmp="cock_infobg4.bmp" onrelease='nextstate st_CockpitStatus' onlongclick='NEXTSTATE st_TmcEventsList' alpha=0>
 	<SPRITE sprNM_BatteryStatus x=2    y=215 z=20 bmp="$status_minibattery.spr" phasemodel="power.battery_phase">
 	<SPRITE sprNM_GPSStatus     x=2    y=228 z=21 bmp="$status_minigps_onmap.spr" phasemodel="gps.connection_status">
 	<SPRITE sprNM_TMCStatus     x=-52  y=84  z=22 bmp="$status_minitmc.spr">

@@ -238,9 +238,7 @@
 
 	sprNMRExitNum.x 22
 	btnNMC_Find.x 11
-	btnNMC_Find1.x 11
 	btnNMC_Find_normal.x 8
-	btnNMC_Find_normal1.x 8
 	btnNMC_Recalc.x 6
 	sprNMB_GPSWarn.x -3
 	sprNMINextStreetBG.x 75
@@ -260,8 +258,10 @@
 	sprNMRDiriconDist.x 3
 	sprNMRDiriconUnit.x 57
 	sprNMIActualStreetBG.x 70
-	sprNMIActualStreetName.x 123
-	sprNMIActualStreetName.w 229
+	sprNMIActualStreetName.x 108
+	sprNMIActualStreetName.w 244
+	sprNMIActualStreetNameWide.x 73
+	sprNMIActualStreetNameWide.w 314
 	sprNMIActualHouseNum1.x 73
 	txtNMCPIStreetName.x 88
 	txtNMCPIStreetName.w 310
@@ -299,8 +299,10 @@
 	ui_NavigateMapSpeedLimit.y 0
 	ui_SpeedCamWarningLayer.y 3
 	sprNMIActualStreetBG.x 0
-	sprNMIActualStreetName.x 119
-	sprNMIActualStreetName.w 233
+	sprNMIActualStreetName.x 104
+	sprNMIActualStreetName.w 248
+	sprNMIActualStreetNameWide.x 69
+	sprNMIActualStreetNameWide.w 318
 	sprNMIActualHouseNum1.x 69
 	txtNMCPIStreetName.x 84
 	txtNMCPIStreetName.w 314
@@ -352,9 +354,7 @@
 	sprNMRDiriconDist.x -200
 	sprNMRDiriconUnit.x -200
 	btnNMC_Find.x -200
-	btnNMC_Find1.x -200
 	btnNMC_Find_normal.x -200
-	btnNMC_Find_normal1.x -200
 	btnNMC_Recalc.x -200
 	spr_RecalcAnim.x -200
 	sprNMINextStreetBG.x 0
@@ -376,6 +376,8 @@
 	txtNMCPIStreetName.HIDE
 	sprNMIActualStreetName.visiblemodel ""
 	sprNMIActualStreetName.HIDE
+	sprNMIActualStreetNameWide.visiblemodel ""
+	sprNMIActualStreetNameWide.HIDE
 	sprNMIActualHouseNum1.visiblemodel ""
 	sprNMIActualHouseNum2.visiblemodel ""
 	sprNMIActualHouseNum1.HIDE
@@ -394,9 +396,11 @@
 	vehicle_icon.y 300
 	runif vFullScreenActualStreet 0 'ui_NavigateMapSpeedLimit.y 20'
 
-	sprNMIActualStreetName.x 50
-	sprNMIActualStreetName.w 302
-	sprNMIActualHouseNum1.x 0
+	sprNMIActualStreetName.x 48
+	sprNMIActualStreetName.w 304
+	sprNMIActualStreetNameWide.x 13
+	sprNMIActualStreetNameWide.w 374
+	sprNMIActualHouseNum1.x 13
 	txtNMCPIStreetName.x 0
 	txtNMCPIStreetName.w 400
 </script>

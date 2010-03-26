@@ -1236,13 +1236,14 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 	runif %navigation.near_speed_limit 1 'vTmp.set 1'
 	else_runif vSpeedLimitVisual 2 'vTmp.set %navigation.current_speed_limit.valid'
 	else_run 'vTmp.set 0'
-	runif vTmp 1 'bSpeedLimitVisible.set 1, term sc_SpeedLimitVisualChanged'
 
 ;!Raffke_jr - moved Speedcam Warning layer, so remove this part
+;	runif vTmp 1 'bSpeedLimitVisible.set 1, term sc_SpeedLimitVisualChanged'
 	; now verify is there is a valid speed camera
 ;	runif %warning.speedcam_visualtype 0 'vTmp.set 0'
 ;	else_run 'vTmp.set %navigation.curr_speedcam.category.valid'
-;	bSpeedLimitVisible.set vTmp
+
+	bSpeedLimitVisible.set vTmp
 </script>
 
 ;****************************************************************************************************************

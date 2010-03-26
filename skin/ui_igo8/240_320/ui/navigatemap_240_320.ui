@@ -173,15 +173,16 @@ import "ui_igo8/240_320/ui/navigate_speed_240_320.ui"
 	<SPRITE sprNMINextStreetBG   bmp="blackstripe.bmp" x=0 y=-1 z=0 visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|!navigation.car_pos_valid|ui.vPresetOn" onrelease='SAYNEXTCOMMAND' onlongclick='run sc_ToggleMute'>
 	<ROADSHIELDEDTEXT sprNMINextStreetName   template=txt_map textmodel_wstr="navigation.next_street_enc"         visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|ui.vPresetOn">
 
-;!Raffke_jr - added x/w to insert HouseNum
+;!Raffke_jr - added x/w to insert HouseNum, duplicated for streets without numbers
 ;	<ROADSHIELDEDTEXT sprNMIActualStreetName template=txt_map y=300 textmodel_wstr="navigation.current_street_enc"  visiblemodel="navigation.car_pos_valid&map.follow_gps">
-	<ROADSHIELDEDTEXT sprNMIActualStreetName template=txt_map x=30 w=180 y=300 textmodel_wstr="navigation.current_street_enc"  visiblemodel="navigation.car_pos_valid&map.follow_gps">
+	<ROADSHIELDEDTEXT sprNMIActualStreetName     template=txt_map x=30 w=180 y=300 textmodel_wstr="navigation.current_street_enc"  visiblemodel="navigation.car_pos_valid&map.follow_gps&ui.bHouseNumbersVisible">
+	<ROADSHIELDEDTEXT sprNMIActualStreetNameWide template=txt_map x=0  w=240 y=300 textmodel_wstr="navigation.current_street_enc"  visiblemodel="navigation.car_pos_valid&map.follow_gps&!ui.bHouseNumbersVisible">
 
 ;	<TEXT sprNMINextStreetName    template=xtxt    z=10  align="CENTER" textmodel_wstr="navigation.next_street" y=70 fontsize=14 font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000 color3=#000000  visiblemodel="map.follow">
 ;	<TEXT sprNMIActualStreetName template=xtxt x=30 y=302 z=10 w=187 align="CENTER" textmodel_wstr="navigation.current_street" fontsize=14 font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000 color3=#000000 visiblemodel="map.follow">
 </layer>
 
-;!Raffke_jr - enabled HouseNum on Route: removed visiblemodel "!navigation.car_on_planned_route&!ui.vRouteCalculation&!ui.vPresetOn"
+;!Raffke_jr - enabled HouseNum on Route: replaced visiblemodel "!navigation.car_on_planned_route&!ui.vRouteCalculation" by "ui.bHouseNumbersVisible"
 ;!Raffke_jr - TODO: possibility to display HouseNum only on Destination/Via street?!
 <layer ui_NavigateMapGPSPosHouseNumber z=51 visiblemodel="ui.vShowStreetsLayer">
 ;!Raffke_jr - moved back to last line
@@ -189,8 +190,8 @@ import "ui_igo8/240_320/ui/navigate_speed_240_320.ui"
 ;	<TEXT sprNMIActualHouseNum1  template=txt_map            x=50  y=280 w=51 textmodel_wstr="map.cursorpos.lefthousenumber"  visiblemodel="navigation.car_pos_valid&map.follow_gps&map.cursorpos.lefthousenumber.valid"> 
 ;	<SPRITE xxx                  bmp="blackstripe_hnum.bmp"  x=138 y=280 z=0 visiblemodel="map.follow&!ui.vRouteCalculation&map.cursorpos.righthousenumber.valid">
 ;	<TEXT sprNMIActualHouseNum2  template=txt_map            x=140 y=280 w=51 textmodel_wstr="map.cursorpos.righthousenumber" visiblemodel="navigation.car_pos_valid&map.follow_gps&map.cursorpos.righthousenumber.valid">
-	<TEXT sprNMIActualHouseNum1  template=txt_map  x=0   y=300 w=30 textmodel_wstr="map.cursorpos.lefthousenumber"  visiblemodel="navigation.car_pos_valid&map.follow_gps"> 
-	<TEXT sprNMIActualHouseNum2  template=txt_map  x=210 y=300 w=30 textmodel_wstr="map.cursorpos.righthousenumber" visiblemodel="navigation.car_pos_valid&map.follow_gps">
+	<TEXT sprNMIActualHouseNum1  template=txt_map  x=0   y=300 w=30 textmodel_wstr="map.cursorpos.lefthousenumber"  visiblemodel="navigation.car_pos_valid&map.follow_gps&ui.bHouseNumbersVisible"> 
+	<TEXT sprNMIActualHouseNum2  template=txt_map  x=210 y=300 w=30 textmodel_wstr="map.cursorpos.righthousenumber" visiblemodel="navigation.car_pos_valid&map.follow_gps&ui.bHouseNumbersVisible">
 </layer>
 
 <layer ui_NavigateMapRouteNavigation z=51>
@@ -451,12 +452,10 @@ import "ui_igo8/240_320/ui/navigate_speed_240_320.ui"
 <layer ui_QuickFind z=28000 visiblemodel="!navigation.calculation_todo&!navigation.has_route">
 ;!Raffke_jr - removed for transparent cockpit (already removed in 8.3.2)
 ;	<SPRITE sprNMCCockpit_Find  x=0   y=20 h=77  z=0 bmp="cock_infobg1.bmp" visiblemodel="!ui.v3dzoomcontrol">
-;!Raffke_jr - duplicated & added visiblemodel to implement !(!navigation.car_pos_valid&gps.connection_status<3)
-	<BUTTON btnNMC_Find         x=0   y=20  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="gps.connection_status>2&!ui.nUserMode&!ui.vOnFlyover"> 
-	<BUTTON btnNMC_Find1        x=0   y=20  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="navigation.car_pos_valid&!ui.nUserMode&!ui.vOnFlyover"> 
+;!Raffke_jr - 2x added visiblemodel "!ui.bGPSSateliteVisible" to implement !(!navigation.car_pos_valid&gps.connection_status<3)
+	<BUTTON btnNMC_Find         x=0   y=20  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="!ui.nUserMode&!ui.vOnFlyover&!ui.bGPSSateliteVisible"> 
 ;!TB - Added vAddFromDoneScript Reset Script to onrelease
-	<BUTTON btnNMC_Find_normal  x=0   y=20  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="find_normal.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_FindAddress' HIDE visiblemodel="gps.connection_status>2&ui.nUserMode&!ui.vOnFlyover">
-	<BUTTON btnNMC_Find_normal1 x=0   y=20  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="find_normal.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_FindAddress' HIDE visiblemodel="navigation.car_pos_valid&ui.nUserMode&!ui.vOnFlyover">
+	<BUTTON btnNMC_Find_normal  x=0   y=20  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="find_normal.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_FindAddress' HIDE visiblemodel="ui.nUserMode&!ui.vOnFlyover&!ui.bGPSSateliteVisible">
 </layer>
 
 <layer ui_NavigateMapCruise z=51 visiblemodel="!ui.v3dzoomcontrol">

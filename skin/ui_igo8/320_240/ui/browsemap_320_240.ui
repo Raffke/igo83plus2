@@ -116,6 +116,7 @@
 </layer>
 
 <layer ui_SelectRM z=15000 modal>
+	<SPRITE xxx bmp="nightglass.bmp" z=0 alpha=20>
  	<SPRITE xxx bmp="$rm_sel_bg.bmp" x=93 y=37 z=0 >
 
 	<RADIO xxx template=chk_lb8a  y=40	text="Fast" group=nRMTmp var="0"  onrelease='run sc_RMselected'>
@@ -130,7 +131,9 @@
 
 ;!Raffke_jr - changed from hide to modal
 <layer ui_SelectRM_Algorithm z=15000 modal>
+	<SPRITE xxx bmp="nightglass.bmp" z=0 alpha=20>
  	<SPRITE xxx bmp="$correct_sel_bg.bmp" x=93 y=96 z=0 >
+
 	<BUTTON xxx  template=chk_lb8a_1 y=100	text="Fast calculation"	onrelease='.route.correctness 30, ui_SelectRM_Algorithm.hide, run sc_MultiRouteDraw' enabledmodel="!ui.vRouteCalculation">
 	<BUTTON xxx  template=chk_lb8a_1 y=130	text="Default"	onrelease='ui_SelectRM_Algorithm.hide, run sc_MultiRouteDraw' enabledmodel="!ui.vRouteCalculation">
 	<BUTTON xxx  template=chk_lb8a_1 y=160	text="Optimal calculation"	onrelease='.route.correctness 100, ui_SelectRM_Algorithm.hide, run sc_MultiRouteDraw' enabledmodel="!ui.vRouteCalculation">
