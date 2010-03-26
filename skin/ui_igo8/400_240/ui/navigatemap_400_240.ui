@@ -40,7 +40,7 @@
 
 ;!TB - "Find" on long click
 	<BUTTON btnNMB_Cursor  template=btn_map bmp="$4scr_use_cur.bmp#2"  y=119 text="Cursor" onrelease='nPlaceForPos.set 0, run sc_btnNMB_Use_OnRelease' onlongclick='run sc_OpenFindMenu'>
-	<BUTTON btnNMB_Pos     template=btn_map bmp="$4scr_use.bmp#2"      y=119  text="Pos."    onrelease='nPlaceForPos.set 1, run sc_btnNMB_Pos_OnRelease'>	
+	<BUTTON btnNMB_Pos     template=btn_map bmp="$4scr_use.bmp#2"      y=119  text="Pos."  onrelease='nPlaceForPos.set 1, run sc_btnNMB_Pos_OnRelease' onlongclick='run sc_OpenFindMenu'>
 
 ;!TB - allow during flyover
 	<BUTTON btnNMB_Itiner bmp="dummy_itiner.bmp" alpha=0 x=0 y=72 onrelease='run sc_ShowCockpitDetailDirInfo2'> 
@@ -160,7 +160,7 @@
 ;!Raffke_jr - added name, moved right by 5
 	<SPRITE sprNMINextStreetBG bmp="blackstripe.bmp" x=75 y=0 z=0 onclick='SAYNEXTCOMMAND'>
 	<ROADSHIELDEDTEXT sprNMINextStreetName   template=txt_map y=0 textmodel_wstr="navigation.next_street_enc"    visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|ui.vPresetOn">
-	<ROADSHIELDEDTEXT sprNMIActualStreetName template=txt_map w=229 x=123 textmodel_wstr="navigation.current_street_enc" visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|ui.vPresetOn">
+	<ROADSHIELDEDTEXT sprNMIActualStreetName template=txt_map w=229 x=123 textmodel_wstr="navigation.current_street_enc" visiblemodel="navigation.car_pos_valid&map.follow_gps">
 </layer>
 
 ;!Raffke_jr - removed aligns and enabled HouseNum on Route: removed visiblemodel "!navigation.car_on_planned_route&!ui.vRouteCalculation"
@@ -433,8 +433,8 @@
 	<BUTTON btnNMC_Find         x=11  y=12  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_main_find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="gps.connection_status>2&!ui.nUserMode&!ui.vOnFlyover"> 
 	<BUTTON btnNMC_Find1        x=11  y=12  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_main_find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="navigation.car_pos_valid&!ui.nUserMode&!ui.vOnFlyover"> 
 ;!TB - Added vAddFromDoneScript Reset Script to onrelease
-	<BUTTON btnNMC_Find_normal  x=8   y=9   z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_basicmain_address.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_FindAddress' HIDE visiblemodel="gps.connection_status>2&ui.nUserMode&!ui.vOnFlyover">
-	<BUTTON btnNMC_Find_normal1 x=8   y=9   z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_basicmain_address.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_FindAddress' HIDE visiblemodel="navigation.car_pos_valid&ui.nUserMode&!ui.vOnFlyover">
+	<BUTTON btnNMC_Find_normal  x=8   y=9   z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_basicmain_address.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='vAddFromDoneScript.set 0, NEXTSTATE st_FindAddress' HIDE visiblemodel="gps.connection_status>2&ui.nUserMode&!ui.vOnFlyover">
+	<BUTTON btnNMC_Find_normal1 x=8   y=9   z=100  text="" align="CENTER" valign="CENTER-5"   bmp="ico_basicmain_address.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='vAddFromDoneScript.set 0, NEXTSTATE st_FindAddress' HIDE visiblemodel="navigation.car_pos_valid&ui.nUserMode&!ui.vOnFlyover">
 
 ;!Raffke_jr - TODO: change to 400x240 layout?
 ;	<BUTTON btnNMC_Find         x=0   y=0  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="find.bmp"         font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_AdvFindMenu' HIDE visiblemodel="!ui.nUserMode&!ui.vOnFlyover"> 
@@ -596,8 +596,8 @@
 	<SPRITE xxx  bmp="blackstripe.bmp" x=0 y=0   z=0>
 	<SPRITE xxx bmp="also2.bmp"  x=0 y=205 z=0>
 	<BUTTON xxx    x=3   y=19 z=0  bmp="places_center.bmp#2" onRelease='run sc_lock_point_on_map'>
-	<BUTTON btnPM_ZoomIn  x=3 y=65  z=0 bmp="map_zoomin.bmp#2"  onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0'>
-	<BUTTON btnPM_ZoomOut x=3 y=129 z=0 bmp="map_zoomout.bmp#2" onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0'>
+	<BUTTON xxx    x=3 y=65  z=0 bmp="map_zoomin.bmp#2"  onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0'>
+	<BUTTON xxx    x=3 y=129 z=0 bmp="map_zoomout.bmp#2" onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0'>
 	<TEXT xxx    template=xtxt x=0  y=0    w=400 textmodel_wstr="map.cursorpos.address.long_format" align="CENTER" fontsize=12 font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000 color3=#000000>
 	<TEXT xxx    template=xtxt x=80 y=15   w=320 textmodel_wstr="map.cursorpos.geocoord"            align="LEFT"   fontsize=12 font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000 color3=#000000 hide>
 	<BUTTON btnPOM_OK  template=footer3_3a text="OK" onrelease='run sc_FindDoneSelected' visiblemodel="ui.vAddFromDoneScript">

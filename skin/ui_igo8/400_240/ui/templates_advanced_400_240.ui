@@ -5,7 +5,10 @@
 ;*************************************************************
 
 ;***********************  SLIDERS  ******************************
-<TEMPLATE sld_5f       bmp="btn_5f.bmp#2"           align="center" valign="center" fonttype=bw fontsize=14>
+<TEMPLATE sld_5f       bmp="btn_5f.bmp#2"                align="center"  valign="center" fonttype=bw fontsize=14>
+
+<TEMPLATE sld_5c_long  bmp="btn_5c_long.bmp#2"    x=24   align="RIGHT-8" valign="center" fonttype=bw fontsize=14>
+<TEMPLATE sld_5e_long  bmp="btn_lb_5e_long.bmp#3" x=210  align="center"  valign="center" fonttype=bw fontsize=14 padding=4>
 
 ;***********************  BUTTONS  ******************************
 ;!Raffke_jr - renamed to add x values, added z & iconspr, inherited template=btn_lb5e

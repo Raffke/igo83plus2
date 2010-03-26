@@ -457,10 +457,12 @@ import "ui_igo8/480_234/ui/speedcam_setting_480_234.ui"
 	<TEXT   xxx             template=txt_sld      y=18  text="Program language" watchstate=btnSR_Language>
 	<BUTTON btnSR_Voice     template=sld_5a       y=54  text="" onrelease='NEXTSTATE st_SettingRegionalVoice' clicked_coloring=1>
 	<TEXT   xxx             template=txt_sld      y=54  text="Voice language" watchstate=btnSR_Voice >
+
 	<SLIDER sldSR_units     template=sld_5a       y=90  value="Kilometers/meters|1|Miles/yards|0|Miles/feet|2" var=bUnitType>
 	<TEXT   xxx             template=txt_sld      y=90  text="Units" watchstate=sldSR_units>
 	<BUTTON xxx             template=btn_5a       y=126 text="Date & Time Format" onrelease='NEXTSTATE st_SettingRegionalDateTime'> 
 	<BUTTON btn_timesync	template=btn_5a       y=162 text="Time and Time Zone Settings" onrelease='NEXTSTATE st_SettingTime'> 
+
 	<BUTTON xxx            template=footer3_3a text="Help"      onrelease='NEXTSTATE st_HelpSettingRegional'> 
 </layer>
 
@@ -523,7 +525,7 @@ import "ui_igo8/480_234/ui/speedcam_setting_480_234.ui"
 <layer ui_SettingOrientation z=30>
 	<RADIO radSS_O2                    x=86  y=80 bmp="btn_display_orientation_horizontal.bmp#2"  onclick='run sc_radSS_Ox_OnSelect 1' group=vCurrentOrientation var="LANDSCAPE1"  enabledmodel="!ui.vAutoOrientation">
 	<RADIO radSS_O1                    x=196 y=80 bmp="btn_display_orientation_vertical.bmp#2"    onclick='run sc_radSS_Ox_OnSelect 0' group=vCurrentOrientation var="PORTRAIT"      enabledmodel="!ui.vAutoOrientation">
-    <RADIO radSS_O3                    x=308 y=80 bmp="btn_display_orientation_horizontal2.bmp#2" onclick='run sc_radSS_Ox_OnSelect 2' group=vCurrentOrientation var="LANDSCAPE2" enabledmodel="!ui.vAutoOrientation">
+	<RADIO radSS_O3                    x=308 y=80 bmp="btn_display_orientation_horizontal2.bmp#2" onclick='run sc_radSS_Ox_OnSelect 2' group=vCurrentOrientation var="LANDSCAPE2" enabledmodel="!ui.vAutoOrientation">
 	<RADIO radSS_Auto template=chk_5a  y=18 text="Use device settings" onclick='run sc_radSS_Ox_OnSelect 3'  group=vCurrentOrientation var="AUTO">
 </layer>
 
@@ -546,7 +548,7 @@ import "ui_igo8/480_234/ui/speedcam_setting_480_234.ui"
 
 ;!Raffke_jr - applied new templates
 <layer ui_SettingWarningsOverSpeed z=30>
- 	<SPRITE     xxx template=spr_5a                             template=y_1 >
+ 	<SPRITE     xxx                    template=spr_5a          template=y_1 >
  	<TEXT	    txtSWO_OToleranceAlt   template=txt_csu_legend  template=y_1 text="In cities">
 	<TEXT       txtSWO_OToleranceAltV  template=txt_csu_value   template=y_1 >
 	<TEXT       txtSWO_OToleranceAltM  template=txt_csu_unit    template=y_1 text="%">

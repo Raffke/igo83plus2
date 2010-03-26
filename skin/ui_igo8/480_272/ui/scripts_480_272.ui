@@ -128,7 +128,7 @@
 	btnNMB_Menu.HIDE
 	btnNMB_Detour.HIDE
 	btnNMB_Cursor.y 330
-	btnNMB_Pos.y 330
+	;btnNMB_Pos.y 330
 
 ;!TB - allow during flyover
 ;	btnNMR_CockpitInfo.DISABLE
@@ -165,7 +165,7 @@
 	btnNMB_Detour.SHOW
 
 	btnNMB_Cursor.y 135
-	btnNMB_Pos.y 135
+	;btnNMB_Pos.y 135
 
 	btnNMR_CockpitInfo.ENABLE
 	

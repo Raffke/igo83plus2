@@ -1,13 +1,14 @@
 <header>
 	<layer ui_HelpAdvUserDataMgmt type="xhtml"	template=help_text filename="hlp_settinguserdata.xhtml">
 </header>
-<layer ui_AdvFindMenu z=30>
 
+<layer ui_AdvFindMenu z=30>
 	<BUTTON btnAFM_Address	template=menu4_1 iconspr="ico_find_address.bmp"	   fxshowdelay=0	text="Find Address"		onrelease='NEXTSTATE st_FindAddress'>
 	<BUTTON btnAFM_History	template=menu6_4 iconspr="ico_find_history.bmp"	   fxshowdelay=22	text="Recent Places"	onrelease='run sc_FindHistory' enabledmodel="!mydata.history.list.isempty"> 
 	<BUTTON btnAFM_Coord	template=menu6_5 iconspr="ico_find_coord.bmp"	   fxshowdelay=16	text="Find\nCoordinate" onrelease='run sc_FindCoord'>	
 	<BUTTON btnAFM_POI		template=menu4_2 iconspr="ico_find_poi.bmp"		   fxshowdelay=6	text="Find POI"			onrelease='run sc_FindPOI'> 
 	<BUTTON btnAFM_Favorite template=menu6_6 iconspr="ico_find_favorites.bmp"  fxshowdelay=11	text="My Favorites"		onrelease='run sc_FindFavorite' enabledmodel="!mydata.favorites.isempty"> 
+
 ;!TB - Added visiblemodel
 	<BUTTON btnAFM_PlanMode template=footer3_3 text="Plan Mode"		onrelease='run sc_StartPlanMode' visiblemodel="!ui.vAddFromDoneScript">
 ;!TB - Added Find on Map button
@@ -89,7 +90,6 @@
 	<BUTTON xxx template=nextpage_sett onrelease='ui_AdvSettingsMenu.HIDE, ui_AdvSettingsMenu2.SHOW, vSettingsActPage.set 1'>
 
 	<TEXT xxx	template=pageindex text="1/2">
-
 </layer>
 
 <layer ui_AdvSettingsMenu2 z=30>

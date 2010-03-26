@@ -92,9 +92,7 @@
 
 <layer ui_ShutdownTimer z=100002 modal>
 	<SPRITE xxx x=0	  y=0	z=5	  bmp="dialog_2_bg.bmp" >
-;!Raffke_jr - corrected strange path
-;	<SPRITE xxx template=a_rubber bmp="ui_igo8/common/dialog_qm.spr"  x=100	 y=109	z=10  fxshowdelay=10>
-	<SPRITE xxx template=a_rubber bmp="$dialog_qm.spr"  x=100	 y=109	z=10  fxshowdelay=10>
+	<SPRITE xxx template=a_rubber bmp="ui_igo8/common/dialog_qm.spr"  x=100	 y=109	z=10  fxshowdelay=10>
 	<SPRITE spr_sdtmsg_bg x=0 y=0 z=1 bmp="ui_igo8/480_272/default.bmp">	
 
 	<TEXT	xxx		 x=130	y=60  z=31	w=280 h=90 textmodel_wstr="power.shutdown_timer_text" valign="CENTER" align="LEFT" FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=18 wordwrap=3>
@@ -171,8 +169,8 @@
 <layer ui_AboutLicenses z=30>
 	<LIST lst_Licenses template=tlist element_template="et_License" listmodel="other.license.list">
 	<BUTTON  xxx	template=footer2_1a	 text="SWID" onrelease='run sc_ShowSWID'>
-	<BUTTON xxx template=prevpage clickmodel="ui.lst_Licenses.prevpage" enabledmodel="ui.lst_Licenses.prevpage.valid" template="slow_repeat">
-	<BUTTON xxx template=nextpage clickmodel="ui.lst_Licenses.nextpage" enabledmodel="ui.lst_Licenses.nextpage.valid" template="slow_repeat">
+	<BUTTON xxx template=prevpage clickmodel="ui.lst_Licenses.prevpage" enabledmodel="ui.lst_Licenses.prevpage.valid" template=slow_repeat>
+	<BUTTON xxx template=nextpage clickmodel="ui.lst_Licenses.nextpage" enabledmodel="ui.lst_Licenses.nextpage.valid" template=slow_repeat>
 	<TEXT xxx template=pageindex  textmodel_wstr="ui.lst_Licenses.page_counter">
 </layer>
 

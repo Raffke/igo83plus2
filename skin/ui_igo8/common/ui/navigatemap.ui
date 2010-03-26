@@ -1650,5 +1650,5 @@ import "ui_igo8/common/ui/navigate_speed.ui"
 <script sc_laneinfo_HideInvalidSizes>
 	runif      vLaneInfoMode 200 'sprLaneInfo100.y -100, sprLaneInfo150.y -100'
 	else_runif vLaneInfoMode 150 'sprLaneInfo100.y -100, sprLaneInfo200.y -100'
-	else_run                     'sprLaneInfo150.y -100, sprLaneInfo150.y -100'
+	else_run                     'sprLaneInfo150.y -100, sprLaneInfo200.y -100'
 </script>

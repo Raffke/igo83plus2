@@ -182,7 +182,7 @@
 
 
 <header>
-	<layer disable_layer_dcare type="disable" z=31 x=0 y=0 w=320>
+	<layer disable_layer_dcare type="disable" z=31 x=0 y=0 w=400>
 </header>
 
 <layer ui_drive_carefully_xhtml type="xhtml" filename="i18n/drive_carefully.xhtml" align="LEFT" orientation="L2R" font="tahomabd" fonttype=bw fontsize=14 z=50 x=10 y=0 w=380 h=17000 view_top=15 view_bottom=235> 

@@ -28,11 +28,9 @@
 ;!Raffke_jr - TODO: TMC try to display additional time, if valid
 ;8.0.0: additional_time, additional_time_in_seconds, additional_distance
 ;8.3.1: spare_time, spare_time_in_seconds, spare_distance
-	<TEXT  et_TmcEvent_txt5%ID%  watchstate=et_TmcEvent_btn%ID% x=360 y=27 w=50   z=2 template=xtxt4 font="tahomabd" align="RIGHT" textmodel_timespan="*.spare_time" formatmodel="local.short_timeformat" visiblemodel="*.spare_time.valid">
-	<TEXT  et_TmcEvent_txt6%ID%  watchstate=et_TmcEvent_btn%ID% x=410 y=27 w=50   z=2 template=xtxt4 font="tahomabd" align="RIGHT" textmodel_wstr="*.spare_distance.full_text" visiblemodel="*.spare_distance.valid">
+;	<TEXT  et_TmcEvent_txt5%ID%  watchstate=et_TmcEvent_btn%ID% x=360 y=27 w=50   z=2 template=xtxt4 font="tahomabd" align="RIGHT" textmodel_timespan="*.spare_time" formatmodel="local.short_timeformat" visiblemodel="*.spare_time.valid">
+;	<TEXT  et_TmcEvent_txt6%ID%  watchstate=et_TmcEvent_btn%ID% x=410 y=27 w=50   z=2 template=xtxt4 font="tahomabd" align="RIGHT" textmodel_wstr="*.spare_distance.full_text" visiblemodel="*.spare_distance.valid">
 </element_template>
-
-
 
 <layer ui_TmcEventsList z=35>
 	<LIST   lstTEL_Events template=tlist element_template="et_TmcEvent" listmodel="tmc.events.list">
@@ -48,6 +46,7 @@
 	<BUTTON btn_TmcSettings template=footer4_1a  z=12 text="Settings" onrelease='vClearNewMessages.set 0, NEXTSTATE st_TmcSettings'> 	
 	<BUTTON xxx             template=footer4_2a  z=12 text="Stations" enabledmodel="tmc.present" onrelease='vClearNewMessages.set 0, NEXTSTATE st_TmcParams'> 	
 </layer>
+
 
 <layer ui_TmcParams z=35>
 	<CHECKBOX xxx template=chk_5a y=20  z=99  text="Use Auto tuner" boolmodel="tmc.auto_tuning" enabledmodel="tmc.auto_tuning_available" onrelease='exec "tmc.change_tuning_mode"'>
@@ -77,7 +76,7 @@
 	<TEXT   xxx  template=txt_sld                     y=63 w=230 text="Event list:" watchstate=sld_tmc_eventlist>
 
 ;!TB - voice announcement
-	<CHECKBOX xxx template=chk_lb5a y=105 text="Voice warning" boolmodel="ui.vTMCVoiceWarning">
+	<CHECKBOX xxx template=chk_5a y=105 text="Voice warning" boolmodel="ui.vTMCVoiceWarning">
 
 	<BUTTON xxx               template=footer4_4a text="Help"   onrelease='NEXTSTATE st_HelpTmcSettings'> 
 </layer>

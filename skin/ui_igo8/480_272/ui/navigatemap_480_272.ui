@@ -27,11 +27,10 @@
 ;!Raffke_jr - removed "navigation.car_pos_valid&!ui.vOnFlyover" from visiblemodel="ui.vDiriconVisible", changed bmp from "startnavi.bmp" to use full size to click
 	<BUTTON btnNMB_RouteInfo   x=0   y=0  z=100  alpha=0 text="" align="CENTER" valign="CENTER-5"   bmp="cock_infobg1.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='NEXTSTATE st_RouteInfo' visiblemodel="navigation.has_navigable_path&!ui.vRouteCalculation">
 
-
 	;; the STOPFLYOVER command also stops other kinds of simulations (i.e. saved track replay)
 ;!TB - repositioned Stop button
 ;	<BUTTON btnNMB_Stop    bmp="simulate.bmp#2"  x=1 y=83 w=60 z=2 z=1000  text="Stop" font="tahomabd" align="CENTER" valign="bottom-2" color=#FFFFFF onRelease='STOPFLYOVER, run sc_3DFlyOverModeOff' visiblemodel="ui.vOnFlyover">
-	<BUTTON btnNMB_Stop    template=btn_map bmp="$4scr_stop.bmp#2"     y=135 z=1000 text="Stop" onRelease='run sc_NaviMenuAlphaRestore, STOPFLYOVER, run sc_3DFlyOverModeOff'>
+	<BUTTON btnNMB_Stop    template=btn_map bmp="$4scr_stop.bmp#2"     y=135 z=1000 text="Stop" onRelease='run sc_NaviMenuAlphaRestore, STOPFLYOVER, run sc_3DFlyOverModeOff' visiblemodel="ui.vOnFlyover">
 
 ;!TB MR - Exit on long click
 	<BUTTON btnNMB_Menu    bmp="4scr_menu1.bmp#2"     x=434 y=189  text="Menu"    font="tahoma" fontsize=10 fonttype=bw clicked_coloring=1 align="CENTER"  valign="BOTTOM-30"  onrelease='run sc_btnNMB_Menu_OnRelease' onlongclick='STATE ExitState'>
@@ -115,7 +114,7 @@
 </layer>
 
 <layer ui_NavigateMapBT z=50000 visiblemodel="other.phone.event_incoming_call"> 
-    <BUTTON xxx x=277 y=4 w=74 bmp="bt_endcall.bmp" text="End call" font="tahomabd" fontsize=12 color=#000000 color2=#FFFFFF glowsize=1 align="LEFT+60" valign="CENTER+6" onrelease='EXEC "other.phone.hangup"'>
+	<BUTTON xxx x=277 y=4 w=74 bmp="bt_endcall.bmp" text="End call" font="tahomabd" fontsize=12 color=#000000 color2=#FFFFFF glowsize=1 align="LEFT+60" valign="CENTER+6" onrelease='EXEC "other.phone.hangup"'>
 </layer>
 
 
@@ -170,13 +169,8 @@
 ;!TB - Added onclick handler to say the next voice guidance
 ;!Raffke_jr - added name, moved right by 20
 	<SPRITE sprNMINextStreetBG   bmp="blackstripe.bmp" x=90 y=-1 z=0 visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|!navigation.car_pos_valid|ui.vPresetOn" onclick='SAYNEXTCOMMAND'>
-;!TB - Increased font size of sprNMINextStreetName from 18, raised y-position by 1 point
-;!Raffke_jr - not applied:	<ROADSHIELDEDTEXT sprNMINextStreetName   template=xtxt x=103  w=347 h=32 y=-5   z=10 align="CENTER" textmodel_wstr="navigation.next_street_enc"         fontsize=24 font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000 color3=#000000 visiblemodel="map.follow">
 	<ROADSHIELDEDTEXT sprNMINextStreetName   template=txt_map y=0 textmodel_wstr="navigation.next_street_enc" visiblemodel="!ui.bLaneinfoSignpostValid|!map.follow|ui.vPresetOn">
 	<ROADSHIELDEDTEXT sprNMIActualStreetName template=txt_map x=138 w=288 textmodel_wstr="navigation.current_street_enc" visiblemodel="navigation.car_pos_valid&map.follow_gps">
-
-;	<TEXT sprNMINextStreetName template=xtxt x=103 y=2   z=10 w=347 align="CENTER" textmodel_wstr="navigation.next_street"    fontsize=14 font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000 color3=#000000>
-;	<TEXT sprNMIActualStreetName template=xtxt x=103 y=254 z=10 w=347 align="CENTER" textmodel_wstr="navigation.current_street" fontsize=14 font="tahomabd" glowsize=1 color=#FFFFFF color2=#000000 color3=#000000>
 </layer>
 
 ;!Raffke_jr - enabled HouseNum on Route: removed visiblemodel "!navigation.car_on_planned_route&!ui.vRouteCalculation"
@@ -212,8 +206,6 @@
 	<TEXT DistanceToManuverDist template=txt_sec w=44 textmodel_wstr="navigation.secondary_distance_to_manuver_diff.number_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&ui.bShowSecondaryDistance">
 	<TEXT DistanceToManuverUnit template=txt_sec w=15 color=#bbbbbb align="LEFT" fontsize=10 textmodel_wstr="navigation.secondary_distance_to_manuver_diff.unit_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&ui.bShowSecondaryDistance">
 	<DIRDISTALIGNER xxx x=0 w=59 align="CENTER" control=DistanceToManuverDist padding=4 control=DistanceToManuverUnit>
-;!Raffke_jr - visiblemodel for Flyover/Fullscreen/TMC/Speedcam
-	<TEXT xxx template=txt_sec w=59 textmodel_wstr="navigation.secondary_distance_to_manuver_diff.full_text" visiblemodel="navigation.secondary_distance_to_manuver_diff.valid&!ui.vRouteCalculation&ui.bShowSecondaryDistance">
 </layer>
 
 ;!TB - New layer for LaneInfo
@@ -236,23 +228,23 @@
 
 <element_template et_NavInfoDistanceToDestination>
 ;!Raffke_jr - TODO: add icons here, but change templates to give space
-	<TEXT et_NIDTD_num%ID%  template=xetNavInfoNum textmodel_wstr="navigation.distance_to_destination.number_text" visiblemodel="navigation.distance_to_destination.valid">
-	<TEXT et_NIDTD_unit%ID%  template=xetNavInfoUnit textmodel_wstr="navigation.distance_to_destination.unit_text" visiblemodel="navigation.distance_to_destination.valid">
+	<TEXT xxx  template=xetNavInfoNum textmodel_wstr="navigation.distance_to_destination.number_text" visiblemodel="navigation.distance_to_destination.valid">
+	<TEXT xxx  template=xetNavInfoUnit textmodel_wstr="navigation.distance_to_destination.unit_text" visiblemodel="navigation.distance_to_destination.valid">
 </element_template>
 
 <element_template et_NavInfoDistanceToWaypoint>
-	<TEXT et_NIDTW_num%ID%  template=xetNavInfoNum textmodel_wstr="navigation.distance_to_waypoint.number_text" visiblemodel="navigation.distance_to_waypoint.valid">
-	<TEXT et_NIDTW_unit%ID%  template=xetNavInfoUnit textmodel_wstr="navigation.distance_to_waypoint.unit_text" visiblemodel="navigation.distance_to_waypoint.valid">
+	<TEXT xxx  template=xetNavInfoNum textmodel_wstr="navigation.distance_to_waypoint.number_text" visiblemodel="navigation.distance_to_waypoint.valid">
+	<TEXT xxx  template=xetNavInfoUnit textmodel_wstr="navigation.distance_to_waypoint.unit_text" visiblemodel="navigation.distance_to_waypoint.valid">
 </element_template>
 
 <element_template et_NavInfoSpeed>
-	<TEXT et_NIS_num%ID%  template=xetNavInfoNum textmodel_wstr="navigation.current_speed.number_text" visiblemodel="navigation.current_speed.valid">
-	<TEXT et_NIS_unit%ID%  template=xetNavInfoUnit textmodel_wstr="navigation.current_speed.unit_text" visiblemodel="navigation.current_speed.valid">
+	<TEXT xxx  template=xetNavInfoNum textmodel_wstr="navigation.current_speed.number_text" visiblemodel="navigation.current_speed.valid">
+	<TEXT xxx  template=xetNavInfoUnit textmodel_wstr="navigation.current_speed.unit_text" visiblemodel="navigation.current_speed.valid">
 </element_template>
 
 <element_template et_NavInfoSpeedLimit>
-	<TEXT et_NISL_num%ID%  template=xetNavInfoNum textmodel_wstr="navigation.current_speed_limit.number_text" visiblemodel="navigation.current_speed_limit.valid">
-	<TEXT et_NISL_unit%ID%  template=xetNavInfoUnit textmodel_wstr="navigation.current_speed_limit.unit_text" visiblemodel="navigation.current_speed_limit.valid">
+	<TEXT xxx  template=xetNavInfoNum textmodel_wstr="navigation.current_speed_limit.number_text" visiblemodel="navigation.current_speed_limit.valid">
+	<TEXT xxx  template=xetNavInfoUnit textmodel_wstr="navigation.current_speed_limit.unit_text" visiblemodel="navigation.current_speed_limit.valid">
 </element_template>
 
 <element_template et_NavInfoCurrentTime>
@@ -280,8 +272,8 @@
 </element_template>
 
 <element_template et_NavInfoAltitude>
-	<TEXT et_NIA_num%ID%  template=xetNavInfoNum textmodel_wstr="navigation.current_altitude.number_text" visiblemodel="navigation.current_altitude.valid">
-	<TEXT et_NIA_unit%ID%  template=xetNavInfoUnit textmodel_wstr="navigation.current_altitude.unit_text" visiblemodel="navigation.current_altitude.valid">
+	<TEXT xxx  template=xetNavInfoNum textmodel_wstr="navigation.current_altitude.number_text" visiblemodel="navigation.current_altitude.valid">
+	<TEXT xxx  template=xetNavInfoUnit textmodel_wstr="navigation.current_altitude.unit_text" visiblemodel="navigation.current_altitude.valid">
 </element_template>
 
 <element_template et_NavInfoCompass>
@@ -289,7 +281,8 @@
 	<SPRITE et_sprNICCompass x=7 y=2 z=10 h=15 w=70 attach_sprite_provider="other.attach_linear_compass(linear_compass_cockpit.bmp,navigation.car_heading)">
 </element_template>
 
-<layer ui_NavigateMapRouteNavigationInfos z=52>
+;!Raffke_jr - added visiblemodel like in 320x240
+<layer ui_NavigateMapRouteNavigationInfos z=52 visiblemodel="!ui.v3dzoomcontrol">
 	<DYNAMICELEMENT dyn_NMR1 x=0 y=154>
 	<DYNAMICELEMENT dyn_NMR2 x=0 y=183>
 	<DYNAMICELEMENT dyn_NMR3 x=0 y=212>	
@@ -430,7 +423,8 @@
 <layer ui_NavigateMapCockpitelemets_hack z=3010 visiblemodel="navigation.has_route&!ui.vOnFlyover">
 ;Mivel nem lehet 4 bool-t egyszerre kezelni....
 ;!TB MR - Added onlongclick to re-enable Auto Recalc Route
-	<BUTTON btnNMC_Recalc   x=9   y=8  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="recalc.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='run sc_RecalcWays' visiblemodel="!ui.vRouteCalculation" HIDE visiblemodel="navigation.car_pos_valid&!ui.vRouteCalculation&!navigation.car_on_planned_route" onlongclick='run sc_EnableAutoRecalcRoute'> 
+;!Raffke_jr - removed duplicated visiblemodel
+	<BUTTON btnNMC_Recalc   x=9   y=8  z=100  text="" align="CENTER" valign="CENTER-5"   bmp="recalc.bmp"  font="tahoma" fontsize=12 fonttype=buttonlabel1 color=#FFFFFF onRelease='run sc_RecalcWays' HIDE visiblemodel="navigation.car_pos_valid&!ui.vRouteCalculation&!navigation.car_on_planned_route" onlongclick='run sc_EnableAutoRecalcRoute'> 
 </layer>
 
 <layer ui_NavigateMapCockpitelemets z=55>
@@ -597,6 +591,8 @@
 	<BUTTON xxx  x=4 y=147 z=0 bmp="ges_zoom3_pl.bmp#2" text=""  align="center-3"  valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1  onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0' > 
 	<TEXT xxx    template=txt_map x=0  y=0    w=480 textmodel_wstr="map.cursorpos.address.long_format" fontsize=12>
 	<TEXT xxx    template=txt_map x=80 y=15   w=320 textmodel_wstr="map.cursorpos.geocoord" align="LEFT"            fontsize=12 hide>
+;!Raffke_jr - added back, like in 320x240
+	<BUTTON xxx  template=backa                      onrelease='prevstate'>
 	<BUTTON xxx  template=footer3_3a text="Select"   onrelease='run sc_ManagePOIEditAddress' visiblemodel="ui.vChangePOIcoord">	
 	<BUTTON xxx  template=footer3_3a text="OK"       onrelease='run sc_StartPOISearchAroundCursor' visiblemodel="!ui.vChangePOIcoord">
 </LAYER>

@@ -6,12 +6,10 @@
 
 ;***********************  SLIDERS  ******************************
 ;!Sib Template for Speedcam setting advanced
-;<TEMPLATE sld_lb5e       bmp="btn_lb_5e.bmp#3"           align="center" valign="center" fonttype=bw fontsize=14>
-<TEMPLATE sld_lb5f_small   bmp="btn_lb_5f_small.bmp#2"  align="center" valign="center" fonttype=bw fontsize=14>
+<TEMPLATE sld_lb5f   bmp="btn_lb_5f_small.bmp#2"  align="center" valign="center" fonttype=bw fontsize=14>
 
 ;***********************  BUTTONS  ******************************
 ;!Raffke_jr - renamed to add x values, added z & iconspr, inherited template=btn_lb5e
-;<TEMPLATE btn_lb4e51                bmp="btn_lb_4e.bmp#3"  padding=4 align="center" valign="center" fonttype=bw twolinesmall=1 clicked_coloring=1>
 <TEMPLATE btn_lb5e5   template=btn_lb5e   z=20 iconspr="$speed_cams_transp.spr" iconalign="CENTER" iconvalign="CENTER">
 <TEMPLATE btn_lb5e51  template=btn_lb5e5  x=34 >
 <TEMPLATE btn_lb5e52  template=btn_lb5e5  x=123>
