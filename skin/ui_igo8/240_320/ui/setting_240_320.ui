@@ -89,17 +89,21 @@ import "ui_igo8/240_320/ui/speedcam_setting_240_320.ui"
 <layer ui_SettingsVisualAdvanced2 z=30>
 ;!Raffke_jr - 2-line setting for Cockpit Transparency; scrollbar and test area taken from Matze
 	<SPRITE     xxx                 template=spr_poti        template=y_1  z=0>
-	<TEXT       xxx                 template=txt_poti        template=y_1  z=1 text="Cockpit Transparency">
-	<TEXT       txt_cockTrans       template=txt_csu_legend  template=y_1b z=2 template=only_white>
+;!Matze - changed template
+	<TEXT       xxx                 template=txt_csu_legend        template=y_1  z=1 text="Cockpit Transparency" template=only_white>
+;!Matze - added w
+	<TEXT       txt_cockTrans       template=txt_csu_legend  template=y_1b z=2 template=only_white w=100>
 	<SPRITE     spr_bgtestmap       bmp="$bg_test_map.bmp" x=165 y=28  z=3 visiblemodel="ui.vCockpitAlpha>2">
 	<SPRITE     spr_bgtest          bmp="$bg_test.bmp"     x=165 y=28  z=4 visiblemodel="ui.vCockpitAlpha>2" alpha="ui.vCockpitAlpha">
-	<HSCROLLBAR hsc_cockTrans       template=csuszka         template=y_1b z=2 min=0 max=32 endsize=0 valuemodel="ui.vCockpitAlpha" onchange='run hsc_cockTrans_OnChange'>
+;!Matze - changed template
+	<HSCROLLBAR hsc_cockTrans       template=csuszka_small         template=y_1b z=2 min=0 max=32 endsize=0 valuemodel="ui.vCockpitAlpha" onchange='run hsc_cockTrans_OnChange'>
 
 ;!Matze - added checkbox and scrollbar 'Night color filter'
 	<CHECKBOX xxx         template=chk_5a   template=y_3  text="Night color filter" boolmodel="ui.bUseColorFilter">
-
-	<SPRITE     xxx                 template=spr_5a          template=y_4  z=0 enabledmodel="ui.bUseColorFilter">
-	<TEXT       xxx                 template=txt_csu_legend  template=y_4  z=1 text="Filter Intensity" enabledmodel="ui.bUseColorFilter">
+;!Matze - changed template
+	<SPRITE     xxx                 template=spr_poti          template=y_4  z=0 enabledmodel="ui.bUseColorFilter">
+	<TEXT       xxx                 template=txt_csu_legend  template=y_4  z=1 text="Filter Intensity" enabledmodel="ui.bUseColorFilter" template=only_white>
+;!Matze - 2x changed y
 	<SPRITE     spr_bgtestmapNF     bmp="$bg_test_mapnf.bmp" x=165 y=139  z=1 visiblemodel="ui.bUseColorFilter">
 	<SPRITE     spr_bgtestNF        bmp="$bg_test_nf.bmp"    x=165 y=139  z=2 alpha="ui.bUseColorFilter" visiblemodel="ui.bUseColorFilter">
 	<HSCROLLBAR hsc_colorFilter     template=csuszka         template=y_4b z=1 endsize=0 blockincrement=_0.0 possiblevalues="6,8,10,12,14,16,18,20,22" valuemodel="ui.vColorFilterValue" onchange='run sc_hsr_colorFilter_change' enabledmodel="ui.bUseColorFilter">
@@ -406,10 +410,10 @@ import "ui_igo8/240_320/ui/speedcam_setting_240_320.ui"
 	<HSCROLLBAR hscSSD_MaxVolSpd		template=csuszka	template=y_4b	possiblevalues="10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,200" endsize=0 blockincrement=_0.0 value=120 onchange='run sc_hscSSD_MaxVolSpd_OnChange' endsize=15	enabledmodel="ui.nDynamicVolumeType">
 	<SPRITE     xxx				template=spr_poti	template=y_4>
 
-;!Matze - added from ui_SettingSound, changed templates, changed visiblemodel to enabledmodel
-	<TEXT       xxx		template=txt_poti	template=y_6	text="Sound warnings Speedcam/TMC" enabledmodel="ui.vSpeedcamSoundType!=0&warning.speedcam_warning&warning.speedcams_allowed|ui.vTMCVoiceWarning!=0">
-	<SPRITE     xxx		template=spr_poti	template=y_6	>
-	<HSCROLLBAR xxx		template=csuszka	template=y_6b	min=0 max=64 endsize=0 blockincrement=_0.0 value=64 onrelease='run sc_SpeedcamWarningTestSound' nosound valuemodel="ui.vSpeedcamAlertVolume" enabledmodel="ui.vSpeedcamSoundType!=0&warning.speedcam_warning&warning.speedcams_allowed|ui.vTMCVoiceWarning!=0">
+;!Matze - added from ui_SettingSound, changed templates, changed visiblemodel to enabledmodel, added names
+	<TEXT       txt_WarningVolume		template=txt_poti	template=y_6	text="Sound warnings Speedcam/TMC" enabledmodel="ui.vSpeedcamSoundType!=0&warning.speedcam_warning&warning.speedcams_allowed|ui.vTMCVoiceWarning!=0">
+	<SPRITE     spr_WarningVolume		template=spr_poti	template=y_6	>
+	<HSCROLLBAR hsc_WarningVolume		template=csuszka	template=y_6b	min=0 max=64 endsize=0 blockincrement=_0.0 value=64 onrelease='run sc_SpeedcamWarningTestSound' nosound valuemodel="ui.vSpeedcamAlertVolume" enabledmodel="ui.vSpeedcamSoundType!=0&warning.speedcam_warning&warning.speedcams_allowed|ui.vTMCVoiceWarning!=0">
 
 	
 ;	<TEXT       txtSSD_VoiceMaxVolSpdText  template=txt_csu_legend y=171 text="Voice at maximum speed:" >

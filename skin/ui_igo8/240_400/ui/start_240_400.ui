@@ -1,12 +1,17 @@
 <layer ui_AdvMenu z=30>
 	<BUTTON xxx           template=menu4_1  fxshowdelay=0   text="Find"     iconspr="$ico_findplace.bmp"  onrelease='NEXTSTATE st_AdvFindMenu'> 
 	<BUTTON btnAM_Route   template=menu4_3  fxshowdelay=22  text="Route"    iconspr="$ico_route.bmp"      onrelease='NEXTSTATE st_AdvRouteMenu'>
-	<BUTTON btnAM_Button3 template=menu4_2  fxshowdelay=6   text="Manage"   iconspr="$ico_mydata.bmp"     onrelease='NEXTSTATE st_AdvMyDataMenu'>
+;!TB - Added page setting to onrelease event
+	<BUTTON btnAM_Button3 template=menu4_2  fxshowdelay=6   text="Manage"   iconspr="$ico_mydata.bmp"     onrelease='vMyDataActPage.set 0, NEXTSTATE st_AdvMyDataMenu'>
 	<BUTTON btnAM_Button4 template=menu4_4  fxshowdelay=12  text="Settings" iconspr="$ico_settings.bmp"   onrelease='vSettingsActPage.set 0, NEXTSTATE st_AdvSettingsMenu'>
 
 	<BUTTON ui_AdvMenu_Map      template=footerm3_1          iconspr="icof_map.bmp"  onlongclick='run sc_show_btn_help "Map"'  onrelease='STATE st_NavigateMap'>
-	<BUTTON ui_AdvMenu_Exit     template=footerm3_3 text=""  iconspr="icof_exit.bmp" onlongclick='run sc_show_btn_help "Exit"' onrelease='run sc_Exit' z=1 visiblemodel="interface.show_exit" nostress rawkey=27>
+;!TB MR - Exit on long click
+	<BUTTON ui_AdvMenu_Exit     template=footerm3_3 text=""  iconspr="icof_exit.bmp" onlongclick='run sc_show_btn_help "Exit"' onrelease='run sc_Exit' z=1 visiblemodel="interface.show_exit" nostress rawkey=27 onlongclick='STATE ExitState'>
 	<BUTTON ui_AdvMenu_Settings template=footerm3_2 text="Settings"                  onrelease='vSettingsActPage.set 0, NEXTSTATE st_AdvSettingsMenu' hide>
+;!TB - Added button to go to 2D map
+;!Raffke_jr - TODO: add icon
+	<BUTTON ui_AdvMenu_Map2D    template=footerm3_2 text="Plan Mode" onrelease='run sc_StartPlanMode'>
 
 	<BUTTON btn_demo template=footerm3_2 ICONALIGN="CENTER"  ICONVALIGN="TOP+15" iconphasesync=1 color=#FFFFFF clicked_dy=1 glowtype=1 glowsize=3 text="Demo" onrelease='run sc_AdvDemoRoute' HIDE>
 	<BUTTON btnAM_back template=back onrelease='PREVSTATE' rawkey=27 hide>
@@ -16,8 +21,9 @@
 <layer ui_AdvMenuMsnd z=30>
 	<BUTTON xxx         template=menu4_1  fxshowdelay=0    text="Find"       iconspr="$ico_findplace.bmp"  onrelease='NEXTSTATE st_AdvFindMenu'> 
 	<BUTTON btnAMM_Route template=menu4_2  fxshowdelay=5   text="Route"      iconspr="$ico_route.bmp"      onrelease='NEXTSTATE st_AdvRouteMenu'>
-	
-	<BUTTON xxx         template=menu6_4  fxshowdelay=20   text="Manage"     align="LEFT+70" iconspr="$ico_mydata.bmp"     onrelease='NEXTSTATE st_AdvMyDataMenu'>
+
+;!TB - Added page setting to onrelease event	
+	<BUTTON xxx         template=menu6_4  fxshowdelay=20   text="Manage"     align="LEFT+70" iconspr="$ico_mydata.bmp"     onrelease='vMyDataActPage.set 0, NEXTSTATE st_AdvMyDataMenu'>
 	<BUTTON btnAMM_Msnd  template=menu6_5  fxshowdelay=15  text="MSN Direct" align="LEFT+70" iconspr="$ico_msnd.bmp">	
 	;<BUTTON btnAMM_Msnd  template=menu6_5  fxshowdelay=15  text="MSN Direct" align="LEFT+70" iconspr="$ico_msnd.bmp">	
 	
@@ -35,7 +41,8 @@
 	<TEXT   xxx x=47 y=57 w=175 h=100 text="Select from the following possibilties\nto find a place you want to navigate to." font="tahoma" color=#ffffff fontsize=13 valign="CENTER" align="LEFT">
 
 	<BUTTON xxx  template=menu6_2 iconspr="$ico_findaddress.bmp" iconvalign="TOP+14"  fxshowdelay=0  text="Find Address"    onrelease='NEXTSTATE st_FindAddress'> 
-	<BUTTON xxx  template=menu6_5 iconspr="$ico_findhistory.bmp" iconvalign="TOP+14"  fxshowdelay=15  text="Recent\nPlaces"    onrelease='run sc_FindHistory' enabledmodel="!mydata.history.list.isempty">
+;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	<BUTTON xxx  template=menu6_5 iconspr="$ico_findhistory.bmp" iconvalign="TOP+14"  fxshowdelay=15  text="Recent\nPlaces"    onrelease='run sc_FindHistory' enabledmodel="!ui.bHistoryIsEmpty">
 	<BUTTON xxx  template=menu6_3 iconspr="ico_f002a.bmp"          fxshowdelay=3 text="Find POI"        onrelease='run sc_FindPOI'>
 	<BUTTON xxx  template=menu6_6 iconspr="$ico_findfav.bmp"       fxshowdelay=6  text="My\nFavorites" onrelease='run sc_FindFavorite' enabledmodel="!mydata.favorites.isempty">
 
@@ -49,6 +56,8 @@
 
 <script sc_OasisInitNavMenu>
   ui_AdvMenu_Settings.show
+;!TB - Added button to go to 2D map
+  ui_AdvMenu_Map2D.hide
   btnAM_Button4.text "Extras"
   btnAM_Button4.iconspr "ico_entertainment.bmp"
   btnAM_Button4.onrelease 'NEXTSTATE st_OasisExtras'
@@ -59,6 +68,8 @@
   ui_AdvMenu_Exit.hide
   ui_AdvMenu_Exit.x -1000
   ui_AdvMenu_Settings.hide
+;!TB - Added button to go to 2D map
+  ui_AdvMenu_Map2D.show
   btnAM_back.show
   
   btnAM_Button3.text "Map"
@@ -68,7 +79,8 @@
 
   btnAM_Button4.text "Manage"
   btnAM_Button4.iconspr "$ico_mydata.bmp"
-  btnAM_Button4.onrelease 'NEXTSTATE st_AdvMyDataMenu'
+;!TB - Added page setting to onrelease event
+  btnAM_Button4.onrelease 'vMyDataActPage.set 0, NEXTSTATE st_AdvMyDataMenu'
 </script>
   
 <script sc_LauncherInitBasMenu>

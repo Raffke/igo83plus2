@@ -6,8 +6,9 @@
 	<TEXT   txtSC_Speed       template=txt_csu_legend  template=only_white y=188  text="Camera Speed:">
 	<TEXT   txtSC_SpeedValue  template=txt_csu_value   template=only_white y=188  >
 	<TEXT   txtSC_SpeedUnit   template=txt_csu_unit    template=only_white y=188  >
-	<TEXT   txtSC_SpeedNo     template=txt_csu_valunit template=only_white y=188  text="No Limit" >
-	<HSCROLLBAR hscSC_Speed   template=csuszka                             y=230  endsize=0 possiblevalues="0, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130" blockincrement=_0.0 onchange='run sc_hscSC_Speed_OnChange' endsize=15>
+	<TEXT   txtSC_SpeedNo     template=txt_csu_valunit template=only_white x=160 y=188 w=70  text="No Limit" >
+;!Raffke_jr - removed 'blockincrement=_0.0'
+	<HSCROLLBAR hscSC_Speed   template=csuszka                             y=230  endsize=0 possiblevalues="0, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130" onchange='run sc_hscSC_Speed_OnChange' endsize=15>
 
 	
 	<SPRITE     sprSC_Speed		template=spr_5a	y=-206>
@@ -28,24 +29,33 @@
 </layer>
 
 <layer ui_SpeedCamWarningLayer z=5000 visiblemodel="navigation.curr_speedcam.category.valid&warning.speedcam_visualtype!=0&!ui.vOnFlyover">
-	<SPRITE xxx x=75 y=20 z=0 h=65 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol">
+;!Raffke_jr - replaced background for Speedcam Warning on map (thx Webpiratz), moved left by 70 and down by 78, removed visiblemodel
+;	<SPRITE xxx x=75 y=20 z=0 h=65 bmp="cock_infobg2.bmp" visiblemodel="!ui.v3dzoomcontrol">
+	<SPRITE xxx x=5 y=98 z=0 bmp="$wp_warn_sc.bmp">
 
-	<SPRITE sprSCW_CamType       x=87 y=21 z=1  phasemodel="navigation.curr_speedcam.category" bmp="$speed_cams.spr">
-	<SPRITE sprSCW_CamEnterExit  x=88 y=23 z=2  phasemodel="navigation.curr_speedcam.enterexit" bmp="$speed_cam_enterexit.spr">
+;!Raffke_jr - replaced "$speed_cams.spr" by transparent version, moved left by 34 and down by 84
+	<SPRITE sprSCW_CamType       x=53 y=105 z=1  phasemodel="navigation.curr_speedcam.category" bmp="$speed_cams_big.spr">
+;!Raffke_jr - repositioned to fit "$speed_cams_big.spr"
+	<SPRITE sprSCW_CamEnterExit  x=47 y=125 z=2  phasemodel="navigation.curr_speedcam.enterexit" bmp="$speed_cam_enterexit.spr">
 
-	<SPRITE xxx x=5  y=315 z=50 bmp="$speed_cam_speedlimit.bmp">
-	<TEXT   xxx x=11 y=315 w=28 h=40 z=51 textmodel_wstr="navigation.curr_speedcam.speed_limit.number_text" visiblemodel="navigation.curr_speedcam.speed_limit.valid"  align="CENTER" fontsize=18 font="tahomabd" color=#000000>
-	<TEXT   xxx x=11 y=315 w=28 h=40 z=51 text="!"                                                          visiblemodel="!navigation.curr_speedcam.speed_limit.valid" align="CENTER" fontsize=18 font="tahomabd" color=#000000>
+;!Raffke_jr - moved right by 8 and up by 210
+	<SPRITE xxx x=13  y=105 z=50 bmp="$speed_cam_speedlimit.bmp">
+	<TEXT   xxx x=19 y=105 w=28 h=40 z=51 textmodel_wstr="navigation.curr_speedcam.speed_limit.number_text" visiblemodel="navigation.curr_speedcam.speed_limit.valid"  align="CENTER" fontsize=18 font="tahomabd" color=#000000>
+	<TEXT   xxx x=19 y=105 w=28 h=40 z=51 text="!"                                                          visiblemodel="!navigation.curr_speedcam.speed_limit.valid" align="CENTER" fontsize=18 font="tahomabd" color=#000000>
 
-;!Raffke_jr - 2x removed align
-	<TEXT    txtSCW_AvgSpeed     template=txt_sec textmodel_wstr="navigation.curr_speedcam.avg_speed.number_text" visiblemodel="navigation.curr_speedcam.avg_speed.valid">
-	<TEXT    txtSCW_AvgSpeedUnit template=txt_sec textmodel_wstr="navigation.curr_speedcam.avg_speed.unit_text"   visiblemodel="navigation.curr_speedcam.avg_speed.valid">
-	<ALIGNER xxx                 x=75  w=58 align="CENTER" control=txtSCW_AvgSpeed padding=4 control=txtSCW_AvgSpeedUnit>
+;!Raffke_jr - 4x added y
+;!Raffke_jr - 2x removed w/align to support ALIGNER and replaced DIRDISTALIGNER
+	<TEXT    txtSCW_AvgSpeed     template=txt_sec  y=140  textmodel_wstr="navigation.curr_speedcam.avg_speed.number_text" visiblemodel="navigation.curr_speedcam.avg_speed.valid"   fontsize=12>
+	<TEXT    txtSCW_AvgSpeedUnit template=txt_sec  y=140  textmodel_wstr="navigation.curr_speedcam.avg_speed.unit_text"   visiblemodel="navigation.curr_speedcam.avg_speed.valid"   fontsize=8>
+;!Raffke_jr - increased width by 20 and moved right to match Distance
+	<ALIGNER xxx                 x=24  w=68       align="LEFT" control=txtSCW_AvgSpeed padding=4 control=txtSCW_AvgSpeedUnit>
+;!Raffke_jr - 2x removed w/align to support ALIGNER and replaced DIRDISTALIGNER
+	<TEXT    txtSCW_Distance     template=txt_sec  y=140  textmodel_wstr="navigation.curr_speedcam.distance.number_text"  visiblemodel="navigation.curr_speedcam.distance.valid">
+	<TEXT    txtSCW_DistanceUnit template=txt_sec  y=140  textmodel_wstr="navigation.curr_speedcam.distance.unit_text"    visiblemodel="navigation.curr_speedcam.distance.valid">
+;!Raffke_jr - increased width by 10 and moved right by 29
+	<ALIGNER xxx                 x=29  w=58       align="CENTER" control=txtSCW_Distance padding=4 control=txtSCW_DistanceUnit>
 
-;!Raffke_jr - 2x removed align
-	<TEXT    txtSCW_Distance     template=txt_sec textmodel_wstr="navigation.curr_speedcam.distance.number_text"  visiblemodel="navigation.curr_speedcam.distance.valid">
-	<TEXT    txtSCW_DistanceUnit template=txt_sec textmodel_wstr="navigation.curr_speedcam.distance.unit_text"    visiblemodel="navigation.curr_speedcam.distance.valid">
-	<ALIGNER xxx                 x=75  w=58 align="CENTER" control=txtSCW_Distance padding=4 control=txtSCW_DistanceUnit>
-
-	<SPRITE xxx x=75 y=20 z=100 bmp="cock_infobg2.bmp" alpha=0 onrelease='run sc_ToggleSpeedcamSound'>
+;!Raffke_jr - replaced background for Speedcam Warning on map (thx Webpiratz), moved left by 70 and down by 78
+;	<SPRITE xxx x=75 y=20 z=100 bmp="cock_infobg2.bmp" alpha=0 onrelease='run sc_ToggleSpeedcamSound'>
+	<SPRITE xxx x=5 y=98 z=0 bmp="$wp_warn_sc.bmp" alpha=0 onrelease='run sc_ToggleSpeedcamSound'>
 </layer>

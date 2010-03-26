@@ -84,8 +84,9 @@
 	<SPRITE xxx template=poi_listicon iconmodel="*.icon" iconindex=1>
 
 ;!TB - Added direction icon and total distance
-	<VSPRITE xxx x=0 y=10 z=3 vec="$mininyil.vpr" rotatemodel="*.direction" updatemodel="*.calc_dir" visiblemodel="*.direction.valid&*.detour_length.valid|*.distance_on_route.valid&*.direction.valid">
-	<SPRITE  xxx x=0 y=10 z=2 bmp="$mininyil_bg.bmp" visiblemodel="*.detour_length.valid|*.distance_on_route.valid">
+;!Matze - 2x changed x/y
+	<VSPRITE xxx x=210 y=0 z=3 vec="$mininyil.vpr" rotatemodel="*.direction" updatemodel="*.calc_dir" visiblemodel="*.direction.valid&*.detour_length.valid|*.distance_on_route.valid&*.direction.valid">
+	<SPRITE  xxx x=210 y=0 z=2 bmp="$mininyil_bg.bmp" visiblemodel="*.detour_length.valid|*.distance_on_route.valid">
 	<TEXT    xxx x=195 y=38 z=2 w=40 template=xtxt3 fontsize=10 font="tahomabd" align="CENTER" textmodel_wstr="*.distance.full_text" visiblemodel="!*.detour_length.valid&*.distance_on_route.valid">
 	<TEXT    xxx x=195 y=38 z=2 w=40 template=xtxt3 fontsize=10 font="tahomabd" align="CENTER" combined_textmodel="+$*.detour_length.full_text$" visiblemodel="*.detour_length.valid">
 

@@ -19,7 +19,14 @@
 	<BUTTON     xxx           x=0 y=230 z=0 bmp="main_bg2.bmp"  nosound>
 	<TEXT       txtPA_Address template=txt_posinfo  textmodel_wstr="map.last_selected.name">
 	<TEXT       txtPA_POI     template=txt_posinfo textmodel_wstr="poi.current.name">
-	<BUTTON     btnPA_Map     template=footer2_1a  z=10 text="" iconspr="icof_map.bmp" onlongclick='run sc_show_btn_help "Map"'  onrelease='run sc_btnP_Map_OnRelease'> 
+;!TB - Changed template of a Map button from footer2_1a
+	<BUTTON     btnPA_Map     template=footer3_1a  z=10 text="" iconspr="icof_map.bmp" onlongclick='run sc_show_btn_help "Map"'  onrelease='run sc_btnP_Map_OnRelease'> 
+
+;!TB - Added "Plan on Map" and smaller Info buttons
+;!Matze - added onlogclick
+	<BUTTON btnPA_PlanMode  template=footer3_2a z=10     iconspr="icof_planonmap.bmp"  onlongclick='run sc_show_btn_help "Plan Mode"'  onrelease='run sc_btnPA_PlanMode_OnRelease'>
+	<BUTTON btnPA_Info1     template=footer3_3a z=10     iconspr="icof_info.bmp" onlongclick='run sc_show_btn_help "Info"'   onrelease='run sc_btnPA_Info_OnRelease' HIDE>
+
 	<BUTTON     btnPA_Info    template=footer2_2a z=10 iconspr="icof_info.bmp"      onlongclick='run sc_show_btn_help "Info"'	onrelease='run sc_btnPA_Info_OnRelease'> 
 </layer>
 
@@ -55,25 +62,29 @@
 	<BUTTON btnPZC_ZoomOut x=0 y=138 z=0 bmp="map_zoomout1.bmp#2" onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0'>
 </layer>
 
+;!Raffke_jr - applied new templates
 <layer ui_PlaceMenuPlan z=32>
-	<BUTTON btnPMP_AddDest	   template=btn_4c_icon_place   x=4   y=244  text="Set as\nDestination" iconspr="ico_dest.bmp"    onrelease='run sc_btnPM_AddDest_OnRelease'>
-	<BUTTON btnPMP_RemoveDest  template=btn_4c_icon_place   x=4   y=300  text="Remove\nDestination" iconspr="ico_remdest.bmp" onrelease='run sc_btnPM_RemoveDest_OnRelease'>
-	<BUTTON btnPMP_AddVia      template=btn_4c_icon_place   x=4   y=300  text="Insert Via"          iconspr="ico_via.bmp"     onrelease='run sc_btnPM_AddVia_OnRelease'>
-	<BUTTON btnPMP_RemoveVia   template=btn_4c_icon_place   x=4   y=300  text="Remove Via"          iconspr="ico_remvia.bmp"  onrelease='run sc_btnPM_RemoveVia_OnRelease'>    
-	<BUTTON btnPMP_AddPin      template=btn_4c_icon_place   x=121 y=244  text="Add Pin"             iconspr="ico_pin_add.bmp" onrelease='run sc_btnPM_AddPin_OnRelease'>
-	<BUTTON btnPMP_RemovePin   template=btn_4c_icon_place   x=121 y=244  text="Remove Pin"          iconspr="ico_pin_rem.bmp" onrelease='run sc_btnPM_RemovePin_OnRelease'>
-	<BUTTON	btnPMP_More        template=btn_4c              x=121 y=300  text="More Options..."     onrelease='NEXTSTATE st_PlaceMoreOptions'>
+	<BUTTON btnPMP_AddDest	   template=btn_4c_icon_place   template=x_4c_1  template=y_4c_5  text="Set as\nDestination" iconspr="ico_dest.bmp"    onrelease='run sc_btnPM_AddDest_OnRelease'>
+	<BUTTON btnPMP_RemoveDest  template=btn_4c_icon_place   template=x_4c_1  template=y_4c_6  text="Remove\nDestination" iconspr="ico_remdest.bmp" onrelease='run sc_btnPM_RemoveDest_OnRelease'>
+	<BUTTON btnPMP_AddVia      template=btn_4c_icon_place   template=x_4c_1  template=y_4c_6  text="Insert Via"          iconspr="ico_via.bmp"     onrelease='run sc_btnPM_AddVia_OnRelease'>
+	<BUTTON btnPMP_RemoveVia   template=btn_4c_icon_place   template=x_4c_1  template=y_4c_6  text="Remove Via"          iconspr="ico_remvia.bmp"  onrelease='run sc_btnPM_RemoveVia_OnRelease'>    
+	<BUTTON btnPMP_AddPin      template=btn_4c_icon_place   template=x_4c_2  template=y_4c_5  text="Add Pin"             iconspr="ico_pin_add.bmp" onrelease='run sc_btnPM_AddPin_OnRelease'>
+	<BUTTON btnPMP_RemovePin   template=btn_4c_icon_place   template=x_4c_2  template=y_4c_5  text="Remove Pin"          iconspr="ico_pin_rem.bmp" onrelease='run sc_btnPM_RemovePin_OnRelease'>
+;!Matze - changed template, add align
+	<BUTTON	btnPMP_More        template=btn_4c_icon_place   template=x_4c_2  template=y_4c_6  text="More Options..."     align="CENTER"             onrelease='NEXTSTATE st_PlaceMoreOptions'>
 </layer>
 
+;!Raffke_jr - applied new templates
 <layer ui_PlaceMenuPlan_POS z=32>
-	<BUTTON btnPM_POS_AddPoi     template=btn_4c_icon_place x=4   y=244 text="Add POI"            iconspr="ico_poi_add.bmp"       onrelease='run sc_btnPM_AddPoi_OnRelease'>
-	<BUTTON btnPM_POS_AddPin     template=btn_4c_icon_place x=121 y=244 text="Add Pin"            iconspr="ico_pin_add.bmp"       onrelease='run sc_btnPM_AddPin_OnRelease'>
-	<BUTTON btnPM_POS_RemovePin  template=btn_4c_icon_place x=121 y=244 text="Remove\nPin"        iconspr="ico_pin_rem.bmp"       onrelease='run sc_btnPM_RemovePin_OnRelease'>
-	<BUTTON btnPM_POS_AddCam     template=btn_4c_icon_place x=121 y=300 text="Add\nSpeedCam"      iconspr="ico_speedcam_add.bmp"  onrelease='run sc_btnPM_AddCam_OnRelease' enabledmodel="warning.speedcams_allowed">
-	<BUTTON btnPM_POS_EditCam    template=btn_4c_icon_place x=121 y=300 text="Edit\nSpeedCam"     iconspr="ico_speedcam_edit.bmp" onrelease='run sc_btnPM_EditCam_OnRelease' enabledmodel="warning.speedcams_allowed">
-	<BUTTON	btnPM_POS_Favorite   template=btn_4c_icon_place x=4   y=300 text="Add to\nFavorites"  iconspr="ico_fav_add.bmp"       onrelease='run sc_btnPM_Favorite_OnRelease'>
+	<BUTTON btnPM_POS_AddPoi     template=btn_4c_icon_place template=x_4c_1  template=y_4c_5 text="Add POI"            iconspr="ico_poi_add.bmp"       onrelease='run sc_btnPM_AddPoi_OnRelease'>
+	<BUTTON btnPM_POS_AddPin     template=btn_4c_icon_place template=x_4c_2  template=y_4c_5 text="Add Pin"            iconspr="ico_pin_add.bmp"       onrelease='run sc_btnPM_AddPin_OnRelease'>
+	<BUTTON btnPM_POS_RemovePin  template=btn_4c_icon_place template=x_4c_2  template=y_4c_5 text="Remove\nPin"        iconspr="ico_pin_rem.bmp"       onrelease='run sc_btnPM_RemovePin_OnRelease'>
+	<BUTTON btnPM_POS_AddCam     template=btn_4c_icon_place template=x_4c_2  template=y_4c_6 text="Add\nSpeedCam"      iconspr="ico_speedcam_add.bmp"  onrelease='run sc_btnPM_AddCam_OnRelease' enabledmodel="warning.speedcams_allowed">
+	<BUTTON btnPM_POS_EditCam    template=btn_4c_icon_place template=x_4c_2  template=y_4c_6 text="Edit\nSpeedCam"     iconspr="ico_speedcam_edit.bmp" onrelease='run sc_btnPM_EditCam_OnRelease' enabledmodel="warning.speedcams_allowed">
+	<BUTTON	btnPM_POS_Favorite   template=btn_4c_icon_place template=x_4c_1  template=y_4c_6 text="Add to\nFavorites"  iconspr="ico_fav_add.bmp"       onrelease='run sc_btnPM_Favorite_OnRelease'>
 </layer>
 
+;!Matze - 1 page layout changed to 5 lines to add scenic routing
 <layer ui_MultiRoute z=30>
 	<BUTTON btnMR_fastp template=btn_4a               y=37  text="Fast" fontsize=14 font="tahomabd" valign="top+14" onrelease='run sc_SelectMultiplanRoute 0'>
 	<SPRITE sprMPRoute1   template=spr_multi       y=70 >
@@ -119,28 +130,52 @@
 	<TEXT txtMPTime4Unit  template=txt_multi_unit  y=245 textmodel_timespan="route.multiplan4.time" formatmodel=4 watchstate=btnMR_easyp visiblemodel="route.multiplan4.time.valid" fontsize=10>
 	<ALIGNER xxx          template=aligner_multi   control=txtMPTime4label padding=5 control=txtMPTime4 padding=3 control=txtMPTime4Unit>
 	
-	<BUTTON btnMR_vehicle template=footer2_1a text=""     onlongclick='run sc_show_btn_help "Vehicle"'     onrelease='run sc_MultiRouteVehicle'>
-	<BUTTON xxx template=footer2_2a text="" iconspr="icof_roadtype.bmp" onlongclick='run sc_show_btn_help "Road Types"'  w=80 onrelease='run sc_MultiRouteRouteTypes'>
-	
+	<BUTTON btnMR_scen	template=btn_4a                y=285  text="Scenic/Panoramic_View" fontsize=14 font="tahomabd" valign="top+14" onrelease='run sc_SelectMultiplanRoute 4'>
+	<SPRITE sprMPRoute5   template=spr_multi              y=318 >
+	<TEXT txtMPDist5label template=txt_multi_label        y=289 text="Distance:" watchstate=btnMR_scen fontsize=10 align="LEFT">
+	<TEXT txtMPDist5      template=txt_multi_value        y=289 textmodel_wstr="route.multiplan5.dist.number_text" font="tahomabd" watchstate=btnMR_scen visiblemodel="route.multiplan5.dist.valid" fontsize=10>
+	<TEXT txtMPDist5Unit  template=txt_multi_unit         y=289 textmodel_wstr="route.multiplan5.dist.unit_text" watchstate=btnMR_scen visiblemodel="route.multiplan5.dist.valid" fontsize=10>
+	<ALIGNER xxx          template=aligner_multi          control=txtMPDist5label padding=5 control=txtMPDist5 padding=3 control=txtMPDist5Unit>
+	<TEXT txtMPTime5label template=txt_multi_label        y=307 text="Time:" watchstate=btnMR_scen fontsize=10 align="LEFT">
+	<TEXT txtMPTime5      template=txt_multi_value        y=307 textmodel_timespan="route.multiplan5.time" formatmodel=3 watchstate=btnMR_scen visiblemodel="route.multiplan5.time.valid" fontsize=10>
+	<TEXT txtMPTime5Unit  template=txt_multi_unit         y=307 textmodel_timespan="route.multiplan5.time" formatmodel=4 watchstate=btnMR_scen visiblemodel="route.multiplan5.time.valid" fontsize=10>
+	<ALIGNER xxx          template=aligner_multi          control=txtMPTime5label padding=5 control=txtMPTime5 padding=3 control=txtMPTime5Unit>
+
+;!Matze - changed templates
+	<BUTTON btnMR_vehicle template=footer3_1a text=""  iconspr="icof_vehicle.bmp"   onlongclick='run sc_show_btn_help "Vehicle"'     onrelease='run sc_MultiRouteVehicle'>
+	<BUTTON xxx template=footer3_2a text="" iconspr="icof_roadtype.bmp" onlongclick='run sc_show_btn_help "Route Types"'  onrelease='run sc_MultiRouteRouteTypes'>
+;!Matze - added button to show multiroute on map
+	<BUTTON xxx template=footer3_3a text="" iconspr="icof_fittoscreen.bmp" onlongclick='run sc_show_btn_help "Show on Map"'  onrelease='run sc_MultiRouteMap'>
 </layer>
 
-
+;!Raffke_jr - applied new templates
 <layer ui_PlaceMoreOptions z=30>
-	<BUTTON btnPMO_AddDest        template=btn_4c_icon_place x=4  y=-80 text="Set as\nDestination" iconspr="ico_dest.bmp"     onrelease='run sc_btnPM_AddDest_OnRelease'>
-	<BUTTON btnPMO_RemoveDest     template=btn_4c_icon_place x=4  y=-80 text="Remove\nDestination" iconspr="ico_remdest.bmp"  onrelease='run sc_btnPM_RemoveDest_OnRelease'>
-	<BUTTON btnPMP_MultiplanDest  template=btn_4c_icon_place x=4  y=20  text="Routing\nMethods"    iconspr="ico_dest.bmp"     onrelease='run btnPMP_MultiplanDest_OnRelease'>
-	<BUTTON btnPMO_AddStart       template=btn_4c_icon_place x=4  y=76  text="Set as\nStart"       iconspr="ico_start.bmp"    onrelease='run sc_btnPM_AddStart_OnRelease'>
-	<BUTTON btnPMO_RemoveStart    template=btn_4c_icon_place x=4  y=76  text="Remove\nStart"       iconspr="ico_remstart.bmp" onrelease='run sc_btnPM_RemoveStart_OnRelease'>
-	<BUTTON btnPMO_AddVia         template=btn_4c_icon_place x=4  y=132 text="Insert Via"          iconspr="ico_via.bmp"      onrelease='run sc_btnPM_AddVia_OnRelease'>
-	<BUTTON btnPMO_RemoveVia      template=btn_4c_icon_place x=4  y=132 text="Remove Via"          iconspr="ico_remvia.bmp"   onrelease='run sc_btnPM_RemoveVia_OnRelease'>
-	<BUTTON	btnPMO_Continue       template=btn_4c_icon_place x=4  y=188 text="Continue "           iconspr="ico_dest.bmp"     onrelease='run sc_btnPM_Continue_OnRelease'>
+	<BUTTON btnPMO_AddDest        template=btn_4c_icon_place template=x_4c_1 y=-80 text="Set as\nDestination" iconspr="ico_dest.bmp"     onrelease='run sc_btnPM_AddDest_OnRelease'>
+	<BUTTON btnPMO_RemoveDest     template=btn_4c_icon_place template=x_4c_1 y=-80 text="Remove\nDestination" iconspr="ico_remdest.bmp"  onrelease='run sc_btnPM_RemoveDest_OnRelease'>
 
-	<BUTTON btnPMO_AddPoi         template=btn_4c_icon_place x=121 y=20  text="Add POI"             iconspr="ico_poi_add.bmp"       onrelease='run sc_btnPM_AddPoi_OnRelease'>
-	<BUTTON btnPMO_AddPin         template=btn_4c_icon_place x=121 y=76  text="Add Pin"             iconspr="ico_pin_add.bmp"       onrelease='run sc_btnPM_AddPin_OnRelease'>
-	<BUTTON btnPMO_RemovePin      template=btn_4c_icon_place x=121 y=76  text="Remove Pin"          iconspr="ico_pin_rem.bmp"       onrelease='run sc_btnPM_RemovePin_OnRelease'>
-	<BUTTON btnPMO_AddCam         template=btn_4c_icon_place x=121 y=132 text="Add\nSpeedCam"       iconspr="ico_speedcam_add.bmp"  onrelease='run sc_btnPM_AddCam_OnRelease' enabledmodel="warning.speedcams_allowed">
-	<BUTTON btnPMO_EditCam        template=btn_4c_icon_place x=121 y=132 text="Edit\nSpeedCam"      iconspr="ico_speedcam_edit.bmp" onrelease='run sc_btnPM_EditCam_OnRelease' enabledmodel="warning.speedcams_allowed">
-	<BUTTON	btnPMO_Favorite       template=btn_4c_icon_place x=121 y=188 text="Add to\nFavorites"   iconspr="ico_fav_add.bmp"       onrelease='run sc_btnPM_Favorite_OnRelease'>
+;!TB - Routing methods button is moved below, added block/unblock buttons instead
+;	<BUTTON btnPMP_MultiplanDest  template=btn_4c_icon_place x=4  y=20  text="Routing\nMethods"    iconspr="ico_dest.bmp"     onrelease='run btnPMP_MultiplanDest_OnRelease'>
+	<BUTTON btnPMO_AddBlock       template=btn_4c_icon_place  template=x_4c_2 template=y_4c_1  text="Block"              iconspr="$ico_block_add.bmp" onrelease='run btnPMO_AddBlock_OnRelease'>
+	<BUTTON btnPMO_RemoveBlock    template=btn_4c_icon_place  template=x_4c_2 template=y_4c_1  text="Remove block"       iconspr="$ico_block_rem.bmp" onrelease='run btnPMO_RemoveBlock_OnRelease' HIDE>
+
+	<BUTTON btnPMO_AddStart       template=btn_4c_icon_place template=x_4c_1 template=y_4c_2  text="Set as\nStart"       iconspr="ico_start.bmp"    onrelease='run sc_btnPM_AddStart_OnRelease'>
+	<BUTTON btnPMO_RemoveStart    template=btn_4c_icon_place template=x_4c_1 template=y_4c_2  text="Remove\nStart"       iconspr="ico_remstart.bmp" onrelease='run sc_btnPM_RemoveStart_OnRelease'>
+	<BUTTON btnPMO_AddVia         template=btn_4c_icon_place template=x_4c_1 template=y_4c_3  text="Insert Via"          iconspr="ico_via.bmp"      onrelease='run sc_btnPM_AddVia_OnRelease'>
+	<BUTTON btnPMO_RemoveVia      template=btn_4c_icon_place template=x_4c_1 template=y_4c_3  text="Remove Via"          iconspr="ico_remvia.bmp"   onrelease='run sc_btnPM_RemoveVia_OnRelease'>
+	<BUTTON	btnPMO_Continue       template=btn_4c_icon_place template=x_4c_1 template=y_4c_4  text="Continue "           iconspr="ico_dest.bmp"     onrelease='run sc_btnPM_Continue_OnRelease'>
+
+;!TB - AddPoi button is moved to the top left position
+	<BUTTON btnPMO_AddPoi         template=btn_4c_icon_place template=x_4c_1 template=y_4c_1  text="Add POI"             iconspr="ico_poi_add.bmp"       onrelease='run sc_btnPM_AddPoi_OnRelease'>
+	<BUTTON btnPMO_AddPin         template=btn_4c_icon_place template=x_4c_2 template=y_4c_2  text="Add Pin"             iconspr="ico_pin_add.bmp"       onrelease='run sc_btnPM_AddPin_OnRelease'>
+	<BUTTON btnPMO_RemovePin      template=btn_4c_icon_place template=x_4c_2 template=y_4c_2  text="Remove Pin"          iconspr="ico_pin_rem.bmp"       onrelease='run sc_btnPM_RemovePin_OnRelease'>
+	<BUTTON btnPMO_AddCam         template=btn_4c_icon_place template=x_4c_2 template=y_4c_4  text="Add\nSpeedCam"       iconspr="ico_speedcam_add.bmp"  onrelease='run sc_btnPM_AddCam_OnRelease' enabledmodel="warning.speedcams_allowed">
+	<BUTTON btnPMO_EditCam        template=btn_4c_icon_place template=x_4c_2 template=y_4c_4  text="Edit\nSpeedCam"      iconspr="ico_speedcam_edit.bmp" onrelease='run sc_btnPM_EditCam_OnRelease' enabledmodel="warning.speedcams_allowed">
+	<BUTTON	btnPMO_Favorite       template=btn_4c_icon_place template=x_4c_2 template=y_4c_3  text="Add to\nFavorites"   iconspr="ico_fav_add.bmp"       onrelease='run sc_btnPM_Favorite_OnRelease'>
+
+;!Matze - new Routing Methods button
+	<BUTTON btnPMP_MultiplanDest template=footer2_1a z=30 iconspr="icof_multiroute.bmp" onlongclick='run sc_show_btn_help "Routing Methods"' onrelease='saved_RouteCorrectness.set %route.correctness, ui_MultiplanDest_MessageBox.show'>
+;!Matze - added button
+	<BUTTON btnPMP_PlanMap template=footer2_2a z=30  iconspr="icof_planonmap.bmp"  onlongclick='run sc_show_btn_help "Plan Mode"' onrelease='run sc_btnPA_PlanMode_OnRelease'>
 </layer>
 
 <element_template et_POIItemAroundCursorList>
@@ -175,3 +210,15 @@
 	<BUTTON xxx template=backa onrelease='run sc_PlaceMenuBack'>
 </layer>
 
+;!Matze - added for multiplan messagebox
+<layer ui_MultiplanDest_MessageBox z=100003  modal>
+	<SPRITE sprMPD_Dialog	 x=0   y=0	 z=5	bmp="dialog_2_bg.bmp" >
+	<SPRITE sprMPD_Icon	 x=30	y=100  z=10	bmp="$dialog_qm.bmp">
+	<SPRITE spr_MPD_bg	 x=0 y=0 z=1		bmp="default.bmp">	
+
+	<TEXT   txtMPD_Msg      x=70  y=50  z=31  w=100 h=150 text="Calculation method for route options" valign="CENTER" align="LEFT" FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=18 wordwrap=3>
+
+	<BUTTON btnMPD_Fast    template=dialog3_1    text="Fast"   onrelease='.route.correctness 30, run btnPMP_MultiplanDest_OnRelease, ui_MultiplanDest_MessageBox.hide'> 
+	<BUTTON btnMPD_Default  template=dialog3_2    text="Default" onrelease='run btnPMP_MultiplanDest_OnRelease, ui_MultiplanDest_MessageBox.hide'>
+	<BUTTON btnMPD_Correct   template=dialog3_3    text="Correct"  onrelease='.route.correctness 100, run btnPMP_MultiplanDest_OnRelease, ui_MultiplanDest_MessageBox.hide'>
+</layer>

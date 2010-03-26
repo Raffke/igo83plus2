@@ -1,0 +1,138 @@
+;*************************************************************
+;* New element templates for 240x400 resolution
+;* Developed by Delphis
+;* Look for last version at http://4pda.ru/forum/index.php?showtopic=79587&view=findpost&p=1703505
+;*************************************************************
+
+;***********************  SCROLBAR TXT  **********************************
+<TEMPLATE txt_st1a1  template=btntext x=15  align="LEFT" color=#FFFFFF>
+<TEMPLATE txt_st1a21 template=btntext x=15  w=160 align="LEFT" color=#FFFFFF>
+<TEMPLATE txt_st1a22 template=btntext x=180 w=30 align="RIGHT" color=#FFFFFF>
+<TEMPLATE txt_st1a31 template=btntext x=15  w=140 align="LEFT" color=#FFFFFF>
+<TEMPLATE txt_st1a32 template=btntext x=165 w=30 align="RIGHT" color=#FFFFFF>
+<TEMPLATE txt_st1a33 template=btntext x=200 w=30 align="LEFT" color=#FFFFFF>
+<TEMPLATE txt_st1b1  template=btntext x=10  w=110 align="LEFT" color=#FFFFFF>
+
+<TEMPLATE txt_st1a  template=txt_st1a1>
+<TEMPLATE txt_st1b  template=txt_st1b1>
+
+;***********************  SCROLLBAR POSITION  ******************************
+<TEMPLATE scr_st1a                   x=20 bmp="$fable_scrollbg.spr" sprind="$fable_scrollbtn.spr">
+<TEMPLATE scr_st1b                   x=120 bmp="$fable_scrollbg_small.spr" sprind="$fable_scrollbtn.spr">
+
+;***********************  SPRITE  ******************************
+<TEMPLATE spr_st1a                  x=3 bmp="poti_bg.bmp">
+
+;!Sib - for Advanced Route settings
+<TEMPLATE spr_5a_big     bmp="btn_lb_4a.bmp#2" x=4  z=0 >
+
+;!Sib - for 3D Settings
+<TEMPLATE spr_poti_small x=1 y=0 z=0 bmp="poti_bg_small.bmp">
+
+;!Matze - added templates
+<TEMPLATE csuszka_5 x=20 z=500 bmp="fable_scrollbg_5.spr" sprind="fable_scrollbtn_5.spr">
+<TEMPLATE spr_poti_5 x=1 y=0 z=0 bmp="poti_bg_5.bmp">
+<TEMPLATE txt_poti_5 template=txt_5 template=only_white x=8  w=224 h=30 z=100 align="CENTER">
+
+<TEMPLATE txt_csu_legend_5  template=txt_5 x=8  w=120  h=30>
+<TEMPLATE txt_csu_value_5   template=txt_5 x=170 w=24  h=30 align="RIGHT"  font="tahomabd" fixedwidthnumbers=1>
+<TEMPLATE txt_csu_unit_5    template=txt_5 x=197 w=34  h=30 align="LEFT"  fontsize=12  >
+<TEMPLATE txt_csu_valunit_5 template=txt_5 x=159 w=58  h=30 align="RIGHT"   font="tahomabd">
+<TEMPLATE txt_sld_5         template=txt_5 x=8   w=105 h=30 z=100>
+
+<TEMPLATE btn_5a_5 template=txt_5 bmp="btn_5a_5.bmp#2" x=4   z=10  twolinesmall=1  padding=4 clicked_coloring=1>
+<TEMPLATE btn_5b_5 template=txt_5 bmp="btn_5b_5.bmp#2" x=4   z=10  twolinesmall=1  padding=4 clicked_coloring=1>
+<TEMPLATE btn_5c_5 template=txt_5 bmp="btn_5c_5.bmp#2" x=4   z=10  twolinesmall=1  padding=4 clicked_coloring=1>
+<TEMPLATE btn_5d_5 template=txt_5 bmp="btn_5d_5.bmp#3" x=187 z=10  twolinesmall=1  padding=4  clicked_coloring=1 fontsize=12 align="CENTER" iconalign="CENTER" iconvalign="CENTER" >
+
+<TEMPLATE sld_5a_5 template=txt_5 bmp="btn_5a_5.bmp#2" x=4  w=105 twolinesmall=1  padding=4 align="RIGHT" >
+<TEMPLATE sld_5a_center_5 template=sld_5a_5 w=220 align="CENTER" >
+<TEMPLATE sld_5c_center_5 template=txt_5 bmp="btn_5c_5.bmp#2" x=4  w=103 twolinesmall=1  padding=4 align="CENTER">
+<TEMPLATE chk_5a_5 template=txt_5 bmp="chk_5a_5.bmp#4" x=4  z=10 w=190 twolinesmall=1  padding=4>
+<TEMPLATE chk_5b_5 template=txt_5 bmp="chk_5b_5.bmp#2" x=4  z=10 w=140 twolinesmall=1  padding=4>
+<TEMPLATE chk_5c_5 template=txt_5 bmp="chk_5c_5.bmp#4" x=4  z=10 w=85 twolinesmall=1  padding=4>
+
+;***********************  SLIDERS  ******************************
+;!Raffke_jr - TODO: Fit to new templates
+
+<TEMPLATE sld_lb5e       bmp="btn_lb_5e.bmp#3"           align="center" valign="center" fonttype=bw fontsize=14>
+<TEMPLATE sld_lb5d       bmp="btn_lb_5e_long.bmp#3">
+
+;***********************  BUTTONS  ******************************
+;!Raffke_jr - renamed to add x values, added z & iconspr, inherited template=btn_lb5e
+;<TEMPLATE btn_lb4e51                bmp="btn_lb_4e.bmp#3"  padding=4 align="center" valign="center" fonttype=bw twolinesmall=1 clicked_coloring=1>
+;!Matze - added template
+<TEMPLATE btn_lb5f 	bmp="btn_lb_5f.bmp#3" padding=4 align="center" valign="center" fonttype=bw twolinesmall=1  clicked_coloring=1>
+<TEMPLATE btn_lb5e5   template=btn_lb5f   z=20 iconspr="$speed_cams_transp.spr" iconalign="CENTER" iconvalign="CENTER">
+;!Matze - changed position
+<TEMPLATE btn_lb5e51  template=btn_lb5e5  x=0  >
+<TEMPLATE btn_lb5e52  template=btn_lb5e5  x=48 >
+<TEMPLATE btn_lb5e53  template=btn_lb5e5  x=96 >
+<TEMPLATE btn_lb5e54  template=btn_lb5e5  x=144>
+<TEMPLATE btn_lb5e55  template=btn_lb5e5  x=192>
+
+;*************************************************************
+
+;!Sib new templates for positions
+<TEMPLATE y_1  y=20>
+<TEMPLATE y_1b y=59>
+<TEMPLATE y_2  y=62>
+<TEMPLATE y_2b y=101>
+<TEMPLATE y_3  y=104>
+<TEMPLATE y_3b y=143>
+<TEMPLATE y_4  y=146>
+<TEMPLATE y_4b y=185>
+<TEMPLATE y_5  y=188>
+<TEMPLATE y_5b y=227>
+<TEMPLATE y_6  y=230>
+<TEMPLATE y_6b y=269>
+<TEMPLATE y_7  y=272>
+<TEMPLATE y_7b y=311>
+<TEMPLATE y_8  y=314>
+<TEMPLATE y_8b y=353>
+
+;!Matze - added templates
+<TEMPLATE y_1_5  y=20>
+<TEMPLATE y_1_5a y=52>
+<TEMPLATE y_2_5  y=87>
+<TEMPLATE y_2_5a y=119>
+<TEMPLATE y_3_5  y=154>
+<TEMPLATE y_3_5a y=186>
+<TEMPLATE y_4_5  y=221>
+<TEMPLATE y_4_5a y=253>
+<TEMPLATE y_5_5  y=288>
+<TEMPLATE y_5_5a y=320>
+<TEMPLATE y_6_5  y=355>
+<TEMPLATE y_6_5a y=387>
+
+
+;!Raffke_jr - new templates for scrollbar with 2 text legends (org: txt_csu_legend x=14 w=118 - txt_csu_valunit x=134 w=54 - csuszka_small x=190)
+<TEMPLATE txt_csu2_legend  template=txt_csu_legend          w=60  z=1>
+;!Matze - fixed for correct position
+<TEMPLATE csuszka_2txt     template=csuszka_small    x=59        z=1>
+<TEMPLATE txt_csu2_left    template=txt_csu_legend   x=8   w=48  z=1 align="RIGHT">
+<TEMPLATE txt_csu2_right   template=txt_csu_legend   x=184  w=48  z=1 align="LEFT">
+
+;!Raffke_jr - new template for scrollbar without value (right border from txt_csu_valunit)
+<TEMPLATE txt_csu_label    template=txt_csu_legend          w=174>
+
+;!Raffke_jr - new templates for scrollbar with checkbox (copied from ui_SettingSound)
+<TEMPLATE chk_5a_csu       template=chk_5a                  w=150 >
+<TEMPLATE csuszka_chk      template=csuszka_small    x=160 >
+
+;!Raffke_jr - new templates for 2 columns, 6 rows (copied from ui_SettingRouteParam)
+<TEMPLATE x_4c_1 x=4>
+<TEMPLATE x_4c_2 x=121>
+<TEMPLATE y_4c_1 y=20>
+<TEMPLATE y_4c_2 y=76>
+<TEMPLATE y_4c_3 y=132>
+<TEMPLATE y_4c_4 y=188>
+<TEMPLATE y_4c_5 y=244>
+<TEMPLATE y_4c_6 y=300>
+
+
+;!Raffke_jr - new templates for route edit
+;!Matze - added iconphasesync
+<TEMPLATE btn_REWP_txt template=tlist_a bmp="btn_lb_4b.bmp#2"        x=3   w=134>
+<TEMPLATE btn_REWP_del template=tlist_d bmp="btn_lb_4e_transp.bmp#3" x=137       iconspr="x.bmp#3"  iconphasesync=1 text="">
+;<TEMPLATE btn_REWP_del template=tlist_d  x=142       iconspr="x.bmp#3" text="">
