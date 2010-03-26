@@ -30,10 +30,14 @@
 	<var vLastZoomLevels>
 	<var vLastZoomMin>
 	<var vLastZoomMax>
-    <var tmpSpeedcamVis registermodel>
-    <var tmpSpeedcamAud registermodel> 
-    <var tmpSpeedcamBool registermodel>     
 </header>
+
+;****************************************************************************************************************
+;!TB - Additional settings
+;****************************************************************************************************************
+import "ui_igo8/common/ui/settings_advanced.ui"
+;!TB MR - Include speedcam settings
+import "ui_igo8/common/ui/speedcam_setting.ui"
 
 ;****************************************************************************************************************
 ; Init
@@ -49,43 +53,52 @@
 ;****************************************************************************************************************
 
 <state st_SettingVisual>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
-    <uselayer ui_Footer2/>
+	<uselayer ui_Footer2/>
 	<uselayer ui_SettingVisual/>
+;!TB - Second page of Visual Map Settings
+	<uselayer ui_SettingVisualCommon/>
+	<uselayer ui_SettingsVisualAdvanced/>
+;!Raffke_jr - Third page of Visual Map Settings
+	<uselayer ui_SettingsVisualAdvanced2/>
 
 	<script init>
-        Title.SET "Visual Settings"
+		Title.SET "Visual Settings"
+;!Raffke_jr - Second & third page of Visual Map Settings
+		     runif vMapSettingsActPage 0 'ui_SettingVisual.SHOW, ui_SettingsVisualAdvanced.HIDE, ui_SettingsVisualAdvanced2.HIDE'
+		else_runif vMapSettingsActPage 1 'ui_SettingVisual.HIDE, ui_SettingsVisualAdvanced.SHOW, ui_SettingsVisualAdvanced2.HIDE'
+		else_run                         'ui_SettingVisual.HIDE, ui_SettingsVisualAdvanced.HIDE, ui_SettingsVisualAdvanced2.SHOW'
 	</script>
 </state>
 
 <script sc_btnSV_Overview_OnRelease>
-    runif vMapNorthUpOnAutoZoom 1 'btnSV_OverviewEx.ENABLE'
-    else_run 'btnSV_OverviewEx.DISABLE'
+	runif vMapNorthUpOnAutoZoom 1 'btnSV_OverviewEx.ENABLE'
+	else_run 'btnSV_OverviewEx.DISABLE'
 </script>
 
 ;****************************************************************************************************************
 
 <state st_SettingVisual3D>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
-    <uselayer ui_Footer2/>
+	<uselayer ui_Footer2/>
 	<uselayer ui_SettingVisual3D/>
 
 	<script init>
-        Title.SET "3D Visual Settings"
-	    runif %map.3d_buildings 0 'nBuildingDistance.SET 0'
-        runif %map.3d_dem 0 'nTerrainDetail.SET 0'
+		Title.SET "3D Visual Settings"
+		runif %map.3d_buildings 0 'nBuildingDistance.SET 0'
+		runif %map.3d_dem 0 'nTerrainDetail.SET 0'
 	</script>
 	
 	<script done>
-	    runif nBuildingDistance 0 '.map.3d_buildings 0'
-	    runifnot nBuildingDistance 0 '.map.3d_buildings 1'
+		runif nBuildingDistance 0 '.map.3d_buildings 0'
+		runifnot nBuildingDistance 0 '.map.3d_buildings 1'
 	
-	    runif nTerrainDetail 0 '.map.3d_dem 0'
-	    runifnot nTerrainDetail 0 '.map.3d_dem 1'
+		runif nTerrainDetail 0 '.map.3d_dem 0'
+		runifnot nTerrainDetail 0 '.map.3d_dem 1'
 	</script>
 	
 </state>
@@ -93,33 +106,33 @@
 ;****************************************************************************************************************
 
 <state st_ColorProfiles>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ColorProfiles/>
 
-    <script init>
-        Title.SET "Color Profiles"
+	<script init>
+		Title.SET "Color Profiles"
 
-        btnSVM_MapColor.TEXT vColorSchemeDayName
-		    btnSVM_MapNightColor.TEXT vColorSchemeNightName
-        
-        ; Set slider state from night mode variables
-        runif bAutoNightMode 1 'vMapColors.SET "AUTO"'
-        else_runif bNightMode 1 'vMapColors.SET "NIGHT"'
-        else_run 'vMapColors.SET "DAY"'
-    </script>
+		btnSVM_MapColor.TEXT vColorSchemeDayName
+			btnSVM_MapNightColor.TEXT vColorSchemeNightName
+		
+		; Set slider state from night mode variables
+		runif bAutoNightMode 1 'vMapColors.SET "AUTO"'
+		else_runif bNightMode 1 'vMapColors.SET "NIGHT"'
+		else_run 'vMapColors.SET "DAY"'
+	</script>
 </state>
 
 <script sc_btnSVM_MapColor_OnRelease>
-    vSelectColorProfileMode.SET 0
-    NEXTSTATE st_SettingVisualMapColor
+	vSelectColorProfileMode.SET 0
+	NEXTSTATE st_SettingVisualMapColor
 </script>
 
 <script sc_btnSVM_MapNightColor_OnRelease>
-    vSelectColorProfileMode.SET 1
-    NEXTSTATE st_SettingVisualMapColor
+	vSelectColorProfileMode.SET 1
+	NEXTSTATE st_SettingVisualMapColor
 </script>
 
 <script sc_SetNightMode>
@@ -146,8 +159,8 @@
 ;****************************************************************************************************************
 
 <state st_SettingVisualMenu>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_SettingVisualMenu/>
@@ -160,8 +173,8 @@
 ;****************************************************************************************************************
 
 <state st_SettingVisualSkin>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_SettingVisualSkin/>
@@ -192,8 +205,8 @@
 ;****************************************************************************************************************
 
 <state st_SettingVisualBackground>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_SettingVisualBackground/>
@@ -220,19 +233,19 @@
 
 <state st_SettingVisualMapColor>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
-    <uselayer ui_Footer2/>
+	<uselayer ui_Footer2/>
 	<uselayer ui_SettingVisualMapColor/>
 	
 	<script init>
-	    RUNIF     vSelectColorProfileMode 0 'title.text "Day Colour Profile"'
-	    ELSE_RUNIF vSelectColorProfileMode 1 'title.text "Night Colour Profile"'
+		RUNIF	  vSelectColorProfileMode 0 'title.text "Day Colour Profile"'
+		ELSE_RUNIF vSelectColorProfileMode 1 'title.text "Night Colour Profile"'
 	
-	    ATTACHCOLORPROFILEMODEL lstSVM_Profiles vSelectColorProfileMode
+		ATTACHCOLORPROFILEMODEL lstSVM_Profiles vSelectColorProfileMode
 		
-	    runif vSelectColorProfileMode 0 'lstSVM_Profiles.SETSELECTION vColorSchemeDayName'
-	    runif vSelectColorProfileMode 1 'lstSVM_Profiles.SETSELECTION vColorSchemeNightName'
+		runif vSelectColorProfileMode 0 'lstSVM_Profiles.SETSELECTION vColorSchemeDayName'
+		runif vSelectColorProfileMode 1 'lstSVM_Profiles.SETSELECTION vColorSchemeNightName'
 	</script>
 </state>
 
@@ -272,21 +285,39 @@
 		vZoom3DUnit.SET bUnitType
 		DISTUNIT_TO_FORMATTEDSTR %smartzoom.minzoom txtSVZ_Min3D
 		DISTUNIT_TO_FORMATTEDSTR %smartzoom.maxzoom txtSVZ_Max3D
+
+;!TB - Tilt settings
+		txtSVZ_TiltDown.text %smartzoom.minangle
+		txtSVZ_TiltUp.text %smartzoom.maxangle
 	</script>
 </state>
 
 <script sc_hscSVZ_Min_3D_OnChange>
 	DISTUNIT_TO_FORMATTEDSTR %smartzoom.minzoom txtSVZ_Min3D
-    vTmp2.SET %smartzoom.maxzoom
+	vTmp2.SET %smartzoom.maxzoom
 	CHECK_MIN_MAX_RULE %smartzoom.minzoom vTmp2 0 vTmp
-    runif vTmp 1 '.smartzoom.maxzoom vTmp2'
+	runif vTmp 1 '.smartzoom.maxzoom vTmp2'
 </script>
 
 <script sc_hscSVZ_Max_3D_OnChange>
-    DISTUNIT_TO_FORMATTEDSTR %smartzoom.maxzoom txtSVZ_Max3D
-    vTmp2.SET %smartzoom.minzoom
-    CHECK_MIN_MAX_RULE vTmp2 %smartzoom.maxzoom 1 vTmp
-    runif vTmp 1 '.smartzoom.minzoom vTmp2'
+	DISTUNIT_TO_FORMATTEDSTR %smartzoom.maxzoom txtSVZ_Max3D
+	vTmp2.SET %smartzoom.minzoom
+	CHECK_MIN_MAX_RULE vTmp2 %smartzoom.maxzoom 1 vTmp
+	runif vTmp 1 '.smartzoom.minzoom vTmp2'
+</script>
+
+;!TB - Tilt settings
+<script sc_hscSVZ_TiltDown_OnChange>
+	txtSVZ_TiltDown.text %smartzoom.minangle
+	vTmp2.SET %smartzoom.maxangle
+	CHECK_MIN_MAX_RULE %smartzoom.minangle vTmp2 0 vTmp
+	runif vTmp 1 '.smartzoom.maxangle vTmp2'
+</script>
+<script sc_hscSVZ_TiltUp_OnChange>
+	txtSVZ_TiltUp.text %smartzoom.maxangle
+	vTmp2.SET %smartzoom.minangle
+	CHECK_MIN_MAX_RULE vTmp2 %smartzoom.maxangle 1 vTmp
+	runif vTmp 1 '.smartzoom.minangle vTmp2'
 </script>
 
 ;****************************************************************************************************************
@@ -330,16 +361,16 @@
 
 <script sc_hscSVZ_Min_2D_OnChange>
 	DISTUNIT_TO_FORMATTEDSTR %smartzoom.minzoom2d txtSVZ_Min2D
-    vTmp2.SET %smartzoom.maxzoom2d
+	vTmp2.SET %smartzoom.maxzoom2d
 	CHECK_MIN_MAX_RULE %smartzoom.minzoom2d vTmp2 0 vTmp
-    runif vTmp 1 '.smartzoom.maxzoom2d vTmp2'
+	runif vTmp 1 '.smartzoom.maxzoom2d vTmp2'
 </script>
 
 <script sc_hscSVZ_Max_2D_OnChange>
-    DISTUNIT_TO_FORMATTEDSTR %smartzoom.maxzoom2d txtSVZ_Max2D
-    vTmp2.SET %smartzoom.minzoom2d
-    CHECK_MIN_MAX_RULE vTmp2 %smartzoom.maxzoom2d 1 vTmp
-    runif vTmp 1 '.smartzoom.minzoom2d vTmp2'
+	DISTUNIT_TO_FORMATTEDSTR %smartzoom.maxzoom2d txtSVZ_Max2D
+	vTmp2.SET %smartzoom.minzoom2d
+	CHECK_MIN_MAX_RULE vTmp2 %smartzoom.maxzoom2d 1 vTmp
+	runif vTmp 1 '.smartzoom.minzoom2d vTmp2'
 </script>
 
 <script sc_hscSVZ_Time_OnChange>
@@ -384,13 +415,13 @@
 </state>
 
 <script sc_hscSVO_Dist_OnChange>
-    hscSVO_Dist.get "vNorthUpAutoZoomDistance"
-    DISTUNIT_TO_FORMATTEDSTR vNorthUpAutoZoomDistance txtSVO_Dist
+	hscSVO_Dist.get "vNorthUpAutoZoomDistance"
+	DISTUNIT_TO_FORMATTEDSTR vNorthUpAutoZoomDistance txtSVO_Dist
 </script>
 
 <script sc_hscSVO_Level_OnChange>
-    hscSVO_Level.get "vNorthUpAutoZoomValue"
-    DISTUNIT_TO_FORMATTEDSTR vNorthUpAutoZoomValue txtSVO_Level
+	hscSVO_Level.get "vNorthUpAutoZoomValue"
+	DISTUNIT_TO_FORMATTEDSTR vNorthUpAutoZoomValue txtSVO_Level
 </script>
 
 ;****************************************************************************************************************
@@ -398,14 +429,14 @@
 ;****************************************************************************************************************
 
 <state st_SettingSound>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
-    <uselayer ui_Footer2/>
+	<uselayer ui_Footer2/>
 	<uselayer ui_SettingSound/>
 
 	<script init>
-    Title.SET "Sound settings"
+	Title.SET "Sound settings"
 		runif nDynamicVolumeType 0 'btnSS_DynAdv.DISABLE'
 		else_run 'btnSS_DynAdv.ENABLE'
 		nDynamicVolumeType.onchange "sc_DynamicVolumeTypeChanged"
@@ -415,8 +446,8 @@
 ;****************************************************************************************************************
 
 ;<state st_SettingsSoundDynamicVolumeMain>
-;    <uselayer ui_Header2/>
-;    <uselayer ui_Background/>
+;	 <uselayer ui_Header2/>
+;	 <uselayer ui_Background/>
 ;  <uselayer ui_Title/>
 ;  <uselayer ui_Footer2/>
 ;	<uselayer ui_SettingsSoundDynamicVolumeMain/>
@@ -437,8 +468,8 @@
 ;****************************************************************************************************************
 
 <state st_SettingsSoundDynamicVolumeSpeed>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_SettingsSoundDynamicVolumeSpeed/>
@@ -479,8 +510,8 @@
 ;****************************************************************************************************************
 
 ;<state st_SettingsSoundDynamicVolumeMasterVol>
-;    <uselayer ui_Header2/>
-;    <uselayer ui_Background/>
+;	 <uselayer ui_Header2/>
+;	 <uselayer ui_Background/>
 ;	<uselayer ui_Title/>
 	;<uselayer ui_Footer2/>
 	;<uselayer ui_SettingsSoundDynamicVolumeMasterVol/>
@@ -497,8 +528,8 @@
 ;****************************************************************************************************************
 
 ;<state st_SettingsSoundDynamicVolumeVoiceVol>
-;    <uselayer ui_Header2/>
-;    <uselayer ui_Background/>
+;	 <uselayer ui_Header2/>
+;	 <uselayer ui_Background/>
 	;<uselayer ui_Title/>
 	;<uselayer ui_Footer2/>
 	;<uselayer ui_SettingsSoundDynamicVolumeVoiceVol/>
@@ -664,54 +695,57 @@
 ;****************************************************************************************************************
 
 <state st_SettingRoute>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
-    <uselayer ui_Footer2/>
+	<uselayer ui_Footer2/>
 	<uselayer ui_SettingRoute/>
 
-	<script init>
-    Title.SET "Route Settings"
+  <script init>
+	Title.SET "Route Settings"
 
-    runif nVehicle 0 'nVehicleTmp.set "Car"'
-    else_runif nVehicle 1 'nVehicleTmp.set "Taxi"'
-    else_runif nVehicle 2 'nVehicleTmp.set "Bus"'
-    else_runif nVehicle 3 'nVehicleTmp.set "Truck"'
-    else_runif nVehicle 4 'nVehicleTmp.set "Emergency"'
-    else_runif nVehicle 5 'nVehicleTmp.set "Pedestrian"'
-    else_runif nVehicle 6 'nVehicleTmp.set "Bicycle"'
-    btn_vehicle_value.set nVehicleTmp
+	runif nVehicle 0 'nVehicleTmp.set "Car"'
+	else_runif nVehicle 1 'nVehicleTmp.set "Taxi"'
+	else_runif nVehicle 2 'nVehicleTmp.set "Bus"'
+	else_runif nVehicle 3 'nVehicleTmp.set "Truck"'
+	else_runif nVehicle 4 'nVehicleTmp.set "Emergency"'
+	else_runif nVehicle 5 'nVehicleTmp.set "Pedestrian"'
+	else_runif nVehicle 6 'nVehicleTmp.set "Bicycle"'
+	btn_vehicle_value.set nVehicleTmp
 
-    GET_POSSIBLE_VALUES_DISTANCE vTmp
-    hscSR_UTurn.POSSIBLEVALUES vTmp
-    hscSR_UTurn.VALUE vUturn_penalty1
-    DISTUNIT_TO_FORMATTEDSTR vUturn_penalty1 txtSR_UTurn
+;!TB - Commented out, and moved to Advanced Settings
+;	GET_POSSIBLE_VALUES_DISTANCE vTmp
+;	hscSR_UTurn.POSSIBLEVALUES vTmp
+;	hscSR_UTurn.VALUE vUturn_penalty1
+;	DISTUNIT_TO_FORMATTEDSTR vUturn_penalty1 txtSR_UTurn
 
   </script>
 
   <script enter>
-    saved_vUturn_penalty1.SET vUturn_penalty1
-    saved_nVehicle.set nVehicle
-    saved_vRouteType.set vRouteType
+;!TB - Commented out, and moved to Advanced Settings
+;	saved_vUturn_penalty1.SET vUturn_penalty1
+	saved_nVehicle.set nVehicle
+	saved_vRouteType.set vRouteType
   </script>
   
-    <script done>
-      runifnot nVehicle 5 '.smartzoom.enabled saved_ZoomMode_3D, .smartzoom.enabled2d saved_ZoomMode_2D'
-	  else_run 'saved_ZoomMode_3D.set %smartzoom.enabled, saved_ZoomMode_2D.set %smartzoom.enabled2d, .smartzoom.enabled 0, .smartzoom.enabled2d 0'
-    </script>
+  <script done>
+	runifnot nVehicle 5 '.smartzoom.enabled saved_ZoomMode_3D, .smartzoom.enabled2d saved_ZoomMode_2D'
+	else_run 'saved_ZoomMode_3D.set %smartzoom.enabled, saved_ZoomMode_2D.set %smartzoom.enabled2d, .smartzoom.enabled 0, .smartzoom.enabled2d 0'
+  </script>
   
   <script exit>
-    vTmp.SET 0
-    runifnot saved_vUturn_penalty1 vUturn_penalty1 'vTmp.SET 1'
-    runifnot saved_nVehicle nVehicle 'vTmp.set 1'
-    runifnot saved_vRouteType vRouteType 'vTmp.set 1'
+	vTmp.SET 0
+;!TB - Commented out, and moved to Advanced Settings
+;	runifnot saved_vUturn_penalty1 vUturn_penalty1 'vTmp.SET 1'
+	runifnot saved_nVehicle nVehicle 'vTmp.set 1'
+	runifnot saved_vRouteType vRouteType 'vTmp.set 1'
 
-    runif vTmp 1 'ADVNAV_RECALC'
-  </script>  
+	runif vTmp 1 'ADVNAV_RECALC'
+  </script>	 
 </state>
 
 <script sc_hscSR_UTurn_OnChange>
-    hscSR_UTurn.GET "vUturn_penalty1"
+	hscSR_UTurn.GET "vUturn_penalty1"
 	DISTUNIT_TO_FORMATTEDSTR vUturn_penalty1 txtSR_UTurn
 </script>
 
@@ -725,64 +759,66 @@
 	<uselayer ui_SettingRouteParam/>
 
 	<script init>
-        runif %route.cross_border_routes 0 'vcross_border_routes.set 0'
-        else_run 'vcross_border_routes.set 1'
-     	runif bHasMapWithCarPool 0 'btnSR_Carpool.hide'
-        else_run 'btnSR_Carpool.show'
-        Title.SET "Road types to include"
+		runif %route.cross_border_routes 0 'vcross_border_routes.set 0'
+		else_run 'vcross_border_routes.set 1'
+		runif bHasMapWithCarPool 0 'btnSR_Carpool.hide'
+		else_run 'btnSR_Carpool.show'
+		Title.SET "Road types to include"
 
-	    saved_bUnpaved.set bUnpaved 
-	    saved_bHighway.set bHighway
-	    saved_bFerry.set bFerry
-	    saved_bUTurn.set bUTurn
-	    saved_bToll.set bToll
-	    saved_bTax.set bTax
-	    saved_bSpecialRoad.set bSpecialRoad
-	    saved_bCarPool.set bCarPool
-	    saved_vCrossBorderRoutes.set vCrossBorderRoutes
-	    saved_nVehicle.set nVehicle
+		saved_bUnpaved.set bUnpaved 
+		saved_bHighway.set bHighway
+		saved_bFerry.set bFerry
+;!TB - Commented out, and moved to Advanced Settings
+;		saved_bUTurn.set bUTurn
+		saved_bToll.set bToll
+		saved_bTax.set bTax
+		saved_bSpecialRoad.set bSpecialRoad
+		saved_bCarPool.set bCarPool
+		saved_vCrossBorderRoutes.set vCrossBorderRoutes
+		saved_nVehicle.set nVehicle
 	
-	    run sc_UpdateCheckButtons	
-    </script>
+		run sc_UpdateCheckButtons	
+	</script>
 
 	<script done>
-        runif vcross_border_routes 1 '.route.cross_border_routes 1'
-        else_run '.route.cross_border_routes 0'
+		runif vcross_border_routes 1 '.route.cross_border_routes 1'
+		else_run '.route.cross_border_routes 0'
 
-     	runifnot nVehicle 5 'vGPSPositionToRoad.set 1, .smartzoom.enabled saved_ZoomMode_3D, .smartzoom.enabled2d saved_ZoomMode_2D'
-	    else_run 'vGPSPositionToRoad.set 0, saved_ZoomMode_3D.set %smartzoom.enabled, saved_ZoomMode_2D.set %smartzoom.enabled2d, .smartzoom.enabled 0, .smartzoom.enabled2d 0'
+		runifnot nVehicle 5 'vGPSPositionToRoad.set 1, .smartzoom.enabled saved_ZoomMode_3D, .smartzoom.enabled2d saved_ZoomMode_2D'
+		else_run 'vGPSPositionToRoad.set 0, saved_ZoomMode_3D.set %smartzoom.enabled, saved_ZoomMode_2D.set %smartzoom.enabled2d, .smartzoom.enabled 0, .smartzoom.enabled2d 0'
 
-        vTmp.set 0
-	    runifnot saved_bUnpaved bUnpaved 'vTmp.set 1'
-	    runifnot saved_bHighway bHighway 'vTmp.set 1'
-	    runifnot saved_bFerry bFerry 'vTmp.set 1'
-	    runifnot saved_bUTurn bUTurn 'vTmp.set 1'
-	    runifnot saved_bToll bToll 'vTmp.set 1'
-	    runifnot saved_bTax bTax 'vTmp.set 1'
-	    runifnot saved_bSpecialRoad bSpecialRoad 'vTmp.set 1'
-	    runifnot saved_bCarPool bCarPool 'vTmp.set 1'
-	    runifnot saved_vCrossBorderRoutes vCrossBorderRoutes 'vTmp.set 1'
-	    runifnot saved_nVehicle nVehicle 'vTmp.set 1'
-    	
-	    runif vTmp 1 sc_route_recalc
-        else_run 'vMultiRouteCalculate.set 0'
+		vTmp.set 0
+		runifnot saved_bUnpaved bUnpaved 'vTmp.set 1'
+		runifnot saved_bHighway bHighway 'vTmp.set 1'
+		runifnot saved_bFerry bFerry 'vTmp.set 1'
+;!TB - Commented out, and moved to Advanced Settings
+;		runifnot saved_bUTurn bUTurn 'vTmp.set 1'
+		runifnot saved_bToll bToll 'vTmp.set 1'
+		runifnot saved_bTax bTax 'vTmp.set 1'
+		runifnot saved_bSpecialRoad bSpecialRoad 'vTmp.set 1'
+		runifnot saved_bCarPool bCarPool 'vTmp.set 1'
+		runifnot saved_vCrossBorderRoutes vCrossBorderRoutes 'vTmp.set 1'
+		runifnot saved_nVehicle nVehicle 'vTmp.set 1'
+		
+		runif vTmp 1 sc_route_recalc
+		else_run 'vMultiRouteCalculate.set 0'
 	</script>
   
   <script sc_route_recalc>
-    runif vMultiRouteCalculate 1 'FINDPATH_MULTIPLAN_RECALC,vMultiRouteCalculate.set 0'
-    else_run 'ADVNAV_RECALC'
+	runif vMultiRouteCalculate 1 'FINDPATH_MULTIPLAN_RECALC,vMultiRouteCalculate.set 0'
+	else_run 'ADVNAV_RECALC'
   </script>
  
 </state>
 
 <script sc_UpdateCheckButtons>
-	runif nVehicle 0 'btnSR_Unpaved.ENABLE,  btnSR_Highway.ENABLE,  btnSR_Ferry.ENABLE,   btnSR_Special.ENABLE,  btnSR_Toll.ENABLE,  btnSR_Tax.ENABLE,  btnSR_Carpool.ENABLE'
-	runif nVehicle 1 'btnSR_Unpaved.ENABLE,  btnSR_Highway.ENABLE,  btnSR_Ferry.ENABLE,   btnSR_Special.ENABLE,  btnSR_Toll.ENABLE,  btnSR_Tax.ENABLE,  btnSR_Carpool.ENABLE'
-	runif nVehicle 2 'btnSR_Unpaved.ENABLE,  btnSR_Highway.ENABLE,  btnSR_Ferry.ENABLE,   btnSR_Special.ENABLE,  btnSR_Toll.ENABLE,  btnSR_Tax.ENABLE,  btnSR_Carpool.ENABLE'
-	runif nVehicle 3 'btnSR_Unpaved.ENABLE,  btnSR_Highway.ENABLE,  btnSR_Ferry.ENABLE,   btnSR_Special.ENABLE,  btnSR_Toll.ENABLE,  btnSR_Tax.ENABLE,  btnSR_Carpool.ENABLE'
-	runif nVehicle 4 'btnSR_Unpaved.ENABLE,  btnSR_Highway.ENABLE,  btnSR_Ferry.ENABLE,   btnSR_Special.ENABLE,  btnSR_Toll.ENABLE,  btnSR_Tax.ENABLE,  btnSR_Carpool.ENABLE'
+	runif nVehicle 0 'btnSR_Unpaved.ENABLE,	 btnSR_Highway.ENABLE,	btnSR_Ferry.ENABLE,	  btnSR_Special.ENABLE,	 btnSR_Toll.ENABLE,	 btnSR_Tax.ENABLE,	btnSR_Carpool.ENABLE'
+	runif nVehicle 1 'btnSR_Unpaved.ENABLE,	 btnSR_Highway.ENABLE,	btnSR_Ferry.ENABLE,	  btnSR_Special.ENABLE,	 btnSR_Toll.ENABLE,	 btnSR_Tax.ENABLE,	btnSR_Carpool.ENABLE'
+	runif nVehicle 2 'btnSR_Unpaved.ENABLE,	 btnSR_Highway.ENABLE,	btnSR_Ferry.ENABLE,	  btnSR_Special.ENABLE,	 btnSR_Toll.ENABLE,	 btnSR_Tax.ENABLE,	btnSR_Carpool.ENABLE'
+	runif nVehicle 3 'btnSR_Unpaved.ENABLE,	 btnSR_Highway.ENABLE,	btnSR_Ferry.ENABLE,	  btnSR_Special.ENABLE,	 btnSR_Toll.ENABLE,	 btnSR_Tax.ENABLE,	btnSR_Carpool.ENABLE'
+	runif nVehicle 4 'btnSR_Unpaved.ENABLE,	 btnSR_Highway.ENABLE,	btnSR_Ferry.ENABLE,	  btnSR_Special.ENABLE,	 btnSR_Toll.ENABLE,	 btnSR_Tax.ENABLE,	btnSR_Carpool.ENABLE'
 	runif nVehicle 5 'btnSR_Unpaved.DISABLE, btnSR_Highway.DISABLE, btnSR_Ferry.DISABLE,  btnSR_Special.DISABLE, btnSR_Toll.DISABLE, btnSR_Tax.DISABLE, btnSR_Carpool.DISABLE'
-	runif nVehicle 6 'btnSR_Unpaved.ENABLE,  btnSR_Highway.DISABLE, btnSR_Ferry.ENABLE,   btnSR_Special.ENABLE,  btnSR_Toll.ENABLE,  btnSR_Tax.ENABLE,  btnSR_Carpool.DISABLE'
+	runif nVehicle 6 'btnSR_Unpaved.ENABLE,	 btnSR_Highway.DISABLE, btnSR_Ferry.ENABLE,	  btnSR_Special.ENABLE,	 btnSR_Toll.ENABLE,	 btnSR_Tax.ENABLE,	btnSR_Carpool.DISABLE'
 </script>
 
 ;****************************************************************************************************************
@@ -795,32 +831,29 @@
 	<uselayer ui_SettingVehicle/>
 
 	<script init>
-        Title.SET "Select Vehicle"
-        saved_nVehicle.set nVehicle
-        runif nVehicle 0 'nVehicleTmp.set "Car"'
-        else_runif nVehicle 1 'nVehicleTmp.set "Taxi"'
-        else_runif nVehicle 2 'nVehicleTmp.set "Bus"'
-        else_runif nVehicle 3 'nVehicleTmp.set "Truck"'
-        else_runif nVehicle 4 'nVehicleTmp.set "Emergency"'
-        else_runif nVehicle 5 'nVehicleTmp.set "Pedestrian"'
-        else_runif nVehicle 6 'nVehicleTmp.set "Bicycle"'
+		Title.SET "Select Vehicle"
+		saved_nVehicle.set nVehicle
+		runif nVehicle 0 'nVehicleTmp.set "Car"'
+		else_runif nVehicle 1 'nVehicleTmp.set "Taxi"'
+		else_runif nVehicle 2 'nVehicleTmp.set "Bus"'
+		else_runif nVehicle 3 'nVehicleTmp.set "Truck"'
+		else_runif nVehicle 4 'nVehicleTmp.set "Emergency"'
+		else_runif nVehicle 5 'nVehicleTmp.set "Pedestrian"'
+		else_runif nVehicle 6 'nVehicleTmp.set "Bicycle"'
 
 	</script>
 
 	<script done>
-    nVehicle.onchange ""
-    
-    runif nVehicleTmp "Car"        'nVehicle.set 0'
-		runif nVehicleTmp "Taxi"       'nVehicle.set 1'
-		runif nVehicleTmp "Bus"        'nVehicle.set 2'
-		runif nVehicleTmp "Truck"      'nVehicle.set 3'
-								 				
+		runif nVehicleTmp "Car"		   'nVehicle.set 0'
+		runif nVehicleTmp "Taxi"	   'nVehicle.set 1'
+		runif nVehicleTmp "Bus"		   'nVehicle.set 2'
+		runif nVehicleTmp "Truck"	   'nVehicle.set 3'
+												
 		runif nVehicleTmp "Emergency"  'nVehicle.set 4'
 		runif nVehicleTmp "Pedestrian" 'nVehicle.set 5'
-		runif nVehicleTmp "Bicycle"    'nVehicle.set 6'
+		runif nVehicleTmp "Bicycle"	   'nVehicle.set 6'
 		
-		runifnot saved_nVehicle nVehicle 'run sc_route_recalc, run sc_nVehicle_change'
-    nVehicle.onchange "sc_nVehicle_change"      
+		runifnot saved_nVehicle nVehicle sc_route_recalc
 	</script>
 
 </state>
@@ -837,10 +870,10 @@
 	<uselayer ui_SettingRegional/>
 
 	<script init>
-        Title.SET "Regional settings"
+		Title.SET "Regional settings"
 		btnSR_Language.text ""
 		btnSR_Voice.text ""
-        LANGUAGE_SET_BUTTON_TEXT btnSR_Language btnSR_Voice
+		LANGUAGE_SET_BUTTON_TEXT btnSR_Language btnSR_Voice
 	</script>
 </state>
 
@@ -849,20 +882,20 @@
 
 <state st_SettingRegionalDateTime>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
-    <uselayer ui_Footer2/>
+	<uselayer ui_Footer2/>
 	<uselayer ui_SettingRegionalDateTime/>
 	
 	<script init>
 		Title.SET "Date & Time Format"
-        GETDATEFORMAT vDateFormat vDateDelimiter
-        run sc_SetDelimiterInFormat
+		GETDATEFORMAT vDateFormat vDateDelimiter
+		run sc_SetDelimiterInFormat
 	</script>
   
-  <script done>
-        SETDATEFORMAT vDateFormat vDateDelimiter
-  </script>
+	<script done>
+		SETDATEFORMAT vDateFormat vDateDelimiter
+	</script>
 </state>
 
 <script sc_SetDelimiterInFormat>
@@ -876,28 +909,30 @@
 ;****************************************************************************************************************
 
 <state st_SettingSystem>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
-    <uselayer ui_Footer2/>
+	<uselayer ui_Footer2/>
 	<uselayer ui_SettingSystem/>
 
 	<script init>
-    Title.SET "Device settings"
-    GETSYSENTRY "screen_calibration" "debug" 0 vScreenCalibration
+		Title.SET "Device settings"
+		GETSYSENTRY "screen_calibration" "debug" 0 vScreenCalibration
 
-    AUTORUN_QUERY_STATE vTmp
-    chkSS_ARun.PHASE vTmp
-    TODAYPLUGIN_QUERY_STATE vAdvSettingTodaySliderState
-    vAdvSettingTodayState.set vAdvSettingTodaySliderState
-    
-    runif vScreenCalibration 1 'run sc_ScreenCalibrate'
+		AUTORUN_QUERY_STATE vTmp
+		chkSS_ARun.PHASE vTmp
+;!Raffke_jr - WHAT's THIS?
+;!Raffke_jr - Uninitialized variable "vAdvSettingTodaySliderState" and no correspondig UI!
+		TODAYPLUGIN_QUERY_STATE vAdvSettingTodaySliderState		
+		vAdvSettingTodayState.set vAdvSettingTodaySliderState
+		runif vScreenCalibration 1 'run sc_ScreenCalibrate'
 
-    runif %other.device.ispda 1 'sld_pwrMgmt.value "Keep backlight ON|0|Smart powersave|1|No power management|2"'
-    else_run 'sld_pwrMgmt.value "Keep backlight ON|0|Smart powersave|1"'
-  </script>
+;!Raffke_jr - Moved to new layer for Power management settings
+;		runif %other.device.ispda 1 'sld_pwrMgmt.value "Keep backlight ON|0|Smart powersave|1|No power management|2"'
+;		else_run 'sld_pwrMgmt.value "Keep backlight ON|0|Smart powersave|1"'
+	</script>
 
-    <script done>
+	<script done>
 		runifnot vAdvSettingTodaySliderState vAdvSettingTodayState 'TODAYPLUGIN_SET_STATE vAdvSettingTodaySliderState'	
 	</script>
 </state>
@@ -907,39 +942,63 @@
 </script>
 
 <state st_SettingOrientation>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
-    <uselayer ui_Footer2/>
+	<uselayer ui_Footer2/>
 	<uselayer ui_SettingOrientation/>
 
 	<script init>
-        Title.SET "Orientation settings"
+		Title.SET "Orientation settings"
 
-        GETLANDSCAPE vCurrentOrientation
+		GETLANDSCAPE vCurrentOrientation
 		runif vCurrentOrientation "PORTRAIT" 'vOrientationVar.SET 0'
 		runif vCurrentOrientation "LANDSCAPE1" 'vOrientationVar.SET 1'
 		runif vCurrentOrientation "LANDSCAPE2" 'vOrientationVar.SET 2'
-    runif vCurrentOrientation "AUTO" 'vOrientationVar.SET 3'  
+		runif vCurrentOrientation "AUTO" 'vOrientationVar.SET 3'  
 	</script>
 </state>
 
 <script sc_radSS_Ox_OnSelect>
-    runif vOrientationVar $1 'TERM sc_radSS_Ox_OnSelect'
-    vTmp.SET $1
-    
-    vTmp2.SET 0
-    SETLANDSCAPE vTmp vTmp2
-    ; 0 - no restart needed  1 - no restart, setting will be applied at next start  2 - restart needed
+	runif vOrientationVar $1 'TERM sc_radSS_Ox_OnSelect'
+	vTmp.SET $1
+	
+	vTmp2.SET 0
+	SETLANDSCAPE vTmp vTmp2
+	; 0 - no restart needed	 1 - no restart, setting will be applied at next start	2 - restart needed
 
-    runif      vTmp2 2 'run sc_radSS_Ox_OnSelectRestart vTmp'
-    else_runif vTmp2 1 'INITMESSAGEBOX 0 "Your settings will be applied after next time you restart the software."'
-    
-    runifnot   vTmp2 2 'vOrientationVar.SET vTmp, SETLANDSCAPE vOrientationVar'
+	runif	   vTmp2 2 'run sc_radSS_Ox_OnSelectRestart vTmp'
+	else_runif vTmp2 1 'INITMESSAGEBOX 0 "Your settings will be applied after next time you restart the software."'
+	
+	runifnot   vTmp2 2 'vOrientationVar.SET vTmp, SETLANDSCAPE vOrientationVar'
 </script>
 
 <script sc_radSS_Ox_OnSelectRestart>
-    INITMESSAGEBOX 1 "The program will restart." 'vOrientationVar.SET vTmp, SETLANDSCAPE vOrientationVar' 'GETLANDSCAPE vCurrentOrientation'
+	INITMESSAGEBOX 1 "The program will restart." 'vOrientationVar.SET vTmp, SETLANDSCAPE vOrientationVar' 'GETLANDSCAPE vCurrentOrientation'
+</script>
+
+
+;!Raffke_jr - New layer for Power management settings
+<state st_SettingPwrMgmt>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_SettingPwrMgmt/>
+
+	<script init>
+		Title.SET "Power management"
+
+		runif %other.device.ispda 1 'sld_pwrMgmt.value "Keep backlight ON|0|Smart powersave|1|No power management|2"'
+		else_run 'sld_pwrMgmt.value "Keep backlight ON|0|Smart powersave|1"'
+	</script>
+</state>
+
+;!Raffke_jr - New script for Auto-Standby setting
+<script hscSPM_Time_OnChange>
+	hscSPM_Time.GET "vTmp"
+	runif vTmp 0 'txtSPM_Time.SET "off"'
+	else_run 'txtSPM_Time.SET vTmp'
 </script>
 
 ;****************************************************************************************************************
@@ -947,28 +1006,28 @@
 ;****************************************************************************************************************
 
 <state st_SettingWarnings>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
-    <uselayer ui_Footer2/>
+	<uselayer ui_Footer2/>
 	<uselayer ui_SettingWarnings/>
 
 	<script init>
-     
-        Title.SET "Warnings settings"
+	 
+		Title.SET "Warnings settings"
 
-        runif %interface.safemode_type 0 'vSafetyMode.set 0, chk_safetymode.unpress'
-        else_run 'vSafetyMode.set 1, chk_safetymode.press'
-        
+		runif %interface.safemode_type 0 'vSafetyMode.set 0, chk_safetymode.unpress'
+		else_run 'vSafetyMode.set 1, chk_safetymode.press'
+		
 
-        runif %warning.speedcam_warning 0 'chk_SpeedCamWarning.unpress'
-        else_run 'chk_SpeedCamWarning.press'
-        
+		runif %warning.speedcam_warning 0 'chk_SpeedCamWarning.unpress'
+		else_run 'chk_SpeedCamWarning.press'
+		
 	</script>
   
   <script done>
-        runif vSafetyMode 0 '.interface.safemode_type 0'
-        else_run '.interface.safemode_type 1'
+		runif vSafetyMode 0 '.interface.safemode_type 0'
+		else_run '.interface.safemode_type 1'
   </script>
   
   <script sc_safemode_switch>
@@ -991,9 +1050,7 @@
 </script>
 
 <script sc_AskSpeedCamEula>
-    tmpSpeedcamVis.set %warning.speedcam_visualtype
-    tmpSpeedcamAud.set %warning.speedcam_soundtype
-    vCustomMessageBox2ndLine.set "Turn it on anyway?"
+	vCustomMessageBox2ndLine.set "Turn it on anyway?"
 	INITMESSAGEBOX 2 "Using this function may be prohibited by law in certain countries." sc_SpeedcamWarningEnabled sc_SpeedcamWarningDisabled
 </script>
 
@@ -1002,9 +1059,6 @@
 	vSpeedcamEulaAck.SET 1
 	.warning.speedcam_warning 1
 	chk_SpeedCamWarning.phase 1
-    tmpSpeedcamBool.boolexpr "ui.tmpSpeedcamVis|ui.tmpSpeedcamAud"
-    runifnot  tmpSpeedcamBool 0 '.warning.speedcam_visualtype tmpSpeedcamVis
-                                 .warning.speedcam_soundtype tmpSpeedcamAud'
 </script>
 
 <script sc_SpeedcamWarningDisabled>
@@ -1016,54 +1070,112 @@
 ;****************************************************************************************************************
 
 <state st_SettingWarningsOverSpeed>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
-    <uselayer ui_Footer2/>
+	<uselayer ui_Footer2/>
 	<uselayer ui_SettingWarningsOverSpeed/>
 
-    <script init>
-        Title.SET "Overspeed settings"
+	<script init>
+		Title.SET "Overspeed settings"
 
-		hscSWO_OTolerance.GET "vTmp"
-		txtSWO_OToleranceV.SET vTmp
-        hscSWO_OToleranceAlt.GET "vTmp"
-        txtSWO_OToleranceAltV.SET vTmp
-		    
-    </script>
+;!TB - Changed how text is set
+;		hscSWO_OTolerance.GET "vTmp"
+;		txtSWO_OToleranceV.SET vTmp
+		run sc_hscSWO_OTolerance_OnChange
 
-    <script done>
+;!TB - Changed how text is set
+;		hscSWO_OToleranceAlt.GET "vTmp"
+;		txtSWO_OToleranceAltV.SET vTmp
+		run sc_hscSWO_OToleranceAlt_OnChange
+			
+;!TB - initialize speedlimit metrics labels
+		run sc_OverspeedType_reinit
+		vOverspeedType1.OnChange "sc_OverspeedType_reinit"
+	</script>
+
+	<script done>
+;!TB - reset OnChange event
+		vOverspeedType1.OnChange ""
 		SYSCONFIG_SAVE
 	</script>
 </state>
 
+;!TB - new script to update speedlimit metrics labels
+<script sc_OverspeedType_reinit>
+	vOverspeedAltType1.set vOverspeedType1
+	runif vOverspeedType1 0 'txtSWO_OToleranceM.text "%", txtSWO_OToleranceAltM.text "%"'
+	runif vOverspeedType1 1 'SETFORMATTED_UNIT_TEXT txtSWO_OToleranceM "km/h", SETFORMATTED_UNIT_TEXT txtSWO_OToleranceAltM "km/h"'
+</script>
+
 <script sc_hscSWO_OTolerance_OnChange>
 	hscSWO_OTolerance.GET "vTmp"
-	txtSWO_OToleranceV.SET vTmp
+;!TB - Changed how text is set
+;	txtSWO_OToleranceV.SET vTmp
+	runif vTmp 999 'txtSWO_OToleranceV.SET "off", txtSWO_OToleranceM.hide'
+	else_run 'DECVAL "vTmp" 100, txtSWO_OToleranceV.SET vTmp, add_sign txtSWO_OToleranceV, txtSWO_OToleranceM.show'
 </script>
 
 <script sc_hscSWO_OToleranceAlt_OnChange>
 	hscSWO_OToleranceAlt.GET "vTmp"
-	txtSWO_OToleranceAltV.SET vTmp
+;!TB - Changed how text is set
+;	txtSWO_OToleranceAltV.SET vTmp
+	runif vTmp 999 'txtSWO_OToleranceAltV.SET "off", txtSWO_OToleranceAltM.hide'
+	else_run 'DECVAL "vTmp" 100, txtSWO_OToleranceAltV.SET vTmp, add_sign txtSWO_OToleranceAltV, txtSWO_OToleranceAltM.show'
+</script>
+
+;!TB - new script to update speedlimit warning visual settings
+<script sc_SpeedLimitVisualChanged>
+	; update warning.speedlimit_warning_visual
+	runif vSpeedLimitVisual 0 '.warning.speedlimit_warning_visual 0'
+	else_run '.warning.speedlimit_warning_visual 1'
+
+;!Raffke_jr - changed order to set visiblemodel for Speedcam
+	; now verify is there is a valid speed camera
+	runif %warning.speedcam_visualtype 0 'vTmp.set 0'
+	else_run 'vTmp.set %navigation.curr_speedcam.category.valid'
+	bSpeedcamWarningVisible.set vTmp
+;!Raffke_jr - minimize visiblemodel for secondary distance
+	runif vFullScreenCockpit 1 'bShowSecondaryDistance.set 0'
+	else_runif bTMCAnnouncementVisible 1 'bShowSecondaryDistance.set 0'
+	else_runif bSpeedcamWarningVisible 1 'bShowSecondaryDistance.set 0'
+	else_run 'bShowSecondaryDistance.set 1'
+
+	; now update bSpeedLimitVisible based on the valid speed limit
+	runif %navigation.near_speed_limit 1 'vTmp.set 1'
+	else_runif vSpeedLimitVisual 2 'vTmp.set %navigation.current_speed_limit.valid'
+	else_run 'vTmp.set 0'
+	runif vTmp 1 'bSpeedLimitVisible.set 1'
+	else_run 'bSpeedLimitVisible.set bSpeedcamWarningVisible'
+;!Raffke_jr - term is obsolete now
+;	runif vTmp 1 'bSpeedLimitVisible.set 1, term sc_SpeedLimitVisualChanged'
+;	bSpeedLimitVisible.set bSpeedcamWarningVisible
 </script>
 
 ;****************************************************************************************************************
 
 <state st_SettingWarningsSpeedCam>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
-    <uselayer ui_Footer2/>
+	<uselayer ui_Footer2/>
 	<uselayer ui_SettingWarningsSpeedCam/>
+;!TB MR - New Speedcam Addvanced Layer
+	<uselayer ui_SettingWarningsSpeedCamAdvanced/>
 
-    <script init>
-        Title.SET "Speed camera settings"
-    </script>
-    
-    <script done>
+	<script init>
+		Title.SET "Speed camera settings"
+;!TB MR - Init Speedcam Voice Settings
+		run sc_InitSpeedcamSettings
+	</script>
+	
+	<script done>
 		runif %int:warning.speedcam_soundtype 0 'runif %int:warning.speedcam_visualtype 0 sc_Disable_SpeedcamWarning'
-        SYSCONFIG_SAVE
-    </script>
+	
+		SYSCONFIG_SAVE
+;!TB MR - Done Speedcam Voice Settings
+		run sc_DoneSpeedcamSettings
+	</script>
 </state>
 
 <script sc_Disable_SpeedcamWarning>
@@ -1102,6 +1214,10 @@
 		TIME_TO_FOMATTEDSTR vcf_nAutoFollowTime vTmp
 		runif vcf_nAutoFollowTime 9999 'txtSVZ_Time.text "OFF"'
 		else_run 'txtSVZ_Time.text vTmp'
+
+;!TB - Recalculation Delay setting
+		hscSR_RecDel.VALUE nAutoReplanDelay
+		run sc_hscSR_RecDel_OnChange
 	</script>
 
 	<script done>
@@ -1117,6 +1233,13 @@
 	vAutoReplan.SET vAutoRecalc
 
 	runifnot nVehicle 5 'saved_vGPSPositionToRoad.set vGPSPositionToRoad'
+</script>
+
+;!TB - Recalculation Delay setting
+<script sc_hscSR_RecDel_OnChange>
+	hscSR_RecDel.GET "nAutoReplanDelay"
+	TIME_TO_FOMATTEDSTR nAutoReplanDelay vTmp
+	txtSR_RecDel.text vTmp
 </script>
 
 ;****************************************************************************************************************
@@ -1152,16 +1275,16 @@
 	<uselayer ui_SettingGPSConfigBack/>
 
 	<script init>
-    Title.SET "Detecting GPS device"
+	Title.SET "Detecting GPS device"
 
-    GPS_STOP
-    ;GPS_START
-    REGISTER_AUTODETECT_DISPLAY txtSGA_Port txtSGA_Baud sc_GPSAutoDetectSuccess sc_GPSAutoDetectFailed
-    100 GPS_AUTODETECT
+	GPS_STOP
+	GPS_START
+	REGISTER_AUTODETECT_DISPLAY txtSGA_Port txtSGA_Baud sc_GPSAutoDetectSuccess sc_GPSAutoDetectFailed
+	100 GPS_AUTODETECT
   </script>
   
 	<script done>
-    ;UNREGISTER_AUTODETECT_DISPLAY txtSGA_Port txtSGA_Baud sc_GPSAutoDetectSuccess sc_GPSAutoDetectFailed
+	;UNREGISTER_AUTODETECT_DISPLAY txtSGA_Port txtSGA_Baud sc_GPSAutoDetectSuccess sc_GPSAutoDetectFailed
   </script>
 </state>
 
@@ -1194,9 +1317,9 @@
 	<uselayer ui_SettingGPSConfigBack/>
 
 	<script init>
-    Title.SET "Manual GPS config"
+	Title.SET "Manual GPS config"
 
-    run sc_SetGpsStatus_NoCallback %gps.started
+	run sc_SetGpsStatus_NoCallback %gps.started
   </script>
 
 </state>
@@ -1217,35 +1340,35 @@
 
 ;****************************************************************************************************************
 <script sc_FastPedestrianWarning>
-    runif %warning.pedestrian_warning 1 'run sc_FastPedestrianWarning_IfNotSimul'
+	runif %warning.pedestrian_warning 1 'run sc_FastPedestrianWarning_IfNotSimul'
 </script>
 
 <script sc_FastPedestrianWarning_IfNotSimul>
-    runif vOnFlyover 0 'run sc_FastPedestrianWarning_IfNotIgnored'
+	runif vFlyoverOrSimulate 0 'run sc_FastPedestrianWarning_IfNotIgnored'
 </script>
 
 <script sc_FastPedestrianWarning_IfNotIgnored>
-    runif vPedestrianWarning_Ignored 0 'run sc_FastPedestrianWarning2'
+	runif vPedestrianWarning_Ignored 0 'run sc_FastPedestrianWarning2'
 </script>
 
 <script sc_FastPedestrianWarning2>
 	  ;vCustomMessageBox2ndLine.set "Change vehicle type to car?"
-    INITMESSAGEBOX 2 "Pedestrian too fast! Change to car or ignore?" 'run sc_FastPedestrianWarning_SetCar' 'run sc_FastPedestrianWarning_Ignore'
+	INITMESSAGEBOX 2 "Pedestrian too fast! Change to car or ignore?" 'run sc_FastPedestrianWarning_SetCar' 'run sc_FastPedestrianWarning_Ignore'
 </script>
 
 <script sc_FastPedestrianWarning_SetCar>
 
-    nVehicle.SET 0
+	nVehicle.SET 0
 
-    .smartzoom.enabled saved_ZoomMode_3D
-    .smartzoom.enabled2d saved_ZoomMode_2D
+	.smartzoom.enabled saved_ZoomMode_3D
+	.smartzoom.enabled2d saved_ZoomMode_2D
 
-    btn_vehicle_value.SET "Car"
+	btn_vehicle_value.SET "Car"
 
-    ;.warning.pedestrian_warning 1
+	;.warning.pedestrian_warning 1
    vPedestrianWarning_Ignored.SET 0
 
-    ADVNAV_RECALC
+	ADVNAV_RECALC
 </script>
 
 <script sc_FastPedestrianWarning_Ignore>
@@ -1271,7 +1394,7 @@
   <uselayer ui_SettingTime/>
 
   <script init>
-    Title.SET "Time Settings"
+	Title.SET "Time Settings"
   </script>
 </state>
 
@@ -1283,7 +1406,7 @@
   <uselayer ui_SettingTimeZone/>
 
   <script init>
-    Title.SET "Select Time Zone"
+	Title.SET "Select Time Zone"
   </script>
 
   <script done>
@@ -1294,27 +1417,27 @@
 ;****************************************************************************************************************
 
 <script sc_OnAutoTimeZoneErrorChanged>
-    runifnot vLastAutoTimeZoneError 0 'run sc_OnAutoTimeZoneError'
+	runifnot vLastAutoTimeZoneError 0 'run sc_OnAutoTimeZoneError'
 </script>
 
 <script sc_OnAutoTimeZoneError>
-    INITMESSAGEBOX 2 "Cannot set automatic time zone based on your position. Automatic time zone was disabled. Do you want to set the time zone manually?" sc_OnAutoTimeZoneErrorSet sc_OnAutoTimeZoneErrorSkip
+	INITMESSAGEBOX 2 "Cannot set automatic time zone based on your position. Automatic time zone was disabled. Do you want to set the time zone manually?" sc_OnAutoTimeZoneErrorSet sc_OnAutoTimeZoneErrorSkip
 </script>
 
 <script sc_OnAutoTimeZoneErrorSet>
-    vLastAutoTimeZoneError.set 0
-    ; Go to manual time zone selection list
-    NEXTSTATE st_SettingTimeZone
+	vLastAutoTimeZoneError.set 0
+	; Go to manual time zone selection list
+	NEXTSTATE st_SettingTimeZone
 </script>
 
 <script sc_OnAutoTimeZoneErrorSkip>
-    vLastAutoTimeZoneError.set 0
+	vLastAutoTimeZoneError.set 0
 </script>
 
 ;*************************** HELP **********************************
 <state st_HelpSettingVisual>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -1326,13 +1449,13 @@
 	</script>
 	
 	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>
 
 <state st_HelpSettingVisual3D>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -1344,13 +1467,13 @@
 	</script>
 	
 	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>
 
 <state st_HelpSettingVisualZoom>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -1362,13 +1485,13 @@
 	</script>
 	
 	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>
 
 <state st_HelpSettingVisualOverview>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -1380,13 +1503,13 @@
 	</script>
 	
 	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>
 
 <state st_HelpSettingVisualMenu>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -1398,13 +1521,13 @@
 	</script>
 	
 	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>
 
 <state st_HelpSettingRoute>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -1416,13 +1539,13 @@
 	</script>
 	
 	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>
 
 <state st_HelpSettingSystem>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -1434,13 +1557,13 @@
 	</script>
 	
 	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>
 
 <state st_HelpSettingSound>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -1452,13 +1575,13 @@
 	</script>
 	
 	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>
 
 ;<state st_HelpSettingsSoundDynamicVolume>
 ;	<uselayer ui_Header2/>
- ;   <uselayer ui_Background/>
+ ;	 <uselayer ui_Background/>
 	;<uselayer ui_Title/>
 	;<uselayer ui_Footer2/>
 	;<uselayer ui_ScrollButtons/>
@@ -1470,13 +1593,13 @@
 	;</script>
 	
 	;<script done>
-	;    run sc_ScrollingLayerDone
+	;	 run sc_ScrollingLayerDone
 	;</script>
 ;</state>
 
 <state st_HelpSettingRegional>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -1488,13 +1611,13 @@
 	</script>
 	
 	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>
 
 <state st_HelpSettingTime>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -1506,13 +1629,13 @@
 	</script>
 	
 	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>
 
 <state st_HelpSettingWarnings>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -1524,7 +1647,7 @@
 	</script>
 	
 	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>
 
@@ -1537,12 +1660,12 @@
   <uselayer ui_HelpSettingTrackLog/>
 
   <script init>
-    Title.SET "Track Log Options"
-    run sc_ScrollingLayerInit ui_HelpSettingTrackLog vAutoScrollHelp
+	Title.SET "Track Log Options"
+	run sc_ScrollingLayerInit ui_HelpSettingTrackLog vAutoScrollHelp
   </script>
 
   <script done>
-    run sc_ScrollingLayerDone
+	run sc_ScrollingLayerDone
   </script>
 </state>
 
@@ -1555,12 +1678,12 @@
   <uselayer ui_HelpSettingGuidance/>
 
   <script init>
-    Title.SET "Navigation Settings"
-    run sc_ScrollingLayerInit ui_HelpSettingGuidance vAutoScrollHelp
+	Title.SET "Navigation Settings"
+	run sc_ScrollingLayerInit ui_HelpSettingGuidance vAutoScrollHelp
   </script>
 
   <script done>
-    run sc_ScrollingLayerDone
+	run sc_ScrollingLayerDone
   </script>
 </state>
 
@@ -1573,12 +1696,12 @@
   <uselayer ui_HelpSettingGPS/>
 
   <script init>
-    Title.SET "GPS Settings"
-    run sc_ScrollingLayerInit ui_HelpSettingGPS vAutoScrollHelp
+	Title.SET "GPS Settings"
+	run sc_ScrollingLayerInit ui_HelpSettingGPS vAutoScrollHelp
   </script>
 
   <script done>
-    run sc_ScrollingLayerDone
+	run sc_ScrollingLayerDone
   </script>
 </state>
 
@@ -1591,18 +1714,18 @@
   <uselayer ui_HelpSettingColorProfiles/>
 
   <script init>
-    Title.SET "Color Profiles"
-    run sc_ScrollingLayerInit ui_HelpSettingColorProfiles vAutoScrollHelp
+	Title.SET "Color Profiles"
+	run sc_ScrollingLayerInit ui_HelpSettingColorProfiles vAutoScrollHelp
   </script>
 
   <script done>
-    run sc_ScrollingLayerDone
+	run sc_ScrollingLayerDone
   </script>
 </state>
 
 <state st_mydata_help>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_ScrollButtons/>
@@ -1614,6 +1737,6 @@
 	</script>
 	
 	<script done>
-	    run sc_ScrollingLayerDone
+		run sc_ScrollingLayerDone
 	</script>
 </state>

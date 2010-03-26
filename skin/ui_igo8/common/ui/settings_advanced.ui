@@ -1,0 +1,218 @@
+;****************************************************************************************************************
+;!TB - New Advanced Settings
+;****************************************************************************************************************
+
+<header>
+	<var vKeepRoadBlock=0>
+	<var vSaveAs_Marker=0>
+	<var vClickedRoadBlockId=-1>
+	<var vOnMapClickNewPositionHor=0>
+	<var vOnMapClickNewPositionVer=0>
+	<var saved_vUturn_penalty2>
+	<var saved_vUturn_penalty3>
+	<var saved_nCorrectness>
+</header>
+
+;****************************************************************************************************************
+; Additional Visual and Map Settings
+;****************************************************************************************************************
+
+<state st_SettingLaneInfo>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_SettingLaneInfo/>
+
+	<script init>
+		Title.SET "Lane Information"
+	</script>
+</state>
+
+<state st_SettingsVisualCurrentSpeed>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_SettingsVisualCurrentSpeed/>
+
+	<script init>
+		Title.SET "Current Speed"
+	</script>
+</state>
+
+<state st_FullScreenCockpit>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_FullScreenCockpit/>
+	
+	<script init>
+		Title.SET "Fullscreen Cockpit Settings"
+	</script>
+  
+	<script done>
+		run sc_ChangeNormalScreenMode
+	</script>
+</state>
+
+;****************************************************************************************************************
+; Advanced Routing Settings
+;****************************************************************************************************************
+
+<state st_SettingRouteAdvanced>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_SettingRouteAdvanced/>
+
+	<script init>
+		Title.SET "Route options"
+
+		GET_POSSIBLE_VALUES_DISTANCE vTmp
+		hscSR_UTurn.POSSIBLEVALUES vTmp
+		hscSR_UTurn2.POSSIBLEVALUES vTmp
+		hscSR_UTurn3.POSSIBLEVALUES vTmp
+
+		hscSR_UTurn.VALUE vUturn_penalty1
+		DISTUNIT_TO_FORMATTEDSTR vUturn_penalty1 txtSR_UTurn
+
+		hscSR_UTurn2.VALUE vUturn_penalty2
+		DISTUNIT_TO_FORMATTEDSTR vUturn_penalty2 txtSR_UTurn2
+
+		hscSR_UTurn3.VALUE vUturn_penalty3
+		DISTUNIT_TO_FORMATTEDSTR vUturn_penalty3 txtSR_UTurn3
+	</script>
+
+;!Raffke_jr - moved from init script
+	<script enter>
+		saved_vUturn_penalty1.SET vUturn_penalty1
+		saved_vUturn_penalty2.SET vUturn_penalty2
+		saved_vUturn_penalty3.SET vUturn_penalty3
+		saved_bUTurn.set bUTurn
+		saved_nCorrectness.set nCorrectness
+	</script>
+  
+;!Raffke_jr - renamed script from "done"
+	<script exit>
+		vTmp.SET 0
+		runifnot saved_nCorrectness nCorrectness 'vTmp.SET 1'
+		runifnot saved_bUTurn bUTurn 'vTmp.set 1'
+		runifnot saved_vUturn_penalty1 vUturn_penalty1 'vTmp.SET 1'
+		runifnot saved_vUturn_penalty2 vUturn_penalty2 'vTmp.SET 1'
+		runifnot saved_vUturn_penalty3 vUturn_penalty3 'vTmp.SET 1'
+		runif vTmp 1 'ADVNAV_RECALC'
+	</script>
+</state>
+
+<script sc_hscSR_UTurn2_OnChange>
+	hscSR_UTurn2.GET "vUturn_penalty2"
+	DISTUNIT_TO_FORMATTEDSTR vUturn_penalty2 txtSR_UTurn2
+</script>
+
+<script sc_hscSR_UTurn3_OnChange>
+	hscSR_UTurn3.GET "vUturn_penalty3"
+	DISTUNIT_TO_FORMATTEDSTR vUturn_penalty3 txtSR_UTurn3
+</script>
+
+;****************************************************************************************************************
+; Road Blocking 
+;****************************************************************************************************************
+
+<STATE ST_MY_DATA_DAYSOFWEEK>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_MyContent_DaysOfWeek/>
+
+	<script init>
+		title.set "Select Day(s)"
+		btn_Footer_back2.onrelease 'CLEARTOMARKER vSaveAs_Marker'
+	</script>
+
+	<script done>
+		mydata.blocked_roads.update_blocked_days
+		btn_Footer_back2.onrelease 'PREVSTATE'
+		runif vKeepRoadBlock 0 'map.REMOVE_ROADBLOCK 1'
+	</script>
+</STATE>
+
+<script sc_CreateNewRoadBlock>
+	vKeepRoadBlock.Set 1
+	; state done will do the rest
+</script>
+
+<STATE ST_MY_DATA_HOURSOFDAY>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_MyContent_HoursOfDay/>
+   
+	<script init>
+		title.set "Select Time"
+	</script>
+
+	<script done>
+		DECVAL "vKeepRoadBlock"
+	</script>
+</STATE>
+
+<STATE ST_MY_DATA_BLOCKEDROADS>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_MyContent_BlockedRoads/>
+   
+	<script init>
+		title.set "Blocked Roads"
+		vMoveCursorToSelectedItem.set 1
+	</script>
+
+	<script done>
+	</script>
+</STATE>
+
+<script sc_btnMBR_ShowOnMap>
+	mydata.blocked_roads.goto_pos
+	nPlaceStateMode.SET 0
+	run st_Place_enter
+	vAddFromDoneScript.set 0
+	NEXTSTATE st_Place
+</script>
+
+<script sc_AddBlockFromSelected>
+	map.MOVECURSORTOSELECTEDITEM
+	run sc_AddBlockedRoad
+</script>
+
+<script sc_BlockSelectedOnMap>
+	SETMARKER vSaveAs_Marker
+	run sc_AddBlockedRoad
+</script>
+
+<script sc_AddBlockedRoad>
+	map.ADD_ROADBLOCK 1
+	vKeepRoadBlock.Set 0
+	mydata.blocked_roads.current_weekdays_all_blocked 1
+	NEXTSTATE ST_MY_DATA_DAYSOFWEEK
+</script>
+
+<script sc_EditBlockedRoad>
+	SETMARKER vSaveAs_Marker
+	vKeepRoadBlock.Set 1
+	NEXTSTATE ST_MY_DATA_DAYSOFWEEK
+</script>
+
+<script sc_DeleteBlockedRoadItem>
+	INITMESSAGEBOX 1 "Deleting Blocked Road." 'mydata.blocked_roads.delete_current'
+</script>
+
+<script sc_DeleteAllBlocks>
+	vCustomMessageBox2ndLine.set ""
+	INITMESSAGEBOX 2 "Do you want to delete all roadblocks?" 'mydata.blocked_roads.delete_all'
+</script>

@@ -1,34 +1,38 @@
-<TEMPLATE txt_gpschannel   x=372 z=10 fontsize=9 text="" fonttype=buttonlabel1 color=#FFFFFF>
+;!TB_MR - Import new speedcam settings
+import "ui_igo8/480_272/ui/speedcam_setting_480_272.ui"
+
+
+<TEMPLATE txt_gpschannel   x=387 z=10 fontsize=9 text="" fonttype=buttonlabel1 color=#FFFFFF>
 <TEMPLATE level_gpschannel x=386 z=10 bmp="$prn_bg.spr"> 
 
 <header>
-  	<layer safemode_layer type="safemode" z=100000 x=0 y=0 w=480 h=272>     
+	<layer safemode_layer type="safemode" z=100000 x=0 y=0 w=480 h=272>     
 
-    <layer ui_HelpSettingVisual         type="xhtml"  template=help_text filename="i18n/hlp_settingvisual.xhtml">
-    <layer ui_HelpSettingVisual3D       type="xhtml"  template=help_text filename="i18n/hlp_settingvisual_3d.xhtml">
-    <layer ui_HelpSettingColorProfiles  type="xhtml"  template=help_text filename="i18n/hlp_settingvisual_color_profiles.xhtml">
-    <layer ui_HelpSettingVisualMenu     type="xhtml"  template=help_text filename="i18n/hlp_settingvisual_menu.xhtml">
-    <layer ui_HelpSettingVisualZoom     type="xhtml"  template=help_text filename="i18n/hlp_settingvisual_smartzoom.xhtml">
-    <layer ui_HelpSettingVisualOverview type="xhtml"  template=help_text filename="i18n/hlp_settingvisual_overview.xhtml">
+	<layer ui_HelpSettingVisual         type="xhtml"  template=help_text filename="i18n/hlp_settingvisual.xhtml">
+	<layer ui_HelpSettingVisual3D       type="xhtml"  template=help_text filename="i18n/hlp_settingvisual_3d.xhtml">
+	<layer ui_HelpSettingColorProfiles  type="xhtml"  template=help_text filename="i18n/hlp_settingvisual_color_profiles.xhtml">
+	<layer ui_HelpSettingVisualMenu     type="xhtml"  template=help_text filename="i18n/hlp_settingvisual_menu.xhtml">
+	<layer ui_HelpSettingVisualZoom     type="xhtml"  template=help_text filename="i18n/hlp_settingvisual_smartzoom.xhtml">
+	<layer ui_HelpSettingVisualOverview type="xhtml"  template=help_text filename="i18n/hlp_settingvisual_overview.xhtml">
 
-    <layer ui_HelpSettingRoute          type="xhtml"  template=help_text filename="i18n/hlp_settingroute.xhtml">
+	<layer ui_HelpSettingRoute          type="xhtml"  template=help_text filename="i18n/hlp_settingroute.xhtml">
 
-    <layer ui_HelpSettingSystem         type="xhtml"  template=help_text filename="i18n/hlp_settingsystem.xhtml">
+	<layer ui_HelpSettingSystem         type="xhtml"  template=help_text filename="i18n/hlp_settingsystem.xhtml">
 
-    <layer ui_HelpSettingSound          type="xhtml"  template=help_text filename="i18n/hlp_settingsound.xhtml">
-    ;<layer ui_HelpSettingSoundDinamicVolume   type="xhtml"  template=help_text filename="i18n/hlp_settingsounddinamicvolume.xhtml">
+	<layer ui_HelpSettingSound          type="xhtml"  template=help_text filename="i18n/hlp_settingsound.xhtml">
+	;<layer ui_HelpSettingSoundDinamicVolume   type="xhtml"  template=help_text filename="i18n/hlp_settingsounddinamicvolume.xhtml">
 
-    <layer ui_HelpSettingRegional       type="xhtml"  template=help_text filename="i18n/hlp_settingregional.xhtml">
-    <layer ui_HelpSettingTime           type="xhtml"  template=help_text filename="i18n/hlp_settingtime.xhtml">
+	<layer ui_HelpSettingRegional       type="xhtml"  template=help_text filename="i18n/hlp_settingregional.xhtml">
+	<layer ui_HelpSettingTime           type="xhtml"  template=help_text filename="i18n/hlp_settingtime.xhtml">
 
-    <layer ui_HelpSettingWarnings       type="xhtml"  template=help_text filename="i18n/hlp_settingwarnings.xhtml">
+	<layer ui_HelpSettingWarnings       type="xhtml"  template=help_text filename="i18n/hlp_settingwarnings.xhtml">
 
-    <layer ui_HelpSettingTrackLog       type="xhtml"  template=help_text filename="i18n/hlp_settingtracklog.xhtml">
+	<layer ui_HelpSettingTrackLog       type="xhtml"  template=help_text filename="i18n/hlp_settingtracklog.xhtml">
 
-    <layer ui_HelpSettingGuidance       type="xhtml"  template=help_text filename="i18n/hlp_settingnavigation.xhtml">
-    <layer ui_HelpSettingGPS            type="xhtml"  template=help_text filename="i18n/hlp_settinggps.xhtml">
-         
-    <layer ui_mydata_help               type="xhtml"  template=help_text filename="i18n\hlp_mydata.xhtml">    
+	<layer ui_HelpSettingGuidance       type="xhtml"  template=help_text filename="i18n/hlp_settingnavigation.xhtml">
+	<layer ui_HelpSettingGPS            type="xhtml"  template=help_text filename="i18n/hlp_settinggps.xhtml">
+	     
+	<layer ui_mydata_help               type="xhtml"  template=help_text filename="i18n\hlp_mydata.xhtml">    
 </header>
 
 ;****************************************************************************************************************
@@ -39,21 +43,86 @@
 	<BUTTON     btnSV_3D  template=btn_5a   y=20   text="3D Settings" onrelease='NEXTSTATE st_SettingVisual3D'>
 	
  	<BUTTON   xxx         template=btn_5a   y=63   text="Color Profiles" onrelease='NEXTSTATE st_ColorProfiles'>
-	
-	<CHECKBOX xxx         template=chk_5a   y=106   text="2D terrain" boolmodel="map.terrain_in_2d">	
+	<CHECKBOX xxx         template=chk_5a   y=106  text="2D terrain" boolmodel="map.terrain_in_2d">	
 	<CHECKBOX xxx         template=chk_5a   y=149  text="Street Names during Navigation" boolmodel="map.show_labels">
 
-  <SLIDER  sld_laneinfo template=sld_5a  y=192 value="Off|0|At the Top|1|At the Bottom|2" var=vLaneInfo>
- 	<TEXT  txt_laneinfo template=txt_sld y=192 text="Lane Information" watchstate=sld_laneinfo>
-  
-	<BUTTON xxx  template=footer4_4a text="Help"       onrelease='NEXTSTATE st_HelpSettingVisual'> 
+;!TB - replaced Lane Info slider by a button to open new screen
+;	<SLIDER  sld_laneinfo template=sld_5a  y=192 value="Off|0|At the Top|1|At the Bottom|2" var=vLaneInfo>
+;	<TEXT  txt_laneinfo template=txt_sld y=192 text="Lane Information" watchstate=sld_laneinfo>
+	<BUTTON   xxx         template=btn_5a   y=192  text="Lane Information" onrelease='NEXTSTATE st_SettingLaneInfo'>
+
+;!TB - Moved new Help button to common layer
+
+;!TB - Buttons for pages and Page Index
+	<BUTTON xxx  template=prevpage  onrelease='' DISABLE>
+	<BUTTON xxx  template=nextpage  onrelease='ui_SettingVisual.HIDE, ui_SettingsVisualAdvanced.SHOW, vMapSettingsActPage.SET 1'>
+	<TEXT   xxx  template=pageindex text="1/3">
+</layer>
+
+
+;!TB MR, di/\/\ka - New Layer for Additional Map Settings
+<layer ui_SettingsVisualAdvanced z=30>
+	<CHECKBOX xxx         template=chk_5a   y=20   text="Popup info" boolmodel="map.popup_info">	
+	<CHECKBOX xxx         template=chk_5a   y=63   text="Compass" boolmodel="ui.bShowCompassOnMap">
+
+	<CHECKBOX xxx         template=chk_5b   y=106  text="Current Speed" boolmodel="ui.bSpeedShow">
+	<BUTTON   xxx         template=btn_5d   y=106  text="..."  onrelease='NEXTSTATE st_SettingsVisualCurrentSpeed' enabledmodel="ui.bSpeedShow">
+
+	; Duplicated from ui_SettingWarningsSpeedCam
+	<SLIDER   sldSV_Limit template=sld_5a   y=149  value="Off|0|Simple|1|On|2" var=vSpeedLimitVisual z=20>
+	<TEXT     txtSV_Limit template=txt_sld  y=149  text="Speed limit" watchstate=sldSV_Limit>
+
+;!Raffke_jr - added Button for Fullscreen Visual Settings
+	<BUTTON   xxx         template=btn_5a   y=192  text="Fullscreen Cockpit Settings" onrelease='NEXTSTATE st_FullScreenCockpit'>
+
+	<BUTTON xxx  template=prevpage  onrelease='ui_SettingsVisualAdvanced.HIDE, ui_SettingVisual.SHOW, vMapSettingsActPage.SET 0'>
+	<BUTTON xxx  template=nextpage  onrelease='ui_SettingsVisualAdvanced.HIDE, ui_SettingsVisualAdvanced2.SHOW, vMapSettingsActPage.SET 2'>
+	<TEXT   xxx  template=pageindex text="2/3">
+</layer>
+
+;!Raffke_jr - New Layer for 3rd page Map Settings
+<layer ui_SettingsVisualAdvanced2 z=30>
+;!Raffke_jr - Slider to select Transparent panel type
+	<SLIDER   sld_CockpitAlpha template=sld_5a   y=20  value="Default|0|Transparent|1|Empty|2|20% Transparent|23|40% Transparent|18|60% Transparent|13|80% Transparent|8" var=vCockpitAlpha z=20>
+	<TEXT     txt_CockpitAlpha template=txt_sld  y=20  text="Cockpit Style" watchstate=sld_CockpitAlpha>
+
+	<BUTTON xxx  template=prevpage  onrelease='ui_SettingsVisualAdvanced2.HIDE, ui_SettingsVisualAdvanced.SHOW, vMapSettingsActPage.SET 1'>
+	<BUTTON xxx  template=nextpage  onrelease='' DISABLE>
+	<TEXT   xxx  template=pageindex text="3/3">
+</layer>
+
+;!TB - New Layer Visual Settings Help button
+<layer ui_SettingVisualCommon z=30>
+	<BUTTON xxx  template=footer2_1a text="Help" onrelease='NEXTSTATE st_HelpSettingVisual'>
+</layer>
+
+;!TB - New Layer for Lane Info settings
+<layer ui_SettingLaneInfo z=30>
+	<SLIDER   sld_laneinfo template=sld_lb5a y=21 w=120 value="Off|0|At the Top|1|At the Bottom|2" var=vLaneInfo>
+	<TEXT     txt_laneinfo template=btntext  y=33 w=200 text="Lane Information" watchstate=sld_laneinfo>
+
+	<SPRITE     xxx        template=spr_5a          y=63  z=0>
+	<TEXT       xxx        template=txt_csu_legend  y=63  z=1 text="Size:" w=104>
+;!Raffke_jr - removed 'blockincrement=_0.0'
+	<HSCROLLBAR xxx                              x=179 y=64  z=1 bmp="$fable_scrollbg.spr" sprind="$fable_scrollbtn.spr" possiblevalues="100,150,200" endsize=0 value=1000 valuemodel="ui.vLaneInfoMode">
+	<TEXT       xxx        template=btntext      x=119 y=75  z=1 w=55  align="RIGHT" font="tahomabd" text="Small">
+	<TEXT       xxx        template=btntext      x=386 y=75  z=1 w=55  align="LEFT" font="tahomabd" text="Big">
+
+	<BUTTON xxx  template=footer3_3a text="Help"       onrelease='NEXTSTATE st_HelpSettingVisual'>
+</layer>
+
+;!TB, di/\/\ka - New Layer for Current Speed Display Settings
+<layer ui_SettingsVisualCurrentSpeed z=30>
+	<CHECKBOX xxx          template=chk_lb5a y=21  text="Background" boolmodel="ui.bSpeedBGShow" >
+	<SLIDER   sldSVA_Speed template=sld_lb5a y=63  value="Horizontal|0|Vertical|1" var=bVertspedInfo>
+	<TEXT     xxx          template=btntext  y=76  w=289 text="Location" watchstate=sldSVA_Speed >
 </layer>
 
 ;****************************************************************************************************************
 
 <layer ui_SettingVisual3D z=35>
 	<CHECKBOX chk_SV3D_Landmarks template=chk_5a y=21   text="Landmarks"      boolmodel="map.3d_landmarks">
-	<CHECKBOX xxx                template=chk_5a y=63   text="Elevated Roads" boolmodel="map.3d_roads">
+	<CHECKBOX chk_SV3D_Roads     template=chk_5a y=63   text="Elevated Roads" boolmodel="map.3d_roads">
 	
 	<SLIDER   sld_SV3D_Distance template=sld_5a   y=106  value="Off|0|distance~Close|1|Medium|2|Far|3" var=nBuildingDistance >
 	<TEXT     txt_SV3D_Distance template=txt_sld  y=106 w=300 text="Buildings rendering distance"  watchstate=sld_SV3D_Distance> ;kell a w mert hosszu a szoveg
@@ -86,13 +155,13 @@
 	<SLIDER   sld_SVM_NightMode  template=sld_5a         y=20 value="Off|DAY|On|NIGHT|Automatic|AUTO" var=vMapColors onselect='run sc_SetNightMode'>
 	<TEXT     xxx                template=txt_sld        y=20 text="Night Mode" watchstate=sld_SVM_NightMode>
   
-    <BUTTON btnSVM_MapColor      template=sld_5a           y=63 text=""  onrelease='run sc_btnSVM_MapColor_OnRelease' clicked_coloring=1>
+	<BUTTON btnSVM_MapColor      template=sld_5a           y=63 text=""  onrelease='run sc_btnSVM_MapColor_OnRelease' clicked_coloring=1>
 	<TEXT   xxx                  template=txt_sld          y=63 text="Day Colour Profile:" watchstate=btnSVM_MapColor>
 
 	<BUTTON btnSVM_MapNightColor template=sld_5a        y=106  text="" onrelease='run sc_btnSVM_MapNightColor_OnRelease' clicked_coloring=1>
 	<TEXT   xxx                  template=txt_sld       y=106  text="Night Colour Profile:" watchstate=btnSVM_MapNightColor>
     
-  <BUTTON xxx  template=footer4_4a text="Help"       onrelease='NEXTSTATE st_HelpSettingColorProfiles'>
+	<BUTTON xxx  template=footer4_4a text="Help"       onrelease='NEXTSTATE st_HelpSettingColorProfiles'>
 </layer>
 
 ;****************************************************************************************************************
@@ -134,16 +203,41 @@
 ;****************************************************************************************************************
 
 <layer ui_SettingVisualZoom3D z=35>
-  <SPRITE     xxx           template=spr_5a          y=20  z=0>
-  <TEXT       xxx           template=txt_csu_legend  y=20  z=1 text="Zoom-in limit:">
-  <TEXT       txtSVZ_Min3D  template=txt_csu_valunit y=20  z=1 text="100">
-  <HSCROLLBAR hscSVZ_Min3D  template=csuszka         y=20  z=1 endsize=0 blockincrement=_0.0 valuemodel="smartzoom.minzoom" onchange='run sc_hscSVZ_Min_3D_OnChange'>
-	
-  <SPRITE     xxx           template=spr_5a          y=63 z=0>
-  <TEXT       xxx           template=txt_csu_legend  y=63 z=1 text="Zoom-out limit:">
-  <HSCROLLBAR hscSVZ_Max3D  template=csuszka         y=63 z=1 endsize=0 blockincrement=_0.0 valuemodel="smartzoom.maxzoom" onchange='run sc_hscSVZ_Max_3D_OnChange'>
-  <TEXT       txtSVZ_Max3D  template=txt_csu_valunit y=63 z=1 text="500">
-	
+	<SPRITE     xxx           template=spr_5a          y=20  z=0>
+	<TEXT       xxx           template=txt_csu_legend  y=20  z=1 text="Zoom-in limit:">
+	<TEXT       txtSVZ_Min3D  template=txt_csu_valunit y=20  z=1 text="100">
+	<HSCROLLBAR hscSVZ_Min3D  template=csuszka         y=20  z=1 endsize=0 blockincrement=_0.0 valuemodel="smartzoom.minzoom" onchange='run sc_hscSVZ_Min_3D_OnChange'>
+
+	<SPRITE     xxx           template=spr_5a          y=63 z=0>
+	<TEXT       xxx           template=txt_csu_legend  y=63 z=1 text="Zoom-out limit:">
+	<HSCROLLBAR hscSVZ_Max3D  template=csuszka         y=63 z=1 endsize=0 blockincrement=_0.0 valuemodel="smartzoom.maxzoom" onchange='run sc_hscSVZ_Max_3D_OnChange'>
+	<TEXT       txtSVZ_Max3D  template=txt_csu_valunit y=63 z=1 text="500">
+
+;!Raffke_jr - TODO: Fit to new templates
+;!TB - Min Tilt Angle
+	<SPRITE     xxx             template=spr_5a          y=106 z=0>
+	<TEXT       xxx             template=txt_csu_legend  y=106 z=1 text="Tilt Down">
+	<TEXT       txtSVZ_TiltDown template=txt_csu_value   y=106 z=1 >
+	<TEXT       xxx             template=txt_csu_unit    y=106 z=1 text="°">
+	<HSCROLLBAR hscSVZ_TiltDown template=csuszka         y=106 z=1 endsize=0 blockincrement=_0.0 possiblevalues="0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90" valuemodel="smartzoom.minangle" onchange='run sc_hscSVZ_TiltDown_OnChange'>
+;	<TEXT       xxx              template=btntext        y=118 w=130 text="Tilt Down">
+;	<TEXT       txtSVZ_TiltDown  template=btntext  x=180 y=118 w=42 align="RIGHT" font="tahomabd">
+;	<TEXT       xxx              template=btntext  x=225 y=118 w=10 text="°" align="LEFT" font="tahomabd">
+;	<HSCROLLBAR hscSVZ_TiltDown                    x=240 y=106 bmp="$fable_scrollbg.spr" sprind="$fable_scrollbtn.spr"  endsize=0 blockincrement=_0.0 possiblevalues="0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90" valuemodel="smartzoom.minangle" onchange='run sc_hscSVZ_TiltDown_OnChange'>
+;	<SPRITE     xxx                                x=33  y=105 z=0 bmp="btn_lb_5a.bmp#2">
+
+;!TB - Max Tilt Angle
+	<SPRITE     xxx             template=spr_5a          y=149 z=0>
+	<TEXT       xxx             template=txt_csu_legend  y=149 z=1 text="Tilt Up">
+	<TEXT       txtSVZ_TiltUp   template=txt_csu_value   y=149 z=1 >
+	<TEXT       xxx             template=txt_csu_unit    y=149 z=1 text="°">
+	<HSCROLLBAR hscSVZ_TiltUp   template=csuszka         y=149 z=1 endsize=0 blockincrement=_0.0 possiblevalues="0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90" valuemodel="smartzoom.maxangle" onchange='run sc_hscSVZ_TiltUp_OnChange'>
+;	<TEXT       xxx              template=btntext        y=160 w=130 text="Tilt Up">
+;	<TEXT       txtSVZ_TiltUp    template=btntext  x=180 y=160 w=42 align="RIGHT" font="tahomabd">
+;	<TEXT       xxx              template=btntext  x=225 y=160 w=10 text="°" align="LEFT" font="tahomabd">
+;	<HSCROLLBAR hscSVZ_TiltUp                      x=240 y=148 bmp="$fable_scrollbg.spr" sprind="$fable_scrollbtn.spr"  endsize=0 blockincrement=_0.0 possiblevalues="0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90" valuemodel="smartzoom.maxangle" onchange='run sc_hscSVZ_TiltUp_OnChange'>
+;	<SPRITE     xxx                                x=33  y=147 z=0 bmp="btn_lb_5a.bmp#2">
+
 	<BUTTON xxx  template=footer4_4a text="Help"       onrelease='NEXTSTATE st_HelpSettingVisualZoom'> 
 </layer>
 
@@ -180,21 +274,38 @@
 </layer>
 
 ;****************************************************************************************************************
+;!TB - Full screen cockpit settings
+
+<layer ui_FullScreenCockpit z=30>
+	<CHECKBOX xxx template=chk_lb5a y=21  text="Direction Icons" boolmodel="ui.vFullScreenDiricon">
+	<CHECKBOX xxx template=chk_lb5a y=63  text="Next Street"     boolmodel="ui.vFullScreenNextStreet">
+	<CHECKBOX xxx template=chk_lb5a y=105 text="Actual Street"   boolmodel="ui.vFullScreenActualStreet">
+	<CHECKBOX xxx template=chk_lb5a y=147 text="Status"          boolmodel="ui.vFullScreenStatus">
+</layer>
+
+;****************************************************************************************************************
 ; Sound *********************************************************************************************************                                           
 ;****************************************************************************************************************
 
 <layer ui_SettingSound z=35>
-	<CHECKBOX   xxx          template=chk_5a         y=20  w=156 text="Master volume" onrelease='playsound "!button", run sc_SetVolumeSlider' nosound boolmodel="!sound.os_muted">
-	<HSCROLLBAR xxx			 template=csuszka		 y=20  x=207 min=0 max=255 endsize=0 blockincrement=_0.0 value=255 onrelease='run sc_PlayTestSound, run sc_SetVolumeCheckBox' nosound valuemodel="sound.os_volume">
+	<CHECKBOX   xxx          template=chk_5a         y=20  text="Master volume" onrelease='playsound "!button", run sc_SetVolumeSlider' nosound boolmodel="!sound.os_muted">
+	<HSCROLLBAR xxx	         template=csuszka        y=20  x=207 min=0 max=255 endsize=0 blockincrement=_0.0 value=255 onrelease='run sc_PlayTestSound, run sc_SetVolumeCheckBox' nosound valuemodel="sound.os_volume">
 
 	<TEXT       xxx          template=txt_csu_legend y=63 w=170 text="Voice guidance volume">
-	<SPRITE     xxx			 template=spr_5a	     y=63>
-	<HSCROLLBAR xxx			 template=csuszka		 y=63  min=0 max=63 endsize=0 blockincrement=_0.0 value=63 onrelease='voicemodel_playtestvoice' nosound valuemodel="sound.voice_volume">
+	<SPRITE     xxx	         template=spr_5a         y=63>
+	<HSCROLLBAR xxx	         template=csuszka        y=63  min=0 max=63 endsize=0 blockincrement=_0.0 value=63 onrelease='voicemodel_playtestvoice' nosound valuemodel="sound.voice_volume">
 	
 	<CHECKBOX   xxx          template=chk_5a         y=106 text="Key sound volume" onrelease='playsound "!button"' nosound boolmodel="!sound.sound_muted">
+;!TB - Added Slider for key volume
+	<HSCROLLBAR xxx	         template=csuszka        y=106 x=207 min=0 max=63  endsize=0 blockincrement=_0.0 value=63  onrelease='playsound "!click"' nosound valuemodel="sound.sound_volume">
 
 	<CHECKBOX  chk_dynVol    template=chk_5b         y=149 text="Dynamic Volume" var=nDynamicVolumeType>
 	<BUTTON    btnSS_DynAdv  template=btn_5d         y=149 text="..." onrelease='run sc_btnSS_DynAdv_OnRelease'>
+
+;!Raffke_jr - added speedcam warning volume
+	<TEXT       xxx          template=txt_csu_legend y=192 w=170 text="Speedcam warning volume" visiblemodel="ui.vSpeedcamSoundType=3&warning.speedcam_warning&warning.speedcams_allowed">
+	<SPRITE     xxx	         template=spr_5a         y=192 visiblemodel="ui.vSpeedcamSoundType=3&warning.speedcam_warning&warning.speedcams_allowed">
+	<HSCROLLBAR xxx	         template=csuszka        y=192  min=0 max=64 endsize=0 blockincrement=_0.0 value=64 onrelease='PLAYSOUND "!alert5"' nosound valuemodel="ui.vSpeedcamAlertVolume" visiblemodel="ui.vSpeedcamSoundType=3&warning.speedcam_warning&warning.speedcams_allowed">
 
 	<BUTTON xxx  template=footer4_4a text="Help"     onrelease='NEXTSTATE st_HelpSettingSound'> 
 </layer>
@@ -265,29 +376,68 @@
 
 <layer ui_SettingRoute z=35>
 	<BUTTON btnSR_vehicle          template=btn_5a       y=20  text="Vehicle:" onrelease='NEXTSTATE st_SettingVehicle' clicked_coloring=1>
-	<TEXT   btn_vehicle_value     template=txt_sld x=240 y=20 w=212 align="RIGHT-16" watchstate=btnSR_vehicle>
+	<TEXT   btn_vehicle_value      template=txt_sld x=240 y=20 w=212 align="RIGHT-16" watchstate=btnSR_vehicle>
 
 	<BUTTON xxx                    template=btn_5a       y=63  text="Road types to include" onrelease='NEXTSTATE st_SettingRouteParam'>
 	
-	<SLIDER sldSR_RouteCalcMethod  template=sld_5a       y=106  value="Fastest|FAST|Shortest|SHORT|Economic|ECO|Easy|SIMPLE" var=vRouteType>
+;!TB - Added SCENIC routing type
+	<SLIDER sldSR_RouteCalcMethod  template=sld_5a       y=106  value="Fastest|FAST|Shortest|SHORT|Economic|ECO|Easy|SIMPLE|Scenic/Panoramic_View|SCENIC" var=vRouteType>
 	<TEXT   xxx                    template=txt_sld      y=106  text="Route Calculation Method" watchstate=sldSR_RouteCalcMethod>
 
- 	<CHECKBOX xxx                  template=chk_5a       y=149  text="Use traffic information" boolmodel="!tmc.ignore_all_events" enabledmodel="tmc.present" onrelease='run sc_UseTrafficInfoOnRelease' visiblemodel="tmc.present">
+;!Raffke_jr - removed visiblemodel, keep enabledmodel (from 8.2.0.46067)
+ 	<CHECKBOX xxx                  template=chk_5a       y=149  text="Use traffic information" boolmodel="!tmc.ignore_all_events" enabledmodel="tmc.present" onrelease='run sc_UseTrafficInfoOnRelease'>
 
-    <SLIDER sldTMCS_RecalcToAvoid  template=sld_5a       y=192  w=180 var=vTmcReplanMode value="Auto replan|AUTO|Manual|ASK|No replan|OFF" onselect='run sc_TmcReplanChanged' enabledmodel="tmc.present&!tmc.ignore_all_events" visiblemodel="tmc.present">
-	<TEXT   xxx                    template=txt_sld      y=192  text="Recalculate to avoid traffic:" watchstate=sldTMCS_RecalcToAvoid enabledmodel="tmc.present&!tmc.ignore_all_events" visiblemodel="tmc.present">  
+;!Raffke_jr - merged enabledmodel to visiblemodel 2x
+	<SLIDER sldTMCS_RecalcToAvoid  template=sld_5a       y=192  w=180 var=vTmcReplanMode value="Auto replan|AUTO|Manual|ASK|No replan|OFF" onselect='run sc_TmcReplanChanged' visiblemodel="tmc.present&!tmc.ignore_all_events">
+	<TEXT   xxx                    template=txt_sld      y=192  text="Recalculate to avoid traffic:" watchstate=sldTMCS_RecalcToAvoid visiblemodel="tmc.present&!tmc.ignore_all_events">  
+
+;!TB - Commented out, and moved to advanced settings
+;	<TEXT	xxx             template=xtxt  x=0   y=93 text="U-turn penalty:" hide>
+;	<HSCROLLBAR hscSR_UTurn                x=80  y=93 bmp="$fable_scrollbg.spr" sprind="$fable_scrollbtn.spr" onchange='run sc_hscSR_UTurn_OnChange' hide>
+;	<TEXT txtSR_UTurn       template=xtxt  x=270 y=93 align="RIGHT" hide>
     
-	<TEXT	xxx             template=xtxt  x=0   y=93 text="U-turn penalty:" hide>
-	<HSCROLLBAR hscSR_UTurn                x=80  y=93 bmp="$fable_scrollbg.spr" sprind="$fable_scrollbtn.spr" onchange='run sc_hscSR_UTurn_OnChange' hide>
-	<TEXT txtSR_UTurn       template=xtxt  x=270 y=93 align="RIGHT" hide>
-    
+;!TB MR - Button for Route Advanced Settings
+;!Raffke_jr - changed x to match new footer4_2a
+	<BUTTON xxx  template=footer2_1a x=192 text="Advanced Settings" onrelease='NEXTSTATE st_SettingRouteAdvanced'>
+
 	<BUTTON xxx  template=footer4_4a text="Help"       onrelease='NEXTSTATE st_HelpSettingRoute'> 
 </layer>
+
+
+;!TB - New Layer Advanced Route Options
+;!Raffke_jr - TODO: Fit to new templates
+<layer ui_SettingRouteAdvanced z=35>
+	<SPRITE     xxx        bmp="btn_lb_5a.bmp#2"     x=33  y=21  z=0 >
+	<TEXT       xxx        template=btntext                y=34  z=1 w=104 align="LEFT"  text="Algorithm:">
+	<HSCROLLBAR hscSR_Correct                        x=179 y=22  z=1 bmp="$fable_scrollbg.spr" sprind="$fable_scrollbtn.spr" min=50 max=100 endsize=0 blockincrement=_0.0 valuemodel="route.correctness">
+	<TEXT       xxx        template=btntext          x=119 y=34  z=1 w=55  align="RIGHT" font="tahomabd" text="Fast">
+	<TEXT       xxx        template=btntext          x=383 y=34  z=1 w=55  align="LEFT" font="tahomabd" text="Correct">
+
+	<CHECKBOX   btnSR_Uturn   template=chk_lb5a            y=63  z=1 text="U-turn" boolmodel="route.allow_uturn">
+
+	<SPRITE     xxx           bmp="btn_lb_5a.bmp#2"  x=33  y=105 z=0 >
+	<TEXT       xxx           template=btntext             y=118 z=1 w=130 align="LEFT"  text="U-turn penalty:">
+	<TEXT       txtSR_UTurn   template=btntext       x=180 y=118 z=1 w=55  align="RIGHT" font="tahomabd" >
+	<HSCROLLBAR hscSR_UTurn                          x=240 y=106 z=1 bmp="$fable_scrollbg.spr" sprind="$fable_scrollbtn.spr" onchange='run sc_hscSR_UTurn_OnChange'>
+
+	<SPRITE     xxx           bmp="btn_lb_5a.bmp#2"  x=33  y=147 z=0 >
+	<TEXT       xxx           template=btntext             y=160 z=1 w=130 align="LEFT"  text="Starting opposite direction:">
+	<TEXT       txtSR_UTurn2  template=btntext       x=180 y=160  z=1 w=55  align="RIGHT" font="tahomabd" >
+	<HSCROLLBAR hscSR_UTurn2                         x=240 y=148 z=1 bmp="$fable_scrollbg.spr" sprind="$fable_scrollbtn.spr" onchange='run sc_hscSR_UTurn2_OnChange'>
+
+	<SPRITE     xxx           bmp="btn_lb_5a.bmp#2"  x=33  y=190 z=0 >
+	<TEXT       xxx           template=btntext             y=203 z=1 w=130 align="LEFT"  text="U-turn at viapoint:">
+	<TEXT       txtSR_UTurn3  template=btntext       x=180 y=203 z=1 w=55  align="RIGHT" font="tahomabd" >
+	<HSCROLLBAR hscSR_UTurn3                         x=240 y=191 z=1 bmp="$fable_scrollbg.spr" sprind="$fable_scrollbtn.spr" onchange='run sc_hscSR_UTurn3_OnChange'>
+</layer>
+
 
 <layer ui_SettingVehicle z=35>
 	<RADIO xxx template=btn_4c_icon  x=33 y=20  text="Car"         iconspr="$vhcl_car_onbtn.bmp"     ICONALIGN="LEFT+6" ICONVALIGN="CENTER+1"  group=nVehicleTmp var="Car"    onrelease='PREVSTATE' fxshowdelay=0>
 	<RADIO xxx template=btn_4c_icon  x=33 y=72  text="Taxi"        iconspr="$vhcl_taxi_onbtn.bmp"    ICONALIGN="LEFT+6" ICONVALIGN="CENTER+1"  group=nVehicleTmp var="Taxi"   onrelease='PREVSTATE' fxshowdelay=5 >
 	<RADIO xxx template=btn_4c_icon  x=33 y=124 text="Bus"         iconspr="$vhcl_bus_onbtn.bmp"     ICONALIGN="LEFT+6" ICONVALIGN="CENTER+1"  group=nVehicleTmp var="Bus"    onrelease='PREVSTATE' fxshowdelay=10 >
+;!TB 0.4d - Uncommented Truck Mode, changed properties to match other buttons
+	<RADIO xxx template=btn_4c_icon  x=33 y=176 text="Truck"       iconspr="$vhcl_truck_onbtn.bmp"   ICONALIGN="LEFT+6" ICONVALIGN="CENTER+1"  group=nVehicleTmp var="Truck"  onrelease='PREVSTATE' fxshowdelay=15 >
 	<RADIO xxx template=btn_4c_icon x=240 y=20  text="Emergency"   iconspr="$vhcl_emr_onbtn.bmp"  ICONALIGN="LEFT+6" ICONVALIGN="CENTER+1" group=nVehicleTmp var="Emergency"   onrelease='PREVSTATE' fxshowdelay=5 >
 	<RADIO xxx template=btn_4c_icon x=240 y=72  text="Pedestrian"  iconspr="$vhcl_ped_onbtn.bmp"  ICONALIGN="LEFT+6" ICONVALIGN="CENTER+1" group=nVehicleTmp var="Pedestrian"  onrelease='run sc_SetPedestrianWarning, PREVSTATE' fxshowdelay=10 >
 	<RADIO xxx template=btn_4c_icon x=240 y=124 text="Bicycle"     iconspr="$vhcl_bic_onbtn.bmp"  ICONALIGN="LEFT+6" ICONVALIGN="CENTER+1" group=nVehicleTmp var="Bicycle"     onrelease='PREVSTATE' fxshowdelay=15 >
@@ -340,32 +490,49 @@
 ;****************************************************************************************************************
 
 <layer ui_SettingSystem z=35>
-	<CHECKBOX chkSS_ARun    template=chk_5a         y=192 text="Autorun enabled" boolmodel="other.pda_auto_start" visiblemodel="other.device.ispda">		
-	<BUTTON     xxx         template=btn_5a       		      y=-189 text="Set Screen Orientation..."  onrelease='NEXTSTATE st_SettingOrientation' z=0  visiblemodel="interface.show_orientation|other.device.ispda">
+;!Raffke_jr - changed y from 192, replaced visiblemodel by enabledmodel
+	<CHECKBOX chkSS_ARun     template=chk_5a        y=20  text="Autorun enabled" boolmodel="other.pda_auto_start" enabledmodel="other.device.ispda">		
 
-	<SLIDER  sld_pwrMgmt    template=sld_5a         y=20 value="Keep backlight ON|0|Smart powersave|1|No power management|2" valuemodel="power.powermgm_state">
-	<TEXT    xxx            template=txt_sld        y=20 text="Power management:" watchstate=sld_pwrMgmt>
+;!Raffke_jr - added button to enabel Minimize on PNA
+	<CHECKBOX chkSS_Minimize template=chk_5a       	y=63  text="Show minimize on Exit" boolmodel="ui.bShowMinimize">
+
+;!Raffke_jr - changed y from -189, replaced visiblemodel by enabledmodel
+	<BUTTON     xxx          template=btn_5a        y=106 text="Set Screen Orientation..."  onrelease='NEXTSTATE st_SettingOrientation' z=0  enabledmodel="interface.show_orientation|other.device.ispda">
+
+;!Raffke_jr - moved Power management settings to separate layer, added button
+	<BUTTON     xxx          template=btn_5a        y=149 text="Power management..."  onrelease='NEXTSTATE st_SettingPwrMgmt'>
+
+	<BUTTON xxx  template=footer4_4a text="Help"       onrelease='NEXTSTATE st_HelpSettingSystem'> 
+</layer>
+
+;!Raffke_jr - New layer for Power management settings
+<layer ui_SettingPwrMgmt z=35>
+	<SLIDER  sld_pwrMgmt     template=sld_5a        y=20 value="Keep backlight ON|0|Smart powersave|1|No power management|2" valuemodel="power.powermgm_state">
+	<TEXT    xxx             template=txt_sld       y=20 text="Power management:" watchstate=sld_pwrMgmt>
     
-    <TEXT       xxx          template=txt_sld       y=63 text="Backlight at daylight:" visiblemodel="power.powermgm_state!=2&power.backlight_supported">
+	<TEXT       xxx          template=txt_sld       y=63 text="Backlight at daylight:" visiblemodel="power.powermgm_state!=2&power.backlight_supported">
 	<TEXT       xxx          template=txt_sld       y=63 text="Backlight at daylight:" visiblemodel="power.powermgm_state=2&power.backlight_supported" alpha=10>
-  	<SPRITE     xxx			 template=spr_5a	    y=63 visiblemodel="power.backlight_supported">
+  	<SPRITE     xxx	         template=spr_5a        y=63 visiblemodel="power.backlight_supported">
 	<HSCROLLBAR hscSSB_Day   template=csuszka       y=63 min=0 max=100 valuemodel="power.backlight_day" visiblemodel="power.backlight_supported" enabledmodel="power.powermgm_state!=2" onrelease='exec "power.backlight_update_slow_api"'>
 	
 	<TEXT       xxx          template=txt_sld       y=106 text="Backlight at night:" visiblemodel="power.powermgm_state!=2&power.backlight_supported">
 	<TEXT       xxx          template=txt_sld       y=106 text="Backlight at night:" visiblemodel="power.powermgm_state=2&power.backlight_supported" alpha=10>
-	<SPRITE     xxx			 template=spr_5a        y=106 visiblemodel="power.backlight_supported">
+	<SPRITE     xxx		 template=spr_5a        y=106 visiblemodel="power.backlight_supported">
 	<HSCROLLBAR hscSSB_Night template=csuszka       y=106 min=0 max=100 valuemodel="power.backlight_night" visiblemodel="power.backlight_supported"  enabledmodel="power.powermgm_state!=2" onrelease='exec "power.backlight_update_slow_api"'>
-  
-  <BUTTON btn_screen_calibtare  template=btn_5a  y=149 onrelease='CALIBRATE_SCREEN' text="Screen Calibration" visiblemodel="ui.vScreenCalibration=1&!other.device.ispda">  
-	
+
+;!Raffke_jr - added Auto-Standby settings (copied from ui_SettingWarningsOverSpeed)
+	<SPRITE     xxx              template=spr_5a          y=149>
+	<TEXT       xxx              template=txt_csu_legend  y=149 text="Auto-Standby Timer:">
+	<TEXT       txtSPM_Time      template=txt_csu_value   y=149 >
+	<TEXT       xxx              template=txt_csu_unit    y=149 text="sec">
+	<HSCROLLBAR hscSPM_Time      template=csuszka         y=149 possiblevalues="0,1,2,3,4,5,6,7,8,9,10,15,20,25,30,45,60,90,120" endsize=0 valuemodel="ui.vShutdownTime" onchange='run hscSPM_Time_OnChange'>
+
 	<BUTTON xxx  template=footer4_4a text="Help"       onrelease='NEXTSTATE st_HelpSettingSystem'> 
-  
 </layer>
 
 <layer ui_SettingOrientation z=35>
 	<RADIO    radSS_O2     x=60  y=60 bmp="btn_display_orientation_vertical.bmp#2"   onclick='run sc_radSS_Ox_OnSelect 1' group=vCurrentOrientation var="LANDSCAPE1">
 	<RADIO    radSS_O1     x=260 y=60 bmp="btn_display_orientation_horizontal.bmp#2" onclick='run sc_radSS_Ox_OnSelect 0' group=vCurrentOrientation var="PORTRAIT">
-
 </layer>
 
 
@@ -376,11 +543,11 @@
 <layer ui_SettingWarnings z=35>
  	<CHECKBOX  xxx                   template=chk_5b   y=20  text="Overspeed warning"  boolmodel="warning.speedlimit_warning">
 	<BUTTON    xxx                   template=btn_5d   y=20  text="..."  onrelease='NEXTSTATE st_SettingWarningsOverSpeed' enabledmodel="warning.speedlimit_warning">
-	<CHECKBOX  chk_SpeedCamWarning   template=chk_5b   y=149  text="Speed camera warning"  onselect='run sc_SettingWarningsCheckSpeedCamEula' ondeselect='run sc_SpeedcamWarningDisabled' visiblemodel="warning.speedcams_allowed">
-	<BUTTON    btn_SpeedCamWarning   template=btn_5d   y=149  text="..."  onrelease='NEXTSTATE st_SettingWarningsSpeedCam' enabledmodel="warning.speedcam_warning" visiblemodel="warning.speedcams_allowed">
+	<CHECKBOX  chk_SpeedCamWarning   template=chk_5b   y=63  text="Speed camera warning"  onselect='run sc_SettingWarningsCheckSpeedCamEula' ondeselect='run sc_SpeedcamWarningDisabled' visiblemodel="warning.speedcams_allowed">
+	<BUTTON    btn_SpeedCamWarning   template=btn_5d   y=63  text="..."  onrelease='NEXTSTATE st_SettingWarningsSpeedCam' enabledmodel="warning.speedcam_warning" visiblemodel="warning.speedcams_allowed">
     
 	<CHECKBOX  chk_safetymode        template=chk_5a   y=106  text="Safety Mode" onrelease='run sc_safemode_switch' nostress>
-	<CHECKBOX  chk_WarnInPredest     template=chk_5a   y=63 text="Warn in pedestrian mode" boolmodel="warning.pedestrian_warning" onselect='run sc_SetPedestrianWarning'>
+	<CHECKBOX  chk_WarnInPredest     template=chk_5a   y=149 text="Warn in pedestrian mode" boolmodel="warning.pedestrian_warning" onselect='run sc_SetPedestrianWarning'>
 	<BUTTON xxx  template=footer4_4a text="Help"       onrelease='NEXTSTATE st_HelpSettingWarnings'> 
 </layer>
 
@@ -391,22 +558,32 @@
 	<TEXT	    txtSWO_OToleranceAlt   template=txt_csu_legend  y=20 text="In cities">
 	<TEXT       txtSWO_OToleranceAltV  template=txt_csu_value   y=20 >
 	<TEXT       txtSWO_OToleranceAltM  template=txt_csu_unit    y=20 text="%">
-	<HSCROLLBAR hscSWO_OToleranceAlt   template=csuszka         y=20 endsize=0 blockincrement=_0.0 possiblevalues="70,75,80,85,90,95,100,105,110,115,120,125,130" valuemodel="warning.speedwarn_alt_tolerance" onchange='run sc_hscSWO_OToleranceAlt_OnChange' endsize=15>
+;!TB - Added additional values
+	<HSCROLLBAR hscSWO_OToleranceAlt   template=csuszka         y=20 endsize=0 blockincrement=_0.0 possiblevalues="70,75,80,85,90,95,100,105,110,115,120,125,130,140,150,160,180,200,999" valuemodel="warning.speedwarn_alt_tolerance" onchange='run sc_hscSWO_OToleranceAlt_OnChange' endsize=15>
     
  	<SPRITE     xxx                    template=spr_5a          y=63>
 	<TEXT	    txtSWO_OTolerance      template=txt_csu_legend  y=63 text="Overspeed Tolerance" >
 	<TEXT       txtSWO_OToleranceV     template=txt_csu_value   y=63 >
 	<TEXT       txtSWO_OToleranceM     template=txt_csu_unit    y=63 text="%" >
-	<HSCROLLBAR hscSWO_OTolerance      template=csuszka         y=63 endsize=0 blockincrement=_0.0 possiblevalues="70,75,80,85,90,95,100,105,110,115,120,125,130" valuemodel="warning.speedwarn_tolerance" onchange='run sc_hscSWO_OTolerance_OnChange' endsize=15>
+;!TB - Added additional values
+	<HSCROLLBAR hscSWO_OTolerance      template=csuszka         y=63 endsize=0 blockincrement=_0.0 possiblevalues="70,75,80,85,90,95,100,105,110,115,120,125,130,140,150,160,180,200,999" valuemodel="warning.speedwarn_tolerance" onchange='run sc_hscSWO_OTolerance_OnChange' endsize=15>
     
-	<CHECKBOX  xxx                     template=chk_5a          y=106  text="Sound warning:"  boolmodel="warning.speedlimit_warning_voice">
-	<CHECKBOX  xxx                     template=chk_5a          y=149  text="Visual warning:" boolmodel="warning.speedlimit_warning_visual">
+;!TB - added slider for overspeed type
+	<SLIDER     sldSWO_Type            template=sld_5a          y=106 value="Percentage|0|Fixed value|1" var=vOverspeedType1>
+	<TEXT       txtSWO_Type            template=txt_sld         y=106 text="Type" watchstate=sldSWO_Type>
+
+;!TB - Visual and Sound warning controls moved below
+	<CHECKBOX  xxx                     template=chk_5a          y=149  text="Sound warning:"  boolmodel="warning.speedlimit_warning_voice">
+	<CHECKBOX  xxx                     template=chk_5a          y=192  text="Visual warning:" boolmodel="warning.speedlimit_warning_visual">
 </layer>
 
 ;****************************************************************************************************************
 
 <layer ui_SettingWarningsSpeedCam z=35>
-	<SLIDER   sldSWC_Sound      template=sld_5a    y=20  value="Off|0|Simple|1|Full Sound|2" valuemodel="warning.speedcam_soundtype" z=20>
+;!TB MR - Added new value "Advanced" and valuemodel changed to process additional value
+;	<SLIDER   sldSWC_Sound      template=sld_5a    y=20  value="Off|0|Simple|1|Full Sound|2" valuemodel="warning.speedcam_soundtype" z=20>
+	<SLIDER   sldSWC_Sound      template=sld_5a    y=20  value="Off|0|Simple|1|Full Sound|2|Advanced|3" valuemodel="ui.vSpeedcamSoundType" z=20>
+
 	<TEXT     txtSWC_Sound      template=txt_sld   y=20  text="Sound warning:" watchstate=sldSWC_Sound>
 	                                               
 	<SLIDER   sldSWC_Visual     template=sld_5a    y=63  value="Off|0|On|1" valuemodel="warning.speedcam_visualtype">
@@ -424,15 +601,28 @@
 	<CHECKBOX  chk_AutoRecalc template=chk_5a      y=63 text="Replan route" onrelease='' var="vAutoRecalc">
 
 	
-  <SPRITE     xxx                             x=34  y=106 z=0        bmp="poti_bg.bmp">
-	<TEXT       txt_Restore   template=txt_sld  y=103 z=1        text="Enable Auto-Follow" color=#FFFFFF>
-	<TEXT       txtSVZ_Time   template=txt_5    x=355 y=115 z=0 w=75   align="RIGHT-6" font="tahomabd" color=#FFFFFF>
-	<HSCROLLBAR hscSVZ_Time   template=csuszka  x=130 y=149 possiblevalues="5,10,20,30,40,50,60,9999" endsize=0 blockincrement=_0.0 onchange='run sc_hscSVZ_Time_OnChange'>
+;!TB - Added Recalculation Delay Setting (templates copied from ui_SettingVisualOverview)
+ 	<SPRITE     xxx           template=spr_5a          y=106>
+	<TEXT	    xxx           template=txt_csu_legend  y=106 text="Recalculation Delay:">
+	<TEXT       txtSR_RecDel  template=txt_csu_valunit y=106 >
+;!Raffke_jr - removed 'blockincrement=_0.0'
+	<HSCROLLBAR hscSR_RecDel  template=csuszka         y=106 min=0 max=10 endsize=0 onchange='run sc_hscSR_RecDel_OnChange'>
+
+;!TB - Modified Auto-Follow to fit in one line
+ 	<SPRITE     xxx           template=spr_5a          y=149>
+	<TEXT	    txt_Restore   template=txt_csu_legend  y=149 text="Enable Auto-Follow">
+	<TEXT       txtSVZ_Time   template=txt_csu_valunit y=149 >
+;!Raffke_jr - removed 'blockincrement=_0.0'
+	<HSCROLLBAR hscSVZ_Time   template=csuszka         y=149 possiblevalues="5,10,20,30,40,50,60,9999" endsize=0 onchange='run sc_hscSVZ_Time_OnChange'>
 	    
 	<CHECKBOX   btnSV_Overview   template=chk_5b   y=192 text="Overview Mode" var="vMapNorthUpOnAutoZoom" onrelease='run sc_btnSV_Overview_OnRelease'>	
 	<BUTTON     btnSV_OverviewEx template=btn_5d   y=192 text="..."  onrelease='NEXTSTATE st_SettingVisualOverview'>
 
-  <BUTTON xxx  template=footer4_4a text="Help"       onrelease='NEXTSTATE st_HelpSettingGuidance'>
+;!Raffke_jr - added SmartZoom Settings
+	<BUTTON xxx  template=footer3_1a text="2D Smart Zoom"  onrelease='NEXTSTATE st_SettingVisualZoom2D'>
+	<BUTTON xxx  template=footer3_2a text="3D Smart Zoom"  onrelease='NEXTSTATE st_SettingVisualZoom3D'>
+;!Raffke_jr - changed template from footer4_4a to insert SmartZoom Settings
+	<BUTTON xxx  template=footer3_3a text="Help"       onrelease='NEXTSTATE st_HelpSettingGuidance'>
 </layer>
 
 ;****************************************************************************************************************
@@ -463,18 +653,18 @@
 	<TEXT xxx  x=15  y=204 z=10 w=91  align="CENTER" fontsize=12 font="tahomabd" color=#ffffff color2=#000000 glowsize=1 textmodel_wstr="gps.latitude_str" visiblemodel="gps.position_valid"  >
 	<TEXT xxx  x=113 y=204 z=10 w=91  align="CENTER" fontsize=12 font="tahomabd" color=#ffffff color2=#000000 glowsize=1 textmodel_wstr="gps.longitude_str" visiblemodel="gps.position_valid" >
       
-	<TEXT   l_prn1    template=txt_gpschannel   y=32>
-	<TEXT   l_prn2    template=txt_gpschannel   y=47>
-	<TEXT   l_prn3    template=txt_gpschannel   y=62>
-	<TEXT   l_prn4    template=txt_gpschannel   y=77>
-	<TEXT   l_prn5    template=txt_gpschannel   y=92>
-	<TEXT   l_prn6    template=txt_gpschannel   y=107>
-	<TEXT   l_prn7    template=txt_gpschannel   y=122>
-	<TEXT   l_prn8    template=txt_gpschannel   y=137>
-	<TEXT   l_prn9    template=txt_gpschannel   y=152>
-	<TEXT   l_prn10   template=txt_gpschannel   y=167>
-	<TEXT   l_prn11   template=txt_gpschannel   y=182>
-	<TEXT   l_prn12   template=txt_gpschannel   y=197>
+	<TEXT   l_prn1    template=txt_gpschannel   y=30>
+	<TEXT   l_prn2    template=txt_gpschannel   y=45>
+	<TEXT   l_prn3    template=txt_gpschannel   y=60>
+	<TEXT   l_prn4    template=txt_gpschannel   y=75>
+	<TEXT   l_prn5    template=txt_gpschannel   y=90>
+	<TEXT   l_prn6    template=txt_gpschannel   y=105>
+	<TEXT   l_prn7    template=txt_gpschannel   y=120>
+	<TEXT   l_prn8    template=txt_gpschannel   y=135>
+	<TEXT   l_prn9    template=txt_gpschannel   y=150>
+	<TEXT   l_prn10   template=txt_gpschannel   y=165>
+	<TEXT   l_prn11   template=txt_gpschannel   y=180>
+	<TEXT   l_prn12   template=txt_gpschannel   y=195>
 	<SPRITE spr_prn1  template=level_gpschannel y=33>
 	<SPRITE spr_prn2  template=level_gpschannel y=48>
 	<SPRITE spr_prn3  template=level_gpschannel y=63>
@@ -540,13 +730,13 @@
 
 	<CHECKBOX chk_gps_status template=chk_5a  y=63 text="GPS Enabled" var="vGpsOnOff" onselect='GPS_START' ondeselect='GPS_STOP' usefocus=0  >
 
-	<SLIDER sld_portGPS  template=sld_5a   y=106 value="AUTO|-1|9|9|8|8|7|7|6|6|5|5|4|4|3|3|2|2|1|1|0|0" var=gps_port onselect='TERM sc_OnGPSSettingsChanged, 1 run sc_OnGPSSettingsChanged' enabledmodel="!gps.started"> 
-	<TEXT   txt_portGPS  template=txt_sld  y=106 text="Port" watchstate=sld_portGPS enabledmodel="!gps.started">
+	<SLIDER sld_portGPS  template=sld_5a   y=106 value="AUTO|-1|9|9|8|8|7|7|6|6|5|5|4|4|3|3|2|2|1|1|0|0" var=gps_port onselect='TERM sc_OnGPSSettingsChanged, 1 run sc_OnGPSSettingsChanged'> 
+	<TEXT   txt_portGPS  template=txt_sld  y=106 text="Port" watchstate=sld_portGPS>
                                          
-	<SLIDER sld_baudRate template=sld_5a   y=149 value="AUTO|-1|4800|4800|9600|9600|19200|19200|38400|38400|57600|57600" var=gps_baud onselect='TERM sc_OnGPSSettingsChanged, 1 run sc_OnGPSSettingsChanged' enabledmodel="!gps.started">
-	<TEXT   txt_baudRate template=txt_sld  y=149 text="Baud rate:" watchstate=sld_baudRate enabledmodel="!gps.started">
+	<SLIDER sld_baudRate template=sld_5a   y=149 value="AUTO|-1|4800|4800|9600|9600|19200|19200|38400|38400|57600|57600" var=gps_baud onselect='TERM sc_OnGPSSettingsChanged, 1 run sc_OnGPSSettingsChanged'>
+	<TEXT   txt_baudRate template=txt_sld  y=149 text="Baud rate:" watchstate=sld_baudRate>
 
-  <BUTTON btn_s_detect template=footer4_4a text="Autodetect" onrelease='TERM sc_OnGPSSettingsChanged, NEXTSTATE st_SettingGPSAutoDetect' enabledmodel="!gps.started">
+  <BUTTON btn_s_detect template=footer4_4a text="Autodetect" onrelease='TERM sc_OnGPSSettingsChanged, NEXTSTATE st_SettingGPSAutoDetect' enabledmodel="gps.started">
 
 </layer>
 
@@ -564,7 +754,7 @@
 	<CHECKBOX  xxx        template=chk_5a   y=63 w=180  text="Use Auto Time Zone" boolmodel="local.timezone.use_auto">
 
 	<BUTTON btn_timezones template=btn_5a   y=106                      text="Set Time Zone"  onrelease='NEXTSTATE st_SettingTimeZone' enabledmodel="!local.timezone.use_auto"> 
-	<TEXT   xxx           template=txt_sld x=175 y=106 wordwrap=2 w=260 align="RIGHT" text=""  textmodel_wstr="local.timezone.current_name" watchstate=btn_timezones>
+	<TEXT   xxx           template=txt_sld x=160 y=106 wordwrap=2 w=270 align="RIGHT" text=""  textmodel_wstr="local.timezone.current_name" watchstate=btn_timezones>
 
 	<SPRITE xxx bmp="minibg.bmp"  x=115 y=188>
 	<SPRITE xxx bmp="minibg.bmp"  x=115 y=152>
@@ -589,3 +779,59 @@
 	<BUTTON xxx template=nextpage clickmodel="ui.lstSGT_TimeZones.nextpage" enabledmodel="ui.lstSGT_TimeZones.nextpage.valid" template="slow_repeat">
 	
 </LAYER>
+
+
+
+;****************************************************************************************************************
+;!TB - Advanced Settings
+;****************************************************************************************************************
+;!Raffke_jr - removed obsolete sprites (template "pageindexspr")
+;!Raffke_jr - TODO: Fit to new templates
+
+<element_template et_MyContent_DaysOfWeek>
+	<CHECKBOX xxx  template=chk_lb5b bmp="chk_lb_5aa.bmp#2" textmodel_wstr="*.name" boolmodel="*.blocked" >
+	<BUTTON   xxx  template=btn_lb5e text="..." clickmodel="mydata.blocked_roads.current_weekdays.setcurrent $i" onrelease='INCVAL "vKeepRoadBlock", NEXTSTATE ST_MY_DATA_HOURSOFDAY'>
+</element_template>
+
+<layer ui_MyContent_DaysOfWeek z=35>
+	<LIST   lstMyContent_DaysOfWeek template=tlist element_template="et_MyContent_DaysOfWeek" listmodel="mydata.blocked_roads.current_weekdays">
+	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstMyContent_DaysOfWeek.page_counter">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstMyContent_DaysOfWeek.prevpage" enabledmodel="ui.lstMyContent_DaysOfWeek.prevpage.valid" >
+	<BUTTON xxx template=nextpage clickmodel="ui.lstMyContent_DaysOfWeek.nextpage" enabledmodel="ui.lstMyContent_DaysOfWeek.nextpage.valid" >
+
+	<BUTTON xxx template=footer4_1a  text="OK"         onrelease='run sc_CreateNewRoadBlock, CLEARTOMARKER vSaveAs_Marker'>
+	<BUTTON xxx template=footer4_2a  text="All"        onrelease='mydata.blocked_roads.current_weekdays_all_blocked 1'>
+;	<BUTTON xxx template=footer4_2a  text="Clear All"  onrelease='mydata.blocked_roads.current_weekdays_all_blocked 0'>
+</layer>
+
+
+<element_template et_MyContent_HoursOfDay>
+	<CHECKBOX xxx template=chk_lb5a boolmodel="*.blocked" textmodel_wstr="*.long_name">
+</element_template>
+
+<layer ui_MyContent_HoursOfDay z=35>
+	<LIST   lstMyContent_HoursOfDay template=tlist element_template="et_MyContent_HoursOfDay" listmodel="mydata.blocked_roads.current_periods">
+	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstMyContent_HoursOfDay.page_counter">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstMyContent_HoursOfDay.prevpage" enabledmodel="ui.lstMyContent_HoursOfDay.prevpage.valid" >
+	<BUTTON xxx template=nextpage clickmodel="ui.lstMyContent_HoursOfDay.nextpage" enabledmodel="ui.lstMyContent_HoursOfDay.nextpage.valid" >
+
+	<BUTTON xxx template=footer4_1a text="All"       onrelease='mydata.blocked_roads.current_periods_all_blocked 1'>
+	<BUTTON xxx template=footer4_2a text="Clear All" onrelease='mydata.blocked_roads.current_periods_all_blocked 0'>
+</layer>
+
+
+<element_template et_MyContent_BlockedRoads>
+	<BUTTON xxx template=tlist_d iconspr="x.bmp" text="" clickmodel="mydata.blocked_roads.list.setcurrent $i" onrelease='run sc_DeleteBlockedRoadItem' enabledmodel="!*.isempty" usefocus=0>
+	<BUTTON xxx template=tlist_b valign="CENTER" textmodel_wstr="*.name" align="LEFT+1" selectable clickmodel="mydata.blocked_roads.list.setcurrent $i" onrelease='run sc_EditBlockedRoad' enabledmodel="!*.isempty">
+</element_template>
+
+<layer ui_MyContent_BlockedRoads z=35>
+	<LIST   lstMyContent_BlockedRoads template=tlist element_template="et_MyContent_BlockedRoads" listmodel="mydata.blocked_roads.list" showselection=1>
+	<TEXT   xxx template=pageindex textmodel_wstr="ui.lstMyContent_BlockedRoads.page_counter">
+	<BUTTON xxx template=prevpage clickmodel="ui.lstMyContent_BlockedRoads.prevpage" enabledmodel="ui.lstMyContent_BlockedRoads.prevpage.valid" >
+	<BUTTON xxx template=nextpage clickmodel="ui.lstMyContent_BlockedRoads.nextpage" enabledmodel="ui.lstMyContent_BlockedRoads.nextpage.valid" >
+
+	<BUTTON xxx template=footer4_1a text="Map" onrelease='run sc_btnMBR_ShowOnMap' enabledmodel="ui.lstMyContent_BlockedRoads.current_index.valid">
+	<BUTTON xxx template=footer4_2a text="Clear All" onrelease='run sc_DeleteAllBlocks' enabledmodel="!mydata.blocked_roads.list.isempty">
+;	<BUTTON xxx template=footer4_2a text="Add" onrelease='run sc_btnMBR_AddBlock'>
+</layer>

@@ -1,0 +1,6 @@
+BmpFlags = 0
+DefFlags = ALPHA_LAYER | TRANS_COLOR
+DefPhase = 0
+DefAlpha = 27
+
+

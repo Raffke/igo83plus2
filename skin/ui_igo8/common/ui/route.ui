@@ -3,7 +3,9 @@
 	<var vListIndexHack=0>
 	<var vBackupAutoReplan>
 	<var vBackupAutoReplanIsValid=0>
+	<var vEditRouteDirty=0>
 	<var vSavedItinerMode="normal" permanent>
+	<var vRouteEditForceRecalc=0>
 </header>
 
 ;****************************************************************************************************************
@@ -30,33 +32,51 @@
 </state>
 
 <script sc_sprRI_Info_OnClick>
-    ui_Route.GET_ICON_HINT $1 vTmp
-    runif vTmp 1 'ui_Route.SHOW_ICONS sprRI_Info1 sprRI_Info2 sprRI_Info3 sprRI_Info4 sprRI_Info5'
+	ui_Route.GET_ICON_HINT $1 vTmp
+	runif vTmp 1 'ui_Route.SHOW_ICONS sprRI_Info1 sprRI_Info2 sprRI_Info3 sprRI_Info4 sprRI_Info5'
 	else_runif vTmp 2 'playsound "!invalid"'
 	else_run 'INITMESSAGEBOX 0 vTmp'
 </script>
 
-<script sc_btnRI_Simulate_or_FlyOver_OnRelease>
+
+<script sc_btnRI_FlyOver_OnRelease>
 	run sc_DisableGestures 1
 
 	runif vMapMode_saved L"" 'vMapMode_saved.SET vMapMode'
 	map.showcursor 0
+	FINDPATH_SIMULATE 0
 	map.setmapstate 0
 	vMapState.set 0
+	vMapMode.set L"3D"
+	vFlyoverOrSimulate.set 0
+	vFlyOverNextState.Set st_AdvRouteMenu
+	vStateMode.SET ""
+	vBackupAutoReplan.SET vAutoReplan
+	vBackupAutoReplanIsValid.SET 1
+	vAutoReplan.SET 0
+	run sc_FollowOn
+	run sc_3dmode
+	STATE st_NavigateMap
+</script>
 
-	; Only diff between Simulate and FlyOver is speed: $1 =  1: Simulate, 0: FlyOver
-	vFlyoverOrSimulate.set $1
-	FINDPATH_SIMULATE $1
+<script sc_btnRI_Simulate_OnRelease>
+	run sc_DisableGestures 1
 
-	vFlyOverNextState.set st_AdvRouteMenu
+	runif vMapMode_saved L"" 'vMapMode_saved.SET vMapMode'
+	map.showcursor 0
+	FINDPATH_SIMULATE 1
+	vMapState.set 0
+	map.setmapstate 0
+	vMapMode.set L"3D"
+	vFlyoverOrSimulate.set 1
+	vFlyOverNextState.Set st_AdvRouteMenu
 	vBackupAutoReplan.SET vAutoReplan
 	vBackupAutoReplanIsValid.SET 1
 	vAutoReplan.SET 0
 	vStateMode.SET ""
-
-	STATE st_NavigateMap
 	run sc_FollowOn
-	run sc_3DMode
+	run sc_3dmode
+	STATE st_NavigateMap
 </script>
 
 <script sc_RefreshRouteInfo>
@@ -69,42 +89,51 @@
 	runif vTmp 1 'Title.set "Route information", txtRI_DestType.TEXT "Destination"'
 	else_run 'Title.set "Viapoint information",	txtRI_DestType.TEXT "Viapoint"'
 
-    vTmp.TEXTMODEL_WSTR "route.current_route_type"
+	vTmp.TEXTMODEL_WSTR "route.current_route_type"
 	vTmp.DROPMODEL
 	runif vTmp L"ECO" 'txtRI_Method.text "Economic"'
 	else_runif vTmp L"SHORT" 'txtRI_Method.text "Shortest"'
 	else_runif vTmp L"FAST" 'txtRI_Method.text "Fastest"'
 	else_runif vTmp L"SIMPLE" 'txtRI_Method.text "Easy"'
+;!TB 0.4d - Added SCENIC Method
+	else_runif vTmp L"SCENIC" 'txtRI_Method.text "Scenic/Panoramic_View"'
 	else_run 'txtRI_Method.text "n/a"'
 	
-    runif nUserMode 0 sc_RefreshRouteInfo_normal
-    else_run sc_RefreshRouteInfo_basic
+	runif nUserMode 0 sc_RefreshRouteInfo_normal
+	else_run sc_RefreshRouteInfo_basic
 </script>
 
 <script sc_RefreshRouteInfo_basic>
-    btn_RI_SkipNextVia_basic.HIDE
-    btn_RI_DelRoute_basic.SHOW
+	btn_RI_SkipNextVia_basic.HIDE
+	btn_RI_DelRoute_basic.SHOW
 	btn_RI_DelRoute_basic.DISABLE
 	
 	runif %navigation.waypoints.list.size > 1 'btn_RI_DelRoute_basic.ENABLE'
 	runif %navigation.waypoints.list.size > 2 'btn_RI_DelRoute_basic.HIDE, btn_RI_SkipNextVia_basic.SHOW'
+;!TB - disable on flyover
+;!Raffke_jr - enabled again, if not flyover
+	runif vOnFlyover 1 'btn_RI_DelRoute_basic.disable, btn_RI_SkipNextVia_basic.disable, btnRI_Settings_basic.disable, btn_RI_Method.disable'
+	else_run                                          'btn_RI_SkipNextVia_basic.enable,  btnRI_Settings_basic.enable,  btn_RI_Method.enable'
 </script>
 
 <script sc_RefreshRouteInfo_normal>
-	btn_RI_SkipNextVia.enable
-	btnRI_Settings.enable
-    btn_RI_SkipNextVia.HIDE
-    btn_RI_DelRoute.SHOW
-	btn_RI_DelRoute.DISABLE
-	
-	runif %navigation.waypoints.list.size 0 'btnRI_Fit.disable'
-	runif %navigation.waypoints.list.size > 1 'btn_RI_DelRoute.ENABLE,btnRI_Fit.enable'
-	runif %navigation.waypoints.list.size > 2 'btn_RI_DelRoute.HIDE, btn_RI_SkipNextVia.SHOW,btnRI_Fit.enable'
-	runif %ui.is_in_simulation 1 'btnRI_Fit.disable, btn_RI_DelRoute.DISABLE, btnRI_Settings.DISABLE, btn_RI_SkipNextVia.DISABLE'
+;!Raffke_jr - removed standard buttons
+;	btn_RI_SkipNextVia.HIDE
+;	btn_RI_DelRoute.SHOW
+;	btn_RI_DelRoute.DISABLE
+;	
+;	runif %navigation.waypoints.list.size 0 'btnRI_Fit.disable'
+;	runif %navigation.waypoints.list.size > 1 'btn_RI_DelRoute.ENABLE,btnRI_Fit.enable'
+;	runif %navigation.waypoints.list.size > 2 'btn_RI_DelRoute.HIDE, btn_RI_SkipNextVia.SHOW,btnRI_Fit.enable'
+
+;!TB - disable on flyover
+;!Raffke_jr - changed to new buttons & enabled again
+	runif vOnFlyover 1 'btnRI_Fit.disable, btnRI_EditRoute.disable, btnRI_RouteMenu.disable, btn_RI_Method.disable'
+	else_run           'btnRI_Fit.enable,  btnRI_EditRoute.enable,  btnRI_RouteMenu.enable,  btn_RI_Method.enable'
 </script>
 
 <script sc_ShowNextRoutePartInfo>
-    ui_Route.NEXT_VIAPOINT
+	ui_Route.NEXT_VIAPOINT
 	run sc_RefreshRouteInfo
 </script>
 
@@ -115,9 +144,9 @@
 <state st_RouteItinerary>
 	<uselayer ui_Title/>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Footer2/>
-    <uselayer ui_RouteItinerary/>
+	<uselayer ui_RouteItinerary/>
 
 	<script init>
 		EXEC "route.itiner.setdetailmode" vSavedItinerMode
@@ -133,7 +162,8 @@
 
 
 <script sc_btnRItN_Mode_OnRelease>
-	EXEC "route.itiner.setdetailmode" "next(normal,verbose,road)"
+;!TB - Added "basic" itiner type
+	EXEC "route.itiner.setdetailmode" "next(normal,verbose,road,basic)"
 	vSavedItinerMode.TEXTMODEL_STR "route.itiner.detailmode"
 	vSavedItinerMode.DROPMODEL
 	run sc_SetItinerTitle
@@ -143,10 +173,12 @@
 	runif vSavedItinerMode "normal" 'Title.set "Itiner"'
 	else_runif vSavedItinerMode "verbose" 'Title.set "Detailed Instructions"'
 	else_runif vSavedItinerMode "road" 'Title.set "Road List"'	
+;!TB - Added "basic" itiner type
+	else_runif vSavedItinerMode "basic" 'Title.set "Simple Itiner"'
 </script>
 
 <script sc_ItinerAvoid>
-    runif bUnitType 1 'btn_RIA3.TEXT "1 km", btn_RIA5.TEXT "5 km", btn_RIA6.TEXT "10 km", btn_RIA8.TEXT "30 km"'
+	runif bUnitType 1 'btn_RIA3.TEXT "1 km", btn_RIA5.TEXT "5 km", btn_RIA6.TEXT "10 km", btn_RIA8.TEXT "30 km"'
 	else_run 'btn_RIA3.TEXT "1 mi", btn_RIA5.TEXT "5 mi", btn_RIA6.TEXT "10 mi", btn_RIA8.TEXT "30 mi"'
 	NEXTSTATE st_RouteItinerAvoid
 </script>
@@ -184,29 +216,29 @@
 	<uselayer ui_title/>
 	
 	<script init>	
-		map.getmapstate vMapSelect
 		run sc_GotoCurrentItinerPosition
-	    title.set ""	
+		title.set ""	
 		run sc_FullScreenMap
 		map.mapmode 1
-        vmapstate.set 4
-        map.setmapstate 4
+
 		vMapSettings2d3d.set "2D"
-	    map.VIEW2D3D vMapSettings2d3d
-	    map.EnableMoveCursorByClick 0
-	    run sc_init_zoomcontrol
+		map.VIEW2D3D vMapSettings2d3d
+		map.EnableMoveCursorByClick 0
+		run sc_init_zoomcontrol
+
+;!TB - fix - changed cursor position to always be on the screen center
+		map.SETCARPOSITION 50 50
+
 		map.CENTERCURSOR
-        ; any button can be used for this. This must be after all show/hide layers.
-        btn_Footer_back2.CLEARFOCUS
-        bKeepItinerArrow.SET 1
+		; any button can be used for this. This must be after all show/hide layers.
+		btn_Footer_back2.CLEARFOCUS
+		bKeepItinerArrow.SET 1
 	</script>
 	
 	<script done>
-	    map.setmapstate vMapSelect
-	    vmapstate.set vMapSelect
-	    map.EnableMoveCursorByClick 1
-	    bKeepItinerArrow.SET 0
-	    map.LEAVE_ITINERARY
+		map.EnableMoveCursorByClick 1
+		bKeepItinerArrow.SET 0
+		map.LEAVE_ITINERARY
 	</script>
 	
 	<script sc_RItMNew_go_to_current_loc>
@@ -214,8 +246,6 @@
 		;vSelectedUID.DROPMODEL
 		; vSelectedUID-ot a cimkereses hasznalja, az itinertol szamara halalos ertekeket kaphat
 		map.GOTOITINERPOS %int:route.itiner.list.current.uid
-        vmapstate.set 4
-        map.setmapstate 4
 	</script>
 </state>
 
@@ -229,11 +259,14 @@
 	<uselayer ui_RouteEdit/>
 	
 	<script init>
-	    Title.set "Edit route"
-	    navigation.waypoints.list.setcurrent 0
+		Title.set "Edit route"
+		navigation.waypoints.list.setcurrent 0
 		; disabled in route edit menu
 		.navigation.waypoints.findpath_on_modify 0
-        runifnot vSelectedWayPoint -1 sc_RouteEditPreselectWaypoint
+		runifnot vSelectedWayPoint -1 sc_RouteEditPreselectWaypoint
+		runif vRouteEditForceRecalc 1 'vEditRouteDirty.SET 1'
+		else_run 'vEditRouteDirty.SET 0'
+		vRouteEditForceRecalc.set 0
 	</script>
 	
 	<script done>
@@ -254,17 +287,6 @@
 	;Refreshing strapping info
 	map.MOVECURSORTOSELECTEDITEM
 	runif %navigation.waypoints.has_element 0 'PREVSTATE'
-
-;!Raffke_jr - removed unsupported syntax for Builds < 8.3.2
-;	runif %navigation.waypoints.list.current_index 0 'runif %navigation.waypoints.list.size 1 \'.navigation.waypoints.set_start_at_gps\''
-	runifnot %navigation.waypoints.list.current_index 0 ''
-	else_runif %navigation.waypoints.list.size 1 '.navigation.waypoints.set_start_at_gps'
-
-	runif %navigation.waypoints.list.size 1 'PREVSTATE'
-</script>
-
-<script sc_RouteEdit_ReverseRoute>
-	runif vAutoReplan 1 sc_TurnOffAutoReplan
 </script>
 
 ;*************************************************************************************************
@@ -281,8 +303,11 @@
 		
 		mydata.routes.list.setcurrent 0
 
-	    runif %mydata.routes.list.size 0 'btnMDR_ClearAll.disable'
-	    else_run 'btnMDR_ClearAll.enable'	
+		runif %mydata.routes.list.size 0 'btnMDR_ClearAll.disable'
+		else_run 'btnMDR_ClearAll.enable'	
+
+;!TB - Reset Script
+		vAddFromDoneScript.set 0
 	</script>
 </state>
 
@@ -290,7 +315,7 @@
 	Title.SET "Rename Route"
 	inpSI_Text.emptytitle "<Enter route name>" 
 
-    vTmp.TEXTMODEL_WSTR "mydata.routes.list.current.name"
+	vTmp.TEXTMODEL_WSTR "mydata.routes.list.current.name"
 	vTmp.DROPMODEL
 	inpSI_Text.value vTmp
 	vKeyTableDone.SET sc_RenameRoute
@@ -302,19 +327,19 @@
 </script>
 
 <script sc_RenameRoute>
-    vTmp.TEXTMODEL_WSTR "mydata.routes.list.current.name"
+	vTmp.TEXTMODEL_WSTR "mydata.routes.list.current.name"
 	inpSI_Text.GET "vTmp"
 	vTmp.DROPMODEL
 
-    EXEC "mydata.routes.rename_route" %mydata.routes.list.index
+	EXEC "mydata.routes.rename_route" %mydata.routes.list.index
 
 	PREVSTATE
 </script>
 
 <script sc_DeleteSavedRoute>	
-    vTmp.VALUEMODEL "mydata.routes.list.index"
-    INITMESSAGEBOX 1 "Deleting route." 'EXEC "mydata.routes.delete_route" vTmp'
-    vTmp.DROPMODEL
+	vTmp.VALUEMODEL "mydata.routes.list.index"
+	INITMESSAGEBOX 1 "Deleting route." 'EXEC "mydata.routes.delete_route" vTmp'
+	vTmp.DROPMODEL
 </script>
 
 <script sc_btnMDR_ClearAll_OnRelease>
@@ -325,7 +350,7 @@
 
 <state st_MyDataRouteLoad>
 	<uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_MyDataRouteLoad/>
@@ -338,18 +363,84 @@
 </state>
 
 <script sc_lbMDR_RouteLoad_OnItemSelected>
-    vListIndexHack.set %mydata.routes.list.index
-    runif vAutoReplan 1 'INITMESSAGEBOX 2 "Would you like to start navigating from the saved location rather than from the GPS position?" sc_TurnOnPlanRouteMode sc_LoadRoute'
-    else_run sc_LoadRoute
+	vListIndexHack.set %mydata.routes.list.index
+	runif vAutoReplan 1 'INITMESSAGEBOX 2 "Would you like to start navigating from the saved location rather than from the GPS position?" sc_TurnOnPlanRouteMode sc_LoadRoute'
+	else_run sc_LoadRoute
 </script>
 
 <script sc_TurnOnPlanRouteMode>
-    vAutoReplan.SET 0
-    run sc_LoadRoute
+	vAutoReplan.SET 0
+
+;!TB - fix: set flag to restore vAutoReplan
+	vRecalcOffByStartPoint.set 1
+
+	run sc_LoadRoute
 </script>
 
 <script sc_LoadRoute>
 	EXEC "mydata.routes.load_route" vListIndexHack
-  runif %navigation.waypoints.list.size > 1 sc_SelectDestination
 	run sc_StartPlanMode
+</script>
+
+
+;*************************************************************************************************
+;!TB - Additional Scripts
+;*************************************************************************************************
+
+<script sc_CycleRouteMethods>
+	termif nVehicle 5 sc_CycleRouteMethods
+	termif nVehicle 4 sc_CycleRouteMethods
+	termif nVehicle 6 sc_CycleRouteMethods
+	vTmp.TEXTMODEL_WSTR "route.current_route_type"
+	vTmp.DROPMODEL
+	runif vTmp L"FAST" 'vTmp.set L"ECO"'
+	else_runif vTmp L"ECO" 'vTmp.set L"SIMPLE"'
+	else_runif vTmp L"SIMPLE" 'vTmp.set L"SHORT"'
+	else_runif vTmp L"SHORT" 'vTmp.set L"SCENIC"'
+	else_runif vTmp L"SCENIC" 'vTmp.set L"FAST"'
+	vRouteType.set vTmp
+	ADVNAV_RECALC
+	run sc_RefreshRouteInfo
+</script>
+
+<script sc_btn_RI_Method_OnRelease>
+	term sc_CycleRouteMethods
+	1 run sc_CycleRouteMethods
+</script>
+
+<script sc_DoRemoveStartFromGPS>
+	vAutoReplan.SET 0
+	vBackupAutoReplanIsValid.SET 0
+	vRecalcOffByStartPoint.set 1
+	navigation.waypoints.delete_startfromgps
+	vTmp.set 1
+</script>
+
+<script sc_RE_RemoveStartFromGPS>
+	vTmp.set 0
+	runif vAutoReplan 1 'INITMESSAGEBOX 1 "Would you like to disable navigation from GPS position?" sc_DoRemoveStartFromGPS'
+	else_run 'navigation.waypoints.delete_startfromgps, vTmp.set 1'
+</script>
+
+<script sc_btnRE_Remove_OnRelease>
+	vTmp.set %navigation.waypoints.list.size
+	navigation.waypoints.delete_current
+	runif %navigation.waypoints.list.size vTmp sc_RE_RemoveStartFromGPS
+	else_run 'vTmp.set 1'
+	runif vTmp 1 'vEditRouteDirty.SET 1, run sc_RemovePoint'
+</script>
+
+<script sc_btnRE_Add_OnRelease>
+	Title.set "Add waypoint"
+  run sc_AddFromMenu sc_RouteEdit_AddWaypoint
+</script>
+
+<script sc_RouteEdit_AddWaypoint>
+	ADDSELECTEDITEMTOHISTORY
+	vTmp.set %navigation.waypoints.list.index
+	.navigation.waypoints.add_after
+	INCVAL "vTmp"
+	navigation.waypoints.list.index vtmp
+	CLEARTOMARKER vSaveAs_Marker
+	vEditRouteDirty.SET 1
 </script>

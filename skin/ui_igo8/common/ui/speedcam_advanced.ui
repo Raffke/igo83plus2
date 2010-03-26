@@ -1,0 +1,455 @@
+;****************************************************
+;* New scripts for advansed speedcam function
+;* Developed by Delphis
+;* Look for last version at http://4pda.ru/forum/index.php?showtopic=79587&view=findpost&p=1703505 
+;****************************************************
+
+<header>
+    <var vCurrentSpeedcamCategory>
+    <var vCurrentSpeedcamSpeedLimit>
+    <var vCurrentSpeedcamDistance>
+    <var vCurrentSpeedcamAvgSpeed>
+    <var vSpeedcamSoundType=3 registermodel permanent>
+;!Raffke_jr - changed default from "Off" (0)  to  "German" (4)
+    <var vSpeedcamWarningType=4 registermodel permanent>
+    <var vSpeedcamAlertVolume=64 registermodel permanent>
+
+;Radar
+    <var vSpeedcam0AlertSound=5 permanent>
+;!Raffke_jr - changed default from "Continuosly" (0)  to  "At 4 intervals" (4)
+    <var vSpeedcam0AlertInterval=4 permanent>
+;!Raffke_jr - changed default to "Off"
+    <var bSpeedcam0Beep=0 permanent>
+    <var vSpeedcam0AlertDistance=400 permanent>
+;!Raffke_jr - changed default from "0"  to  "5" km/h (HalfBeep between SpeedLimit and SpeedLimit+5)
+    <var vSpeedcam0OverspeedTolerance=5 permanent>
+;!Raffke_jr - changed default from "30"  to  "1" km/h
+    <var vSpeedcam0MinSpeed=1 permanent>
+
+;Mobile
+    <var vSpeedcam1AlertSound=5 permanent>
+;!Raffke_jr - changed default from "Continuosly" (0)  to  "At 4 intervals" (4)
+    <var vSpeedcam1AlertInterval=4 permanent>
+;!Raffke_jr - changed default to "Off"
+    <var bSpeedcam1Beep=0 permanent>
+    <var vSpeedcam1AlertDistance=400 permanent>
+;!Raffke_jr - changed default from "0"  to  "5" km/h (HalfBeep between SpeedLimit and SpeedLimit+5)
+    <var vSpeedcam1OverspeedTolerance=5 permanent>
+    <var vSpeedcam1MinSpeed=1 permanent>
+
+;Trafic light with Radar
+    <var vSpeedcam2AlertSound=5 permanent>
+;!Raffke_jr - changed default from "Continuosly" (0)  to  "At 4 intervals" (4)
+    <var vSpeedcam2AlertInterval=0 permanent>
+;!Raffke_jr - changed default to "Off"
+    <var bSpeedcam2Beep=0 permanent>
+    <var vSpeedcam2AlertDistance=400 permanent>
+;!Raffke_jr - changed default from "0"  to  "5" km/h (HalfBeep between SpeedLimit and SpeedLimit+5)
+    <var vSpeedcam2OverspeedTolerance=5 permanent>
+;!Raffke_jr - changed default from "30"  to  "1" km/h
+    <var vSpeedcam2MinSpeed=1 permanent>
+
+;Section
+    <var vSpeedcam3AlertSound=5 permanent>
+;!Raffke_jr - changed default from "At 1 interval" (1)  to  "At 40 intervals" (40)
+    <var vSpeedcam3AlertInterval=40 permanent>
+;!Raffke_jr - changed default to "Off"
+    <var bSpeedcam3Beep=0 registermodel permanent>
+    <var vSpeedcam3BeepsInterval=3 permanent>
+;!Raffke_jr - changed default from "0"  to  "5" km/h (HalfBeep between SpeedLimit and SpeedLimit+5)
+    <var vSpeedcam3OverspeedTolerance=5 permanent>
+;!Raffke_jr - changed default from "30"  to  "1" km/h
+    <var vSpeedcam3MinSpeed=1 permanent>
+
+;Trafic light
+    <var vSpeedcam4AlertSound=5 permanent>
+;!Raffke_jr - changed default from "Off" (-1)  to  "Once" (-2)
+    <var vSpeedcam4AlertInterval=-2 permanent>
+;!Raffke_jr - changed default to "Off"
+    <var bSpeedcam4Beep=0 registermodel permanent>
+    <var vSpeedcam4AlertDistance=400 permanent>
+    <var vSpeedcam4OverspeedTolerance=0 permanent>
+    <var vSpeedcam4MinSpeed=1 permanent>
+
+
+    <var vSpeedcamAlertSound>
+    <var vSpeedcamAlertInterval>
+    <var bSpeedcamBeep>
+    <var vSpeedcamAlertDistance>
+    <var vSpeedcamBeepsInterval>
+    <var vSpeedcamOverspeedTolerance>
+    <var vSpeedcamMinSpeed>
+
+    <var tmpSpeedcamWarningLangType>
+
+    <var vSpeedcamOldDistance=0>
+    <var vSpeedcamOldSpeedlimit=0>
+    <var vSpeedcamOldCategory=-1>
+    <var vSpeedcamBeepCount=0>
+    <var vSpeedcamAlertCount=0>
+    <var vSpeedcamMuteAlertSound=0>
+    <var vSpeedcamNoSound=0>
+
+    <var vSoundVolumeBackup=64>
+    <var vSoundVolumeBackupCount=0>
+    <var vSoundMutedBackup=0>
+
+    <var tmpSpeedcamAlertSound registermodel>
+    <var tmpSpeedcamAlertInterval registermodel>
+    <var tmpSpeedcamBeep registermodel>
+    <var tmpSpeedcamAlertDistance registermodel>
+    <var tmpSpeedcamBeepsInterval registermodel>
+    <var tmpSpeedcamOverspeedTolerance registermodel>
+    <var tmpSpeedcamMinSpeed registermodel>
+</header>
+  
+;Include speedcam voice scripts
+import "ui_igo8/common/ui/speedcam_voice.ui"
+
+;******************************************************
+; Common Speedcam Scripts
+;******************************************************
+
+<script sc_AdvancedSpeedcamInit>
+  run sc_SpeedcamSoundType_Onchange
+  vSpeedcamSoundType.Onchange "sc_SpeedcamSoundType_Onchange"
+
+  vCurrentSpeedcamCategory.valuemodel "navigation.curr_speedcam.category"
+
+  vCurrentSpeedcamSpeedLimit.valuemodel "navigation.curr_speedcam.speed_limit.value"
+
+  vCurrentSpeedcamDistance.valuemodel "navigation.curr_speedcam.distance.value"
+  vCurrentSpeedcamDistance.OnChange "sc_CurrentSpeedcamDiscanceChanged"
+
+  vCurrentSpeedcamAvgSpeed.valuemodel "navigation.curr_speedcam.avg_speed.value"
+  vCurrentSpeedcamAvgSpeed.OnChange "sc_CurrentSpeedcamAvgSpeedChanged"
+</script>
+
+<script sc_SpeedcamSoundType_Onchange>
+  runif vSpeedcamSoundType 3 '.warning.speedcam_soundtype 0'
+  else_run '.warning.speedcam_soundtype vSpeedcamSoundType'
+</script>
+
+<script sc_ToggleAdvancedSpeedcamSound>
+   INCVAL "vSpeedcamMuteAlertSound" 1
+   runif vSpeedcamMuteAlertSound > 2 'vSpeedcamMuteAlertSound.Set 0'
+
+   runif bSpeedcamBeep 1 ''
+   else_runif vSpeedcamMuteAlertSound 1 'vSpeedcamMuteAlertSound.Set 2'
+  
+   runif vSpeedcamSoundType 3 'run sc_SpeedcameraMuteSound'
+</script>
+
+<script sc_SetSpeedcamSoundVolume>
+  run sc_SoundVolumeBackup
+  .sound.sound_muted 0
+  .sound.sound_volume vSpeedcamAlertVolume
+</script>
+
+<script sc_SoundVolumeBackup>
+  runif vSoundVolumeBackupCount 0 'vSoundVolumeBackup.Set %sound.sound_volume, vSoundMutedBackup.Set %sound.sound_muted'
+  INCVAL "vSoundVolumeBackupCount" 1
+</script>
+
+<script sc_SoundVolumeRestore>
+  runif vSoundVolumeBackupCount > 0 'DECVAL "vSoundVolumeBackupCount" 1'
+  runif vSoundVolumeBackupCount 0 '.sound.sound_muted vSoundMutedBackup, .sound.sound_volume vSoundVolumeBackup'
+</script>
+
+<script sc_SpeedcamAlertTestSound>
+  vSpeedcamAlertSound.Set tmpSpeedcamAlertSound
+  run sc_SetSpeedcamSoundVolume
+  run  sc_SpeedcamAlert
+  run sc_SoundVolumeRestore
+</script>
+
+<script sc_SpeedcamWarningTestSound>
+  run sc_SetSpeedcamSoundVolume
+
+  runif vSpeedcamWarningType -1 'PLAYSOUND "!alert5"'
+  else_run 'run sc_SpeedcamVoiceTestSound'
+
+  run sc_SoundVolumeRestore
+</script>
+
+;******************************************************
+; Speedcam Settings
+;******************************************************
+
+<script sc_SpeedcamParamsLoad>
+  runif $1 0 'run sc_SpeedcamParamsLoad0'
+  else_runif $1 1 'run sc_SpeedcamParamsLoad1'
+  else_runif $1 2 'run sc_SpeedcamParamsLoad2'
+  else_runif $1 3 'run sc_SpeedcamParamsLoad3'
+  else_runif $1 4 'run sc_SpeedcamParamsLoad4'
+</script>
+
+<script sc_SpeedcamParamsLoad0>
+  vSpeedcamAlertSound.Set vSpeedcam0AlertSound
+  vSpeedcamAlertInterval.Set vSpeedcam0AlertInterval
+  bSpeedcamBeep.Set bSpeedcam0Beep
+  vSpeedcamAlertDistance.Set vSpeedcam0AlertDistance
+  vSpeedcamBeepsInterval.Set -1
+  vSpeedcamOverspeedTolerance.Set vSpeedcam0OverspeedTolerance
+  vSpeedcamMinSpeed.Set vSpeedcam0MinSpeed
+</script>
+
+<script sc_SpeedcamParamsLoad1>
+  vSpeedcamAlertSound.Set vSpeedcam1AlertSound
+  vSpeedcamAlertInterval.Set vSpeedcam1AlertInterval
+  bSpeedcamBeep.Set bSpeedcam1Beep
+  vSpeedcamAlertDistance.Set vSpeedcam1AlertDistance
+  vSpeedcamBeepsInterval.Set -1
+  vSpeedcamOverspeedTolerance.Set vSpeedcam1OverspeedTolerance
+  vSpeedcamMinSpeed.Set vSpeedcam1MinSpeed
+</script>
+
+<script sc_SpeedcamParamsLoad2>
+  vSpeedcamAlertSound.Set vSpeedcam2AlertSound
+  vSpeedcamAlertInterval.Set vSpeedcam2AlertInterval
+  bSpeedcamBeep.Set bSpeedcam2Beep
+  vSpeedcamAlertDistance.Set vSpeedcam2AlertDistance
+  vSpeedcamBeepsInterval.Set -1
+  vSpeedcamOverspeedTolerance.Set vSpeedcam2OverspeedTolerance
+  vSpeedcamMinSpeed.Set vSpeedcam2MinSpeed
+</script>
+
+<script sc_SpeedcamParamsLoad3>
+  vSpeedcamAlertSound.Set vSpeedcam3AlertSound
+  vSpeedcamAlertInterval.Set vSpeedcam3AlertInterval
+  bSpeedcamBeep.Set bSpeedcam3Beep
+  vSpeedcamAlertDistance.Set 0
+  vSpeedcamBeepsInterval.Set vSpeedcam3BeepsInterval
+  vSpeedcamOverspeedTolerance.Set vSpeedcam3OverspeedTolerance
+  vSpeedcamMinSpeed.Set vSpeedcam3MinSpeed
+</script>
+
+<script sc_SpeedcamParamsLoad4>
+  vSpeedcamAlertSound.Set vSpeedcam4AlertSound
+  vSpeedcamAlertInterval.Set vSpeedcam4AlertInterval
+  bSpeedcamBeep.Set bSpeedcam4Beep
+  vSpeedcamAlertDistance.Set vSpeedcam4AlertDistance
+  vSpeedcamBeepsInterval.Set -1
+  vSpeedcamOverspeedTolerance.Set vSpeedcam4OverspeedTolerance
+  vSpeedcamMinSpeed.Set vSpeedcam4MinSpeed
+</script>
+
+;******************************************************
+; Radar, Mobile and Trafic Lights
+;******************************************************
+
+<script sc_CurrentSpeedcamDiscanceChanged>
+  runifnot vSpeedcamSoundType 3 ''
+  else_runif %navigation.curr_speedcam.category.valid 0 ''
+  else_runif vCurrentSpeedcamDistance <= 0 ''
+  else_runif vSpeedcamOldCategory -1 'vSpeedcamOldCategory.Set -2'  
+  else_run 'run sc_CurrentSpeedcamActive'
+</script>
+
+<script sc_CurrentSpeedcamActive>
+  run sc_SpeedcamParamsLoad vCurrentSpeedcamCategory
+
+  INCVAL "vSpeedcamBeepCount" 1
+
+  runif vCurrentSpeedcamDistance < 150 'vTmp.Set 0'
+  else_runif vCurrentSpeedcamDistance < 300 'vTmp.Set 1'
+  else_runif vCurrentSpeedcamDistance < 600 'vTmp.Set 2'
+  else_run 'vTmp.Set 3'
+
+  runif vSpeedcamBeepCount > vTmp 'vSpeedcamBeepCount.Set 0'
+
+  run sc_SetSpeedcamSoundVolume
+
+    runif vSpeedcamOldCategory -2 'run sc_NewSpeedcam'
+    else_runifnot vCurrentSpeedcamCategory vSpeedcamOldCategory 'run sc_ReinitSpeedcamVariables'
+    else_runifnot vCurrentSpeedcamSpeedLimit vSpeedcamOldSpeedlimit 'run sc_ReinitSpeedcamVariables'
+    else_runif vCurrentSpeedcamDistance > vSpeedcamOldDistance 'run sc_ReinitSpeedcamVariables'
+    else_run 'run sc_UpdateSpeedcamVariables'  
+  
+
+    runif vSpeedcamMinSpeed <= 0 'vTmp.Set vCurrentSpeedcamSpeedLimit, INCVAL "vTmp" vSpeedcamMinSpeed'
+    else_run 'vTmp.Set vSpeedcamMinSpeed'
+
+    runif %navigation.current_speed.Value >= vTmp 'vSpeedcamNoSound.Set 0'
+    else_run 'vSpeedcamNoSound.Set 1'
+
+    vTmp.Set vCurrentSpeedcamSpeedLimit
+    INCVAL "vTmp" vSpeedcamOverspeedTolerance
+
+    runif %navigation.current_speed.value 0 ''
+    else_runif vCurrentSpeedcamSpeedLimit 0 'run sc_DO_SpeedcamBeep'
+    else_runif %navigation.current_speed.Value > vTmp 'run sc_CurrentSpeedcamOverspeed'
+    else_runif %navigation.current_speed.Value >= vCurrentSpeedcamSpeedLimit 'run sc_DO_SpeedcamBeepHalf'
+    else_run 'run sc_DO_SpeedcamBeep'
+
+  run sc_SoundVolumeRestore
+
+  TERM sc_ReinitSpeedcamVariables_Timer
+  1 run sc_ReinitSpeedcamVariables_Timer
+</script>
+
+;******************************************************
+; Section
+;******************************************************
+
+<script sc_CurrentSpeedcamAvgSpeedChanged>
+  runifnot vSpeedcamSoundType 3 ''
+  else_runif %navigation.curr_speedcam.category.valid 0 ''
+  else_runif vSpeedcamOldCategory -1 'vSpeedcamOldCategory.Set -2'  
+  else_run 'run sc_CurrentSectionSpeedcamActive'
+</script>
+
+<script sc_CurrentSectionSpeedcamActive>
+  run sc_SpeedcamParamsLoad vCurrentSpeedcamCategory
+
+  INCVAL "vSpeedcamBeepCount" 1
+;!Raffke_jr - fixed to use configured BeepsInterval
+;  runif vSpeedcamBeepCount > 3 'vSpeedcamBeepCount.Set 0'
+  runif vSpeedcamBeepCount > vSpeedcamBeepsInterval 'vSpeedcamBeepCount.Set 0'
+
+  run sc_SetSpeedcamSoundVolume
+
+    runif vSpeedcamOldCategory -2 'run sc_NewSpeedcam'
+    else_runifnot vCurrentSpeedcamCategory vSpeedcamOldCategory 'run sc_ReinitSpeedcamVariables'
+    else_runifnot vCurrentSpeedcamSpeedLimit vSpeedcamOldSpeedlimit 'run sc_ReinitSpeedcamVariables'
+    else_run 'run sc_UpdateSpeedcamVariables'  
+  
+
+    runif vSpeedcamMinSpeed <= 0 'vTmp.Set vCurrentSpeedcamSpeedLimit, INCVAL "vTmp" vSpeedcamMinSpeed'
+    else_run 'vTmp.Set vSpeedcamMinSpeed'
+
+    runif vCurrentSpeedcamAvgSpeed >= vTmp 'vSpeedcamNoSound.Set 0'
+    else_run 'vSpeedcamNoSound.Set 1'
+
+    vTmp.Set vCurrentSpeedcamSpeedLimit
+    INCVAL "vTmp" vSpeedcamOverspeedTolerance
+
+    runif %navigation.current_speed.value 0 ''
+    else_runif vCurrentSpeedcamSpeedLimit 0 'run sc_DO_SpeedcamBeep'
+    else_runif vCurrentSpeedcamAvgSpeed > vTmp 'run sc_CurrentSpeedcamOverspeed'
+    else_runif vCurrentSpeedcamAvgSpeed > vCurrentSpeedcamSpeedLimit 'run sc_DO_SpeedcamBeepHalf'
+    else_run 'run sc_DO_SpeedcamBeep'
+
+  run sc_SoundVolumeRestore
+
+  TERM sc_ReinitSpeedcamVariables_Timer
+  1 run sc_ReinitSpeedcamVariables_Timer
+</script>
+
+;******************************************************
+; All speedcam category
+;******************************************************
+
+<script sc_ReinitSpeedcamVariables_Timer>
+   3000 run sc_ReinitSpeedcamVariables
+</script>
+
+<script sc_ReinitSpeedcamVariables>
+   vSpeedcamMuteAlertSound.Set 0
+   vSpeedcamOldDistance.Set 0
+   vSpeedcamOldSpeedlimit.Set 0
+   vSpeedcamOldCategory.Set -1
+   vSpeedcamBeepCount.Set 0
+   vSpeedcamAlertCount.Set 0
+</script>
+
+<script sc_NewSpeedcam>
+  run sc_ReinitSpeedcamVariables
+  run sc_UpdateSpeedcamVariables
+  run sc_SpeedcamWarning
+</script>
+
+<script sc_UpdateSpeedcamVariables>
+  vSpeedcamOldCategory.Set vCurrentSpeedcamCategory
+  vSpeedcamOldSpeedlimit.Set vCurrentSpeedcamSpeedLimit
+  vSpeedcamOldDistance.Set vCurrentSpeedcamDistance
+  runifnot vCurrentSpeedcamCategory 2 'INCVAL "vSpeedcamOldDistance" 30'
+</script>
+
+<script sc_CurrentSpeedcamOverspeed>
+  runif vCurrentSpeedcamDistance < vSpeedcamAlertDistance 'run sc_DO_SpeedcamAlert'
+  else_runif vCurrentSpeedcamCategory 3 'run sc_DO_SpeedcamAlert'
+  else_run 'run sc_DO_SpeedcamBeepBeep'
+</script>
+
+<script sc_SpeedcamWarning>
+  runif vSpeedcamWarningType -1 'run sc_SpeedcamAlert'
+  else_run 'run sc_spoken_alert_lang_select'
+</script>
+
+<script sc_DO_SpeedcamAlert>
+  runif vSpeedcamNoSound 1 'vSpeedcamAlertCount.Set 0'
+  else_runif vSpeedcamMuteAlertSound > 0 'run sc_DO_SpeedcamBeepBeep'
+  else_runif vSpeedcamAlertInterval -1 'run sc_DO_SpeedcamBeepBeep'
+  else_runif vSpeedcamAlertCount 0 'run sc_SpeedcamAlert'
+  else_runif vSpeedcamAlertInterval -2 'run sc_DO_SpeedcamBeepBeep'
+
+  INCVAL "vSpeedcamAlertCount" 1
+  runif vSpeedcamAlertInterval <0 'vSpeedcamAlertCount.Set 1'
+  else_runif vSpeedcamAlertCount > vSpeedcamAlertInterval 'vSpeedcamAlertCount.Set 0'
+</script>
+
+<script sc_DO_SpeedcamBeep>
+  vSpeedcamAlertCount.Set 0
+
+  runif vSpeedcamMuteAlertSound > 1 ''
+  else_runif vSpeedcamNoSound 1 ''
+  else_runif bSpeedcamBeep 0 ''
+  else_runif vSpeedcamBeepCount 0 'run sc_SpeedcamBeep'
+</script>
+
+<script sc_DO_SpeedcamBeepHalf>
+  vSpeedcamAlertCount.Set 0
+
+  runif vSpeedcamMuteAlertSound > 1 ''
+  else_runif vSpeedcamNoSound 1 ''
+  else_runif bSpeedcamBeep 0 ''
+  else_runif vSpeedcamBeepCount 0 'run sc_SpeedcamBeepHalf'
+</script>
+
+<script sc_DO_SpeedcamBeepBeep>
+  runif vSpeedcamMuteAlertSound > 1 ''
+  else_runif vSpeedcamNoSound 1 ''
+  else_runif bSpeedcamBeep 0 ''
+  else_runif vSpeedcamBeepCount 0 'run sc_SpeedcamBeepBeep'
+</script>
+
+;******************************************************
+; Speedcam Sound scripts
+;******************************************************
+
+<script sc_SpeedcameraMuteSound>
+  run sc_SetSpeedcamSoundVolume
+    
+    runif vSpeedcamMuteAlertSound 0 'PLAYSOUND "!back"'
+    else_runif vSpeedcamMuteAlertSound 1 'PLAYSOUND "!click"'
+    else_runif vSpeedcamMuteAlertSound 2 'PLAYSOUND "!success"'
+
+  run sc_SoundVolumeRestore
+</script>
+
+<script sc_SpeedcamAlert>
+  runif vSpeedcamAlertSound 1 'PLAYSOUND "!alert1"'
+  else_runif vSpeedcamAlertSound 2 'PLAYSOUND "!alert2"'
+  else_runif vSpeedcamAlertSound 3 'PLAYSOUND "!alert3"'
+  else_runif vSpeedcamAlertSound 4 'PLAYSOUND "!alert4"'
+  else_runif vSpeedcamAlertSound 5 'PLAYSOUND "!alert5"'
+  else_runif vSpeedcamAlertSound 6 'PLAYSOUND "!alert6"'
+  else_runif vSpeedcamAlertSound 7 'PLAYSOUND "user_alert1"'
+  else_runif vSpeedcamAlertSound 8 'PLAYSOUND "user_alert2"'
+  else_runif vSpeedcamAlertSound 9 'PLAYSOUND "user_alert3"'
+  else_runif vSpeedcamAlertSound 10 'PLAYSOUND "user_alert4"'
+  else_runif vSpeedcamAlertSound 11 'PLAYSOUND "user_alert5"'
+</script>
+
+<script sc_SpeedcamBeep>
+  PLAYSOUND "Speedcam_Beep"
+</script>
+
+<script sc_SpeedcamBeepBeep>
+  PLAYSOUND "Speedcam_BeepBeep"
+</script>
+
+<script sc_SpeedcamBeepHalf>
+  PLAYSOUND "Speedcam_BeepHalf"
+</script>

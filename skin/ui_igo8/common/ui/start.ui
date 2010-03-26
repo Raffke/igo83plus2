@@ -21,10 +21,10 @@
 	<var vMonkeyRestriction>
 	<var vfirst_start_default_settings=1 permanent>
 	<var vStartUp=1>
-	<var vMinimize registermodel>
 </header>
 ;****************************************************************************************************************
 <script sc_first_start_default_settings>
+	nBuildingDistance.set 3
 	vcf_nAutoFollowTime.set 30
 
 	vfirst_start_default_settings.set 0
@@ -43,14 +43,18 @@
 	.map.zoom_level_in_map vZoomLevelInMap
 	.map.tilt_in_navigate vTiltInNavigate
 	.map.zoom_level vZoomLevel
-	.map.rotation_angle vRotationAngleNavMap
 </script>
 ;****************************************************************************************************************
 
 <script sc_SetTmcRecalcOptionFromVar>
-	runif vTmcReplanMode "ASK" sc_SetTmcRecalcOptionAll 3
+;!Raffke_jr - changed default from "AUTO" to "ASK"
+;	runif vTmcReplanMode "ASK" sc_SetTmcRecalcOptionAll 3
+;	else_runif vTmcReplanMode "OFF" sc_SetTmcRecalcOptionAll 2
+;	else_run sc_SetTmcRecalcOptionAll 0
+
+	runif vTmcReplanMode "AUTO" sc_SetTmcRecalcOptionAll 0
 	else_runif vTmcReplanMode "OFF" sc_SetTmcRecalcOptionAll 2
-	else_run sc_SetTmcRecalcOptionAll 0
+	else_run sc_SetTmcRecalcOptionAll 3
 </script>
 
 <script sc_SetTmcRecalcOptionAll>
@@ -71,9 +75,19 @@
 	else_run 'vShowTmcDetour.set 0'
 </script>
 
+;!TB - BT init
+<script sc_PhoneBTInit>
+	vBTCustom.set 0
+	GETSYSENTRY "exe_path" "bluetooth" "" vPhoneApp
+	runifnot vPhoneApp "" 'vBTCustom.set 1'
+	GETSYSENTRY "switch_name" "bluetooth" "" vPhoneAppSwitch
+	GETSYSENTRY "exe_call_path" "bluetooth" vPhoneApp vPhoneCallApp
+</script>
+
 <state st_Start>
 	<script init>
 		phonekeyinput 2
+
 		run sc_set_UIresolution
 		run sc_start_pre_customize
 		
@@ -94,10 +108,19 @@
 		run sc_SetTmcRecalcOptionFromVar
 		run sc_SetShowTmcDetour
 
-		.route.allow_uturn 0
+;!Raffke_jr - enable minimize button on PNA (set device default on first start)
+		vtmp.boolmodel "interface.show_minimize"
+		vtmp.dropmodel
+		runif bShowMinimize -1 'bShowMinimize.set vTmp'
+
+;!Raffke_jr - New variable for Auto-Standby setting
+		GETSYSENTRY "shutdown_time" "interface" vShutdownTime vShutdownTime
+
+;!TB 0.4d - commented out to allow uturns configuration
+;		.route.allow_uturn 0
 		.map.force_3d_after_overview 0
 		.map.change_zoom_on_manual_overview 0
-		.map.switch_overview_on_manual_zoom 0
+		.map.switch_overview_on_manual_zoom 1
 
 		map.SETMINISTATUS "" "" "btn_record_sprite" "btn_record_sprite2" "sprNM_TMCStatus"
 		map.ZOOMCONTROL_ENABLED 0
@@ -151,11 +174,10 @@
 
 		GETSYSENTRY "monkey_restriction" "debug" "no" vMonkeyRestriction
 		GETSYSENTRY "2dheadup" "map" 0 v2DHeadUp
-		GETSYSENTRY "getupdates" "debug" 0 vGetUpdates
-		GETSYSENTRY "minimize_button" "debug" 0 vMinimize
 
 		bMapTextureFill.set 1
-		bUTurn.set 1
+;!TB 0.4c - commented out to allow uturns configuration
+;		bUTurn.set 1
 
 		tmc_announce_obs.start
 
@@ -163,6 +185,8 @@
 
 		run sc_SettingsInit
 
+;!TB - Get BT/Phone mode and app
+		run sc_PhoneBTInit
 ;!Raffke_jr - "Smart" start state: "1"=always, "0"=never, default "2"=if_route_set
 		GETSYSENTRY "smart_start" "plusplus" 2 vTmp
 		     runif vTmp 1 'vTmp.SET 1'
@@ -173,8 +197,8 @@
 		else_runif vfirst_start_default_settings 1 'runif nusermode 0 sc_AdvMode 
 		                                            else_runif nusermode 1 sc_BasicMode
 		                                            else_run sc_UserModeSelectMessage'
-;!Raffke_jr - "Smart" start state - Main Menu or Map
-		else_runif vTmp 1 'run sc_GoToStartState, 1 NEXTSTATE st_NavigateMap'
+;!TB - "Smart" start state - Main Menu or Map
+		else_runif vTmp 1 'STATE st_NavigateMap'
 		else_run 'run sc_GoToStartState'
 
 		; does this ever run at all?
@@ -229,12 +253,16 @@
 	LOOP_SIM 1
 	.other.demo_mode 1
 	btn_demo.SHOW
+;!TB - Hide ui_AdvMenu_Map2D in Demo Mode
+	ui_AdvMenu_Map2D.HIDE
 </script>
 
 <script sc_demo_mode_off>
 	LOOP_SIM 0
 	.other.demo_mode 0
 	btn_demo.HIDE
+;!TB - Restore ui_AdvMenu_Map2D visibility
+	ui_AdvMenu_Map2D.SHOW
 </script>
 
 <script sc_enable_offroute_recalc>
@@ -246,14 +274,8 @@
 	vRecalcOffByStartPoint.set 0
 </script>
 
-<script sc_map_mode_to_bool>
-   runif %map.map_mode L"2D" 'vMapModeBool.set 0'
-   else_runif %map.map_mode L"3D" 'vMapModeBool.set 1'
-</script>
-
 <observer use_tmc_obs model="tmc.ignore_all_events" onchange='ADVNAV_RECALC' start>
 <observer no_route model="navigation.waypoints.list.isempty" onchange='run sc_enable_offroute_recalc' start>
-<observer map_modetobool model="map.map_mode" onchange='run sc_map_mode_to_bool' start>
 
 <script sc_BasicMode>
 	nUserMode.set 1
@@ -270,7 +292,8 @@
 </script>
 
 
-<script sc_GoTo_MainMenu>
+;!TB - Renamed from sc_GoTo_MainMenu
+<script sc_GoTo_MainMenu_Direct>
 	TERM sc_TimeredPrevState
 	EMPTYSTATEQUEUE
 	run sc_LauncherMainPage
@@ -285,10 +308,8 @@
 	.warning.speedcam_enabled 0
 	EXEC "warning.check_speedcam_functions" 1
 	map.REDRAW_POI
-	runif %navigation.waypoints.list.size > 2 'SELECTWAYPOINT 1,
-                                               DELETEROUTE,
-                                               map.MOVECURSORTOSELECTEDITEM,
-                                               FINDPATH_TO'
+	HASVIA vTmp
+	runif vTmp 1 'DELETEROUTE'
 	vAutoReplan.SET 1
 
 	btn_CSTMC.y 1600
@@ -321,19 +342,23 @@
 
 <script sc_SetAdvancedMode>
 	.warning.speedcam_enabled 1
-;!Raffke_jr - copied from BasicMode to enable speedcam functions without satfix
 	EXEC "warning.check_speedcam_functions" 1
 	map.REDRAW_POI
-	
+
+;!Raffke_jr - find correct positions from template "footer3_2a"
 	runif vUIRes "240_240" 'btn_CSTMC.y 205'
 	runif vUIRes "320_240" 'btn_CSTMC.y 205'
 	runif vUIRes "240_320" 'btn_CSTMC.y 279'
+;old	runif vUIRes "240_320" 'btn_CSTMC.y 278'
 	runif vUIRes "480_272" 'btn_CSTMC.y 239'
 	runif vUIRes "400_240" 'btn_CSTMC.y 207'
+;old	runif vUIRes "400_240" 'btn_CSTMC.y 205'
 	runif vUIRes "480_234" 'btn_CSTMC.y 201'
-	runif vUIRes "320_320" 'btn_CSTMC.y 285'
+;old	runif vUIRes "480_234" 'btn_CSTMC.y 205'
 	runif vUIRes "320_320" 'btn_CSTMC.y 279'
+;old	runif vUIRes "320_320" 'btn_CSTMC.y 285'
 	runif vUIRes "800_480" 'btn_CSTMC.y 414'
+;old	runif vUIRes "800_480" 'btn_CSTMC.y 406'
 	runif vUIRes "480_800" 'btn_CSTMC.y 718'
 
 
@@ -382,14 +407,15 @@
 </state>
 
 <script sc_AdvMenuUpdateRouteButton>
-	vtmp.set 0
-	map.ISROUTEVALID vValidRoute vDeletableRoute
-	runifnot vValidRoute 0 'INCVAL "vTmp" 1'
-	ntmp.boolmodel "!mydata.routes.isempty"
-	ntmp.dropmodel
-	runifnot ntmp 0 'INCVAL "vTmp" 1'
-	runif vtmp 0 'btnAM_Route.disable'
-	else_run 'btnAM_Route.enable'
+;!TB - Commented out to always allow Route button
+;	vtmp.set 0
+;	map.ISROUTEVALID vValidRoute vDeletableRoute
+;	runifnot vValidRoute 0 'INCVAL "vTmp" 1'
+;	ntmp.boolmodel "!mydata.routes.isempty"
+;	ntmp.dropmodel
+;	runifnot ntmp 0 'INCVAL "vTmp" 1'
+;	runif vtmp 0 'btnAM_Route.disable'
+;	else_run 'btnAM_Route.enable'
 </script>
 
 <script sc_AdvMenuInit>
@@ -451,11 +477,21 @@
 	else_run 'run sc_EmptyStateQueue st_BasMenu'
 </script>
 
+;!TB - New script to return to Map or Main Menu depending on active route status
+<script sc_GoTo_MainMenu>
+	run sc_stopflyover
+	GETADDVIAAVAILABILITY vTmp
+	runif vTmp 0 sc_GoTo_MainMenu_Direct
+	else_run 'run sc_FollowOn, run sc_RefreshNavigateMapScreenAfterViewPreset 1, run sc_ReturnToMap'
+</script>
+
 <script sc_Exit>
 	ui_Exit_MessageBox.show
-	vtmp.boolexpr "interface.show_minimize|ui.vMinimize"
-	vtmp.dropmodel
-	runif vtmp 0 sc_Exit_pna
+;!Raffke_jr - enable minimize button on PNA
+;	vtmp.boolmodel "interface.show_minimize"
+;	vtmp.dropmodel
+;	runif vtmp 0 sc_Exit_pna
+	runif bShowMinimize 0 sc_Exit_pna
 	else_run sc_Exit_pda
 </script>
 
@@ -464,6 +500,11 @@
 	btnEMB_Exit_pda.hide
 	btnEMB_minimize_pda.hide
 	btnEMB_Cancel_pda.hide
+
+;!Raffke_jr - enable minimize button on PNA
+	btnEMB_Exit.show
+	btnEMB_Cancel.show
+
 	runif vUIres "800_480" 'sprEMB_Icon.bmp "dialog_qm.spr"'
 	else_runif vUIres "480_800" 'sprEMB_Icon.bmp "dialog_qm.spr"'
 	else_run 'sprEMB_Icon.bmp "ui_igo8/common/dialog_qm.spr"'
@@ -471,6 +512,12 @@
 
 <script sc_Exit_pda>
 	txtEMB_Msg.text "Are you sure\nyou want exit the program?"
+
+;!Raffke_jr - enable minimize button on PNA
+	btnEMB_Exit_pda.show
+	btnEMB_minimize_pda.show
+	btnEMB_Cancel_pda.show
+
 	btnEMB_Exit.hide
 	btnEMB_Cancel.hide
 	runif vUIres "800_480" 'sprEMB_Icon.bmp "dialog_qm.spr"'
@@ -506,12 +553,15 @@
 
 <script sc_BatteryOnChange>	
 	DEBUG "sc_BatteryOnChange"
-	GETSYSENTRY "shutdown_time" "interface" 10 vTmp
-	runifnot vTmp 0 sc_shutdown_timer 
+;!Raffke_jr - New variable for Auto-Standby setting
+;	GETSYSENTRY "shutdown_time" "interface" 10 vTmp
+;	runifnot vTmp 0 sc_shutdown_timer 
+	runifnot vShutdownTime 0 sc_shutdown_timer
 </script>
 
 <script sc_shutdown_timer>
-	runif vOnBattery 1 '.power.set_shutdown_timer vTmp, ui_ShutdownTimer.show'
+;!Raffke_jr - New variable for Auto-Standby setting
+	runif vOnBattery 1 '.power.set_shutdown_timer vShutdownTime, ui_ShutdownTimer.show'
 	else_run sc_CancelShutdown
 </script>
 
@@ -525,11 +575,4 @@
 	vZoomLevelInMap.SET %map.zoom_level_in_map
 	vTiltInNavigate.SET %map.tilt_in_navigate
 	vZoomLevel.SET %map.zoom_level
-	runifnot vMapState 5 'vRotationAngleNavMap.set %map.rotation_angle'
-</script>
-
-<script sc_SelectDestination>
-	vTmp.set %navigation.waypoints.list.size
-    DECVAL "vTmp" 1
-    SELECTWAYPOINT vTmp
 </script>

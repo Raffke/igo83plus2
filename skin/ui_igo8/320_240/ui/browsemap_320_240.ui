@@ -1,4 +1,4 @@
-<TEMPLATE btn_plan       y=0 w=74 fonttype=bw  bmp="btn_plan_cursor.bmp#3" clicked_coloring=1 font="tahomabd" fontsize=8 valign="BOTTOM-9" align="CENTER"  iconvalign="TOP+2" iconalign="CENTER">
+<TEMPLATE btn_plan       y=0 w=55 fonttype=bw  bmp="btn_plan_cursor.bmp#3" clicked_coloring=1 font="tahomabd" fontsize=8 valign="BOTTOM-9" align="CENTER"  iconvalign="TOP+2" iconalign="CENTER">
 
 ;****************************************************************************************************************
 <header>
@@ -7,13 +7,16 @@
 </header>
 
 <layer ui_PlanMode z=50>
-	<BUTTON xxx template=backa   z=12 onrelease='PREVSTATE'>
+;!TB - Removed Back, "Start Nav" and "Fit to Screen" buttons
+;	<BUTTON xxx template=backa   z=12 onrelease='vPlanModeOn.set 0, PREVSTATE'>
+;
+;	<BUTTON btnPM_FitScreen  template=footer2_1a text="Fit to screen" onrelease='run sc_FitToScreen_PlanMode' enabledmodel="navigation.waypoints.list.size>1">
+;	<BUTTON btnPM_StartNav   template=footer2_2a text="Start Nav" onrelease='run sc_btnPM_StartNavigation' enabledmodel="navigation.has_route">
 
-	<BUTTON btnPM_FitScreen  template=footer2_1a text="Fit to screen" onrelease='run sc_FitToScreen_PlanMode' enabledmodel="navigation.waypoints.list.size>1">
-	<BUTTON btnPM_StartNav   template=footer2_2a text="Start Nav" onrelease='run sc_btnPM_StartNavigation' enabledmodel="navigation.has_route">
-
-	<SPRITE xxx  bmp="blackstripe.bmp" x=0 y=185 z=0>
-	<TEXT xxx template=txt_map x=0 y=186 w=320 textmodel_wstr="map.cursorpos.posinfotext">
+;!TB - moved Info Text down by 15 points
+	<SPRITE xxx  bmp="blackstripe.bmp" x=0 y=220 z=0>
+;!Raffke_jr - Route infos: changed align
+	<TEXT xxx template=txt_map x=0 y=186 w=320 align="CENTER+35" textmodel_wstr="map.cursorpos.posinfotext">
 </layer>
 
 <layer ui_PlanModeOpenCloseButtons z=50>
@@ -27,6 +30,24 @@
 </layer>
 
 <layer ui_PlanModeControls2D z=60>
-	<BUTTON xxx  x=2 y=45  z=0 bmp="map_zoomin.bmp#2" text=""  align="center-3"  valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1  onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0'>  
-	<BUTTON xxx  x=2 y=109 z=0 bmp="map_zoomout.bmp#2" text=""  align="center-3" valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1  onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0' > 
+;!TB MOD - Repositioned "Zoom" buttons and modified icons
+;	<BUTTON xxx  x=2 y=45  z=0 bmp="map_zoomin.bmp#2" text=""  align="center-3"  valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1  onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0'>  
+;	<BUTTON xxx  x=2 y=109 z=0 bmp="map_zoomout.bmp#2" text=""  align="center-3" valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1  onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0' > 
+	<BUTTON xxx  x=0 y=45  z=0 bmp="$map_zoomin_edge.bmp#2"  text=""  align="center-3" valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1  onClick='START_STOP_ZOOM 0 1' onRelease='START_STOP_ZOOM 0 0' onMouseLeave='START_STOP_ZOOM 0 0'>  
+	<BUTTON xxx  x=0 y=109 z=0 bmp="$map_zoomout_edge.bmp#2" text=""  align="center-3" valign="Bottom-6" fontsize=9 font="tahoma"  fonttype=bw clicked_coloring=1  onClick='START_STOP_ZOOM 1 1' onRelease='START_STOP_ZOOM 1 0' onMouseLeave='START_STOP_ZOOM 1 0' > 
+
+;!TB - Added Back button
+	<BUTTON xxx  x=0 y=173 z=0 bmp="$map_prevstate.bmp#2" text="" align="center-3" valign="Bottom-38" fontsize=9 font="tahoma" fonttype=bw clicked_coloring=1 sound="!back" onrelease='vPlanModeOn.set 0, PREVSTATE' onlongclick='vPlanModeOn.set 0, run sc_GoTo_MainMenu' rawkey=27>
+
+;!TB - Added Cursor, Center Cursor, Fit-to-Screen and Map buttons
+	<BUTTON btnPM_FitScreen x=274 y=31  w=40 z=0 bmp="$map_route_to_screen.bmp#3" text=""           font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5" onrelease='run sc_FitToScreen_PlanMode' enabledmodel="navigation.has_route">
+	<BUTTON xxx             x=274 y=75  w=40 z=0 bmp="$map_center_cursor.bmp#2"   text=""           font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5" onrelease='run sc_btnPMB_FitToCursor_PlanMode'>
+;!Raffke_jr - return to PlanMode
+	<BUTTON xxx             x=274 y=119 w=40 z=0 bmp="$4scr_use_cur.bmp#2"        text="Cursor"     font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5" onrelease='nPlaceForPos.set 0, run sc_btnNMB_Use_OnRelease' onlongclick='run sc_AddFromMenu 1'>
+	<BUTTON btnPM_StartNav  x=274 y=168 w=40 z=0 bmp="$4scr_map.bmp#2"            text="Navigation" font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5" onrelease='run sc_btnPM_StartNavigation' onlongclick='run sc_GoTo_MainMenu_Direct'>
+
+;!Raffke_jr - Route infos (!TB NGP)
+	<BUTTON txtPM_Method  x=0  y=210 z=2 bmp="cock_infobg4full.bmp" font="tahoma" fontsize=9 fonttype=bw color=#FFFFFF align="CENTER-10" valign="TOP+10" onrelease='run sc_btn_PM_Method_OnRelease' visiblemodel="navigation.has_route">
+        <TEXT txtPM_Distance  x=2  y=230 w=38 z=3 template=xtxt4 text="n/a" font="tahomabd" fontsize=9 align="RIGHT-2" color=#FFFFFF visiblemodel="navigation.has_route">
+        <TEXT txtPM_TimeLeft  x=40 y=230 w=28 z=3 template=xtxt4 text="n/a" font="tahoma" fontsize=9 align="RIGHT-2" color=#FFFFFF visiblemodel="navigation.has_route">
 </layer>

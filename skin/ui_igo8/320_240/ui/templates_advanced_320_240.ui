@@ -1,0 +1,28 @@
+;*************************************************************
+;* New element templates for 320x240 resolution
+;* Developed by Delphis
+;* Look for last version at http://4pda.ru/forum/index.php?showtopic=79587&view=findpost&p=1703505
+;*************************************************************
+
+;***********************  SCROLBAR TXT  **********************************
+<TEMPLATE txt_st1a1  template=btntext x=15  align="LEFT">
+<TEMPLATE txt_st1a21 template=btntext x=15  w=130 align="LEFT">
+<TEMPLATE txt_st1a22 template=btntext x=150 w=34 align="RIGHT">
+<TEMPLATE txt_st1a31 template=btntext x=15  w=110 align="LEFT">
+<TEMPLATE txt_st1a32 template=btntext x=130 w=34 align="RIGHT">
+<TEMPLATE txt_st1a33 template=btntext x=170 w=24 align="LEFT">
+<TEMPLATE txt_st1b1  template=btntext x=10  w=130 align="LEFT">
+
+;***********************  SCROLLBAR POSITION  ******************************
+;<TEMPLATE scr_st1a                   x=20 bmp="$fable_scrollbg.spr" sprind="$fable_scrollbtn.spr">
+;<TEMPLATE scr_st1b                   x=120 bmp="$fable_scrollbg_small.spr" sprind="$fable_scrollbtn.spr">
+
+;***********************  SPRITE  ******************************
+;!Raffke_jr - TODO: Fit to new templates
+;<TEMPLATE spr_st1a                    x=4 bmp="lb_.bmp#2">
+
+;***********************  BUTTONS  ******************************
+<TEMPLATE btn_lb4e51                bmp="btn_lb_4e.bmp#3"  padding=4 align="center" valign="center" iconalign="CENTER" iconvalign="CENTER" fonttype=bw twolinesmall=1 clicked_coloring=1>
+
+;***********************  SLIDERS  ******************************
+<TEMPLATE sld_lb5e       bmp="btn_lb_5e.bmp#3"           align="center" valign="center" fonttype=bw fontsize=14>

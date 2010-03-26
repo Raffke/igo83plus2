@@ -27,7 +27,10 @@
 	vTmp.DROPMODEL
 
 	nPlaceStateMode.SET 0
-	NEXTSTATE st_Place
+
+;!TB - 'NEXTSTATE st_Place' replaced by sc_OpenMapAfterFind call
+;	NEXTSTATE st_Place
+	run sc_OpenMapAfterFind
 </script>
 
 ;****************************************************************************************************************

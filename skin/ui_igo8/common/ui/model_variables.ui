@@ -8,7 +8,59 @@
 	<var sGeoCodingStatus>
 	<var vOnBattery>
 	<var vShutdownInProgress>
+
+;!TB - new variables
+;!Raffke_jr - set bShowSecondaryDistance to 0 in FullScreenCockpit
+	<var vFullScreenCockpit=0 registermodel permanent onchange="sc_SpeedLimitVisualChanged">
+	<var vFullScreenDiricon=1 registermodel permanent>
+	<var vFullScreenActualStreet=1 registermodel permanent>
+	<var vFullScreenNextStreet=1 registermodel permanent>
+	<var vFullScreenStatus=1 registermodel permanent>
+;!Raffke_jr - changed default field from "Speed" (8)  to  "Altitude" (11)
+;             field numbers from: navigatemap.ui / <script sc_NMS_Changed>
+	<var CockpitField1Cruise="11" permanent>
+	<var CockpitField2Cruise="12" permanent>
+	<var CockpitField3Cruise="10" permanent>
+;!Raffke_jr - changed default from "Simple" (1)  to  "On" (2)
+	<var vSpeedLimitVisual=2 registermodel permanent onchange="sc_SpeedLimitVisualChanged">
+	<var bSpeedLimitVisible=0 registermodel>
+	<var vOverspeedType1=0 valuemodel="warning.speedwarn_toltype">
+	<var vOverspeedAltType1=0 valuemodel="warning.speedwarn_alt_toltype">
+	<var vLaneInfoMode=100 registermodel permanent>
+	<var vMyDataActPage=0>
+	<var vMapSettingsActPage=0>
+	<var vMultiRouteActPage=0>
+	<var vAddFromMenuTitle>
+	<var vFindDoneScript=0>
+	<var vAddFromDoneScript=0 registermodel>
+	<var vNaviMenuAlphaDown=10>
+	<var vTMCVoiceWarning=1 registermodel permanent>
+	<var vPanelOpen=0>
+	<var vBTCustom=0 registermodel>
+	<var vPhoneApp="">
+	<var vPhoneAppSwitch="">
+	<var vPhoneCallApp="">
+
+;!Raffke_jr - new variables
+	<var vCockpitAlpha=0 registermodel permanent>
+	<var vShutdownTime=10 registermodel permanent>
+	<var bShowMinimize=-1 registermodel permanent>
+	<var bTMCAnnouncementVisible=0 registermodel>
+	<var bSpeedcamWarningVisible=0 registermodel>
+;!Raffke_jr - added to minimize visiblemodel (max 4 accepted?!)
+	<var bShowSecondaryDistance=1 registermodel>
+
+;di/\/\ka
+	<var bShowCompassOnMap=0 registermodel permanent>
+;!Raffke_jr - changed default to  "On"
+	<var bSpeedShow=1 registermodel permanent>
+;!Raffke_jr - changed default from "Vertical" (1)  to  "Horizontal" (0)
+	<var bVertspedInfo=0 registermodel permanent>
+	<var bSpeedBGShow=1 registermodel permanent>
 </header>
+
+;TB MR - Include advanced speedcam scripts
+import "ui_igo8/common/ui/speedcam_advanced.ui"
 
 <script sc_ModelVariablesInit>
 	vMapNorthUpOnAutoZoom.boolmodel "smartzoom.overview"
@@ -19,4 +71,12 @@
 	nDynamicVolumeType.valuemodel "sound.dynamic_volume_type"
 	vOnBattery.boolmodel "power.on_battery"
 	vShutdownInProgress.boolmodel "power.shutdown_in_progress"
+
+
+;!TB - new variables initialization
+	vOverspeedAltType1.set vOverspeedType1
+	run sc_SpeedLimitVisualChanged
+
+;!TB MR - Advansed Speedcam Initialization
+        run sc_AdvancedSpeedcamInit
 </script>

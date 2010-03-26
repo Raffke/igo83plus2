@@ -1,5 +1,5 @@
 <header>
-    <var vIconSelectedScript>
+	<var vIconSelectedScript>
 </header>
 
 ;****************************************************************************************************************
@@ -50,12 +50,14 @@
 	local.keyboard.done_enabled 0
 </script>
 
+;****************************************************************************************************************
+
 <state st_SelectIcon>
-    <uselayer ui_Header2/>
-    <uselayer ui_Background/>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
 	<uselayer ui_Title/>
-    <uselayer ui_Footer2/>
-    <uselayer ui_SelectIcon/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_SelectIcon/>
 
 	<script init>
 	</script>
@@ -63,28 +65,28 @@
 </state>
 
 <script sc_IconSelected>
-    vTmp2.VALUEMODEL "screen.icons.current"
-    vTmp.Set vTmp2
-    vTmp2.DROPMODEL
-    run vIconSelectedScript vTmp
+	vTmp2.VALUEMODEL "screen.icons.current"
+	vTmp.Set vTmp2
+	vTmp2.DROPMODEL
+	run vIconSelectedScript vTmp
 </script>
 
 
 <script quick_show_volume>
-  runifnot vactivestate "st_cockpitstatus" 'runifnot vactivestate "st_settingsound" quick_show_volume_init'
-  5  vQuickMasterVol.set 500
+	runifnot vactivestate "st_cockpitstatus" 'runifnot vactivestate "st_settingsound" quick_show_volume_init'
 </script>
 
 <script quick_show_volume_init>
 	term hide_volume
 	ui_volume.hide		
 	master_volume_fg.sizex_forced vQuickMasterVol
-    ui_volume.show
+	ui_volume.show
 	1 run hide_volume
 </script>
 
 
-<script hide_volume>  
+<script hide_volume>
+  5	 vQuickMasterVol.set 500
   100 ui_volume.hide
 </script>
 
@@ -96,7 +98,6 @@
   <uselayer ui_KeyboardPanelList/>
 
   <script init>
-    Title.SET "Keyboard layouts"
   </script>
 </state>
 
@@ -105,15 +106,15 @@
 
 ; SWITCH_MAP_COCKPIT
 <script feature_switch_map_mode>
-    runif bDialogBoxVisible 0 'run sc_stopflyover, STATE st_NavigateMap'
+	runif bDialogBoxVisible 0 'run sc_stopflyover, STATE st_NavigateMap'
 </script>
 
 ; SWITCH_ROUTEINFO_ITINER
 <script feature_switch_routeinfo_itiner>
-    runif bDialogBoxVisible 1 ''
-    else_runif vActiveState "st_routeinfo" 'run sc_stopflyover, PREVSTATE, NEXTSTATE st_RouteItinerary'
-    else_runif vActiveState "st_routeitinerary" 'run sc_stopflyover, PREVSTATE, NEXTSTATE st_routeinfo'
-    else_run 'run sc_stopflyover, NEXTSTATE st_RouteInfo'
+	runif bDialogBoxVisible 1 ''
+	else_runif vActiveState "st_routeinfo" 'run sc_stopflyover, PREVSTATE, NEXTSTATE st_RouteItinerary'
+	else_runif vActiveState "st_routeitinerary" 'run sc_stopflyover, PREVSTATE, NEXTSTATE st_routeinfo'
+	else_run 'run sc_stopflyover, NEXTSTATE st_RouteInfo'
 </script>
 
 ; SWITCH_4_SCREENS
@@ -123,40 +124,42 @@
 
 ; ROUTEINFO
 <script feature_switch_route_menu>
-    runif bDialogBoxVisible 0 'run sc_stopflyover, NEXTSTATE st_RouteInfo'
+	runif bDialogBoxVisible 0 'run sc_stopflyover, NEXTSTATE st_RouteInfo'
 </script>
 
 ; FOLLOW_OR_ANNOUNCE
 <script feature_follow_or_announce>
-    run sc_FollowOn
-    runif %navigation.has_navigable_path 1 'SAYNEXTCOMMAND' 
-    termifnot vActiveState "st_NavigateMap"
-    run sc_enable_smartzoom_3D
-    ; any button can be used for this. This must be after all show/hide layers.
-    btn_Footer_back2.CLEARFOCUS
+	run sc_FollowOn
+	runif %navigation.has_navigable_path 1 'SAYNEXTCOMMAND' 
+	termifnot vActiveState "st_NavigateMap"
+	run sc_enable_smartzoom_3D
+	; any button can be used for this. This must be after all show/hide layers.
+	btn_Footer_back2.CLEARFOCUS
 </script>
 
 ; FOLLOW_OR_ANNOUNCE_FROM_ANYWHERE
 <script feature_follow_or_announce_from_anywhere>
-    runif bDialogBoxVisible 0 'run sc_stopflyover, STATE st_NavigateMap'
-    run sc_FollowOn
-    run sc_enable_smartzoom_3D
-    runif %navigation.has_navigable_path 1 'SAYNEXTCOMMAND'
+	runif bDialogBoxVisible 0 'run sc_stopflyover, STATE st_NavigateMap'
+	run sc_FollowOn
+	run sc_enable_smartzoom_3D
+	runif %navigation.has_navigable_path 1 'SAYNEXTCOMMAND'
 </script>
 
 ; FIND_ADDRESS
 <script feature_find_address>
-    runif bDialogBoxVisible 0 'run sc_stopflyover, nextstate st_FindAddress'
+;!TB - Added vAddFromDoneScript Reset Script to onrelease
+	runif bDialogBoxVisible 0 'run sc_stopflyover, vAddFromDoneScript.set 0, nextstate st_FindAddress'
 </script>
 
 ; PUTPINTOGPS
 <script feature_putpintogps>
-    run sc_btnPM_AddPin_To_GPS
+	run sc_btnPM_AddPin_To_GPS
 </script>
 
 ; MAINMENU
 <script feature_main_menu>
-    runif bDialogBoxVisible 0 'run sc_stopflyover, run sc_GoTo_MainMenu'
+;!TB - Renamed script called
+	runif bDialogBoxVisible 0 'run sc_stopflyover, run sc_GoTo_MainMenu_Direct'
 </script>
 
 ; UNMUTE
@@ -171,59 +174,81 @@
 
 ; GOTOHOME
 <script feature_go_to_home>
-    runif bDialogBoxVisible 0 sc_goto_home
+	runif bDialogBoxVisible 0 sc_goto_home
 </script>
 
 ; SETTINGS
 <script feature_settings>
-    runif bDialogBoxVisible 1 '' 
-    else_runif nUserMode 0 'run sc_stopflyover, NEXTSTATE st_AdvSettingsMenu'
-    else_run 'run sc_stopflyover, NEXTSTATE st_BasSettings'
+	runif bDialogBoxVisible 1 '' 
+	else_runif nUserMode 0 'run sc_stopflyover, NEXTSTATE st_AdvSettingsMenu'
+	else_run 'run sc_stopflyover, NEXTSTATE st_BasSettings'
 </script>
 
 ; TMC
 <script feature_switch_tmc>
-    runif bDialogBoxVisible 1 ''
-    else_runif %tmc.present 1 'run sc_stopflyover, NEXTSTATE st_TmcEventsList'
-    else_runif %tmc.events.list.isempty 0 'run sc_stopflyover, NEXTSTATE st_TmcEventsList'
+	runif bDialogBoxVisible 1 ''
+	else_runif %tmc.present 1 'run sc_stopflyover, NEXTSTATE st_TmcEventsList'
+	else_runif %tmc.events.list.isempty 0 'run sc_stopflyover, NEXTSTATE st_TmcEventsList'
 </script>
 
 ; SWITCH_3D
 <script feature_switch_3D>
-    runif vMapmode L"2D" sc_btnNMB_Nav3D_OnRelease
-    else_runif vMapmode L"3D" sc_btnNMB_Nav2D_OnRelease
+	runif vMapmode L"2D" sc_btnNMB_Nav3D_OnRelease
+	else_runif vMapmode L"3D" sc_btnNMB_Nav2D_OnRelease
 </script>
 
 ; SWITCH_ITINER
 <script feature_switch_itiner>
-    runif bDialogBoxVisible 0 'run sc_stopflyover, NEXTSTATE st_RouteItinerary'
+	runif bDialogBoxVisible 0 'run sc_stopflyover, NEXTSTATE st_RouteItinerary'
 </script>
 
 <script sc_goto_home>
-    .mydata.favorites.list.setcurrent 0
-    vtmp.boolmodel "mydata.favorites.list.current.isempty"
-    vtmp.dropmodel
-    runif bDialogBoxVisible 1 ''
-    else_runif vtmp 0 'run sc_stopflyover, EXEC "mydata.favorites.gotopos", run sc_et_FindFavorite_OnRelease'
+	.mydata.favorites.list.setcurrent 0
+	vtmp.boolmodel "mydata.favorites.list.current.isempty"
+	vtmp.dropmodel
+	runif bDialogBoxVisible 1 ''
+	else_runif vtmp 0 'run sc_stopflyover, EXEC "mydata.favorites.gotopos", run sc_et_FindFavorite_OnRelease'
 </script>
 
 <script sc_stopflyover>
-    vFlyOverNextState.clear
-    STOPFLYOVER
+	vFlyOverNextState.clear
+	STOPFLYOVER
 </script>
+
 <script sc_navigate_to_home>
 ;	mydata.favorites.list.setcurrent 0
 ;	termif %bool:mydata.favorites.list.current.isempty 1
 ;	mydata.favorites.list.index 0
-    termif %bool:mydata.favorites.home.isempty 1
-    mydata.favorites.gotospec "home"
-    mydata.favorites.gotopos
-    FINDPATH_TO
+	termif %bool:mydata.favorites.home.isempty 1
+	mydata.favorites.gotospec "home"
+	mydata.favorites.gotopos
+	FINDPATH_TO
 </script>
 
 <script sc_launch_favorites>
-    NEXTSTATE st_ManageFavorite
+	NEXTSTATE st_ManageFavorite
 </script>
 
 <script sc_Empty>
+</script>
+
+
+;!TB MR - Enable Auto Recalc Route
+<script sc_EnableAutoRecalcRoute>
+	vRecalcOffByStartPoint.set 0
+	vAutoReplan.SET 1
+	run sc_RecalcWays
+</script>
+
+;!TB MR - Mute
+<script sc_ToggleMute>
+	runif %sound.os_muted 0 '.sound.os_muted 1'
+	else_run '.sound.os_muted 0'
+</script>
+
+;!TB - open Find menu
+<script sc_OpenFindMenu>
+	vAddFromDoneScript.set 0
+	runif nUserMode	0 'NEXTSTATE st_AdvFindMenu'
+	else_run 'NEXTSTATE st_FindAddress'
 </script>
