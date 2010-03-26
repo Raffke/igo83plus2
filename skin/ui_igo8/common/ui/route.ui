@@ -89,7 +89,9 @@
 <script sc_RefreshRouteInfo>
 	ui_Route.GET_ROUTEINFO txtRI_Distance txtRI_Stops txtRI_TimeLeft txtRI_Arrive txtRI_DestAddress
 	runif vUIRes "240_320" 'ui_Route.SHOW_ICONS sprRI_Info1 sprRI_Info2 sprRI_Info3 sprRI_Info4 sprRI_Info5 sprRI_Info6'
+	else_runif vUIRes "240_400" 'ui_Route.SHOW_ICONS sprRI_Info1 sprRI_Info2 sprRI_Info3 sprRI_Info4 sprRI_Info5 sprRI_Info6'
 	else_runif vUIRes "480_272" 'ui_Route.SHOW_ICONS sprRI_Info1 sprRI_Info2 sprRI_Info3 sprRI_Info4 sprRI_Info5 sprRI_Info6'
+	else_runif vUIRes "480_800" 'ui_Route.SHOW_ICONS sprRI_Info1 sprRI_Info2 sprRI_Info3 sprRI_Info4 sprRI_Info5 sprRI_Info6'
 	else_run 'ui_Route.SHOW_ICONS sprRI_Info1 sprRI_Info2 sprRI_Info3 sprRI_Info4 sprRI_Info5'
 	
 	ui_Route.IS_ACT_VIAPOINT_LAST vTmp

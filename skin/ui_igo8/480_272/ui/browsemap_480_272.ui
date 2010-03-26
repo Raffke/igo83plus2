@@ -1,14 +1,14 @@
-<TEMPLATE btn_plan       y=0 w=70 fonttype=bw  bmp="btn_plan_cursor.bmp#3" clicked_coloring=1 font="tahomabd" fontsize=8 valign="BOTTOM-9" align="CENTER"  iconvalign="TOP+2" iconalign="CENTER">
+<TEMPLATE btn_plan       y=0 w=70 fonttype=bw  bmp="btn_plan_cursor.bmp#3" clicked_coloring=1 font="tahomabd" fontsize=10 valign="BOTTOM-7" align="CENTER"  iconvalign="TOP+2" iconalign="CENTER">
 
 ;!Matze - added templates for multiroute
-<TEMPLATE btn_multiplan y=0 w=90  bmp="btn_multiplan.bmp#3" glowtype=1 clicked_coloring=0 font="tahomabd" fontsize=9 valign="BOTTOM-5" align="CENTER">
+<TEMPLATE btn_multiplan y=0 w=90  bmp="btn_multiplan.bmp#3" glowtype=1 clicked_coloring=0 font="tahomabd" fontsize=11 valign="BOTTOM-4" align="CENTER">
 ;!Raffke_jr - increased font size
-<TEMPLATE txtMRD        y=5 w=51  font="tahomabd" fontsize=10  color=#FFFFFF glowtype=1 glowsize=1 color2=#000000 align="CENTER">
-<TEMPLATE txtMRD1       y=5 w=37  font="tahoma"   fontsize=10  color=#FFFFFF glowtype=1 glowsize=1 color2=#000000 align="CENTER">
+<TEMPLATE txtMRD        y=5 w=51  font="tahomabd" fontsize=12  color=#FFFFFF glowtype=1 glowsize=1 color2=#000000 align="LEFT"  valign="TOP-3">
+<TEMPLATE txtMRD1       y=5 w=36  font="tahoma"   fontsize=12  color=#FFFFFF glowtype=1 glowsize=1 color2=#000000 align="RIGHT" valign="TOP-3">
 
 <TEMPLATE spr_multi2    x=21  w=363 z=100 h=23>
 <TEMPLATE chk_lb8a      x=176 w=95  z=10  bmp="$btn_lb_6d.bmp#2"  font="tahoma" color=#FFFFFF glowtype=1 glowsize=3 color2=#000000 valign="center" align="LEFT+10" fontsize=14 clicked_coloring=0>
-<TEMPLATE chk_lb8a_1    x=176 w=137 z=10  bmp="$btn_lb_6e.bmp#2"  font="tahoma" color=#FFFFFF glowtype=1 glowsize=3 color2=#000000  valign="center" align="center" fontsize=14 clicked_coloring=0>
+<TEMPLATE chk_lb8a_1    x=176 w=137 z=10  bmp="$btn_lb_6e.bmp#2"  font="tahoma" color=#FFFFFF glowtype=1 glowsize=3 color2=#000000 valign="center" align="center"  fontsize=14 clicked_coloring=0>
 ;****************************************************************************************************************
 <header>
 	<var vBrowseMapZoomPosMin=35>
@@ -24,8 +24,8 @@
 
 ;!Matze - moved Info Text down by 38 points
 	<SPRITE xxx  bmp="blackstripe.bmp" x=0 y=252 z=0>
-;!Raffke_jr - moved right by 68 to display Route Info, moved down by 4 and decreased fontsize from 14, decreased width to display route menu button
-	<TEXT xxx template=txt_map x=68 y=250 w=344 fontsize=12 textmodel_wstr="map.cursorpos.posinfotext">
+;!Raffke_jr - moved right by 68 to display Route Info, moved down by 4 and decreased width to display route menu button
+	<TEXT xxx template=txt_map x=68 y=250 w=344 fontsize=14 textmodel_wstr="map.cursorpos.posinfotext">
 </layer>
 
 ;!Matze - changed x
@@ -62,8 +62,8 @@
 	<BUTTON btnPM_MultiCancel  x=434 y=186 w=40 z=0 bmp="$map_multiroute_cancel.bmp#3"	text="Exit" font="tahoma" fontsize=9 fonttype=bw clicked_coloring=1 align="CENTER+3"  valign="BOTTOM-5" onrelease='run sc_MultiplanCancel'>
 
 ;!Matze - added slider routing type and button routemenu
-	<SLIDER sldPM_Method  x=0  y=252 z=2 w=65 bmp="$btn_map_footer.bmp" font="tahoma" color=#FFFFFF fontsize=9 glowtype=1 glowsize=3 color2=#000000 color3=#000000 align="CENTER" valign="CENTER"  value="Fastest|FAST|Shortest|SHORT|Economic|ECO|Easy|SIMPLE|Scenic/Panoramic_View|SCENIC" var=vRouteType visiblemodel="!navigation.has_route" onselect='run sc_PM_RefreshRouteMethod'>
-	<BUTTON btnPM_RouteMenu  x=415  y=252 z=2 w=65 bmp="$btn_map_footer.bmp" text="Route Menu" font="tahoma" fontsize=9 color=#FFFFFF clicked_dy=1 glowtype=1 glowsize=2 color2=#000000 align="CENTER" valign="CENTER" onrelease='run sc_MultiplanCancel, CLEARTOSTATE st_AdvRouteMenu, NEXTSTATE st_AdvRouteMenu'>
+	<SLIDER sldPM_Method  x=0  y=252 z=2 w=65 bmp="$btn_map_footer.bmp" font="tahoma" color=#FFFFFF fontsize=12 glowtype=1 glowsize=3 color2=#000000 color3=#000000 align="CENTER" valign="CENTER"  value="Fastest|FAST|Shortest|SHORT|Economic|ECO|Easy|SIMPLE|Scenic/Panoramic_View|SCENIC" var=vRouteType visiblemodel="!navigation.has_route" onselect='run sc_PM_RefreshRouteMethod'>
+	<BUTTON btnPM_RouteMenu  x=415  y=252 z=2 w=65 bmp="$btn_map_footer.bmp" text="Route Menu" font="tahoma" fontsize=10 color=#FFFFFF clicked_dy=1 glowtype=1 glowsize=2 color2=#000000 align="CENTER" valign="CENTER" onrelease='run sc_MultiplanCancel, CLEARTOSTATE st_AdvRouteMenu, NEXTSTATE st_AdvRouteMenu'>
 
 ;!Raffke_jr - Route infos (!TB NGP)
 ;!Matze - changed .bmp,y,z,align and valign
@@ -121,7 +121,7 @@
 	<RADIO  xxx template=chk_lb8a    y=176  text="Scenic/Panoramic_View"   group=nRMTmp var="4"  onrelease='run sc_RMselected'>
 	<BUTTON xxx template=chk_lb8a_1  y=206  text="Routing Methods"  onrelease='ui_SelectRM.hide, ui_SelectRM_Algorithm.show, run sc_setMultiroute' enabledmodel="!ui.vRouteCalculation">
 ;!Raffke_jr - add back button
-	<BUTTON xxx  x=0  y=252     bmp="$btn_map_footer.bmp" text="Back" font="tahoma" fontsize=9 color=#FFFFFF clicked_dy=1 glowtype=1 glowsize=2 color2=#000000 align="CENTER" valign="CENTER" onrelease='ui_SelectRM.hide'>
+	<BUTTON xxx  x=0  y=252     bmp="$btn_map_footer.bmp" text="Back" font="tahoma" fontsize=12 color=#FFFFFF clicked_dy=1 glowtype=1 glowsize=2 color2=#000000 align="CENTER" valign="CENTER" onrelease='ui_SelectRM.hide'>
 </layer>
 
 ;!Raffke_jr - changed from hide to modal
@@ -133,5 +133,5 @@
 	<BUTTON xxx  template=chk_lb8a_1  y=146 text="Default"             onrelease='ui_SelectRM_Algorithm.hide, run sc_MultiRouteDraw' enabledmodel="!ui.vRouteCalculation">
 	<BUTTON xxx  template=chk_lb8a_1  y=176 text="Optimal calculation" onrelease='.route.correctness 100, ui_SelectRM_Algorithm.hide, run sc_MultiRouteDraw' enabledmodel="!ui.vRouteCalculation">
 ;!Raffke_jr - add back button
-	<BUTTON xxx  x=0  y=252     bmp="$btn_map_footer.bmp" text="Back" font="tahoma" fontsize=9 color=#FFFFFF clicked_dy=1 glowtype=1 glowsize=2 color2=#000000 align="CENTER" valign="CENTER" onrelease='ui_SelectRM_Algorithm.hide'>
+	<BUTTON xxx  x=0  y=252     bmp="$btn_map_footer.bmp" text="Back" font="tahoma" fontsize=12 color=#FFFFFF clicked_dy=1 glowtype=1 glowsize=2 color2=#000000 align="CENTER" valign="CENTER" onrelease='ui_SelectRM_Algorithm.hide'>
 </layer>

@@ -164,6 +164,7 @@
 
 ;!Raffke_jr - Full Screen cockpit buttons
 	runif vUIRes "240_320" 'statusSound.x 65'
+	runif vUIRes "240_400" 'statusSound.x 65'
 	runif vUIRes "320_240" 'statusSound.x 162, btnCS_Mode_Cockpit.x	 57'
 	runif vUIRes "400_240" 'statusSound.x 212, btnCS_Mode_Cockpit.x	 87'
 	runif vUIRes "480_234" 'statusSound.x 243, btnCS_Mode_Cockpit.x 108'
@@ -186,6 +187,7 @@
 
 ;!Raffke_jr - Full Screen cockpit buttons
 	runif vUIRes "240_320" 'statusSound.x   7,                          btnMT_Record_Cockpit.x 122, btnMT_Stop_Cockpit.x 122'
+	runif vUIRes "240_400" 'statusSound.x   7,                          btnMT_Record_Cockpit.x 122, btnMT_Stop_Cockpit.x 122'
 	runif vUIRes "320_240" 'statusSound.x 110, btnCS_Mode_Cockpit.x  5, btnMT_Record_Cockpit.x 215, btnMT_Stop_Cockpit.x 215'
 	runif vUIRes "400_240" 'statusSound.x 150, btnCS_Mode_Cockpit.x 25, btnMT_Record_Cockpit.x 275, btnMT_Stop_Cockpit.x 275'
 	runif vUIRes "480_234" 'statusSound.x 175, btnCS_Mode_Cockpit.x 40, btnMT_Record_Cockpit.x 310, btnMT_Stop_Cockpit.x 310'

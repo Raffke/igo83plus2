@@ -53,14 +53,14 @@
 <script sc_UpdateChangedTMCState>
 	vTmp.TEXTMODEL_WSTR "tmc.state"
 	vTmp.DROPMODEL
-	runif vTmp L"Testing.." ''
-	else_runif vTmp L"No TMC" ''
+	runif vTmp vTmcState_Testing ''
+	else_runif vTmp vTmcState_NoTMC ''
 ; gray signal strength bar
-	else_runif vTmp L"TMC present" ''
+	else_runif vTmp vTmcState_TMCPresent ''
 ; green signal strength bar
-	else_runif vTmp L"CA-TMC (No key)" ''
+	else_runif vTmp vTmcState_NoKey ''
 ; red signal strength bar
-	else_runif vTmp L"CA-TMC (Code OK)" ''
+	else_runif vTmp vTmcState_KeyOK ''
 ; blue? signal strength bar and/or additional TMCpro icon
 </script>
 ;!Raffke_jr - TODO: disabled for now...

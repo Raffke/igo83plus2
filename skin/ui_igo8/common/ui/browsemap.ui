@@ -140,7 +140,7 @@
 
 ;!Matze - added for multiroute algorithm
 		.route.correctness saved_RouteCorrectness
-		ui_MultiRouteDrawProgress_min.hide
+		run sc_MultiplanCancel
 	</script>
 </state>
 
@@ -195,6 +195,8 @@
 ;!TB - fix
 	map.SETCARPOSITION 50 50
 
+;!Raffke_jr - avoid loops
+	CLEARTOSTATE st_PlanMode
 	NEXTSTATE st_PlanMode
 </script>
  

@@ -494,7 +494,13 @@
 ;!TB - New script to return to Map or Main Menu depending on active route status
 <script sc_GoTo_MainMenu>
 	run sc_stopflyover
-	GETADDVIAAVAILABILITY vTmp
+
+;	GETADDVIAAVAILABILITY vTmp
+;!Raffke_jr - "Smart" start state: "1"=always, "0"=never, default "2"=if_route_set
+	GETSYSENTRY "smart_start" "plusplus" 2 vTmp
+	     runif vTmp 1 'vTmp.SET 1'
+	else_runif vTmp 2 'GETADDVIAAVAILABILITY vTmp'
+	else_run 'vTmp.SET 0'
 	runif vTmp 0 sc_GoTo_MainMenu_Direct
 	else_run 'run sc_FollowOn, run sc_RefreshNavigateMapScreenAfterViewPreset 1, run sc_ReturnToMap'
 </script>
