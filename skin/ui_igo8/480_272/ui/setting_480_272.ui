@@ -248,14 +248,14 @@ import "ui_igo8/480_272/ui/speedcam_setting_480_272.ui"
 	<TEXT       xxx             template=txt_csu_legend  template=y_3  z=1 text="Minimum Tilt Angel">
 	<TEXT       txtSVZ_TiltDown template=txt_csu_value   template=y_3  z=1 >
 	<TEXT       xxx             template=txt_csu_unit    template=y_3  z=1 text="°">
-	<HSCROLLBAR hscSVZ_TiltDown template=csuszka_small   template=y_3  z=1 endsize=0 blockincrement=_0.0 possiblevalues="0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90" valuemodel="smartzoom.minangle" onchange='run sc_hscSVZ_TiltDown_OnChange'>
+	<HSCROLLBAR hscSVZ_TiltDown template=csuszka         template=y_3  z=1 endsize=0 blockincrement=_0.0 possiblevalues="0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90" valuemodel="smartzoom.minangle" onchange='run sc_hscSVZ_TiltDown_OnChange'>
 
 ;!TB - Max Tilt Angle
 	<SPRITE     xxx             template=spr_5a          template=y_4  z=0 >
 	<TEXT       xxx             template=txt_csu_legend  template=y_4  z=1 text="Maximum Tilt Angel">
 	<TEXT       txtSVZ_TiltUp   template=txt_csu_value   template=y_4  z=1 >
 	<TEXT       xxx             template=txt_csu_unit    template=y_4  z=1 text="°">
-	<HSCROLLBAR hscSVZ_TiltUp   template=csuszka_small   template=y_4  z=1 endsize=0 blockincrement=_0.0 possiblevalues="0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90" valuemodel="smartzoom.maxangle" onchange='run sc_hscSVZ_TiltUp_OnChange'>
+	<HSCROLLBAR hscSVZ_TiltUp   template=csuszka         template=y_4  z=1 endsize=0 blockincrement=_0.0 possiblevalues="0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90" valuemodel="smartzoom.maxangle" onchange='run sc_hscSVZ_TiltUp_OnChange'>
 
 ;!Matze - changed template
 	<BUTTON xxx  template=footer3_3a text="Help"       onrelease='NEXTSTATE st_HelpSettingVisualZoom'> 
