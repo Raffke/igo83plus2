@@ -304,6 +304,8 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 		DISTUNIT_TO_FORMATTEDSTR %smartzoom.minzoom txtSVZ_Min3D
 		DISTUNIT_TO_FORMATTEDSTR %smartzoom.maxzoom txtSVZ_Max3D
 
+;!Matze - fixed tiltsettings
+		.smartzoom.maxangle vSaveMaxangle
 ;!TB - Tilt settings
 		txtSVZ_TiltDown.text %smartzoom.minangle
 		txtSVZ_TiltUp.text %smartzoom.maxangle
@@ -330,12 +332,16 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 	vTmp2.SET %smartzoom.maxangle
 	CHECK_MIN_MAX_RULE %smartzoom.minangle vTmp2 0 vTmp
 	runif vTmp 1 '.smartzoom.maxangle vTmp2'
+;!Matze - fixed tiltsettings
+	vSaveMaxangle.set %smartzoom.maxangle
 </script>
 <script sc_hscSVZ_TiltUp_OnChange>
 	txtSVZ_TiltUp.text %smartzoom.maxangle
 	vTmp2.SET %smartzoom.minangle
 	CHECK_MIN_MAX_RULE vTmp2 %smartzoom.maxangle 1 vTmp
 	runif vTmp 1 '.smartzoom.minangle vTmp2'
+;!Matze - fixed tiltsettings
+	vSaveMaxangle.set %smartzoom.maxangle
 </script>
 
 ;****************************************************************************************************************
@@ -811,8 +817,8 @@ import "ui_igo8/common/ui/speedcam_setting.ui"
 
 ;!Raffke_jr - switch HistSpeed usage
 	MODEL_EXISTS "route.histspeed" "vTmp"
-	runif vTmp 1 'btnSR_HistSpeed.enable'
-	else_run 'btnSR_HistSpeed.disable'
+	runif vTmp 1 'btnSR_HistSpeed.show'
+	else_run 'btnSR_HistSpeed.hide'
 
 ;!TB - Commented out, and moved to Advanced Settings
 ;	GET_POSSIBLE_VALUES_DISTANCE vTmp

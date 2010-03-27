@@ -118,8 +118,8 @@
 	<script init>
 		Title.SET "About"
 ;!Raffke_jr - replace WebInfo by skin credits ;-)
-;		txtAbout_WebInfo.text "iGO Plus² Skin  -  (C) 2009 Raffke_jr@gulli.com"
-		vTmp.combined_textmodel "$wstr:screen.theme.list.current.name$  -  (C) 2009 Raffke_jr@gulli.com"
+;		txtAbout_WebInfo.text "iGO Plus² Skin  -  (C) 2010 Raffke_jr@gulli.com"
+		vTmp.combined_textmodel "$wstr:screen.theme.list.current.name$  -  (C) 2010 Raffke_jr@gulli.com"
 		vTmp.dropmodel
 		txtAbout_WebInfo.text vTmp
 	</script>

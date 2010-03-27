@@ -4,9 +4,11 @@
 	<var vNeedTmcRecalc>
 ;!Raffke_jr - removed multiple TMC announcements
 	<var vTMCAudioAnnounceNeeded=1>
-;!Matze - TMC announcement auto update
-	<var vTMCAutoUpdateNeeded=1>
-	<var vTMCAutoUpdateActive=0>
+;!Matze - TMC Audio-Announcement
+	<var vTmcEventID=0>
+	<var vSaveTmcEventID=0>
+	<var vTMCAudioAnnounceInprogress=0>
+	<var vSaveTmcAnnListSize=0>
 </header>
 
 ;!Raffke_jr - TODO: how to use the following:
@@ -80,10 +82,11 @@
 	<uselayer ui_Title/>
 	<uselayer ui_Footer2/>
 	<uselayer ui_TmcEventsList/>
-	
+;!Matze - Night color filter
+	<uselayer ui_NavigateMapnight/>
+
 	<script init>
 		title.set "Traffic events"
-		vTMCAutoUpdateActive.set 1
 		.tmc.events.auto_update 1
 		.tmc.events.split_location_at 40
 		run sc_TMC_ListElementChanged
@@ -96,7 +99,6 @@
 
 	<script done>
 		runif vClearNewMessages 1 'EXEC "tmc.events.set_none_new"'
-		vTMCAutoUpdateActive.set 0
 		.tmc.events.auto_update 0
 	</script>
 </state>
@@ -222,13 +224,18 @@
 ; TMC announcement (not used)
 <script sc_TMC_Announce>
 	ui_TmcAnnounce.hide
+
+;!Matze - added
+	.tmc.events.auto_update 0
+	tmc.events.announced_events.index 0
+	vTmcEventID.set %int:tmc.events.announced_events.current.record_id
+
 	termif %tmc.events.announced_events.isempty 1
 	termif %tmc.ignore_all_events 1
 
 ;!Raffke_jr - removed multiple TMC announcements
 ;!TB - voice announcement
 ;	runifnot vTmcReplanMode "ASK" 'runif vActiveState "st_navigatemap" sc_TMC_Audio_Announce'
-
 ;	termifnot vTmcReplanMode "ASK"
 ;!Matze - script changed
 	runif vTmcReplanMode "AUTO" 'runif vActiveState "st_navigatemap" sc_TMC_Audio_Announce_Start'
@@ -236,56 +243,48 @@
 </script>
 
 ;!TB - voice announcement
+;!Matze - complete script revised
 <script sc_TMC_Audio_Announce_Start>
-;!Matze - removed multiple TMC announcements
-	termif vTMCAudioAnnounceNeeded 0
 	termif vTMCVoiceWarning 0
-	run sc_TMC_Audio_Announce
-	vTMCAudioAnnounceNeeded.set 0
+
+	runif vSaveTmcEventID 0 'run sc_Update_EventID'
+	else_runifnot vTmcEventID vSaveTmcEventID 'run sc_Update_EventID'
+	else_runif vTmcAnnListSize > vSaveTmcAnnListSize 'run sc_Update_ListSize'
 </script>
 
-<observer tmc_announce_obs boolmodel="tmc.events.announced_events.isempty" onchange='vTMCAudioAnnounceNeeded.set 1, 1 run sc_TMC_Announce'>
+;!Matze - removed reset of vTMCAudioAnnounceNeeded
+<observer tmc_announce_obs boolmodel="tmc.events.announced_events.isempty" onchange='run sc_TMC_Announce'>
 
 <script sc_TMC_Announce_Init>
 ;!Raffke_jr - removed multiple TMC announcements (moved to top instead of after showing layer)
 ;!TB - voice announcement
 ;	run sc_TMC_Audio_Announce
 ;!Matze - added
+	runifnot vTmcEventID vSaveTmcEventID 'tmc.events.select_by_id vTmcEventID'
 	runifnot vTMCVoiceWarning 0 sc_TMC_Audio_Announce_Start
-	runifnot vTMCVisualWarning 0 sc_TMC_Announce_Show	
+	runifnot vTMCVisualWarning 0 sc_TMC_Announce_Show
 </script>
 
 
 ;****************************************************************************
 ;!Matze - added new script
 <script sc_TMC_Announce_Show>
-	runif vTMCAutoUpdateNeeded 1 sc_TMC_Auto_Update_Timered
-
 ;!Raffke_jr - changed back to single layer
 	ui_TmcAnnounce.show
+	10 .tmc.events.auto_update 1
 
 	500 run sc_TMC_Announce_Done
 </script>
 
-<script sc_TMC_Auto_Update_Timered>
-	vTMCAutoUpdateNeeded.set 0
-;	vTMCAudioAnnounceNeeded.set 0
-
-;!Raffke_jr - reduced from 5 minutes (15000) to 20 seconds
-	1000 vTMCAutoUpdateNeeded.set 1
-;!Raffke_jr - changed to also refresh tmc.events.announced_events
-;	EXEC "tmc.events.refresh"
-	.tmc.events.auto_update 1
-	runif vTMCAutoUpdateActive 0 '.tmc.events.auto_update 0'
-</script>
-
 <script sc_TMC_Audio_Announce>
+	vTMCAudioAnnounceInprogress.set 1
 	run sc_SetSpeedcamSoundVolume
 
 	5 runif vTMCVoiceWarning 1 'PLAYSOUND "!traffic_jam_ahead"'
 	else_run '.sound.announcer.traffic_jam_ahead'
 
 	run sc_SoundVolumeRestore
+	150 vTMCAudioAnnounceInprogress.Set 0
 </script>
 
 <script sc_TMC_Audio_Announce_Test>
@@ -297,6 +296,40 @@
 
 	run sc_SoundVolumeRestore
 </script>
+
+<script sc_Update_EventID>
+	vSaveTmcEventID.Set vTmcEventID
+	runifnot vTMCAudioAnnounceInprogress 1 'run sc_TMC_Audio_Announce'
+</script>
+
+<script sc_Update_ListSize>
+	vSaveTmcAnnListSize.Set vTmcAnnListSize
+	runifnot vTMCAudioAnnounceInprogress 1 'run sc_TMC_Audio_Announce'
+</script>
+
+<script sc_TmcIgnore>
+	EXEC "tmc.events.list.current.avoid" 1
+	EXEC "tmc.events.unannounce_current"
+	EXEC "tmc.events.refresh"
+	EXEC "tmc.events.list.current.avoid" 0
+	EXEC "tmc.events.refresh"
+	run sc_TmcTakeNextAnnouncement_Timered
+</script>
+
+<script sc_TmcTakeNextAnnouncement_Timered>
+	25 run sc_TmcTakeNextAnnouncement_Check
+</script>
+
+<script sc_TmcTakeNextAnnouncement_Check>
+	runifnot %tmc.events.list.current.on_route 0 'runif %tmc.events.list.current.filter_option 2 sc_TmcTakeNextAnnouncement_Start'
+	else_run sc_TmcTakeNextAnnouncement_Timered
+</script>
+
+<script sc_TmcTakeNextAnnouncement_Start>
+	run  sc_TmcTakeNextAnnouncement
+	run sc_TMC_ListElementChanged
+</script>
+
 ;****************************************************************************
 
 
@@ -345,16 +378,27 @@
 </script>
 
 <script sc_TmcUnavoidAnn>
-	runif %tmc.events.list.index >= 0 sc_TmcUnavoid
-	run sc_TmcTakeNextAnnouncement
+;!Matze - added
+	vTMCUnannounceInprogress.set 1
+;!Raffke_jr - TODO: why to reset filter_offroute here???
+	.tmc.events.filter_offroute 0
+;!Matze - changed script from sc_TmcUnavoid
+	runif %tmc.events.list.index >= 0 sc_TmcIgnore
+
+;!Matze - commented out (replaced to sc_TmcTakeNextAnnouncement_Start)
+;	run sc_TmcTakeNextAnnouncement
 </script>
 
 <script sc_TmcTakeNextAnnouncement>
-	runif %tmc.events.announced_events.isempty 1 'PREVSTATE'
+;!Matze - added vTMCUnannounceInprogress.set 0
+	runif %tmc.events.announced_events.isempty 1 'vTMCUnannounceInprogress.set 0, PREVSTATE'
 	else_run sc_TmcTryNextAnnounce
 </script>
 
 <script sc_TmcTryNextAnnounce>
+;!Matze - added
+	vTMCUnannounceInprogress.set 0
+
 	tmc.events.announced_events.index 0
 	vTmp.set %int:tmc.events.announced_events.current.record_id
 	runif vTmp 0 'PREVSTATE'
@@ -503,11 +547,12 @@
 	<uselayer ui_TMCMap/>
 	<uselayer ui_TMCMapBack/>	
 	<uselayer map/>
-  <uselayer ui_title/>
-	
+	<uselayer ui_title/>
+;!Matze - Night color filter
+	<uselayer ui_NavigateMapnight/>
+
 	<script init>	
 		title.set ""
-		vTMCAutoUpdateActive.set 1
 		.tmc.events.auto_update 1
 		; Map properties
 		run sc_FullScreenMap
@@ -530,7 +575,7 @@
 	<script done>
 ;!Raffke_jr - now restore .tmc.events.filter_offroute when called from announcement
 		runif vTMCMapFromAnnounce 1 'run sc_TmcUpdateCockpitStatus'
-		vTMCAutoUpdateActive.set 0
+
 		.tmc.events.auto_update 0
 		map.EnableMoveCursorByClick 1
 		map.SETCARPOSITION 0 0

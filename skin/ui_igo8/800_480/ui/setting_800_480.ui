@@ -352,16 +352,18 @@ import "ui_igo8/800_480/ui/speedcam_setting_800_480.ui"
 <layer ui_SettingSound z=30>
 ;!Matze - added run sc_CheckWarningVolume
 	<CHECKBOX   xxx          template=chk_5a_csu      template=y_1  text="Master volume" onrelease='playsound "!button", run sc_SetVolumeSlider, run sc_CheckWarningVolume' nosound boolmodel="!sound.os_muted">
-	<HSCROLLBAR xxx          template=csuszka_chk     template=y_1  min=0 max=255 endsize=0 blockincrement=_0.0 value=255 onrelease='run sc_PlayTestSound, run sc_SetVolumeCheckBox' nosound valuemodel="sound.os_volume">
+;!Matze - added enabledmodel
+	<HSCROLLBAR xxx          template=csuszka_chk     template=y_1  min=0 max=255 endsize=0 blockincrement=_0.0 value=255 onrelease='run sc_PlayTestSound, run sc_SetVolumeCheckBox' nosound valuemodel="sound.os_volume" enabledmodel="!sound.os_muted">
 
-	<TEXT       xxx          template=txt_csu_label   template=y_2  text="Voice guidance volume">
-	<SPRITE     xxx          template=spr_5a          template=y_2>
-	<HSCROLLBAR xxx          template=csuszka_small   template=y_2  min=0 max=63 endsize=0 blockincrement=_0.0 value=63 onrelease='voicemodel_playtestvoice' nosound valuemodel="sound.voice_volume">
+;!Matze - removed text and sprite, added checkbox, added enabledmodel
+	<CHECKBOX   xxx          template=chk_5a_csu      template=y_2  text="Voice guidance"  onrelease='playsound "!button"'	nosound boolmodel="!sound.voice_muted" enabledmodel="!sound.os_muted">
+	<HSCROLLBAR xxx          template=csuszka_chk     template=y_2  min=0 max=63 endsize=0 blockincrement=_0.0 value=63 onrelease='voicemodel_playtestvoice' nosound valuemodel="sound.voice_volume" enabledmodel="!sound.os_muted&!sound.voice_muted">
 
+;!Matze - added enabledmodel
 ;!Raffke_jr - changed template to add slider
-	<CHECKBOX   xxx          template=chk_5a_csu      template=y_3  text="Key sound volume" onrelease='playsound "!button"' nosound boolmodel="!sound.sound_muted">
+	<CHECKBOX   xxx          template=chk_5a_csu      template=y_3  text="Key sound volume" onrelease='playsound "!button"' nosound boolmodel="!sound.sound_muted" enabledmodel="!sound.os_muted">
 ;!TB - Added Slider for key volume
-	<HSCROLLBAR xxx	         template=csuszka_chk     template=y_3  min=0 max=63 endsize=0 blockincrement=_0.0 value=63 onrelease='playsound "!click"' nosound valuemodel="sound.sound_volume">
+	<HSCROLLBAR xxx	         template=csuszka_chk     template=y_3  min=0 max=63 endsize=0 blockincrement=_0.0 value=63 onrelease='playsound "!click"' nosound valuemodel="sound.sound_volume" enabledmodel="!sound.os_muted&!sound.sound_muted">
 
 ;!Matze - added onrelease and enabledmodel
 	<CHECKBOX   chk_dynVol   template=chk_5b          template=y_4  text="Dynamic Volume" var=nDynamicVolumeType onrelease='run sc_DynamicVolumeTypeChanged'  enabledmodel="!sound.os_muted">
@@ -370,7 +372,7 @@ import "ui_igo8/800_480/ui/speedcam_setting_800_480.ui"
 
 ;!Raffke_jr - added speedcam warning volume
 ;!Matze - changed visiblemodel to enabledmodel, added names
-	<TEXT       txt_WarningVolume	template=txt_csu_legend  template=y_5  text="Sound warnings Speedcam/TMC" enabledmodel="ui.vSpeedcamSoundType!=0&warning.speedcam_warning&warning.speedcams_allowed|ui.vTMCVoiceWarning!=0">
+	<TEXT       txt_WarningVolume	template=txt_csu_label   template=y_5  text="Sound warnings Speedcam/TMC" enabledmodel="ui.vSpeedcamSoundType!=0&warning.speedcam_warning&warning.speedcams_allowed|ui.vTMCVoiceWarning!=0">
 	<SPRITE     spr_WarningVolume	template=spr_5a          template=y_5   enabledmodel="ui.vSpeedcamSoundType!=0&warning.speedcam_warning&warning.speedcams_allowed|ui.vTMCVoiceWarning!=0">
 	<HSCROLLBAR hsc_WarningVolume	template=csuszka_small   template=y_5  min=0 max=64 endsize=0 blockincrement=_0.0 value=64 onrelease='PLAYSOUND "!alert5"' nosound valuemodel="ui.vSpeedcamAlertVolume" enabledmodel="ui.vSpeedcamSoundType!=0&warning.speedcam_warning&warning.speedcams_allowed|ui.vTMCVoiceWarning!=0">
 
@@ -834,12 +836,12 @@ import "ui_igo8/800_480/ui/speedcam_setting_800_480.ui"
 	<SPRITE xxx bmp="minibg.bmp"  x=48 y=330>
 
 	<TEXT	xxx  template=txt_sld y=258 text="GPS Time (GMT):">
-	<TEXT	xxx  template=txt_sld y=258 align="right" w=704 w=664 text="" textmodel_time="gps.time" formatmodel="local.timeformat" visiblemodel="gps.time.valid" dayperiod=1>
+	<TEXT	xxx  template=txt_sld y=258 align="right" w=664 text="" textmodel_time="gps.time" formatmodel="local.timeformat" visiblemodel="gps.time.valid" dayperiod=1>
 	
 	<TEXT	xxx  template=txt_sld       y=330 text="Local Time:">
 	<TEXT	xxx  template=txt_sld       y=330 align="right" w=664 text="" textmodel_time="gps.current_time" formatmodel="local.timeformat" visiblemodel="gps.current_time.valid" dayperiod=1> 
-
-	<BUTTON xxx  template=footer4_4a text="Help"       onrelease='NEXTSTATE st_HelpSettingTime'> 
+;!Matze - changed template
+	<BUTTON xxx  template=footer3_3a text="Help"       onrelease='NEXTSTATE st_HelpSettingTime'> 
 </LAYER>
 
 <element_template et_TimeZone>

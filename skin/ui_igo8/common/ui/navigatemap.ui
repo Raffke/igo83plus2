@@ -314,6 +314,8 @@
 	<uselayer ui_Title />
 	<uselayer ui_Footer2 />
 	<uselayer ui_Detour />
+;!Matze - Night color filter
+	<uselayer ui_NavigateMapnight/>
 
 	<script init>
 		Title.SET "Detour"
@@ -696,8 +698,8 @@
 <observer obs_OverviewMode_LeaveDistance boolmodel="navigation.distance_to_manuver.value<ui.vNorthUpAutoZoomLeaveDistance" onchange='run sc_dirdist_change'>
 <observer obs_OverviewMode_ZoomDistance boolmodel="navigation.distance_to_manuver.value>ui.vNorthUpAutoZoomDistance" onchange='run sc_dirdist_change'>
   
-<observer obs_OverviewMode_SpeedOff boolmodel="navigation.current_speed.value<ui.vMinOverviewSpeed" onselect='run sc_OverviewMode_Speed_off'>
-<observer obs_OverviewMode_SpeedOn boolmodel="navigation.current_speed.value>ui.vMaxOverviewSpeed" onselect='run sc_OverviewMode_Speed_on'>
+<observer obs_OverviewMode_SpeedOff boolmodel="navigation.current_speed.value<ui.vMinOverviewSpeed" onchange='run sc_speed_change'>
+<observer obs_OverviewMode_SpeedOn boolmodel="navigation.current_speed.value>ui.vMaxOverviewSpeed" onchange='run sc_speed_change'>
 
 	<script sc_advanced_overview_start>
 		obs_OverviewMode_ZoomDistance.start
@@ -747,11 +749,13 @@
 	</script>
 
 	<script sc_dirdist_change>
-		;vCurrentDistanceToEvent.valuemodel "navigation.distance_to_manuver.value"
-		;runif vCurrentDistanceToEvent < vNorthUpAutoZoomLeaveDistance 'run sc_OverviewMode_off'
-		;else_runif vCurrentDistanceToEvent > vNorthUpAutoZoomDistance 'run sc_OverviewMode_on'
 		runif %navigation.distance_to_manuver.value < vNorthUpAutoZoomLeaveDistance 'run sc_OverviewMode_off'
 		else_runif %navigation.distance_to_manuver.value > vNorthUpAutoZoomDistance 'run sc_OverviewMode_on'
+	</script>
+
+	<script sc_speed_change>
+		runif %navigation.current_speed.value < vMinOverviewSpeed 'run sc_OverviewMode_Speed_off'
+		else_runif %navigation.current_speed.value > vMaxOverviewSpeed 'run sc_OverviewMode_Speed_on'
 	</script>
 
 	<script sc_check_speed>
@@ -812,7 +816,7 @@
 	else_run sc_ChangeNormalScreenMode
 
 ;!Matze - added for advanced overview settings
-	runif vMapNorthUpOnAutoZoom 1	'25 runif vSaveOverviewMode1 1 sc_check_speed'
+	runif vMapNorthUpOnAutoZoom 1	'5 runif vSaveOverviewMode1 1 sc_check_speed'
 ;!TB - reinitialize LaneInfo
 	run sc_LaneInfoReInit
 </script>
@@ -1487,8 +1491,8 @@
 
 <script sc_OverviewModeChanged>
 ;!Matze - added 'run sc_check_speed'
-	runif vOverviewMode 1 'run sc_EnterOverview, 25 run sc_check_speed'
-	else_run 'run sc_ExitOverview, 25 run sc_check_speed'
+	runif vOverviewMode 1 'run sc_EnterOverview, 10 run sc_check_speed'
+	else_run 'run sc_ExitOverview, 10 run sc_check_speed'
 
 ;!TB - reset saved mode variable
 	vSaveMapMode.set L""

@@ -145,7 +145,7 @@
 	
 	<BUTTON xxx template=prevpage clickmodel="ui.lstFPFQS.prevpage" enabledmodel="ui.lstFPFQS.prevpage.valid" template=slow_repeat>
 	<BUTTON xxx template=nextpage clickmodel="ui.lstFPFQS.nextpage" enabledmodel="ui.lstFPFQS.nextpage.valid" template=slow_repeat>
-;!Matze - changed template
+;!Matze - changed template from footer4_2a
 	<BUTTON btnFPFQS_Sort template=footer2_1a iconspr="icof_bydistance.bmp#3" onlongclick='run sc_show_btn_help "By Distance"' onrelease='run sc_POIFlatSortQS'>
 
 	<TEXT   xxx template=txt_empty  y=125 text="<No items>" visiblemodel="poi.flat_search.list.isempty">

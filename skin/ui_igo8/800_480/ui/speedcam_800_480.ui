@@ -13,9 +13,9 @@
 	
 	<BUTTON	btnSC_Dir    template=xtxt4     x=480 y=70 w=120 z=0         bmp="speedcam_bg.bmp#2" text="Camera\nDirection" valign="BOTTOM-10" clicked_coloring=1>
 	<SPRITE sprSC_Dir    x=560  y=120 z=1 bmp="direct.spr">
-	
-	<BUTTON btnSC_Delete template=footer4_3a             z=0         text="Delete" onrelease='run sc_btnSC_Delete_OnRelease'>
-	<BUTTON xxx          template=footer4_4a             z=0         text="Ok" onrelease='run sc_SpeedCamOK'>
+;!Matze - changed templates
+	<BUTTON btnSC_Delete template=footer2_1a             z=0         text="Delete" onrelease='run sc_btnSC_Delete_OnRelease'>
+	<BUTTON xxx          template=footer2_2a             z=0         text="Ok" onrelease='run sc_SpeedCamOK'>
 </layer>
 
 <layer ui_SpeedCamType z=30>

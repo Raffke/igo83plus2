@@ -36,6 +36,9 @@
 	<var vTMCVoiceWarning=1 registermodel permanent>
 ;!Matze - new variable for TMC visual warning
 	<var vTMCVisualWarning=1 registermodel permanent>
+	<var vTmcAnnListSize>
+	<var vTMCUnannounceInprogress=0 registermodel>
+
 	<var vPanelOpen=0>
 	<var vBTCustom=0 registermodel>
 	<var vPhoneApp="">

@@ -202,7 +202,7 @@
 ;!TB - Get BT/Phone mode and app
 		run sc_PhoneBTInit
 
-;!Raffke_jr - Verify Becker settings
+;!Raffke_jr - verify Becker settings
 		     runif bBeckerOEM 0 ''
 		else_runif bBeckerQuicklist 0 'INITMESSAGEBOX 0 "Incompatible program settings - RECENT PLACES will not be available and possible crash the application."'
 ;!Raffke_jr - "Smart" start state: "1"=always, "0"=never, default "2"=if_route_set

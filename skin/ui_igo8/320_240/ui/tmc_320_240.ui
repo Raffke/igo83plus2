@@ -224,7 +224,8 @@
 <layer ui_TMCMap z=3000>
 	<SPRITE xxx x=3 y=1 z=10  bmp="btn_lb_4a_tmcevent.bmp">
 	<LIST list_tmc_1line template=tlist y=2 row=1 element_template="et_TmcEvent_map" listmodel="tmc.events.list"  SHOWSELECTION=1 KEEPSELECTIONONSCREEN=1>
-	<TEXT xxx   x=265 y=5  w=45  z=99  align="RIGHT" fontsize=12  font="tahomabd" fixedwidthnumbers=1 fonttype=bw textmodel_wstr="ui.list_tmc_1line.page_counter">
+;!Raffke_jr - added visiblemodel
+	<TEXT xxx   x=265 y=5  w=45  z=99  align="RIGHT" fontsize=12  font="tahomabd" fixedwidthnumbers=1 fonttype=bw textmodel_wstr="ui.list_tmc_1line.page_counter" visiblemodel="ui.vTMCUnannounceInprogress">
 
 ;!Raffke_jr - removed visiblemodel "!ui.vTMCMapFromAnnounce"
 	<BUTTON xxx          template=prevpage clickmodel="ui.list_tmc_1line.prevpage" enabledmodel="ui.list_tmc_1line.prevpage.valid" onrelease='run sc_TMC_go_to_current_loc'>
@@ -256,6 +257,8 @@
 	<BUTTON xxx template=backa onrelease='PREVSTATE' onlongclick='run sc_GoTo_MainMenu' visiblemodel="ui.vTMCMapFromAnnounce">
 ;!Matze - added button
 	<BUTTON xxx template=backa z=10 onrelease='PREVSTATE' clickmodel="tmc.events.list.setcurrent 0" onlongclick='run sc_GoTo_MainMenu' visiblemodel="!ui.vTMCMapFromAnnounce">
+;!Matze - added 
+	<SPRITE sprWait bmp="nightglass.bmp" z=20 alpha=20 visiblemodel="ui.vTMCUnannounceInprogress">
 </layer>
 
 ; **** Clear Channel ****

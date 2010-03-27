@@ -354,16 +354,19 @@ import "ui_igo8/240_320/ui/speedcam_setting_240_320.ui"
 ;!Matze - added run sc_CheckWarningVolume
 	<CHECKBOX   xxx          template=chk_5a   template=y_1  text="Master volume" onrelease='playsound "!button", run sc_SetVolumeSlider, run sc_CheckWarningVolume' nosound boolmodel="!sound.os_muted">
 	<SPRITE     xxx          template=spr_poti template=y_1>
-	<HSCROLLBAR xxx	         template=csuszka  template=y_1b  min=0 max=255 endsize=0 blockincrement=_0.0 value=255 onrelease='run sc_PlayTestSound, run sc_SetVolumeCheckBox' nosound valuemodel="sound.os_volume">
+;!Matze - added enabledmodel
+	<HSCROLLBAR xxx	         template=csuszka  template=y_1b  min=0 max=255 endsize=0 blockincrement=_0.0 value=255 onrelease='run sc_PlayTestSound, run sc_SetVolumeCheckBox' nosound valuemodel="sound.os_volume" enabledmodel="!sound.os_muted">
 
-	<TEXT       xxx          template=txt_poti template=y_3  text="Voice guidance volume">
-	<SPRITE     xxx          template=spr_poti template=y_3>
-	<HSCROLLBAR xxx          template=csuszka  template=y_3b min=0 max=63 endsize=0 blockincrement=_0.0 value=63 onrelease='voicemodel_playtestvoice' nosound valuemodel="sound.voice_volume">
+;!Matze - changed from text to checkbox, added enabledmodel
+	<CHECKBOX	xxx	template=chk_5a    template=y_3  text="Voice guidance" onrelease='playsound "!button"' nosound boolmodel="!sound.voice_muted" enabledmodel="!sound.os_muted">
+	<SPRITE		xxx	template=spr_poti  template=y_3>
+	<HSCROLLBAR	xxx	template=csuszka   template=y_3b  min=0 max=63 endsize=0 blockincrement=_0.0 value=63 onrelease='voicemodel_playtestvoice' nosound valuemodel="sound.voice_volume" enabledmodel="!sound.os_muted&!sound.voice_muted">
 
-	<CHECKBOX   xxx          template=chk_5a   template=y_5  text="Key sound volume" onrelease='playsound "!button"' nosound boolmodel="!sound.sound_muted">
+;!Matze - added enabledmodel
+	<CHECKBOX   xxx          template=chk_5a   template=y_5  text="Key sound volume" onrelease='playsound "!button"' nosound boolmodel="!sound.sound_muted" enabledmodel="!sound.os_muted">
 ;!Raffke_jr - added Slider for key volume
 	<SPRITE     xxx          template=spr_poti template=y_5>
-	<HSCROLLBAR xxx	         template=csuszka  template=y_5b min=0 max=63 endsize=0 blockincrement=_0.0 value=63 onrelease='playsound "!click"' nosound valuemodel="sound.sound_volume">
+	<HSCROLLBAR xxx	         template=csuszka  template=y_5b min=0 max=63 endsize=0 blockincrement=_0.0 value=63 onrelease='playsound "!click"' nosound valuemodel="sound.sound_volume" enabledmodel="!sound.os_muted&!sound.sound_muted">
 
 ;!Matze - moved to ui_SettingsSoundDynamicVolumeSpeed
 ;	<CHECKBOX  chk_dynVol    template=chk_5b   template=y_7  text="Dynamic Volume" var=nDynamicVolumeType>
