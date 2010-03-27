@@ -78,9 +78,10 @@
 	map.ZOOMCONTROL_TEXTOFFSET 14
 	map.ZOOMCONTROL_BARHEIGHT 6
 	map.ZOOMCONTROL_TICKHEIGHT -2
+;!Raffke_jr - TODO: currently no repositioning without NextStreet in portrait modes
 ;!TB - fullscreen cockpit
-	termif vFullScreenCockpit 0 sc_init_zoomcontrol_browsemap
-	runif vFullScreenNextStreet 0 'map.ZOOMCONTROL_Y -14'
+;	termif vFullScreenCockpit 0 sc_init_zoomcontrol_browsemap
+;	runif vFullScreenNextStreet 0 'map.ZOOMCONTROL_Y -14'
 </script>
 
 <script sc_init_zoomcontrol_planmode>
@@ -181,8 +182,8 @@
 <script sc_laneinfo_pos_3D>
 ;!TB - Added 2 LaneInfo sprites
 	runif vLaneInfo 0 'sprLaneInfo100.y -100, sprLaneInfo150.y -100, sprLaneInfo200.y -100, sprLaneInfoSignpost.y -1000'
-	runif vLaneInfo 1 'sprLaneInfo100.y 94,   sprLaneInfo150.y 94,   sprLaneInfo200.y 94,   sprLaneInfoSignpost.y 89'
-	runif vLaneInfo 2 'sprLaneInfo100.y 279,  sprLaneInfo150.y 269,  sprLaneInfo200.y 259,  sprLaneInfoSignpost.y 89'
+	runif vLaneInfo 1 'sprLaneInfo100.y 94,   sprLaneInfo150.y 94,   sprLaneInfo200.y 94,   sprLaneInfoSignpost.y 20'
+	runif vLaneInfo 2 'sprLaneInfo100.y 279,  sprLaneInfo150.y 269,  sprLaneInfo200.y 259,  sprLaneInfoSignpost.y 20'
 
 ;!Raffke_jr - hide (since 8.3.1) un-detachable Sprites
 	run sc_laneinfo_HideInvalidSizes
@@ -194,8 +195,8 @@
 <script sc_laneinfo_pos_2D>
 ;!TB - Added 2 LaneInfo sprites
 	runif vLaneInfo 0 'sprLaneInfo100.y -100, sprLaneInfo150.y -100, sprLaneInfo200.y -100, sprLaneInfoSignpost.y -1000'
-	runif vLaneInfo 1 'sprLaneInfo100.y 117,  sprLaneInfo150.y 117,  sprLaneInfo200.y 117,  sprLaneInfoSignpost.y 89'
-	runif vLaneInfo 2 'sprLaneInfo100.y 279,  sprLaneInfo150.y 269,  sprLaneInfo200.y 259,  sprLaneInfoSignpost.y 89'
+	runif vLaneInfo 1 'sprLaneInfo100.y 117,  sprLaneInfo150.y 117,  sprLaneInfo200.y 117,  sprLaneInfoSignpost.y 20'
+	runif vLaneInfo 2 'sprLaneInfo100.y 279,  sprLaneInfo150.y 269,  sprLaneInfo200.y 259,  sprLaneInfoSignpost.y 20'
 
 ;!Raffke_jr - hide (since 8.3.1) un-detachable Sprites
 	run sc_laneinfo_HideInvalidSizes

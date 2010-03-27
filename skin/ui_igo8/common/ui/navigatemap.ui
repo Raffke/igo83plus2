@@ -42,6 +42,15 @@
 	nextstate ExitState
 </script>
 
+<script sc_RestartButton_Execute>
+	ui_Panic_MessageBox.hide
+	GETSYSENTRY "utilitypath" "utility" "\SDMMC\IGO8\utility\utility.exe" vTmp
+	GETSYSENTRY "utilityrestart" "utility" "-" vTmp2
+	runifnot vTmp2 "-" 'START_APPLICATION vTmp vTmp2'
+	runifnot vTmp2 "-" 'nextstate ExitState'
+	else_run 'APP_RESTART'
+</script>
+
 ;****************************************************************************************************************
 ;!Raffke_jr - Visual settings btnCS_Mode_Cockpit/onlongclick
 ;****************************************************************************************************************

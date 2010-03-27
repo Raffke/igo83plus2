@@ -231,7 +231,7 @@
 
 ;!Raffke_jr - added enabledmodel "tmc.events.list.index>=0" to all buttons (in case of recalculation)
 ;!Raffke_jr - replaced visiblemodel "!ui.vTMCMapFromAnnounce" by "tmc.events.filter_offroute!=1"
-	<BUTTON xxx          template=footer2_1a text="Avoid" onrelease='run sc_TmcAvoid' visiblemodel="tmc.events.list.current.filter_option!=1&!tmc.ignore_all_events&tmc.events.filter_offroute!=1" enabledmodel="tmc.events.list.index>=0">
+	<BUTTON xxx          template=footer2_1a text="" iconspr="icof_tmc_avoid.bmp" onrelease='run sc_TmcAvoid' visiblemodel="tmc.events.list.current.filter_option!=1&!tmc.ignore_all_events&tmc.events.filter_offroute!=1" enabledmodel="tmc.events.list.index>=0">
 ;!Raffke_jr - removed visiblemodel "!ui.vTMCMapFromAnnounce" (always show unavoid, if already avoided)
 	<BUTTON xxx          template=footer2_1a text="" iconspr="icof_tmc_unavoid.bmp" z=10 onlongclick='run sc_show_btn_help "Unavoid"' onrelease='run sc_TmcUnavoid' visiblemodel="tmc.events.list.current.filter_option=1&!tmc.ignore_all_events" enabledmodel="tmc.events.list.index>=0">
 

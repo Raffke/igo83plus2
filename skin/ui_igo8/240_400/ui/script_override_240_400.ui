@@ -1,3 +1,4 @@
+;!MIO in Arbeit
 ;****************************************************************************************************************
 ; Overriden scripts
 ;****************************************************************************************************************
@@ -42,6 +43,6 @@
 
 <script sc_ScreenCalibrate override>
 ;!Raffke_jr - removed reposition
-;  runif %power.backlight_supported 1 'btn_screen_calibtare.y 129'
-;  else_run 'btn_screen_calibtare.y 57'
+;	runif %power.backlight_supported 1 'btn_screen_calibtare.y 129'
+;	else_run 'btn_screen_calibtare.y 57'
 </script>
