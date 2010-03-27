@@ -17,7 +17,7 @@
 	<var vFullScreenNextStreet=1 registermodel permanent>
 	<var vFullScreenStatus=1 registermodel permanent>
 ;!Raffke_jr - changed default field from "Speed" (8)  to  "Altitude" (11)
-;             field numbers from: navigatemap.ui / <script sc_NMS_Changed>
+;             field numbers from: navigatemap.ui / sc_NMS_Changed
 	<var CockpitField1Cruise="11" permanent>
 	<var CockpitField2Cruise="12" permanent>
 	<var CockpitField3Cruise="10" permanent>
@@ -45,11 +45,14 @@
 ;!Raffke_jr - new variables
 	<var vCockpitAlpha=0 registermodel permanent>
 	<var vShutdownTime=10 registermodel permanent>
+	<var bShowCompleteOff=0 registermodel>
+	<var bRestoreAutoOn=1 registermodel>
 	<var bShowMinimize=-1 registermodel permanent>
 ;!Raffke_jr - new bool expressions to workaround FFUI limitations
 	<var bHouseNumbersVisible registermodel>
 	<var bGPSSateliteVisible registermodel>
 ;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
+	<var bBeckerOEM registermodel>
 	<var bBeckerQuicklist registermodel>
 	<var bHistoryIsEmpty registermodel>
 ;!Raffke_jr - switch HistSpeed usage
@@ -120,6 +123,8 @@ import "ui_igo8/common/ui/speedcam_advanced.ui"
 ;!Raffke_jr - new bool expressions to workaround FFUI limitations
 	bHouseNumbersVisible.BOOLEXPR "map.cursorpos.lefthousenumber.valid|map.cursorpos.righthousenumber.valid"
 	bGPSSateliteVisible.BOOLEXPR "!navigation.car_pos_valid&gps.connection_status<3"
+;!Raffke_jr - differ between normal and Becker EXE
+	MODEL_EXISTS "other.becker" "bBeckerOEM"
 ;!Raffke_jr - differ between "mydata.history" and "other.becker.quicklist"
 	MODEL_EXISTS "other.becker.quicklist" "bBeckerQuicklist"
 	runif bBeckerQuicklist 1 'bHistoryIsEmpty.boolmodel "other.becker.quicklist.list.isempty"'

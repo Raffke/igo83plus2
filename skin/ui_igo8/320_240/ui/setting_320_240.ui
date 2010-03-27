@@ -274,15 +274,35 @@ import "ui_igo8/320_240/ui/speedcam_setting_320_240.ui"
 ;****************************************************************************************************************
 
 <layer ui_SettingVisualOverview z=30>
-	<TEXT       xxx           template=txt_csu_legend  y=21 text="Turn Distance for Overview Mode:">
-	<HSCROLLBAR hscSVO_Dist   template=csuszka_small   y=21 endsize=0 blockincrement=_0.0 onchange='run sc_hscSVO_Dist_OnChange'>
-	<TEXT       txtSVO_Dist   template=txt_csu_valunit y=21 text="20">
-	<SPRITE     xxx           template=spr_5a          y=21>
+;!Matze - changed y
+	<TEXT       xxx           template=txt_csu_legend  template=y_2 text="Distance for Overview Mode:">
+	<HSCROLLBAR hscSVO_Dist   template=csuszka_small   template=y_2 endsize=0 blockincrement=_0.0 onchange='run sc_hscSVO_Dist_OnChange'>
+	<TEXT       txtSVO_Dist   template=txt_csu_valunit template=y_2 text="20">
+	<SPRITE     xxx           template=spr_5a          template=y_2 >
 	
-	<TEXT       xxx           template=txt_csu_legend  y=57 text="Overview Zoom Level:">
-	<HSCROLLBAR hscSVO_Level  template=csuszka_small   y=57 endsize=0 blockincrement=_0.0 onchange='run sc_hscSVO_Level_OnChange'>
-	<TEXT       txtSVO_Level  template=txt_csu_valunit y=57 text="20">
-	<SPRITE     xxx           template=spr_5a          y=57>
+	<TEXT       xxx           template=txt_csu_legend  template=y_1 text="Overview Zoom Level:">
+	<HSCROLLBAR hscSVO_Level  template=csuszka_small   template=y_1 endsize=0 blockincrement=_0.0 onchange='run sc_hscSVO_Level_OnChange'>
+	<TEXT       txtSVO_Level  template=txt_csu_valunit template=y_1 text="20">
+	<SPRITE     xxx           template=spr_5a          template=y_1 >
+
+;!Matze - added template to control distance for leave overview mode
+	<TEXT       xxx           	template=txt_csu_legend  template=y_3 text="Distance for End Overview Mode:">
+	<HSCROLLBAR hscSVO_Dist_leave   template=csuszka_small   template=y_3 endsize=0 blockincrement=_0.0 onchange='run sc_hscSVO_Dist_leave_OnChange'>
+	<TEXT       txtSVO_Dist_leave   template=txt_csu_valunit template=y_3 text="20">
+	<SPRITE     xxx           	template=spr_5a          template=y_3 >
+
+;!Matze - added templates to control speed for enter/leave overview mode
+	<TEXT	    xxx                  template=txt_csu_legend  template=y_4 text="Enter Overview if speed >" >
+	<TEXT       txtSSD_MaxOVSpdValue template=txt_csu_value   template=y_4 >
+	<TEXT       txtSSD_MaxOVSpdUnit  template=txt_csu_unit    template=y_4 text="km/h">
+	<HSCROLLBAR hscSSD_MaxOVSpd      template=csuszka_small   template=y_4 possiblevalues="0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200" endsize=0 blockincrement=_0.0 value=60 onchange='run sc_hscSSD_MaxOVSpd_OnChange'>
+	<SPRITE     xxx                  template=spr_5a          template=y_4 >
+
+	<TEXT	    xxx                  template=txt_csu_legend  template=y_5 text="Leave Overview if speed <" >
+	<TEXT       txtSSD_MinOVSpdValue template=txt_csu_value   template=y_5 >
+	<TEXT       txtSSD_MinOVSpdUnit  template=txt_csu_unit    template=y_5 text="km/h">
+	<HSCROLLBAR hscSSD_MinOVSpd      template=csuszka_small   template=y_5 possiblevalues="0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200" endsize=0 blockincrement=_0.0 value=60 onchange='run sc_hscSSD_MinOVSpd_OnChange'>
+	<SPRITE     xxx                  template=spr_5a          template=y_5 >
 
 	<BUTTON xxx  template=footer3_3a text="Help" onrelease='NEXTSTATE st_HelpSettingVisualOverview'> 
 </layer>

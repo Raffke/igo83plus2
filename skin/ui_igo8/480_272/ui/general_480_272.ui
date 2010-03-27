@@ -86,7 +86,7 @@
 	<TEXT   txtPMB_Msg      x=130  y=60  z=31  w=280 h=90 text="For this you need to restart iGO." valign="CENTER" align="LEFT" FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=18 wordwrap=3>
 
 	<BUTTON btnPMB_Panic    template=dialog3_1    text="Panic"   onrelease='run sc_PanicButton_Execute'> 
-	<BUTTON btnPMB_Restart  template=dialog3_2    text="Restart" onrelease='APP_RESTART'>
+	<BUTTON btnPMB_Restart  template=dialog3_2    text="Restart" onrelease='run sc_RestartButton_Execute'>
 	<BUTTON btnPMB_Cancel   template=dialog3_3    text="Cancel"  onrelease='ui_Panic_MessageBox.hide' rawkey=27>
 </layer>
 
@@ -96,7 +96,11 @@
 	<SPRITE spr_sdtmsg_bg x=0 y=0 z=1 bmp="ui_igo8/480_272/default.bmp">	
 
 	<TEXT	xxx		 x=130	y=60  z=31	w=280 h=90 textmodel_wstr="power.shutdown_timer_text" valign="CENTER" align="LEFT" FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=18 wordwrap=3>
-	<BUTTON xxx		template=dialog3_2	text="Cancel"  FONTTYPE=bw clicked_dy=1	 clicked_coloring=1 onrelease='run sc_CancelShutdown' rawkey=13> 
+;!Raffke_jr - add support to completely turn off Becker devices, added visiblemodel and added two buttons below
+;!Raffke_jr - Note: as this only seems to work on Becker hardware, it is only present on 480x272!
+	<BUTTON xxx		template=dialog3_2	text="Cancel"  FONTTYPE=bw clicked_dy=1	 clicked_coloring=1 onrelease='run sc_CancelShutdown' visiblemodel="!ui.bShowCompleteOff" rawkey=13> 
+	<BUTTON xxx		template=dialog2_1	text="Complete off"  FONTTYPE=bw clicked_dy=1	 clicked_coloring=1 onrelease='run sc_PowerButtonPressed_CompleteOff' visiblemodel='ui.bShowCompleteOff'> 
+	<BUTTON xxx		template=dialog2_2	text="Cancel"  FONTTYPE=bw clicked_dy=1	 clicked_coloring=1 onrelease='run sc_CancelShutdown' visiblemodel="ui.bShowCompleteOff" rawkey=13> 
 </layer>
 
 ;!Matze - additional dimming in night mode

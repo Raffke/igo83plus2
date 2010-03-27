@@ -100,7 +100,6 @@
 </element_template>
 
 <LAYER ui_RouteEdit z=30>
-
 	<LIST lstRE_WayPoints template=tlist element_template="et_RE_WayPoint" showselection=1 listmodel="navigation.waypoints.list">
 
 	<BUTTON xxx bmp="moveup.bmp#3"        x=427 y=20   clickmodel="navigation.waypoints.moveup_current"     enabledmodel="navigation.waypoints.moveup_current.valid">

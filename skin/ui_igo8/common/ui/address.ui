@@ -129,18 +129,28 @@
 	RUNIF vTmp 0 'btnFA_HOUSE.DISABLE'
 </script>
 
+;!Raffke_jr - switch city/postcode mode for Becker builds
+<script sc_SwitchCityZip>
+	termif bBeckerOEM 0 sc_SwitchCityZip
+;Raffke_jr - cycle vZipMode
+	runif vZipMode 0 'vZipMode.set 1'
+	else_run 'vZipMode.set 0'
+	run sc_Update_AllCity_Button
+</script>
+
 ;!Raffke_jr - Helper question for Becker builds
-<script sc_AskSwitchCityZip>
-	INITMESSAGEBOX 2 "Do you want to enter the Postal Code instead of the city name?" 'vZipMode.SET 1, NEXTSTATE st_FindAddressCity' 'vZipMode.SET 0, NEXTSTATE st_FindAddressCity'
-;!Raffke_jr - TRICKY: need to write NEXTSTATE after vZipMode.SET - otherwise the state is entered BEFORE the variable is actually been set!
+<script sc_Update_AllCity_Button>
+	runif vZipMode 0 'inpFACi_City.emptytitle "<enter cityname filter>", btnFACi_AllCity.text "-> Zipcode"'
+	else_run 'inpFACi_City.emptytitle "<city name filter>", btnFACi_AllCity.text "-> Cityname"'
+	BECKER_FINDADDRESSMODELCITYZIPMODE vZipMode
+
+;!Raffke_jr - finally update available buttons on panel
+	map.ADDRESSCHANGECITYZIP inpFACi_City lbFACR_CityResult
 </script>
 
 <script sc_GetCityMain>
 	inpFACi_City.VALUE ""
-
-;!Raffke_jr - re-use existing bBeckerQuicklist to identify Becker builds
-	runif bBeckerQuicklist 1 sc_AskSwitchCityZip
-	else_run 'NEXTSTATE st_FindAddressCity'
+	NEXTSTATE st_FindAddressCity
 </script>
 
 <script sc_GetStreetMain>
@@ -292,13 +302,14 @@
 		runif vTmp L"" sc_ShowAllCityButton
 
 ;!Raffke_jr - Helper for Becker builds
-		runif bBeckerQuicklist 1 'lbFACR_CityResult.DROPMODEL'
+		runif bBeckerOEM 1 'run sc_Prepare_FAC_Becker'
 
 		map.ATTACHFINDADDRESSMODELCITYZIP lbFACR_CityResult Title
-;!Raffke_jr - Helper for Becker builds
-		runif bBeckerQuicklist 1 'BECKER_FINDADDRESSMODELCITYZIPMODE vZipMode'
 
-		map.ADDRESSCHANGECITYZIP inpFACi_City lbFACR_CityResult
+;!Raffke_jr - Helper for Becker builds
+		runif bBeckerOEM 1 'run sc_Update_AllCity_Button'
+		else_run 'map.ADDRESSCHANGECITYZIP inpFACi_City lbFACR_CityResult'
+
 		CHECKFINDRESULTCOUNT lbFACR_CityResult vResultReady vResultCount vResultCountNum
 		CHECKFINDFILTER inpFACi_City vResultReady
 		runif	 vResultCountNum 0 'txtFACi_NumberOf.SET ""'
@@ -307,9 +318,17 @@
 		inpFACi_City.SYNCKBPANEL
 	</script>
 
+	<script sc_Prepare_FAC_Becker>
+		lbFACR_CityResult.DROPMODEL
+		; convert AllCity button to switch city/postcode mode
+		btnFACi_AllCity.onrelease 'run sc_SwitchCityZip'
+		btnFACi_AllCity.onlongclick 'run sc_SwitchCityZip_OnLongClick'
+		btnFACi_AllCity.noreleaseonlongclick
+	</script>
+
 	<script done>
 ;!Raffke_jr - Helper for Becker builds
-		runif bBeckerQuicklist 1 'BECKER_FINDADDRESSMODELCITYZIPMODE 0'
+;		runif bBeckerOEM 1 'BECKER_FINDADDRESSMODELCITYZIPMODE 0'
 
 		KEY "RETURN"
 		local.keyboard.on_close_panel
@@ -319,6 +338,15 @@
 <script sc_ShowAllCityButton>
 	ISAUSTRALIANSTATE vSelectedCountryCode vTmp
 	runif vTmp 1 'btnFACi_AllCity.SHOW'
+;!Raffke_jr - helper button for Becker builds
+	else_runif bBeckerOEM 1 'btnFACi_AllCity.SHOW'
+</script>
+
+;!Raffke_jr - helper button for Becker builds
+<script sc_SwitchCityZip_OnLongClick>
+	ISAUSTRALIANSTATE vSelectedCountryCode vTmp
+	runif vTmp 1 'run sc_SelectAllCityInState'
+	else_run 'run sc_FindAddressCityOK 0'
 </script>
 
 <script sc_FindAddressCityOKNoDelay>

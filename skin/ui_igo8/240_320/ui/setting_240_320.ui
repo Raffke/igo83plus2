@@ -314,6 +314,7 @@ import "ui_igo8/240_320/ui/speedcam_setting_240_320.ui"
 	<TEXT       xxx				template=txt_sld_5		template=y_5_5	template=only_white	text="Leave Overview if speed <">
 	<HSCROLLBAR hscSSD_MinOVSpd		template=csuszka_5		template=y_5_5a	possiblevalues="0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200" endsize=0 blockincrement=_0.0 value=60 onchange='run sc_hscSSD_MinOVSpd_OnChange'>
 	<TEXT       txtSSD_MinOVSpdValue	template=txt_csu_value_5	template=y_5_5	template=only_white>
+	<TEXT       txtSSD_MinOVSpdUnit		template=txt_csu_unit_5		template=y_5_5	template=only_white	text="km/h">
 
 	<BUTTON xxx  template=footer3_3a text="" iconspr="icof_help.bmp"  onlongclick='run sc_show_btn_help "Help"' onrelease='NEXTSTATE st_HelpSettingVisualOverview'> 
 </layer>

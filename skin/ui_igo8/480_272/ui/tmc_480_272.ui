@@ -220,8 +220,8 @@
 ;!Raffke_jr - TODO: TMC try to display additional time (currently always invalid)
 ;8.0.0: additional_time, additional_time_in_seconds, additional_distance
 ;8.3.1: spare_time, spare_time_in_seconds, spare_distance
-;	<TEXT	xxx x=175 y=9      w=70  z=1 textmodel_timespan="*.spare_time"           template=xtxt align="RIGHT" fonttype=bw fontsize=12 visiblemodel="*.spare_time.valid">
-;	<TEXT	xxx x=250 y=9      w=70  z=1 textmodel_wstr="*.spare_distance.full_text" template=xtxt align="RIGHT" fonttype=bw fontsize=12 visiblemodel="*.spare_distance.valid">
+;	<TEXT	xxx x=175 y=9      w=70  z=2 textmodel_timespan="*.spare_time"           template=xtxt align="RIGHT" fonttype=bw fontsize=12 visiblemodel="*.spare_time.valid">
+;	<TEXT	xxx x=250 y=9      w=70  z=2 textmodel_wstr="*.spare_distance.full_text" template=xtxt align="RIGHT" fonttype=bw fontsize=12 visiblemodel="*.spare_distance.valid">
 ;!Raffke_jr - added TMCpro indicator
 	<SPRITE xxx x=325 y=9 z=3 bmp="$icon_tmc_pro.bmp" visiblemodel="*.is_pay_tmc & *.service_provider_id=3378 | *.is_pay_tmc & *.service_provider_id=306">
 </element_template>
@@ -236,7 +236,8 @@
 	<BUTTON xxx          template=nextpage clickmodel="ui.list_tmc_1line.nextpage" enabledmodel="ui.list_tmc_1line.nextpage.valid" onrelease='run sc_TMC_go_to_current_loc'>
 
 ;!Raffke_jr - added enabledmodel "tmc.events.list.index>=0" to all buttons (in case of recalculation)
-	<BUTTON xxx          template=footer2_1a text="Avoid" onrelease='run sc_TmcAvoid' visiblemodel="tmc.events.list.current.filter_option!=1&!tmc.ignore_all_events&!ui.vTMCMapFromAnnounce" enabledmodel="tmc.events.list.index>=0">
+;!Raffke_jr - replaced visiblemodel "!ui.vTMCMapFromAnnounce" by "tmc.events.filter_offroute!=1"
+	<BUTTON xxx          template=footer2_1a text="Avoid" onrelease='run sc_TmcAvoid' visiblemodel="tmc.events.list.current.filter_option!=1&!tmc.ignore_all_events&tmc.events.filter_offroute!=1" enabledmodel="tmc.events.list.index>=0">
 ;!Raffke_jr - removed visiblemodel "!ui.vTMCMapFromAnnounce" (always show unavoid, if already avoided)
 	<BUTTON xxx          template=footer2_1a text="Unavoid" onrelease='run sc_TmcUnavoid' visiblemodel="tmc.events.list.current.filter_option=1&!tmc.ignore_all_events" enabledmodel="tmc.events.list.index>=0">
 

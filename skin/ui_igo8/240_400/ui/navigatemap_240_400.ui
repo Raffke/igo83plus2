@@ -160,7 +160,8 @@ import "ui_igo8/240_400/ui/navigate_speed_240_400.ui"
 
 <layer ui_NavigateMapSingpost z=5100 visiblemodel="!map.globe_mode">
 ;!Matze - moved up by 7px
-	<SPRITE sprLaneInfoSignpost x=0 y=98 w=240 z=400 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.vPresetOn">
+;!Raffke_jr - resized LaneInfo according SebDK
+	<SPRITE sprLaneInfoSignpost x=50 y=20 w=190 z=400 align="CENTER" visiblemodel="map.follow&navigation.car_pos_valid&!ui.vPresetOn">
 </layer>
 
 <layer ui_NavigateMapCursorPosInfos z=51>

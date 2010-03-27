@@ -170,6 +170,15 @@
 		GETSYSENTRY "minimize_button" "debug" 0 vMinimize
 ;!Raffke_jr - New variable for Auto-Standby setting
 		GETSYSENTRY "shutdown_time" "interface" vShutdownTime vShutdownTime
+;!Raffke_jr - TODO: Add setting to hide CompleteOff for Non-Becker devices and to avoid setting to AutoOn
+		     runif bBeckerOEM 1 'bShowCompleteOff.set 1, bRestoreAutoOn.set 1'
+		else_run 'bShowCompleteOff.set 0, bRestoreAutoOn.set 0'
+;!Raffke_jr - Reset AutoOn for Becker devices
+		     runif vShutdownTime 0 ''
+		else_runif bRestoreAutoOn 1 '.other.becker.power_wakeup_ac_power 1'
+
+;!Raffke_jr - enable voice announcements (if previously disabled by Becker skin in SYSTEM.INI)
+		sound.announcer.muted 0
 
 ;!Raffke_jr - enable minimize button on PNA (set device default on first start)
 ;!Raffke_jr - TODO: 8.3.2 consolidate with vMinimize ?!
@@ -192,6 +201,10 @@
 
 ;!TB - Get BT/Phone mode and app
 		run sc_PhoneBTInit
+
+;!Raffke_jr - Verify Becker settings
+		     runif bBeckerOEM 0 ''
+		else_runif bBeckerQuicklist 0 'INITMESSAGEBOX 0 "Incompatible program settings - RECENT PLACES will not be available and possible crash the application."'
 ;!Raffke_jr - "Smart" start state: "1"=always, "0"=never, default "2"=if_route_set
 		GETSYSENTRY "smart_start" "plusplus" 2 vTmp
 		     runif vTmp 1 'vTmp.SET 1'
@@ -567,6 +580,24 @@
 	</script>
 </state>
 
+;!Raffke_jr - add support for Becker power button
+<observer obs_PowerButton boolmodel="other.becker.power_button_state" onselect='run sc_HandlePowerButton' start>
+<script sc_HandlePowerButton>
+	TERMIF %other.becker.power_button_state 0
+	.other.becker.power_button_state 0
+	;runif vActiveState "st_fullscreenvideo" 'PREVSTATE'
+	;NEXTSTATE st_PowerButtonPressed
+	runif bRestoreAutoOn 1 '.other.becker.power_wakeup_ac_power 1'
+	.power.set_shutdown_timer vShutdownTime
+	ui_ShutdownTimer.show
+</script>
+
+;!Raffke_jr - add support to completely turn off Becker devices
+<script sc_PowerButtonPressed_CompleteOff>
+	SAVESETTINGS
+	EXEC "other.becker.power_off_set"
+</script>
+
 <script sc_CancelShutdown>
 	.power.cancel_shutdown
 	ui_ShutdownTimer.hide
@@ -581,6 +612,7 @@
 </script>
 
 <script sc_shutdown_timer>
+	runif bRestoreAutoOn 1 '.other.becker.power_wakeup_ac_power 1'
 ;!Raffke_jr - New variable for Auto-Standby setting
 	runif vOnBattery 1 '.power.set_shutdown_timer vShutdownTime, ui_ShutdownTimer.show'
 	else_run sc_CancelShutdown

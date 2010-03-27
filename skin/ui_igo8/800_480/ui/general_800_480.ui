@@ -86,7 +86,7 @@
 	<TEXT   txtPMB_Msg      x=217  y=70  z=31  w=480 h=200 text="For this you need to restart iGO." valign="CENTER" align="LEFT" FONTTYPE=buttonlabel1 color=#FFFFFF fontsize=32 wordwrap=3>
 
 	<BUTTON btnPMB_Panic    template=dialog3_1    text="Panic"   onrelease='run sc_PanicButton_Execute'> 
-	<BUTTON btnPMB_Restart  template=dialog3_2    text="Restart" onrelease='APP_RESTART'>
+	<BUTTON btnPMB_Restart  template=dialog3_2    text="Restart" onrelease='run sc_RestartButton_Execute'>
 	<BUTTON btnPMB_Cancel   template=dialog3_3    text="Cancel"  onrelease='ui_Panic_MessageBox.hide' rawkey=27>
 </layer>
 
