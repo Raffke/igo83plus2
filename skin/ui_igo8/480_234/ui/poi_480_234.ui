@@ -139,7 +139,8 @@
 	
 	<BUTTON xxx template=prevpage clickmodel="ui.lstFPFQS.prevpage" enabledmodel="ui.lstFPFQS.prevpage.valid" template=slow_repeat>
 	<BUTTON xxx template=nextpage clickmodel="ui.lstFPFQS.nextpage" enabledmodel="ui.lstFPFQS.nextpage.valid" template=slow_repeat>
-	<BUTTON btnFPFQS_Sort template=footer4_2a onrelease='run sc_POIFlatSortQS'>
+;!Matze - changed template from footer4_2a
+	<BUTTON btnFPFQS_Sort template=footer2_1a onrelease='run sc_POIFlatSortQS'>
 
 	<TEXT   xxx template=txt_empty text="<No items>" visiblemodel="poi.flat_search.list.isempty">
 	<SPRITE xxx template=spr_empty visiblemodel="poi.flat_search.list.isempty">

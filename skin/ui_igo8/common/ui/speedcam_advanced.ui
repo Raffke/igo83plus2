@@ -90,9 +90,10 @@
     <var vSpeedcamMuteAlertSound=0>
     <var vSpeedcamNoSound=0>
 
-    <var vSoundVolumeBackup=64>
-    <var vSoundVolumeBackupCount=0>
-    <var vSoundMutedBackup=0>
+;!Matze - changed default from 64 to -1 (fix sound volume restore)
+    <var vSoundVolumeBackup=-1>
+;!Matze - changed default from 0 to -1 (fix sound volume restore)
+    <var vSoundMutedBackup=-1>
 
     <var tmpSpeedcamAlertSound registermodel>
     <var tmpSpeedcamAlertInterval registermodel>
@@ -147,13 +148,23 @@ import "ui_igo8/common/ui/speedcam_voice.ui"
 </script>
 
 <script sc_SoundVolumeBackup>
-  runif vSoundVolumeBackupCount 0 'vSoundVolumeBackup.Set %sound.sound_volume, vSoundMutedBackup.Set %sound.sound_muted'
-  INCVAL "vSoundVolumeBackupCount" 1
+;!Matze - commented out (fix sound volume restore)
+;  runif vSoundVolumeBackupCount 0 'vSoundVolumeBackup.Set %sound.sound_volume, vSoundMutedBackup.Set %sound.sound_muted'
+;  INCVAL "vSoundVolumeBackupCount" 1
+;!Matze - added (fix sound volume restore)
+  runif vSoundVolumeBackup -1 'vSoundVolumeBackup.Set %sound.sound_volume'
+  runif vSoundMutedBackup -1 'vSoundMutedBackup.Set %sound.sound_muted'
 </script>
 
 <script sc_SoundVolumeRestore>
-  runif vSoundVolumeBackupCount > 0 'DECVAL "vSoundVolumeBackupCount" 1'
-  runif vSoundVolumeBackupCount 0 '.sound.sound_muted vSoundMutedBackup, .sound.sound_volume vSoundVolumeBackup'
+;!Matze - commented out (fix sound volume restore)
+;  runif vSoundVolumeBackupCount > 0 'DECVAL "vSoundVolumeBackupCount" 1'
+;  runif vSoundVolumeBackupCount 0 '.sound.sound_muted vSoundMutedBackup, .sound.sound_volume vSoundVolumeBackup'
+;!Matze - added (fix sound volume restore)
+  runifnot vSoundMutedBackup -1	'.sound.sound_muted vSoundMutedBackup'
+  runifnot vSoundVolumeBackup -1	'.sound.sound_volume vSoundVolumeBackup'
+  vSoundVolumeBackup.set -1
+  vSoundMutedBackup.set -1
 </script>
 
 <script sc_SpeedcamAlertTestSound>

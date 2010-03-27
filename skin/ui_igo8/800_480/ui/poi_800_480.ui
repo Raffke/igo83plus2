@@ -20,8 +20,8 @@
 	<BUTTON btnFP_Dest      template=menu6_5 fxshowdelay=16   iconspr="ico_findpoi_destination.bmp" text="Around\nDestination"  onrelease='run sc_StartPOISearchAroundDestination'>
 	<BUTTON btnFP_Cursor    template=menu4_2 fxshowdelay=6    iconspr="ico_findpoi_cursor.bmp"      text="Around Cursor"        onrelease='run sc_StartPointOnMap'> 
 	<BUTTON btnFP_Route     template=menu6_6 fxshowdelay=11   iconspr="ico_findpoi_route.bmp"       text="Along Route"          onrelease='run sc_StartPOISearchAlongCursor'> 
-                                                               
-	<BUTTON btnFP_QSearch   template=footer4_4 fxshowdelay=15 iconspr="" ICONALIGN="LEFT+12" ICONVALIGN="CENTER" text="Saved\nSearch"        onrelease='nextstate st_POIQuickSearch'> 
+;!Raffke_jr - changed template from footer4_4, removed iconspr/iconalign/iconvalign
+	<BUTTON btnFP_QSearch   template=footer2_2 fxshowdelay=15 text="Saved\nSearch"        onrelease='nextstate st_POIQuickSearch'> 
 </layer>
 
 ;****************************************************************************************************************
@@ -145,7 +145,8 @@
 	
 	<BUTTON xxx template=prevpage clickmodel="ui.lstFPFQS.prevpage" enabledmodel="ui.lstFPFQS.prevpage.valid" template=slow_repeat>
 	<BUTTON xxx template=nextpage clickmodel="ui.lstFPFQS.nextpage" enabledmodel="ui.lstFPFQS.nextpage.valid" template=slow_repeat>
-	<BUTTON btnFPFQS_Sort template=footer4_2a onrelease='run sc_POIFlatSortQS'>
+;!Matze - changed template from footer4_2a
+	<BUTTON btnFPFQS_Sort template=footer2_1a onrelease='run sc_POIFlatSortQS'>
 
 	<TEXT   xxx template=txt_empty text="<No items>" visiblemodel="poi.flat_search.list.isempty">
 	<SPRITE xxx               template=spr_empty visiblemodel="poi.flat_search.list.isempty">

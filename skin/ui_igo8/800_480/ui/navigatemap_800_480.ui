@@ -585,8 +585,8 @@ import "ui_igo8/800_480/ui/navigate_speed_800_480.ui"
 	<BUTTON btn_CSBTPH template=footer3_1a text="BT & Phone" visiblemodel="other.bluetooth.available&other.phone.available" onrelease='EXEC "other.bluetooth.show_manager"'>
 ;!TB - Custom bluetooth button
 	<BUTTON btn_CSBT2  template=footer3_1a text="Bluetooth"  visiblemodel="!other.bluetooth.available&!other.phone.available&ui.vBTCustom" onrelease='START_APPLICATION vPhoneApp vPhoneAppSwitch'>
-
-	<HSCROLLBAR xxx	template=csuszka bmp="fable_scrollbg_cockpit.spr" x=220 y=35 min=0 max=255 endsize=18 blockincrement=_0.0 value=255 onrelease='run sc_PlayTestSound, run sc_SetVolumeCheckBox' nosound valuemodel="sound.os_volume">
+;!Matze - added enabledmodel
+	<HSCROLLBAR xxx	template=csuszka bmp="fable_scrollbg_cockpit.spr" x=220 y=35 min=0 max=255 endsize=18 blockincrement=_0.0 value=255 onrelease='run sc_PlayTestSound, run sc_SetVolumeCheckBox' nosound valuemodel="sound.os_volume" enabledmodel="!sound.os_muted">
 
 	<CHECKBOX   statusSound   template=chk_5a x=152 y=130  z=10 bmp="quick_sound.bmp#2" onrelease='playsound "!button", run sc_SetVolumeSlider,run sc_TimeredPrevState' nosound boolmodel="!sound.os_muted" onlongclick='NEXTSTATE st_SettingSound' noreleaseonlongclick>
 
@@ -681,11 +681,21 @@ import "ui_igo8/800_480/ui/navigate_speed_800_480.ui"
 
 
 <script sc_SignPostZoomOn>
-	run 'map.SETCARPOSITION 50 80, .smartzoom.addconsttilt 8, .smartzoom.maxangle 88, .smartzoom.percentage 110'
+;!Matze - changed .SETCARPOSITION 
+	runif vFullScreenCockpit 0 'map.SETCARPOSITION 58 78, .smartzoom.addconsttilt 18, .smartzoom.maxangle 88, .smartzoom.percentage 160'
+	else_run 'map.SETCARPOSITION 50 78, .smartzoom.addconsttilt 18, .smartzoom.maxangle 88, .smartzoom.percentage 160'
 </script>
 
 <script sc_SignPostZoomOff>
-	run 'map.SETCARPOSITION 50 75, .smartzoom.addconsttilt 0, .smartzoom.maxangle %smartzoom.maxangle_default, .smartzoom.percentage 100'
+;	run 'map.SETCARPOSITION 50 75, .smartzoom.addconsttilt 0, .smartzoom.maxangle %smartzoom.maxangle_default, .smartzoom.percentage 100'
+;!Matze - fixed tiltsettings
+	runif      vSaveMaxangle = 75 'vAddconsttilt.SET 2'
+	else_runif vSaveMaxangle = 80 'vAddconsttilt.SET 4'
+	else_runif vSaveMaxangle = 85 'vAddconsttilt.SET 5'
+	else_runif vSaveMaxangle = 90 'vAddconsttilt.SET 6'
+	else_run 'vAddconsttilt.SET 0'
+
+	run 'run sc_Car_Pos1, .smartzoom.addconsttilt vAddconsttilt, .smartzoom.maxangle vSaveMaxangle, .smartzoom.percentage 100'
 </script>
 
 

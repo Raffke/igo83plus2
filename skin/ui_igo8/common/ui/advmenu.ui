@@ -46,7 +46,8 @@
 	else_runifnot vtmp 0 'term sc_btnAFM_Home_OnRelease'
 	run sc_stopflyover
 	EXEC "mydata.favorites.gotopos"
-	runif $1 1 'run sc_RouteToNoPM, run sc_btnPM_StartNavigation'
+;!Matze - added delay
+	runif $1 1 'run sc_RouteToNoPM, 10 run sc_btnPM_StartNavigation'
 	else_run sc_et_FindFavorite_OnRelease
 </script>
 ;****************************************************************************************************************

@@ -416,7 +416,7 @@ import "ui_igo8/400_240/ui/navigate_speed_400_240.ui"
 	<SPRITE xxx x=117  y=28  z=10 zoom=512 iconindex=2 iconmodel="navigation.direction_icon" visiblemodel="navigation.direction_icon.valid">
 	<SPRITE xxx x=126  y=37  z=10 zoom=512 iconindex=1 iconmodel="navigation.exit_icon" visiblemodel="navigation.exit_icon.valid">
 
-	<TEXT xxx template=xtxt x=150  y=30 z=10 w=50 h=30 font="tahomabd" glowsize=1 fontsize=18 color=#FFFFFF color2=#000000 align="RIGHT" w=35 textmodel_wstr="navigation.distance_to_manuver.number_text" visiblemodel="navigation.distance_to_manuver.valid">
+	<TEXT xxx template=xtxt x=150  y=30 z=10 w=35 h=30 font="tahomabd" glowsize=1 fontsize=18 color=#FFFFFF color2=#000000 align="RIGHT" textmodel_wstr="navigation.distance_to_manuver.number_text" visiblemodel="navigation.distance_to_manuver.valid">
 	<TEXT xxx template=xtxt x=188  y=33 z=10 w=20 h=30 font="tahomabd" glowsize=1 fontsize=10 color=#FFFFFF color2=#000000 align="LEFT"  textmodel_wstr="navigation.distance_to_manuver.unit_text" visiblemodel="navigation.distance_to_manuver.valid">
 </layer>
 
@@ -569,8 +569,8 @@ import "ui_igo8/400_240/ui/navigate_speed_400_240.ui"
 	<BUTTON btn_CSBTPH template=footer3_1a text="BT & Phone" visiblemodel="other.bluetooth.available&other.phone.available" onrelease='EXEC "other.bluetooth.show_manager"'>
 ;!TB - Custom bluetooth button
 	<BUTTON btn_CSBT2  template=footer3_1a text="Bluetooth"  visiblemodel="!other.bluetooth.available&!other.phone.available&ui.vBTCustom" onrelease='START_APPLICATION vPhoneApp vPhoneAppSwitch'>
-
-	<HSCROLLBAR xxx template=csuszka x=89 y=20 bmp="$fable_scrollbg_cockpit.spr" min=0 max=255 endsize=0 blockincrement=_0.0 value=255 onrelease='run sc_PlayTestSound, run sc_SetVolumeCheckBox' nosound valuemodel="sound.os_volume">
+;!Matze - added enabledmodel
+	<HSCROLLBAR xxx template=csuszka x=89 y=20 bmp="$fable_scrollbg_cockpit.spr" min=0 max=255 endsize=0 blockincrement=_0.0 value=255 onrelease='run sc_PlayTestSound, run sc_SetVolumeCheckBox' nosound valuemodel="sound.os_volume" enabledmodel="!sound.os_muted">
 
 	<CHECKBOX statusSound  template=chk_5a x=87  y=61  z=10  bmp="quick_sound.bmp#2"   onrelease='playsound "!button", run sc_SetVolumeSlider,run sc_TimeredPrevState' nosound boolmodel="!sound.os_muted" onlongclick='NEXTSTATE st_SettingSound' noreleaseonlongclick>
 
@@ -664,11 +664,21 @@ import "ui_igo8/400_240/ui/navigate_speed_400_240.ui"
 
 
 <script sc_SignPostZoomOn>
-	run 'map.SETCARPOSITION 50 80, .smartzoom.addconsttilt 11, .smartzoom.maxangle 88, .smartzoom.percentage 160'
+;!Matze - changed .SETCARPOSITION 
+	runif vFullScreenCockpit 0 'map.SETCARPOSITION 58 78, .smartzoom.addconsttilt 18, .smartzoom.maxangle 88, .smartzoom.percentage 160'
+	else_run 'map.SETCARPOSITION 50 78, .smartzoom.addconsttilt 18, .smartzoom.maxangle 88, .smartzoom.percentage 160'
 </script>
 
 <script sc_SignPostZoomOff>
-	run 'map.SETCARPOSITION 50 75, .smartzoom.addconsttilt 0, .smartzoom.maxangle %smartzoom.maxangle_default, .smartzoom.percentage 100'
+;	run 'map.SETCARPOSITION 50 75, .smartzoom.addconsttilt 0, .smartzoom.maxangle %smartzoom.maxangle_default, .smartzoom.percentage 100'
+;!Matze - fixed tiltsettings
+	runif      vSaveMaxangle = 75 'vAddconsttilt.SET 2'
+	else_runif vSaveMaxangle = 80 'vAddconsttilt.SET 4'
+	else_runif vSaveMaxangle = 85 'vAddconsttilt.SET 5'
+	else_runif vSaveMaxangle = 90 'vAddconsttilt.SET 6'
+	else_run 'vAddconsttilt.SET 0'
+
+	run 'run sc_Car_Pos1, .smartzoom.addconsttilt vAddconsttilt, .smartzoom.maxangle vSaveMaxangle, .smartzoom.percentage 100'
 </script>
 
 

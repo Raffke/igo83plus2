@@ -27,7 +27,7 @@
 	<script init>
 		Title.SET "Lane Information"
 ;!Matze - new Script
-    		run sc_change_laneinfo
+		run sc_change_laneinfo
 	</script>
 </state>
 

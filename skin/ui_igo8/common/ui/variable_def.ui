@@ -127,7 +127,8 @@
 	<var vcf_bAutoFollowModeOn_save=1  permanent>
 	<var vAutoOrientation registermodel>
 	<var vUIRes>
-	<var vAutoRecalc=1>
+;!Matze - added registermodel
+	<var vAutoRecalc=1 registermodel>
 	<var vTrackColor>
 
 	<var vRecalcOffByStartPoint=0 permanent>
@@ -141,7 +142,8 @@
 	<var Vpoiinfo=0>
 	<var bTripComputerWarned=0 permanent>
 	<var vSettingsActPage=0>
-	<var vMultiRouteCalculate=0>
+;!Matze - added registermodel
+	<var vMultiRouteCalculate=0 registermodel>
 	<var nPlaceForPos=0>
 	<var vChangePoiGroup_backup=0>
 	<var vPoiSearch=0>
@@ -203,10 +205,9 @@
 	<var vGetUpdates registermodel>  
  	<var vDiriconVisible=0 registermodel>
 
-;!Raffke_jr - TODO: are these really used???
-;	<var vZoomLevelInNavigate=-1 permanent>
-;	<var vZoomLevelInMap=-1 permanent>
-;	<var vTiltInNavigate=-1 permanent>
+;!Matze - fix smartzoom tiltsettings
+	<var vSaveMaxangle=80 permanent>
+	<var vAddconsttilt>
 ;!Matze - multiroute
 	<var nRMTmp>
 	<var vMRDraw1=1 registermodel permanent>
