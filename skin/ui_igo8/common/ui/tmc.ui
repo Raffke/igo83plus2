@@ -155,9 +155,6 @@
 
 ;!Matze - new script
 <script sc_check_warning>
-; (only uncommented to implement "cycling" later)
-;	runif vTmcReplanMode "AUTO"  'sld_tmc_voicewarn.enable, txt_tmc_voicewarn.enable, sld_tmc_VisualWarn.disable, txt_tmc_VisualWarn.disable'
-;	else_run 'sld_tmc_voicewarn.enable, txt_tmc_voicewarn.enable, sld_tmc_VisualWarn.enable, txt_tmc_VisualWarn.enable'
 	runif vTmcReplanMode "AUTO"  'sld_tmc_voicewarn.enable, txt_tmc_voicewarn.enable, chk_VisualWarning.disable'
 	else_run 'sld_tmc_voicewarn.enable, txt_tmc_voicewarn.enable, chk_VisualWarning.enable'
 </script>

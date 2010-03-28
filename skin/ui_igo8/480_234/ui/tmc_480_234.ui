@@ -85,11 +85,7 @@
 	<SLIDER sld_tmc_sortevents  template=sld_5a      template=y_3 var=vTmcSortMode   value="Distance|0|Type|1|Road name|2" onselect=''>	
 	<TEXT   xxx  template=txt_sld                    template=y_3 text="Sort events by:" watchstate=sld_tmc_sortevents>
 
-;!Raffke_jr - removed: !Matze - added for visual announcement
-; (only uncommented to implement "cycling" later)
 	<CHECKBOX chk_VisualWarning  template=chk_5a  template=y_4  text="Visual warning:" boolmodel="ui.vTMCVisualWarning">
-;	<SLIDER sld_tmc_VisualWarn	template=sld_5a 	template=y_4	var=vTMCVisualWarning	value="Off|0|Nearest Event|1|Latest Event|2">
-;	<TEXT   txt_tmc_VisualWarn	template=txt_sld	template=y_4	text="Visual warning:"	watchstate=sld_tmc_VisualWarn>
 
 ;!TB - voice announcement
 ;!Matze - replaced chk by a slider for more options

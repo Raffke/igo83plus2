@@ -485,39 +485,42 @@ import "ui_igo8/240_400/ui/speedcam_setting_240_400.ui"
 ;!Raffke_jr - new checkbox to switch histspeed
 	<CHECKBOX btnSR_HistSpeed      template=chk_5a        template=y_7  text="Use traffic patterns" boolmodel="route.histspeed.enabled">
  
+;!Raffke_jr - separate layer for route correctness
+	<BUTTON xxx  template=footer3_1a text="Calculation Algorithm"  onlongclick='run sc_show_btn_help "Calculation algorithm"'  onrelease='NEXTSTATE st_SettingRouteAlgorithm'>
 ;!TB MR - Button for Route Advanced Settings
-	<BUTTON xxx  template=footer1_1a    text="Advanced Settings" onrelease='NEXTSTATE st_SettingRouteAdvanced'>
-    
-    <BUTTON xxx                    template=footer3_3a                            text="" iconspr="icof_help.bmp"  onlongclick='run sc_show_btn_help "Help"'  onrelease='NEXTSTATE st_HelpSettingRoute'> 
+	<BUTTON xxx  template=footer3_2a text="Advanced Settings"  onlongclick='run sc_show_btn_help "Advanced Settings"'  onrelease='NEXTSTATE st_SettingRouteAdvanced'>
+	<BUTTON xxx                    template=footer3_3a                            text="" iconspr="icof_help.bmp"  onlongclick='run sc_show_btn_help "Help"'  onrelease='NEXTSTATE st_HelpSettingRoute'> 
 </layer>
 
-;!TB - New Layer Advanced Route Options
-;!Matze - fitted to portrait
-<layer ui_SettingRouteAdvanced z=35>
+;!Raffke_jr - Calculation Correctness Settings
+<layer ui_SettingRouteAlgorithm z=35>
 	<SPRITE     xxx           template=spr_poti		template=y_1	z=0>
 	<TEXT       xxx           template=txt_csu_legend	template=y_1	template=only_white	text="Algorithm:">
 	<TEXT       xxx           template=txt_csu2_left	template=y_1b	template=only_white	text="Fast">
 	<TEXT       xxx           template=txt_csu2_right	template=y_1b	template=only_white	text="Correct">
 	<HSCROLLBAR hscSR_Correct template=csuszka_2txt         template=y_1b	min=20 max=100 endsize=0 blockincrement=_0.0 valuemodel="route.correctness">
+</layer>
 
-
-	<CHECKBOX btnSR_Uturn     template=chk_5a           y=108  text="U-turn" boolmodel="route.allow_uturn">
+;!TB - New Layer Advanced Route Options
+;!Matze - fitted to portrait
+<layer ui_SettingRouteAdvanced z=35>
+	<CHECKBOX btnSR_Uturn     template=chk_5a		template=y_1	text="U-turn" boolmodel="route.allow_uturn">
 
 ;!Matze - added enabledmodel
+	<SPRITE     xxx           template=spr_poti_5		template=y_2_5	z=0>
+	<TEXT       xxx           template=txt_csu_legend_5	template=y_2_5	template=only_white	z=1 text="U-turn penalty:" enabledmodel="route.allow_uturn">
+	<TEXT       txtSR_UTurn   template=txt_csu_valunit_5	template=y_2_5	template=only_white	z=1 enabledmodel="route.allow_uturn">
+	<HSCROLLBAR hscSR_UTurn   template=csuszka_5		template=y_2_5a	z=1 onchange='run sc_hscSR_UTurn_OnChange' enabledmodel="route.allow_uturn">
+
 	<SPRITE     xxx           template=spr_poti_5		template=y_3_5	z=0>
-	<TEXT       xxx           template=txt_csu_legend_5	template=y_3_5	template=only_white	z=1 text="U-turn penalty:" enabledmodel="route.allow_uturn">
-	<TEXT       txtSR_UTurn   template=txt_csu_valunit_5	template=y_3_5	template=only_white	z=1 enabledmodel="route.allow_uturn">
-	<HSCROLLBAR hscSR_UTurn   template=csuszka_5		template=y_3_5a	z=1 onchange='run sc_hscSR_UTurn_OnChange' enabledmodel="route.allow_uturn">
+	<TEXT       xxx           template=txt_csu_legend_5	template=y_3_5	template=only_white	z=1 text="Starting opposite direction:">
+	<TEXT       txtSR_UTurn2  template=txt_csu_valunit_5	template=y_3_5	template=only_white	z=1>
+	<HSCROLLBAR hscSR_UTurn2  template=csuszka_5		template=y_3_5a	template=only_white	z=1 onchange='run sc_hscSR_UTurn2_OnChange'>
 
 	<SPRITE     xxx           template=spr_poti_5		template=y_4_5	z=0>
-	<TEXT       xxx           template=txt_csu_legend_5	template=y_4_5	template=only_white	z=1 text="Starting opposite direction:">
-	<TEXT       txtSR_UTurn2  template=txt_csu_valunit_5	template=y_4_5	template=only_white	z=1>
-	<HSCROLLBAR hscSR_UTurn2  template=csuszka_5		template=y_4_5a	template=only_white	z=1 onchange='run sc_hscSR_UTurn2_OnChange'>
-
-	<SPRITE     xxx           template=spr_poti_5		template=y_5_5	z=0>
-	<TEXT       xxx           template=txt_csu_legend_5	template=y_5_5	template=only_white	z=1 text="U-turn at viapoint:">
-	<TEXT       txtSR_UTurn3  template=txt_csu_valunit_5	template=y_5_5	template=only_white	z=1>
-	<HSCROLLBAR hscSR_UTurn3  template=csuszka_5		template=y_5_5a	z=1 onchange='run sc_hscSR_UTurn3_OnChange'>
+	<TEXT       xxx           template=txt_csu_legend_5	template=y_4_5	template=only_white	z=1 text="U-turn at viapoint:">
+	<TEXT       txtSR_UTurn3  template=txt_csu_valunit_5	template=y_4_5	template=only_white	z=1>
+	<HSCROLLBAR hscSR_UTurn3  template=csuszka_5		template=y_4_5a	z=1 onchange='run sc_hscSR_UTurn3_OnChange'>
 </layer>
 
 ;!Raffke_jr - applied new templates

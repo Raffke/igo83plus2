@@ -76,6 +76,32 @@
 </script>
 
 ;****************************************************************************************************************
+;!Raffke_jr - Calculation Correctness Settings
+;****************************************************************************************************************
+
+<state st_SettingRouteAlgorithm>
+	<uselayer ui_Header2/>
+	<uselayer ui_Background/>
+	<uselayer ui_Title/>
+	<uselayer ui_Footer2/>
+	<uselayer ui_SettingRouteAlgorithm/>
+
+	<script init>
+		Title.SET "Calculation Algorithm"
+	</script>
+
+;!Raffke_jr - moved from init script
+	<script enter>
+		saved_nCorrectness.set nCorrectness
+	</script>
+  
+;!Raffke_jr - renamed script from "done"
+	<script exit>
+		runifnot saved_nCorrectness nCorrectness 'ADVNAV_RECALC'
+	</script>
+</state>
+
+;****************************************************************************************************************
 ; Advanced Routing Settings
 ;****************************************************************************************************************
 
@@ -110,13 +136,11 @@
 		saved_vUturn_penalty2.SET vUturn_penalty2
 		saved_vUturn_penalty3.SET vUturn_penalty3
 		saved_bUTurn.set bUTurn
-		saved_nCorrectness.set nCorrectness
 	</script>
   
 ;!Raffke_jr - renamed script from "done"
 	<script exit>
 		vTmp.SET 0
-		runifnot saved_nCorrectness nCorrectness 'vTmp.SET 1'
 		runifnot saved_bUTurn bUTurn 'vTmp.set 1'
 		runifnot saved_vUturn_penalty1 vUturn_penalty1 'vTmp.SET 1'
 		runifnot saved_vUturn_penalty2 vUturn_penalty2 'vTmp.SET 1'

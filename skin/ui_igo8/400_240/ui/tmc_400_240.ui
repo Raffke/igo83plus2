@@ -105,11 +105,7 @@
 	<SLIDER sld_tmc_voicewarn  template=sld_5a      template=y_4 var=vTMCVoiceWarning   value="Off|0|Warning sound|1|Voice warning|2" onselect=''>	
 	<TEXT   txt_tmc_voicewarn  template=txt_sld	template=y_4 text="Sound warning" watchstate=sld_tmc_voicewarn>
 
-;!Raffke_jr - removed: !Matze - added for visual announcement
-; (only uncommented to implement "cycling" later)
 	<CHECKBOX chk_VisualWarning  template=chk_5a  template=y_5  text="Visual warning:" boolmodel="ui.vTMCVisualWarning">
-;	<SLIDER sld_tmc_VisualWarn	template=sld_5a 	template=y_5	var=vTMCVisualWarning	value="Off|0|Nearest Event|1|Latest Event|2">	
-;	<TEXT   txt_tmc_VisualWarn	template=txt_sld	template=y_5	text="Visual warning:"	watchstate=sld_tmc_VisualWarn>
 
 ;!Matze - button added
 	<BUTTON xxx	template=footer1_1a    text="Stations" onrelease='NEXTSTATE st_TmcParams' enabledmodel="tmc.present">

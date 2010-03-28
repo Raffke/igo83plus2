@@ -99,7 +99,7 @@
 
 	<BUTTON btnMR_shortp  template=btn_4a                 y=70  text="Short" fontsize=14 font="tahomabd" valign="top+12" onrelease='run sc_SelectMultiplanRoute 1'>
 	<SPRITE sprMPRoute2   template=spr_multi              y=98>
-	<TEXT txtMPDist2label template=txt_multi_label        y=74  text="Distance:" watchstate=btnMR_shortp">
+	<TEXT txtMPDist2label template=txt_multi_label        y=74  text="Distance:" watchstate=btnMR_shortp>
 	<TEXT txtMPDist2      template=txt_multi_value        y=72  textmodel_wstr="route.multiplan2.dist.number_text" watchstate=btnMR_shortp visiblemodel="route.multiplan2.dist.valid">
 	<TEXT txtMPDist2Unit  template=txt_multi_unit         y=74  textmodel_wstr="route.multiplan2.dist.unit_text" watchstate=btnMR_shortp visiblemodel="route.multiplan2.dist.valid">
 	<ALIGNER xxx          template=aligner_multi                control=txtMPDist2label padding=5 control=txtMPDist2 padding=3 control=txtMPDist2Unit>
