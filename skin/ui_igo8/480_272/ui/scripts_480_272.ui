@@ -244,9 +244,7 @@
 	btnNMC_Find_normal.x 12
 	sprNMB_GPSWarn.x -1
 	sprNMINextStreetBG.x 90
-;8.0	sprNMINextStreetName.x 103
 	sprNMINextStreetName.x 98
-;8.0	sprNMINextStreetName.w 347
 	sprNMINextStreetName.w 368
 
 	ui_Lock_Onmap.y 0

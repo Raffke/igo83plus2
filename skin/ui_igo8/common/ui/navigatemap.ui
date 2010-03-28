@@ -1810,12 +1810,9 @@
 		vMapSettings2d3d.set "2D"
 		map.VIEW2D3D vMapSettings2d3d
 		map.EnableMoveCursorByClick 1
-;8.0:		map.SETCARPOSITION 50 50
-;8.0:		map.CENTERCURSOR
 		map.CENTERCURSOR 50 50
 		map.SHOWCURSOR 1
 
-;8.0:		map.select_cursor "cursor_places"
 		runif vUIres "800_480" 'map.select_cursor "cursor_places_big"'
 		else_runif vUIres "480_800" 'map.select_cursor "cursor_places_big"'
 		else_run 'map.select_cursor "cursor_places"'
@@ -1828,7 +1825,6 @@
 
 	<script done>
 		vStateMode.set vPrevStateMode
-;8.0:		map.select_cursor "cursor"
 		runif vUIRes "800_480" 'map.select_cursor "cursor_big"'
 		else_runif vUIRes "480_800" 'map.select_cursor "cursor_big"'
 		else_run 'map.select_cursor "cursor"'

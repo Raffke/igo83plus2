@@ -458,40 +458,43 @@ import "ui_igo8/480_234/ui/speedcam_setting_480_234.ui"
 ;	<HSCROLLBAR hscSR_UTurn                         x=80  y=93  bmp="ui_igo8/common/fable_scrollbg.spr"  onchange='run sc_hscSR_UTurn_OnChange' hide>
 ;	<TEXT txtSR_UTurn             template=xtxt     x=270 y=93  align="RIGHT" hide>
 
+;!Raffke_jr - separate layer for route correctness
+	<BUTTON xxx  template=footer3_1a text="Calculation Algorithm" onrelease='NEXTSTATE st_SettingRouteAlgorithm'>
 ;!TB MR - Button for Route Advanced Settings
-	<BUTTON xxx  template=footer1_1a    text="Advanced Settings" onrelease='NEXTSTATE st_SettingRouteAdvanced'>
-;!Matze - changed template
-	<BUTTON xxx  template=footer4_4a    text="Help" onrelease='NEXTSTATE st_HelpSettingRoute'> 
+	<BUTTON xxx  template=footer3_2a text="Advanced Settings" onrelease='NEXTSTATE st_SettingRouteAdvanced'>
+;!Raffke_jr - changed template
+	<BUTTON xxx  template=footer3_3a text="Help" onrelease='NEXTSTATE st_HelpSettingRoute'> 
 </layer>
 
-
-;!TB - New Layer Advanced Route Options
-;!Raffke_jr - applied new templates
-<layer ui_SettingRouteAdvanced z=35>
+;!Raffke_jr - Calculation Correctness Settings
+<layer ui_SettingRouteAlgorithm z=35>
 	<SPRITE     xxx           template=spr_5a           template=y_1  z=0>
 	<TEXT       xxx           template=txt_csu2_legend  template=y_1  text="Algorithm:">
 	<TEXT       xxx           template=txt_csu2_left    template=y_1  text="Fast">
 	<TEXT       xxx           template=txt_csu2_right   template=y_1  text="Correct">
 	<HSCROLLBAR hscSR_Correct template=csuszka_2txt     template=y_1  min=50 max=100 endsize=0 blockincrement=_0.0 valuemodel="route.correctness">
+</layer>
 
-
-	<CHECKBOX btnSR_Uturn     template=chk_5a           template=y_2  text="U-turn" boolmodel="route.allow_uturn">
+;!TB - New Layer Advanced Route Options
+;!Raffke_jr - applied new templates
+<layer ui_SettingRouteAdvanced z=35>
+	<CHECKBOX btnSR_Uturn     template=chk_5a           template=y_1  text="U-turn" boolmodel="route.allow_uturn">
 
 ;!Matze - added enabledmodel
+	<SPRITE     xxx           template=spr_5a           template=y_2 z=0>
+	<TEXT       xxx           template=txt_csu_legend   template=y_2 z=1 text="U-turn penalty:" enabledmodel="route.allow_uturn">
+	<TEXT       txtSR_UTurn   template=txt_csu_valunit  template=y_2 z=1 enabledmodel="route.allow_uturn">
+	<HSCROLLBAR hscSR_UTurn   template=csuszka          template=y_2 z=1 onchange='run sc_hscSR_UTurn_OnChange' enabledmodel="route.allow_uturn">
+
 	<SPRITE     xxx           template=spr_5a           template=y_3 z=0>
-	<TEXT       xxx           template=txt_csu_legend   template=y_3 z=1 text="U-turn penalty:" enabledmodel="route.allow_uturn">
-	<TEXT       txtSR_UTurn   template=txt_csu_valunit  template=y_3 z=1 enabledmodel="route.allow_uturn">
-	<HSCROLLBAR hscSR_UTurn   template=csuszka          template=y_3 z=1 onchange='run sc_hscSR_UTurn_OnChange' enabledmodel="route.allow_uturn">
+	<TEXT       xxx           template=txt_csu_legend   template=y_3 z=1 text="Starting opposite direction:">
+	<TEXT       txtSR_UTurn2  template=txt_csu_valunit  template=y_3 z=1>
+	<HSCROLLBAR hscSR_UTurn2  template=csuszka          template=y_3 z=1 onchange='run sc_hscSR_UTurn2_OnChange'>
 
 	<SPRITE     xxx           template=spr_5a           template=y_4 z=0>
-	<TEXT       xxx           template=txt_csu_legend   template=y_4 z=1 text="Starting opposite direction:">
-	<TEXT       txtSR_UTurn2  template=txt_csu_valunit  template=y_4 z=1>
-	<HSCROLLBAR hscSR_UTurn2  template=csuszka          template=y_4 z=1 onchange='run sc_hscSR_UTurn2_OnChange'>
-
-	<SPRITE     xxx           template=spr_5a           template=y_5 z=0>
-	<TEXT       xxx           template=txt_csu_legend   template=y_5 z=1 text="U-turn at viapoint:">
-	<TEXT       txtSR_UTurn3  template=txt_csu_valunit  template=y_5 z=1>
-	<HSCROLLBAR hscSR_UTurn3  template=csuszka          template=y_5 z=1 onchange='run sc_hscSR_UTurn3_OnChange'>
+	<TEXT       xxx           template=txt_csu_legend   template=y_4 z=1 text="U-turn at viapoint:">
+	<TEXT       txtSR_UTurn3  template=txt_csu_valunit  template=y_4 z=1>
+	<HSCROLLBAR hscSR_UTurn3  template=csuszka          template=y_4 z=1 onchange='run sc_hscSR_UTurn3_OnChange'>
 </layer>
 
 

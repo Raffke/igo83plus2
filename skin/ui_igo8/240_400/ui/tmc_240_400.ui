@@ -94,12 +94,7 @@
 	<SLIDER sld_tmc_voicewarn	template=sld_5a_center_5	template=y_4_5a	var=vTMCVoiceWarning	value="Off|0|Warning sound|1|Voice warning|2" onselect='run sc_TMC_Audio_Announce_Test'>
 	<TEXT   txt_tmc_voicewarn	template=txt_poti_5	template=y_4_5  text="Sound warning"	watchstate=sld_tmc_voicewarn>
 
-;!Raffke_jr - removed: !Matze - added for visual announcement
-; (only uncommented to implement "cycling" later)
-	<CHECKBOX chk_VisualWarning     template=chk_5a  template=y_5_5  text="Voice warning" boolmodel="ui.vTMCVoiceWarning">
-;	<SPRITE xxx 			template=spr_poti_5		template=y_5_5>
-;	<SLIDER sld_tmc_VisualWarn	template=sld_5a_center_5	template=y_5_5a	var=vTMCVisualWarning	value="Off|0|Nearest Event|1|Latest Event|2">
-;	<TEXT   txt_tmc_VisualWarn	template=txt_poti_5		template=y_5_5  text="Visual warning:"	watchstate=sld_tmc_VisualWarn>
+	<CHECKBOX chk_VisualWarning     template=chk_5a  template=y_5_5  text="Voice warning:" boolmodel="ui.vTMCVoiceWarning">
 
 ;!Matze - button added
 	<BUTTON xxx		template=footer1_1a	text="" iconspr="icof_stations.bmp"	onlongclick='run sc_show_btn_help "Stations"'	onrelease='NEXTSTATE st_TmcParams' enabledmodel="tmc.present">
