@@ -70,6 +70,10 @@
 	<BUTTON btnEMB_Exit_pda		 template=dialog3_1		text="Exit"		 onrelease='nextstate ExitState' rawkey=13> 
 	<BUTTON btnEMB_minimize_pda	 template=dialog3_2		text="Minimize"	 onrelease='run sc_hideExitMessage, hide'>
 	<BUTTON btnEMB_Cancel_pda	 template=dialog3_3		text="Cancel"	 onrelease='run sc_hideExitMessage' rawkey=27> 
+
+;!Raffke_jr - TODO: temporary until clearance...
+	<BUTTON xxx		template=footerm3_1	text="Standby" onrelease='SAVESETTINGS, 15 EXEC "other.becker.power_suspend_set"'>
+	<BUTTON xxx		template=footerm3_3	text="Complete off" onrelease='run sc_PowerButtonPressed_CompleteOff'>
 </layer>
 
 ;!Raffke_jr - Panic Button
@@ -101,6 +105,8 @@
 	<BUTTON xxx		template=dialog3_2	text="Cancel"  FONTTYPE=bw clicked_dy=1	 clicked_coloring=1 onrelease='run sc_CancelShutdown' visiblemodel="!ui.bShowCompleteOff" rawkey=13> 
 	<BUTTON xxx		template=dialog2_1	text="Complete off"  FONTTYPE=bw clicked_dy=1	 clicked_coloring=1 onrelease='run sc_PowerButtonPressed_CompleteOff' visiblemodel='ui.bShowCompleteOff'> 
 	<BUTTON xxx		template=dialog2_2	text="Cancel"  FONTTYPE=bw clicked_dy=1	 clicked_coloring=1 onrelease='run sc_CancelShutdown' visiblemodel="ui.bShowCompleteOff" rawkey=13> 
+;!Raffke_jr - TODO: temporary until clearance...
+	<BUTTON xxx		template=footerm3_1	text="Standby" onrelease='SAVESETTINGS, 15 EXEC "other.becker.power_suspend_set"'>
 </layer>
 
 ;!Matze - additional dimming in night mode
