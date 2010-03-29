@@ -1,3 +1,9 @@
+DIMKA:
+	.power.shutdown
+	<observer xxx event="power_suspended" onchange='runif wPositionPowChange 1 sc_add_carpos_to_history "Power off"' start="NO_TRIGGER">
+
+
+
 - CockpitView: zwischen Ziel/Zwischenziel auf einer Seite umschalten und auch zwischen Straßen/GPS-Höhe
 - 800x480: Speedcam-Icons auf Settings-Buttons zu klein
 
