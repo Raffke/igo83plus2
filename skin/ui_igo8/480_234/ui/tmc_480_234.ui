@@ -181,7 +181,7 @@
 
 <layer ui_TmcAnnounce x=375 y=161 z=5100 hide>
 ;!Matze - changed for TMC announcement on map
-	<SPRITE sprTMCBG x=0 y=0 w=52 z=1 bmp="$map_bg_big.bmp" visiblemodel="!ui.vOnFlyover&!ui.vPresetOn">
+	<SPRITE sprTMCBG x=0 y=0 w=52 z=1 bmp="$map_bg_big.bmp" visiblemodel="ui.bSpeedBGShow&!ui.vOnFlyover&!ui.vPresetOn">
 ;!Raffke_jr - added announce counter
 	<TEXT	xxx x=26  y=1 w=25 z=15 textmodel_wstr="tmc.events.announced_events.size" template=xtxt3 fontsize=8 fonttype=ms font="tahomabd" Glowsize=1 align="RIGHT" visiblemodel="!ui.vOnFlyover&!ui.vPresetOn">
 ;!Matze - changed position

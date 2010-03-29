@@ -225,31 +225,32 @@
 ;!TB NGP - ReCalc Route
 ;!Raffke_jr - moved here from common.ui, changed to easier implementation from route.ui
 
-<script sc_PM_CycleRouteMethods>
-	termif nVehicle 5 sc_CycleRouteMethods
-	termif nVehicle 4 sc_CycleRouteMethods
-	termif nVehicle 6 sc_CycleRouteMethods
-	vTmp.TEXTMODEL_WSTR "route.current_route_type"
-	vTmp.DROPMODEL
-	runif vTmp L"FAST" 'vTmp.set L"ECO"'
-	else_runif vTmp L"ECO" 'vTmp.set L"SIMPLE"'
-	else_runif vTmp L"SIMPLE" 'vTmp.set L"SHORT"'
-	else_runif vTmp L"SHORT" 'vTmp.set L"SCENIC"'
-	else_runif vTmp L"SCENIC" 'vTmp.set L"FAST"'
-	vRouteType.set vTmp
+;!Raffke_jr - obsolete scripts (leave commented for potential re-use later)
+;<script sc_PM_CycleRouteMethods>
+;	termif nVehicle 5 sc_CycleRouteMethods
+;	termif nVehicle 4 sc_CycleRouteMethods
+;	termif nVehicle 6 sc_CycleRouteMethods
+;	vTmp.TEXTMODEL_WSTR "route.current_route_type"
+;	vTmp.DROPMODEL
+;	runif vTmp L"FAST" 'vTmp.set L"ECO"'
+;	else_runif vTmp L"ECO" 'vTmp.set L"SIMPLE"'
+;	else_runif vTmp L"SIMPLE" 'vTmp.set L"SHORT"'
+;	else_runif vTmp L"SHORT" 'vTmp.set L"SCENIC"'
+;	else_runif vTmp L"SCENIC" 'vTmp.set L"FAST"'
+;	vRouteType.set vTmp
+;
+;	run sc_PM_RefreshRouteMethod
+;;!Raffke_jr - replace default "Calculating..", which is too long here
+;	txtPM_Distance.text "..."
+;	txtPM_TimeLeft.text " "
+;
+;	ADVNAV_RECALC
+;</script>
+;<script sc_btn_PM_Method_OnRelease>
+;	term sc_PM_CycleRouteMethods
+;	1 run sc_PM_CycleRouteMethods
+;</script>
 
-	run sc_PM_RefreshRouteMethod
-;!Raffke_jr - replace default "Calculating..", which is too long here
-	txtPM_Distance.text "..."
-	txtPM_TimeLeft.text " "
-
-	ADVNAV_RECALC
-</script>
-
-<script sc_btn_PM_Method_OnRelease>
-	term sc_PM_CycleRouteMethods
-	1 run sc_PM_CycleRouteMethods
-</script>
 
 <script sc_PM_RefreshRouteMethod>
 ;!Matze - color added

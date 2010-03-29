@@ -75,7 +75,7 @@
 
 ;!Raffke_jr/!Matze - Route infos (!TB NGP)
 ;!Matze - changed .bmp,y,z,align and valign
-	<BUTTON txtPM_Method  x=0  y=380 z=3 w=80 bmp="info_bg.bmp" font="tahoma" fontsize=9 align="CENTER" valign="TOP+1" clicked_dy=1 glowtype=1 glowsize=2 color2=#000000 onrelease='run sc_MultiRouteCalculateCheck'  onlongclick='run sc_btn_PM_Method_OnRelease' visiblemodel="navigation.has_route">
+	<BUTTON txtPM_Method  x=0  y=380 z=3 w=80 bmp="info_bg.bmp" font="tahoma" fontsize=9 align="CENTER" valign="TOP+1" clicked_dy=1 glowtype=1 glowsize=2 color2=#000000 onrelease='run sc_MultiRouteCalculateCheck' visiblemodel="navigation.has_route">
 ;!Matze - changed x/z/w, align
 	<TEXT txtPM_Distance  x=5  y=390 w=38 z=4 template=xtxt4 text="n/a" font="tahomabd" fontsize=9 align="LEFT" color=#FFFFFF visiblemodel="navigation.has_route">
 	<TEXT txtPM_TimeLeft  x=45 y=390 w=30 z=4 template=xtxt4 text="n/a" font="tahoma" fontsize=9 align="RIGHT" color=#FFFFFF visiblemodel="navigation.has_route">
