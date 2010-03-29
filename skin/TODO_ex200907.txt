@@ -2,6 +2,20 @@ DIMKA:
 	.power.shutdown
 	<observer xxx event="power_suspended" onchange='runif wPositionPowChange 1 sc_add_carpos_to_history "Power off"' start="NO_TRIGGER">
 
+@all - neue TODO-Liste:
+
+    * Konfiguration der Info-Anzeigen analog zu iGO2006/Alpine-Skin
+    * viieel schönere GPS-Anzeige aus Alpine-Skin
+
+"PRE" deshalb, weil u.a. noch folgendes für die 0.9 geplant ist:
+
+    * Driver Alerts
+    * evtl. Einstellung für Truck-Profile
+    * Country-Info für Becker-Builds
+    * Berechnungsmethode für Routenvarianten (Schnell, wie eingestellt, Optimal) konfigurierbar, um die ständige Nachfrage zu unterbinden
+    * neueste Matze-Änderungen&Fixes
+    * ...
+
 
 
 - CockpitView: zwischen Ziel/Zwischenziel auf einer Seite umschalten und auch zwischen Straßen/GPS-Höhe
