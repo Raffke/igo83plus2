@@ -1,0 +1,31 @@
+- CockpitView: zwischen Ziel/Zwischenziel auf einer Seite umschalten und auch zwischen Straßen/GPS-Höhe
+- 800x480: Speedcam-Icons auf Settings-Buttons zu klein
+
+- sämtliche Fragen zu Recalc (fast/Default/optimal) abschaltbar machen: neue Setting: fast/standard/optimal/ask
+  (ACHTUNG: Momentan direkt im onClick/onRelease: <...>.Show)
+
+- ;!Matze - added offroute sensitivity
+- ;!Matze - turnrestrictions		(search "turnrest")
+- Matze - Icons in InfoFeldern?
+
+
+- Matze Batterie, GPS --> dann Routenvariante & TMC-Sender
+- Batteriebalken runterschieben (s. Fullscreen), dann darüber Route-Method und darunter TMC-Sendernamen
+
+- grauen TMC-Empfangsbalken (bei No Code etc), grauen Schriftzug weg
+
+- TMC-Cockpitstatus wird nicht akualisiert: nach Route löschen bleibt "Events on route"
+- 3D Karte wird irgendwie nicht immer wieder hergestellt
+- Routenvarianten: Button "Fahrzeug" incl. Icon sieht blöd aus...
+- TMCMap: Recalc-Balken einfügen, da währenddessen alle Inhalte leer!
+
+- ;!Raffke_jr - TODO: find out, whether already ignored (still in announced_events)
+  --> in sc_TMC_go_to_current_loc die ID suchen!
+- ;!Raffke_jr - eliminate vTMCMapFromAnnounce, now restore .tmc.events.filter_offroute 
+  --> TODO: durchgängig und Variable entfernen
+
+
+???
+- TMC "latest": Logik ändern -> Nur für ca. 30s, also 6 Aktualisierungen diese anzeigen, danach wieder auf Route.
+- TMC audio volume (Matze: *_WarningVolume) - ersetzen durch eigene?
+- Eliminate bVertspedInfo -> could move down speedcam warning!

@@ -1,3 +1,6 @@
 Use traffic patterns="Zeitabhängige Routenführung"
 Incompatible program settings - RECENT PLACES will not be available and possible crash the application.=" ... "
 Complete off=" ... "
+
+???
+Semi transparent=
