@@ -72,7 +72,8 @@
 	<BUTTON btnEMB_Cancel_pda	 template=dialog3_3		text="Cancel"	 onrelease='run sc_hideExitMessage' rawkey=27> 
 
 ;!Raffke_jr - TODO: temporary until clearance...
-	<BUTTON xxx		template=footerm3_1	text="Standby" onrelease='SAVESETTINGS, 15 EXEC "other.becker.power_suspend_set"'>
+	<BUTTON xxx		template=footerm3_1	text="Standby" onrelease='run sc_hideExitMessage, SAVESETTINGS, 15 EXEC "other.becker.power_suspend_set"'>
+;	<BUTTON xxx		template=footerm3_1	text="Standby" onrelease='run sc_hideExitMessage, SAVESETTINGS, 15 EXEC "power.shutdown"'>
 	<BUTTON xxx		template=footerm3_3	text="Complete off" onrelease='run sc_PowerButtonPressed_CompleteOff'>
 </layer>
 
