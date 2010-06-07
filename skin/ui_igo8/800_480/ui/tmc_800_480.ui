@@ -217,7 +217,7 @@
 	<SPRITE xxx x=10 y=5 z=10  bmp="btn_lb_4a_tmcevent.bmp" >
 	<LIST list_tmc_1line template=tlist y=2 row=1 element_template="et_TmcEvent_map" listmodel="tmc.events.list"  SHOWSELECTION=1 KEEPSELECTIONONSCREEN=1>
 ;!Raffke_jr - added visiblemodel
-	<TEXT xxx   x=740 y=13  w=45  z=99  align="RIGHT-10" fontsize=20  font="tahomabd" fonttype=bw fixedwidthnumbers=1 textmodel_wstr="ui.list_tmc_1line.page_counter" visiblemodel="ui.vTMCUnannounceInprogress">
+	<TEXT xxx   x=740 y=13  w=45  z=99  align="RIGHT-10" fontsize=20  font="tahomabd" fonttype=bw fixedwidthnumbers=1 textmodel_wstr="ui.list_tmc_1line.page_counter" visiblemodel="!ui.vTMCUnannounceInprogress">
   
 ;!Raffke_jr - removed visiblemodel "!ui.vTMCMapFromAnnounce"
 	<BUTTON xxx          template=prevpage clickmodel="ui.list_tmc_1line.prevpage" enabledmodel="ui.list_tmc_1line.prevpage.valid" onrelease='run sc_TMC_go_to_current_loc'>
