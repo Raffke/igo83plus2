@@ -226,7 +226,7 @@
 </state>
 
 <script sc_UserModeSelectMessage>
-    INITMESSAGEBOX 2 "Select Program Mode" sc_BasicMode sc_AdvMode "Basic" "Advanced"
+	INITMESSAGEBOX 2 "Select Program Mode" sc_BasicMode sc_AdvMode "Basic" "Advanced"
 </script>
 
 <script sc_GoToStartState>
@@ -258,8 +258,8 @@
 </script>
 
 <script sc_SelectKeyPanel>
-		runif %local.keyboard.name "BoPoMoFo" 'local.keyboard.candidate_layer "ui_key_candidates"' 
-		else_run 'local.keyboard.candidate_layer "ui_key_candidates_long"'
+	runif %local.keyboard.name "BoPoMoFo" 'local.keyboard.candidate_layer "ui_key_candidates"' 
+	else_run 'local.keyboard.candidate_layer "ui_key_candidates_long"'
 </script>
 
 <script sc_demo_mode>
@@ -518,6 +518,12 @@
 	else_run 'run sc_FollowOn, run sc_RefreshNavigateMapScreenAfterViewPreset 1, run sc_ReturnToMap'
 </script>
 
+<script sc_DefaultExit>
+;!Raffke_jr - default "Exit" action: pna=standby, pda=exit
+	runif bShowMinimize 0 sc_PowerButtonPressed_Standby
+	else_run 'NEXTSTATE ExitState'
+</script>
+
 <script sc_Exit>
 	ui_Exit_MessageBox.show
 ;!Raffke_jr - enable minimize button on PNA
@@ -592,10 +598,16 @@
 	ui_ShutdownTimer.show
 </script>
 
-;!Raffke_jr - add support to completely turn off Becker devices
+;!Raffke_jr - add support to standby and completely turn off Becker devices
+<script sc_PowerButtonPressed_Standby>
+	SAVESETTINGS
+;!Raffke_jr - TODO: temporary until clearance...
+	15 EXEC "other.becker.power_suspend_set"
+;	15 EXEC "power.shutdown"
+</script>
 <script sc_PowerButtonPressed_CompleteOff>
 	SAVESETTINGS
-	EXEC "other.becker.power_off_set"
+	15 EXEC "other.becker.power_off_set"
 </script>
 
 <script sc_CancelShutdown>

@@ -28,7 +28,7 @@ import "ui_igo8/800_480/ui/navigate_speed_800_480.ui"
 	<BUTTON btnNMB_Stop    template=btn_map bmp="4scr_stop.bmp#2"     y=338 z=1000 text="Stop" onRelease='run sc_NaviMenuAlphaRestore, STOPFLYOVER, run sc_3DFlyOverModeOff' visiblemodel="ui.vOnFlyover">
 
 ;!TB MR - Exit on long click
-	<BUTTON btnNMB_Menu    template=btn_map bmp="4scr_menu.bmp#2"           y=341 text="Menu"    onrelease='run sc_btnNMB_Menu_OnRelease' onlongclick='STATE ExitState'>
+	<BUTTON btnNMB_Menu    template=btn_map bmp="4scr_menu.bmp#2"           y=341 text="Menu"    onrelease='run sc_btnNMB_Menu_OnRelease' onlongclick='run sc_DefaultExit'>
 
 ;di/\/\ka - commented out
 ;	<BUTTON btnNMB_Nav2D   template=btn_map bmp="4scr_map.bmp#2"            y=44  text="2D"      onrelease='run sc_btnBMC_Compass_OnRelease'>
