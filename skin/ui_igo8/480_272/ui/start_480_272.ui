@@ -9,7 +9,7 @@
 	
 	<BUTTON ui_AdvMenu_Map      template=footerm3_1 text="Map"      onrelease='STATE st_NavigateMap'>
 ;!TB MR - Exit on long click
-	<BUTTON ui_AdvMenu_Exit     template=footerm3_3 text="Exit"     onrelease='run sc_Exit' visiblemodel="interface.show_exit" nostress rawkey=27 color=#ff0000 onlongclick='STATE ExitState'>
+	<BUTTON ui_AdvMenu_Exit     template=footerm3_3 text="Exit"     onrelease='run sc_Exit' visiblemodel="interface.show_exit" nostress rawkey=27 color=#ff0000 onlongclick='run sc_DefaultExit'>
 	<BUTTON ui_AdvMenu_Settings template=footerm3_2 text="Settings" onrelease='vSettingsActPage.set 0, NEXTSTATE st_AdvSettingsMenu' hide>
 ;!TB - Added button to go to 2D map
 	<BUTTON ui_AdvMenu_Map2D    template=footerm3_2 text="Plan Mode" onrelease='run sc_StartPlanMode'>
@@ -38,7 +38,7 @@
 ;!Raffke_jr - Added button to go to 2D map
 	<BUTTON xxx template=footerm3_2 fxshowdelay=15 text="Plan Mode" onrelease='run sc_StartPlanMode'>
 ;!Raffke_jr - changed template from footer2_2, added rawkey & exit on long click
-	<BUTTON xxx template=footerm3_3 fxshowdelay=20 text="Exit"               onrelease='run sc_Exit' z=1 color=#ff0000 visiblemodel="interface.show_exit" nostress rawkey=27 onlongclick='STATE ExitState'>	
+	<BUTTON xxx template=footerm3_3 fxshowdelay=20 text="Exit"               onrelease='run sc_Exit' z=1 color=#ff0000 visiblemodel="interface.show_exit" nostress rawkey=27 onlongclick='run sc_DefaultExit'>	
 </layer>
 
 <layer ui_BasMenu z=30>

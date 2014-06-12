@@ -7,7 +7,7 @@
 
 	<BUTTON ui_AdvMenu_Map      template=footerm3_1          iconspr="icof_map.bmp"  onlongclick='run sc_show_btn_help "Map"'  onrelease='STATE st_NavigateMap'>
 ;!TB MR - Exit on long click
-	<BUTTON ui_AdvMenu_Exit     template=footerm3_3 text=""  iconspr="icof_exit.bmp" onlongclick='run sc_show_btn_help "Exit"' onrelease='run sc_Exit' z=1 visiblemodel="interface.show_exit" nostress rawkey=27 onlongclick='STATE ExitState'>
+	<BUTTON ui_AdvMenu_Exit     template=footerm3_3 text=""  iconspr="icof_exit.bmp" onlongclick='run sc_show_btn_help "Exit"' onrelease='run sc_Exit' z=1 visiblemodel="interface.show_exit" nostress rawkey=27 onlongclick='run sc_DefaultExit'>
 	<BUTTON ui_AdvMenu_Settings template=footerm3_2 text="Settings"                  onrelease='vSettingsActPage.set 0, NEXTSTATE st_AdvSettingsMenu' hide>
 ;!TB - Added button to go to 2D map
 ;!Raffke_jr - TODO: add icon
